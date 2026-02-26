@@ -125,6 +125,59 @@ const subMenuHeader = document.createElement('div');
 subMenuHeader.classList.add('submenu-header');
 subMenuHeader.innerHTML = '<h5 class="back-link">All Categories</h5><hr />';
 
+const CATALOG_CATEGORIES = [
+  'Apparel',
+  'Electronics',
+  'Server Racks',
+  'Network Enclosures',
+  'Power & Cooling',
+  'Cable Management',
+  'Accessories',
+];
+
+function getCategoryFallbackPath(label) {
+  return rootLink(`/${label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`);
+}
+
+function enforceCatalogCategories(navList) {
+  if (!navList) return;
+
+  const catalogLi = [...navList.querySelectorAll(':scope > li')].find(
+    (li) => (li.querySelector(':scope > p, :scope > a')?.textContent || '').trim().toLowerCase() === 'catalog',
+  );
+  if (!catalogLi) return;
+
+  let catalogList = catalogLi.querySelector(':scope > ul');
+  if (!catalogList) {
+    catalogList = document.createElement('ul');
+    catalogLi.appendChild(catalogList);
+  }
+
+  const existingLinks = new Map(
+    [...catalogList.querySelectorAll(':scope > li > a')].map((anchor) => [
+      anchor.textContent.trim().toLowerCase(),
+      {
+        href: anchor.getAttribute('href') || '',
+        title: anchor.getAttribute('title') || anchor.textContent.trim(),
+      },
+    ]),
+  );
+
+  const nextCatalogList = document.createElement('ul');
+  CATALOG_CATEGORIES.forEach((category) => {
+    const linkData = existingLinks.get(category.toLowerCase()) || {};
+    const li = document.createElement('li');
+    const anchor = document.createElement('a');
+    anchor.textContent = category;
+    anchor.title = linkData.title || category;
+    anchor.href = linkData.href || getCategoryFallbackPath(category);
+    li.appendChild(anchor);
+    nextCatalogList.appendChild(li);
+  });
+
+  catalogLi.replaceChild(nextCatalogList, catalogList);
+}
+
 /**
  * Sets up the submenu
  * @param {navSection} navSection The nav section element
@@ -237,6 +290,8 @@ export default async function decorate(block) {
 
     const navList = navSections.querySelector('.default-content-wrapper > ul');
     if (navList) {
+      enforceCatalogCategories(navList);
+
       const hasAccount = [...navList.querySelectorAll(':scope > li')].some(
         (li) => li.textContent.trim().toLowerCase().includes('account'),
       );
