@@ -598,6 +598,16 @@ export async function fetchPlaceholders(path) {
  */
 export async function getConfigFromSession() {
   const configURL = `${window.location.origin}/config.json`;
+  const isLegacyStoreScope = (cfg) => {
+    const allHeadersStore = cfg?.public?.default?.headers?.all?.Store;
+    const csStoreCode = cfg?.public?.default?.headers?.cs?.['Magento-Store-Code'];
+    const csStoreViewCode = cfg?.public?.default?.headers?.cs?.['Magento-Store-View-Code'];
+
+    // Invalidate old cached scope so users pick up the current Bodea store config.
+    return allHeadersStore === 'default'
+      || csStoreCode === 'main_website_store'
+      || csStoreViewCode === 'default';
+  };
 
   try {
     const configJSON = window.sessionStorage.getItem('config');
@@ -612,12 +622,15 @@ export async function getConfigFromSession() {
     ) {
       throw new Error('Config expired');
     }
+    if (isLegacyStoreScope(parsedConfig)) {
+      throw new Error('Config store scope stale');
+    }
     return parsedConfig;
   } catch (e) {
     const config = await fetch(configURL);
     if (!config.ok) throw new Error('Failed to fetch config');
     const configJSON = await config.json();
-    configJSON[':expiry'] = Math.round(Date.now() / 1000) + 7200;
+    configJSON[':expiry'] = Math.round(Date.now() / 1000) + 300;
     window.sessionStorage.setItem('config', JSON.stringify(configJSON));
     return configJSON;
   }
