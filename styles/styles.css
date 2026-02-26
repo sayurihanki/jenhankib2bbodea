@@ -12,6 +12,9 @@
 
 /* stylelint-disable no-empty-source */
 :root, .dropin-design {
+  /* Primary brand token — change for new brand */
+  --main-color-accent: #8821f4;
+
   /* Adobe Commerce Dropin design tokens */
   --color-brand-300: #6d6d6d;
   --color-brand-500: #454545;
@@ -126,8 +129,36 @@
 
   /* Additional tokens */
   --type-fixed-font-family: adobe-clean, "Roboto Mono", menlo, consolas, "Liberation Mono", monospace, system-ui, sans-serif;
-  --background-color: var(--color-neutral-50);
+  --background-color: #f7f6f4;
   --nav-height: 6.4rem;
+
+  /* Accent & shadow tokens (derived from --main-color-accent) */
+  --accent-1: var(--main-color-accent);
+  --accent-2: #6d28d9;
+  --accent-3: #059669;
+  --shadow-glass: 0 8px 32px rgb(0 0 0 / 12%);
+  --shadow-glass-hover: 0 12px 40px rgb(0 0 0 / 16%);
+  --shadow-button: 0 4px 14px rgb(136 33 244 / 40%);
+  --shadow-button-hover: 0 6px 20px rgb(136 33 244 / 50%);
+  --shadow-focus: 0 0 0 3px var(--color-neutral-50), 0 0 0 5px var(--main-color-accent);
+
+  /* Glassmorphic design system */
+  --glass-bg: rgb(255 255 255 / 52%);
+  --glass-bg-hover: rgb(255 255 255 / 68%);
+  --glass-bg-strong: rgb(255 255 255 / 80%);
+  --glass-border: rgb(255 255 255 / 70%);
+  --glass-border-subtle: rgb(0 0 0 / 8%);
+  --glass-blur: blur(24px);
+  --glass-blur-sm: blur(12px);
+  --glass-blur-xs: blur(8px);
+  --glass-saturate: saturate(160%);
+
+  /* Motion & easing */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.2s;
+  --transition-medium: 0.4s;
+  --transition-slow: 0.6s;
 }
 
 /* fallback font */
@@ -226,6 +257,14 @@ h6 {
   letter-spacing: var(--type-headline-2-default-letter-spacing);
 }
 
+/* Gradient headings in section content (not in dark-glass) */
+main > .section:not(.dark-glass) > div > h1,
+main > .section:not(.dark-glass) > div > h2 {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 p,
 dl,
 ol,
@@ -275,16 +314,18 @@ button {
 
 /* links */
 a:not(.dropin-design a) {
-  color: var(--color-brand-500);
+  color: var(--accent-1);
   font: var(--type-body-1-strong-font);
   letter-spacing: var(--type-body-1-strong-letter-spacing);
   text-decoration: none;
   overflow-wrap: break-word;
+  transition: color var(--transition-fast) var(--ease-out);
 }
 
 a:not(.dropin-design a):hover {
-  color: var(--color-brand-600);
+  color: var(--accent-2);
   text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 /* buttons */
@@ -304,43 +345,79 @@ button.button {
   line-height: 1.25;
   text-align: center;
   text-decoration: none;
-  background-color: var(--color-brand-500);
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   color: var(--color-neutral-50);
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  box-shadow: var(--shadow-button);
+  transition: transform var(--transition-fast) var(--ease-spring), box-shadow var(--transition-fast) var(--ease-out);
 }
 
 main a.button:hover,
 main a.button:focus,
 button.button:hover,
 button.button:focus {
-  background-color: var(--color-brand-600);
+  box-shadow: var(--shadow-button-hover);
+  transform: translateY(-1px);
   cursor: pointer;
+}
+
+main a.button:focus-visible,
+button.button:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
 }
 
 main a.button.disabled,
 button.button:disabled,
 button.button:disabled:hover {
-  background-color: var(--color-neutral-300);
+  background: var(--color-neutral-300);
+  box-shadow: none;
+  transform: none;
   cursor: unset;
 }
 
 main a.button.secondary,
 button.button.secondary {
-  background-color: unset;
-  border: var(--shape-border-width-3) solid currentcolor;
-  color: var(--color-brand-500);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur-sm);
+  border: var(--shape-border-width-2) solid var(--accent-1);
+  color: var(--accent-1);
+  box-shadow: none;
 }
 
 main a.button.secondary:hover,
 button.button.secondary:hover {
-  color: var(--color-brand-600);
+  background: var(--glass-bg-hover);
+  color: var(--accent-2);
 }
 
-main input:hover {
-  border: var(--shape-border-width-1) solid var(--color-neutral-700);
+/* Form inputs (main, non-dropin) — glass treatment */
+main input:not([type="hidden"], .dropin-design input),
+main textarea:not(.dropin-design textarea),
+main select:not(.dropin-design select) {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur-xs);
+  border: var(--shape-border-width-1) solid var(--glass-border-subtle);
+  border-radius: var(--shape-border-radius-2);
+  transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+main input:not([type="hidden"]):hover:not(.dropin-design input),
+main textarea:hover:not(.dropin-design textarea),
+main select:hover:not(.dropin-design select) {
+  background: var(--glass-bg-hover);
+}
+
+main input:not([type="hidden"]):focus-visible:not(.dropin-design input),
+main textarea:focus-visible:not(.dropin-design textarea),
+main select:focus-visible:not(.dropin-design select) {
+  background: var(--glass-bg-strong);
+  border-color: var(--accent-1);
+  outline: none;
+  box-shadow: var(--shadow-focus);
 }
 
 main blockquote {
@@ -377,9 +454,17 @@ main img {
   width: 100%;
 }
 
-/* sections */
+/* sections — opacity/transform until .appear (scroll-triggered) */
 main > .section {
   margin: var(--spacing-xbig) 0;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--transition-medium) var(--ease-out), transform var(--transition-medium) var(--ease-out);
+}
+
+main > .section.appear {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .section:empty {
@@ -405,9 +490,63 @@ main > .section:first-of-type {
 /* section metadata - styles - start */
 main .section.light,
 main .section.highlight {
-  background-color: var(--color-neutral-100);
   margin: 0;
   padding: var(--spacing-xbig) 0;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur-sm);
+  border-top: 1px solid var(--glass-border-subtle);
+  border-bottom: 1px solid var(--glass-border-subtle);
+}
+
+main .section.glass {
+  margin: 0;
+  padding: var(--spacing-xbig) 0;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--shape-border-radius-3);
+  box-shadow: var(--shadow-glass);
+  border: 1px solid var(--glass-border);
+}
+
+main .section.glass > div {
+  position: relative;
+}
+
+main .section.glass > div::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  border-radius: var(--shape-border-radius-3) var(--shape-border-radius-3) 0 0;
+}
+
+main .section.dark-glass {
+  margin: 0;
+  padding: var(--spacing-xbig) 0;
+  background: rgb(0 0 0 / 75%);
+  backdrop-filter: var(--glass-blur);
+  color: var(--color-neutral-100);
+  border: 1px solid rgb(255 255 255 / 20%);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+main .section.dark-glass h1,
+/* stylelint-disable-next-line no-descending-specificity */
+main .section.dark-glass h2,
+main .section.dark-glass h3,
+main .section.dark-glass h4,
+main .section.dark-glass h5,
+main .section.dark-glass h6,
+main .section.dark-glass p,
+main .section.dark-glass a {
+  color: inherit;
+}
+
+main .section.dark-glass a:hover {
+  color: var(--color-neutral-200);
 }
 
 main .section[data-padding="default"] {
@@ -559,4 +698,15 @@ body.columns main > .section:empty {
 */
 main[hidden] {
   display: none !important;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

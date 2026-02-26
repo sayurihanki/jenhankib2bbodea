@@ -113,6 +113,15 @@ export const ACCEPTED_FILE_TYPES = [
 ];
 
 /**
+ * Encodes a SKU for use in product URL paths (e.g. replaces / with __).
+ * @param {string} sku - Product SKU
+ * @returns {string} URL-safe SKU
+ */
+export function encodeSkuForUrl(sku) {
+  return sku?.replace(/\//g, '__') || '';
+}
+
+/**
  * Auth Privacy Policy Consent Slot
  * @param {Object} ctx - The context object
  * @param {Object} ctx.appendChild - The appendChild function

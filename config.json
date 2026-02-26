@@ -1,7 +1,7 @@
 {
   "public": {
     "default": {
-      "commerce-endpoint": "https://na1.api.commerce.adobe.com/EDvnuiwmjWkAKb9Ks1VqxU/graphql",
+      "commerce-endpoint": "https://na1.api.commerce.adobe.com/R2BTcyPc7knfUJMozF1oQQ/graphql",
       "headers": {
         "all": {
           "Store": "default"
@@ -15,15 +15,14 @@
       "commerce-b2b-enabled": true,
       "commerce-companies-enabled": true,
       "commerce-assets-enabled": true,
-      "adobe-commerce-optimizer": true,
       "analytics": {
         "base-currency-code": "USD",
         "environment": "Testing",
-        "environment-id": "EDvnuiwmjWkAKb9Ks1VqxU",
+        "environment-id": "R2BTcyPc7knfUJMozF1oQQ",
         "store-code": "main_website_store",
         "store-id": "main_website_store",
         "store-name": "Default Store View",
-        "store-url": "https://coresaas-subgraph-external:8000/EDvnuiwmjWkAKb9Ks1VqxU/",
+        "store-url": "https://coresaas-subgraph-external:8000/R2BTcyPc7knfUJMozF1oQQ/",
         "store-view-code": "default",
         "store-view-id": "default",
         "store-view-name": "Default Store View",
@@ -33,7 +32,7 @@
       },
       "plugins": {
         "picker": {
-          "rootCategory": "5"
+          "rootCategory": "2"
         }
       }
     }

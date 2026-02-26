@@ -1,0 +1,106 @@
+.tabs .tabs-list {
+  display: flex;
+  gap: 6px;
+  max-width: 100%;
+  font-size: var(--body-font-size-xs);
+  overflow-x: auto;
+  padding: 4px;
+  background: var(--glass-bg, rgb(255 255 255 / 52%));
+  backdrop-filter: var(--glass-blur-sm, blur(12px));
+  border: 1px solid var(--glass-border, rgb(255 255 255 / 70%));
+  border-radius: var(--shape-border-radius-3, 24px);
+}
+
+@media (min-width: 600px) {
+  .tabs .tabs-list {
+    font-size: var(--body-font-size-s);
+  }
+}
+
+@media (min-width: 900px) {
+  .tabs .tabs-list {
+    font-size: var(--body-font-size-m);
+  }
+}
+
+.tabs .tabs-list button {
+  flex: 0 0 max-content;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  padding: 12px 24px;
+  background: transparent;
+  color: var(--color-neutral-700, #666);
+  line-height: unset;
+  text-align: initial;
+  text-overflow: unset;
+  overflow: unset;
+  white-space: unset;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition:
+    background 0.3s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+    color 0.2s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+    border-color 0.2s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+    box-shadow 0.3s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.tabs .tabs-list button p {
+  margin: 0;
+}
+
+.tabs .tabs-list button:hover {
+  background: rgb(136 33 244 / 5%);
+  color: var(--accent-1, #8821f4);
+  border-color: rgb(136 33 244 / 10%);
+}
+
+.tabs .tabs-list button[aria-selected='true'] {
+  background: rgb(255 255 255 / 80%);
+  backdrop-filter: blur(8px);
+  color: var(--accent-1, #8821f4);
+  border-color: rgb(136 33 244 / 15%);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 50%) inset,
+    0 2px 8px rgb(136 33 244 / 8%);
+  font-weight: 600;
+}
+
+.tabs .tabs-panel {
+  margin-top: 8px;
+  padding: 24px;
+  background: var(--glass-bg, rgb(255 255 255 / 52%));
+  backdrop-filter: var(--glass-blur, blur(24px)) var(--glass-saturate, saturate(160%));
+  border: 1px solid var(--glass-border, rgb(255 255 255 / 70%));
+  border-radius: var(--shape-border-radius-3, 24px);
+  box-shadow: var(--shadow-glass,
+    0 0 0 1px rgb(255 255 255 / 50%) inset,
+    0 4px 6px rgb(0 0 0 / 3%),
+    0 24px 80px rgb(136 33 244 / 6%),
+    0 48px 120px rgb(0 0 0 / 6%));
+  overflow: auto;
+  position: relative;
+}
+
+.tabs .tabs-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(136 33 244 / 15%) 30%,
+    rgb(109 40 217 / 20%) 50%,
+    rgb(5 150 105 / 12%) 70%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.tabs .tabs-panel[aria-hidden='true'] {
+  display: none;
+}
