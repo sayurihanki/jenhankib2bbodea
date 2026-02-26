@@ -126,8 +126,7 @@ subMenuHeader.classList.add('submenu-header');
 subMenuHeader.innerHTML = '<h5 class="back-link">All Categories</h5><hr />';
 
 const CATALOG_CATEGORIES = [
-  'Apparel',
-  'Electronics',
+  'Bodea',
   'Server Racks',
   'Network Enclosures',
   'Power & Cooling',
