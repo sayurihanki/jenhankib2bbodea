@@ -35,13 +35,13 @@
 
 .accordion .accordion-item-label {
   position: relative;
-  padding: 22px 64px 22px 24px;
+  padding: 34px 92px 34px 40px;
   margin: 0;
   cursor: pointer;
   list-style: none;
-  font-size: clamp(1.15rem, 0.95rem + 0.5vw, 1.35rem);
-  font-weight: 500;
-  line-height: 1.45;
+  font-size: clamp(1.3rem, 1.05rem + 0.62vw, 1.62rem);
+  font-weight: 600;
+  line-height: 1.4;
   color: var(--text-color, #2f2f35);
   transition:
     color 0.2s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
@@ -98,11 +98,11 @@
   content: '';
   position: absolute;
   top: 50%;
-  right: 22px;
-  width: 12px;
-  height: 12px;
-  border-right: 2px solid currentcolor;
-  border-bottom: 2px solid currentcolor;
+  right: 36px;
+  width: 18px;
+  height: 18px;
+  border-right: 3px solid currentcolor;
+  border-bottom: 3px solid currentcolor;
   transform: translateY(-60%) rotate(45deg);
   transition:
     transform 0.28s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
@@ -114,7 +114,7 @@
 }
 
 .accordion .accordion-item .accordion-item-body {
-  padding: 0 24px 22px;
+  padding: 8px 40px 34px;
   border-top: 1px solid rgb(136 33 244 / 10%);
   background: rgb(255 255 255 / 45%);
 }
@@ -122,8 +122,8 @@
 .accordion .accordion-item .accordion-item-body p {
   margin: 0 0 0.95em;
   color: var(--color-neutral-800, #3d3d44);
-  font-size: clamp(1.02rem, 0.92rem + 0.3vw, 1.16rem);
-  line-height: 1.6;
+  font-size: clamp(1.14rem, 1rem + 0.32vw, 1.32rem);
+  line-height: 1.68;
 }
 
 .accordion .accordion-item .accordion-item-body p:last-child {
@@ -132,11 +132,17 @@
 
 @media (max-width: 900px) {
   .accordion .accordion-item-label {
-    padding: 18px 56px 18px 18px;
-    font-size: clamp(1.02rem, 0.96rem + 0.24vw, 1.12rem);
+    padding: 24px 72px 24px 24px;
+    font-size: clamp(1.12rem, 1.02rem + 0.3vw, 1.25rem);
+  }
+
+  .accordion .accordion-item-label::after {
+    right: 24px;
+    width: 15px;
+    height: 15px;
   }
 
   .accordion .accordion-item .accordion-item-body {
-    padding: 0 18px 18px;
+    padding: 4px 24px 24px;
   }
 }
