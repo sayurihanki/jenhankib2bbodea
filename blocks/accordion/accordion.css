@@ -35,12 +35,12 @@
 
 .accordion .accordion-item-label {
   position: relative;
-  padding: 34px 92px 34px 40px;
+  padding: 42px 104px 42px 48px;
   margin: 0;
   cursor: pointer;
   list-style: none;
-  font-size: clamp(1.3rem, 1.05rem + 0.62vw, 1.62rem);
-  font-weight: 600;
+  font-size: clamp(1.55rem, 1.2rem + 0.9vw, 2rem);
+  font-weight: 650;
   line-height: 1.4;
   color: var(--text-color, #2f2f35);
   transition:
@@ -98,9 +98,9 @@
   content: '';
   position: absolute;
   top: 50%;
-  right: 36px;
-  width: 18px;
-  height: 18px;
+  right: 40px;
+  width: 20px;
+  height: 20px;
   border-right: 3px solid currentcolor;
   border-bottom: 3px solid currentcolor;
   transform: translateY(-60%) rotate(45deg);
@@ -114,7 +114,7 @@
 }
 
 .accordion .accordion-item .accordion-item-body {
-  padding: 8px 40px 34px;
+  padding: 14px 48px 42px;
   border-top: 1px solid rgb(136 33 244 / 10%);
   background: rgb(255 255 255 / 45%);
 }
@@ -122,8 +122,8 @@
 .accordion .accordion-item .accordion-item-body p {
   margin: 0 0 0.95em;
   color: var(--color-neutral-800, #3d3d44);
-  font-size: clamp(1.14rem, 1rem + 0.32vw, 1.32rem);
-  line-height: 1.68;
+  font-size: clamp(1.28rem, 1.08rem + 0.45vw, 1.5rem);
+  line-height: 1.72;
 }
 
 .accordion .accordion-item .accordion-item-body p:last-child {
@@ -132,17 +132,21 @@
 
 @media (max-width: 900px) {
   .accordion .accordion-item-label {
-    padding: 24px 72px 24px 24px;
-    font-size: clamp(1.12rem, 1.02rem + 0.3vw, 1.25rem);
+    padding: 30px 80px 30px 30px;
+    font-size: clamp(1.28rem, 1.08rem + 0.6vw, 1.55rem);
   }
 
   .accordion .accordion-item-label::after {
-    right: 24px;
-    width: 15px;
-    height: 15px;
+    right: 28px;
+    width: 17px;
+    height: 17px;
   }
 
   .accordion .accordion-item .accordion-item-body {
-    padding: 4px 24px 24px;
+    padding: 10px 30px 30px;
+  }
+
+  .accordion .accordion-item .accordion-item-body p {
+    font-size: clamp(1.12rem, 1.02rem + 0.4vw, 1.3rem);
   }
 }
