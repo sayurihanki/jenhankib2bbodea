@@ -18,6 +18,7 @@ const MIN_PANEL_MAX_HEIGHT_PX = 200;
 const MAX_PANEL_MAX_HEIGHT_PX = 1200;
 const DEFAULT_VIEW_ALL_MODE = 'auto';
 const DEFAULT_PLACEHOLDER = 'Search products...';
+const LIVE_SEARCH_OPEN_EVENT = 'bodea:live-search-open';
 let searchBarInstanceCounter = 0;
 
 function getUniqueId(prefix) {
@@ -311,6 +312,20 @@ export default async function decorate(block) {
     viewAllResultsWrapper.hidden = !isVisible;
   };
 
+  const openLinkedLiveSearch = (query = '') => {
+    if (!document.querySelector('.nav-search-panel')) {
+      return false;
+    }
+
+    window.dispatchEvent(new CustomEvent(LIVE_SEARCH_OPEN_EVENT, {
+      detail: {
+        query,
+        focus: true,
+      },
+    }));
+    return true;
+  };
+
   const lockPanelHeight = () => {
     if (!resultsDiv.classList.contains('is-open')) return;
     const currentHeight = Math.round(resultsDiv.getBoundingClientRect().height);
@@ -409,6 +424,9 @@ export default async function decorate(block) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const query = searchInput?.value?.trim() || '';
+    if (openLinkedLiveSearch(query)) {
+      return;
+    }
     if (query.length > 0) {
       window.location.href = `${rootLink('/search')}?q=${encodeURIComponent(query)}`;
     }

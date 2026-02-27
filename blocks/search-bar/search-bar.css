@@ -30,7 +30,7 @@
     0 48px 120px rgb(0 0 0 / 10%);
   --search-bar-radius: var(--shape-border-radius-3, 24px);
 
-  margin: 0 auto;
+  margin: var(--spacing-small) auto 0;
   width: 100%;
 }
 

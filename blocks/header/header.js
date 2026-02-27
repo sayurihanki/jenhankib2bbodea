@@ -12,6 +12,7 @@ import { renderAuthDropdown } from './renderAuthDropdown.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
+const LIVE_SEARCH_OPEN_EVENT = 'bodea:live-search-open';
 
 const labels = await fetchPlaceholders();
 
@@ -474,6 +475,14 @@ export default async function decorate(block) {
   const searchForm = searchPanel.querySelector('#search-bar-form');
   const searchResult = searchPanel.querySelector('.search-bar-result');
 
+  function setLiveSearchInputValue(query = '', focusInput = true) {
+    const input = searchForm?.querySelector('input[name="search"], input');
+    if (!input) return;
+    input.value = query;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    if (focusInput) input.focus();
+  }
+
   async function toggleSearch(state) {
     const pageSize = 4;
 
@@ -589,6 +598,19 @@ export default async function decorate(block) {
       toggleAllNavSections(navSections);
       overlay.classList.remove('show');
     }
+  });
+
+  window.addEventListener(LIVE_SEARCH_OPEN_EVENT, async (event) => {
+    const query = event?.detail?.query?.trim?.() || '';
+    const focusInput = event?.detail?.focus !== false;
+
+    if (isDesktop.matches) {
+      toggleAllNavSections(navSections);
+      overlay.classList.remove('show');
+    }
+
+    await toggleSearch(true);
+    setLiveSearchInputValue(query, focusInput);
   });
 
   // Close panels when clicking outside
