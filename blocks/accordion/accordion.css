@@ -35,7 +35,7 @@
 
 .accordion .accordion-item-label {
   position: relative;
-  padding: 52px 116px 52px 56px;
+  padding: 28px 92px 28px 40px;
   margin: 0;
   cursor: pointer;
   list-style: none;
@@ -98,7 +98,7 @@
   content: '';
   position: absolute;
   top: 50%;
-  right: 46px;
+  right: 34px;
   width: 22px;
   height: 22px;
   border-right: 3px solid currentcolor;
@@ -114,7 +114,7 @@
 }
 
 .accordion .accordion-item .accordion-item-body {
-  padding: 20px 56px 52px;
+  padding: 8px 40px 24px;
   border-top: 1px solid rgb(136 33 244 / 10%);
   background: rgb(255 255 255 / 45%);
 }
@@ -132,18 +132,18 @@
 
 @media (max-width: 900px) {
   .accordion .accordion-item-label {
-    padding: 34px 88px 34px 34px;
+    padding: 20px 68px 20px 24px;
     font-size: 1.6rem;
   }
 
   .accordion .accordion-item-label::after {
-    right: 30px;
+    right: 24px;
     width: 18px;
     height: 18px;
   }
 
   .accordion .accordion-item .accordion-item-body {
-    padding: 14px 34px 34px;
+    padding: 6px 24px 18px;
   }
 
   .accordion .accordion-item .accordion-item-body p {
