@@ -134,6 +134,119 @@ const CATALOG_CATEGORIES = [
   'Accessories',
 ];
 
+const STORE_SWITCHER_OPTIONS = [
+  {
+    id: 'jenhankib2bapple',
+    label: 'jenhankib2bapple',
+    href: 'https://main--jenhankib2bapple--sayurihanki.aem.live/',
+    matchToken: 'jenhankib2bapple',
+  },
+  {
+    id: 'jenhankib2bbodea',
+    label: 'jenhankib2bbodea',
+    href: 'https://main--jenhankib2bbodea--sayurihanki.aem.live/',
+    matchToken: 'jenhankib2bbodea',
+  },
+];
+
+function getCurrentStoreId() {
+  const currentUrl = `${window.location.hostname}${window.location.pathname}`.toLowerCase();
+  return STORE_SWITCHER_OPTIONS
+    .find(({ matchToken }) => currentUrl.includes(matchToken))
+    ?.id || 'jenhankib2bbodea';
+}
+
+function getStoreById(storeId) {
+  return STORE_SWITCHER_OPTIONS.find(({ id }) => id === storeId) || STORE_SWITCHER_OPTIONS[0];
+}
+
+function createStoreSwitcher() {
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('store-switcher-wrapper', 'nav-tools-wrapper');
+
+  const currentStore = getStoreById(getCurrentStoreId());
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.classList.add('store-switcher-toggle');
+  toggle.setAttribute('aria-haspopup', 'true');
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-label', 'Choose storefront');
+
+  const toggleLabel = document.createElement('span');
+  toggleLabel.classList.add('store-switcher-toggle-label');
+  toggleLabel.textContent = currentStore.label;
+
+  const toggleCaret = document.createElement('span');
+  toggleCaret.classList.add('store-switcher-toggle-caret');
+  toggleCaret.setAttribute('aria-hidden', 'true');
+
+  const menu = document.createElement('ul');
+  menu.classList.add('store-switcher-menu');
+  menu.setAttribute('role', 'menu');
+  menu.hidden = true;
+
+  const isOpen = () => wrapper.classList.contains('is-open');
+
+  const setOpenState = (open) => {
+    wrapper.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menu.hidden = !open;
+  };
+
+  const closeMenu = () => setOpenState(false);
+
+  STORE_SWITCHER_OPTIONS.forEach(({ id, label, href }) => {
+    const item = document.createElement('li');
+    const optionButton = document.createElement('button');
+    optionButton.type = 'button';
+    optionButton.classList.add('store-switcher-option');
+    optionButton.setAttribute('role', 'menuitemradio');
+    optionButton.setAttribute('aria-checked', id === currentStore.id ? 'true' : 'false');
+    optionButton.textContent = label;
+
+    optionButton.addEventListener('click', () => {
+      if (id === currentStore.id) {
+        closeMenu();
+        return;
+      }
+
+      window.location.href = href;
+    });
+
+    item.append(optionButton);
+    menu.append(item);
+  });
+
+  toggle.addEventListener('click', (event) => {
+    event.preventDefault();
+    setOpenState(!isOpen());
+  });
+
+  toggle.addEventListener('keydown', (event) => {
+    if (event.code === 'ArrowDown' && !isOpen()) {
+      event.preventDefault();
+      setOpenState(true);
+      menu.querySelector('.store-switcher-option')?.focus();
+    }
+  });
+
+  menu.addEventListener('keydown', (event) => {
+    if (event.code === 'Escape') {
+      closeMenu();
+      toggle.focus();
+    }
+  });
+
+  toggle.append(toggleLabel, toggleCaret);
+  wrapper.append(toggle, menu);
+
+  return {
+    closeMenu,
+    element: wrapper,
+  };
+}
+
 function getCategoryFallbackPath(label) {
   return rootLink(`/${label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`);
 }
@@ -333,6 +446,8 @@ export default async function decorate(block) {
   }
 
   const navTools = nav.querySelector('.nav-tools');
+  const storeSwitcher = createStoreSwitcher();
+  navTools.prepend(storeSwitcher.element);
 
   /** Wishlist */
   const wishlist = document.createRange().createContextualFragment(`
@@ -442,7 +557,10 @@ export default async function decorate(block) {
     togglePanel(minicartPanel, state);
   }
 
-  cartButton.addEventListener('click', () => toggleMiniCart(!minicartPanel.classList.contains('nav-tools-panel--show')));
+  cartButton.addEventListener('click', () => {
+    storeSwitcher.closeMenu();
+    toggleMiniCart(!minicartPanel.classList.contains('nav-tools-panel--show'));
+  });
 
   // Cart Item Counter
   events.on('cart/data', (data) => {
@@ -596,6 +714,7 @@ export default async function decorate(block) {
   searchButton.addEventListener('click', () => toggleSearch(!searchPanel.classList.contains('nav-tools-panel--show')));
 
   navTools.querySelector('.nav-search-button').addEventListener('click', () => {
+    storeSwitcher.closeMenu();
     if (isDesktop.matches) {
       toggleAllNavSections(navSections);
       overlay.classList.remove('show');
@@ -605,6 +724,7 @@ export default async function decorate(block) {
   window.addEventListener(LIVE_SEARCH_OPEN_EVENT, async (event) => {
     const query = event?.detail?.query?.trim?.() || '';
     const focusInput = event?.detail?.focus !== false;
+    storeSwitcher.closeMenu();
 
     if (isDesktop.matches) {
       toggleAllNavSections(navSections);
@@ -638,6 +758,10 @@ export default async function decorate(block) {
 
     if (!searchPanel.contains(e.target) && !searchButton.contains(e.target)) {
       toggleSearch(false);
+    }
+
+    if (!storeSwitcher.element.contains(e.target)) {
+      storeSwitcher.closeMenu();
     }
   });
 
@@ -677,6 +801,7 @@ export default async function decorate(block) {
   window.addEventListener('resize', () => {
     navWrapper.classList.remove('active');
     overlay.classList.remove('show');
+    storeSwitcher.closeMenu();
     toggleMenu(nav, navSections, false);
   });
 
@@ -689,6 +814,7 @@ export default async function decorate(block) {
   hamburger.addEventListener('click', () => {
     navWrapper.classList.toggle('active');
     overlay.classList.toggle('show');
+    storeSwitcher.closeMenu();
     toggleMenu(nav, navSections);
   });
   nav.prepend(hamburger);

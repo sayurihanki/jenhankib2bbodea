@@ -5,9 +5,14 @@
   font-size: var(--body-font-size-s);
   overflow-x: auto;
   padding: 14px;
-  background: rgb(245 238 255 / 88%);
-  border: 1px solid rgb(216 193 255 / 55%);
+  background: rgb(255 255 255 / 34%);
+  border: 1px solid rgb(255 255 255 / 48%);
   border-radius: 28px;
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 26%) inset,
+    0 16px 34px rgb(46 23 84 / 8%);
+  backdrop-filter: blur(14px) saturate(125%);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
 }
 
 @media (min-width: 600px) {
@@ -25,11 +30,11 @@
 .tabs .tabs-list button {
   flex: 0 0 max-content;
   margin: 0;
-  border: 1px solid transparent;
+  border: 1px solid rgb(255 255 255 / 0%);
   border-radius: 34px;
   padding: 16px 30px;
   background: transparent;
-  color: #4f4d59;
+  color: #5e5a67;
   line-height: unset;
   text-align: initial;
   text-overflow: unset;
@@ -57,32 +62,36 @@
 }
 
 .tabs .tabs-list button:hover {
-  background: rgb(237 225 255 / 80%);
-  color: #6f28e8;
-  border-color: rgb(180 135 255 / 55%);
+  background: rgb(255 255 255 / 36%);
+  color: #5f2bd5;
+  border-color: rgb(255 255 255 / 44%);
 }
 
 .tabs .tabs-list button[aria-selected='true'] {
-  background: rgb(255 255 255 / 94%);
-  color: #6f28e8;
-  border-color: rgb(205 181 250 / 75%);
+  background: rgb(255 255 255 / 72%);
+  color: #6c2be9;
+  border-color: rgb(255 255 255 / 62%);
   box-shadow:
-    0 0 0 1px rgb(255 255 255 / 60%) inset,
-    0 8px 22px rgb(112 40 232 / 12%);
+    0 0 0 1px rgb(255 255 255 / 56%) inset,
+    0 8px 22px rgb(101 46 198 / 13%);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
   font-weight: 700;
 }
 
 .tabs .tabs-panel {
   margin-top: 16px;
   padding: 48px;
-  background: rgb(247 242 255 / 86%);
-  border: 1px solid rgb(216 193 255 / 45%);
+  background: rgb(255 255 255 / 40%);
+  border: 1px solid rgb(255 255 255 / 52%);
   border-radius: 26px;
   box-shadow:
-    0 0 0 1px rgb(255 255 255 / 42%) inset,
-    0 24px 48px rgb(64 20 119 / 5%);
+    0 0 0 1px rgb(255 255 255 / 30%) inset,
+    0 22px 48px rgb(35 20 68 / 9%);
   overflow: auto;
   position: relative;
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
 }
 
 @media (max-width: 768px) {
@@ -101,9 +110,9 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgb(139 92 246 / 22%) 35%,
-    rgb(168 85 247 / 20%) 50%,
-    rgb(192 132 252 / 16%) 68%,
+    rgb(175 147 230 / 24%) 35%,
+    rgb(197 172 245 / 20%) 50%,
+    rgb(216 197 252 / 14%) 68%,
     transparent
   );
   pointer-events: none;
