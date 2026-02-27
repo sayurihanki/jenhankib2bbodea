@@ -1,3 +1,7 @@
+.tabs {
+  position: relative;
+}
+
 .tabs .tabs-list {
   display: flex;
   gap: 10px;
@@ -8,6 +12,7 @@
   background: rgb(245 238 255 / 88%);
   border: 1px solid rgb(216 193 255 / 55%);
   border-radius: 28px;
+  position: relative;
 }
 
 @media (min-width: 600px) {
@@ -72,8 +77,18 @@
   font-weight: 700;
 }
 
+.tabs .tabs-list::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: -10px;
+  height: 1px;
+  background: rgb(217 203 240 / 85%);
+}
+
 .tabs .tabs-panel {
-  margin-top: 16px;
+  margin-top: 20px;
   padding: 48px;
   background: rgb(247 242 255 / 86%);
   border: 1px solid rgb(216 193 255 / 45%);

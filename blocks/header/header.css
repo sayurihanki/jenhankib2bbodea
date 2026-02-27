@@ -12,6 +12,9 @@
   --nav-highlight-border: rgb(136 33 244 / 12%);
   --nav-highlight-bg-selected: rgb(255 255 255 / 80%);
   --nav-highlight-shadow: 0 0 0 1px rgb(255 255 255 / 50%) inset, 0 2px 8px rgb(136 33 244 / 8%);
+  --nav-flyout-bg: rgb(250 250 252 / 98%);
+  --nav-flyout-border: rgb(207 207 214 / 78%);
+  --nav-flyout-shadow: 0 16px 44px rgb(18 20 28 / 18%);
 }
 
 /* header and nav layout */
@@ -431,8 +434,10 @@ header nav .nav-sections ul > li:empty {
 header nav .nav-tools-panel {
   z-index: 100;
   position: absolute;
-  box-shadow: var(--shape-shadow-2);
-  background: var(--background-color);
+  box-shadow: var(--nav-flyout-shadow);
+  background: var(--nav-flyout-bg);
+  border: 1px solid var(--nav-flyout-border);
+  border-radius: 0;
   top: var(--nav-height);
   right: 0;
   width: 100%;
@@ -457,11 +462,11 @@ header nav .nav-tools {
 header nav .nav-tools-wrapper > button {
   color: var(--color-brand-700);
   background: transparent;
-  padding: 10px;
+  padding: 8px;
   border: unset;
   cursor: pointer;
-  height: 40px;
-  width: 40px;
+  height: 42px;
+  width: 42px;
 }
 
 header nav .nav-tools button.nav-cart-button {
@@ -476,11 +481,11 @@ header nav .nav-tools button.nav-cart-button[data-count]::after {
   position: absolute;
   top: 0;
   right: -2px;
-  background-color: var(--color-brand-700);
+  background-color: #34363f;
   color: var(--color-neutral-100);
   border-radius: 50%;
-  width: 1.75em;
-  height: 1.75em;
+  width: 1.8em;
+  height: 1.8em;
   display: flex;
   align-items: center;
   font-size: 0.8em;
@@ -567,11 +572,13 @@ header .nav-search-input .search_autocomplete .popover-container {
   }
 
   header nav .nav-tools-panel {
-    top: calc(-12px + var(--nav-height));
+    top: calc(2px + var(--nav-height));
+    right: -8px;
+    border-radius: 10px;
   }
 
   header nav .minicart-panel {
-    width: 398px;
+    width: min(92vw, 640px);
   }
 
   header nav .nav-search-panel {
@@ -625,20 +632,21 @@ header .nav-search-input .search_autocomplete .popover-container {
   justify-content: center;
   align-items: center;
   width: auto;
-  min-width: 40px;
+  min-width: 42px;
+  color: #2f3137;
+  gap: 6px;
 }
 
 .dropdown-wrapper.nav-tools-wrapper .nav-auth-menu-panel {
   font: var(--type-body-1-default-font) !important;
   letter-spacing: var(--type-body-1-default-letter-spacing) !important;
-  width: max-content;
-  min-width: 12rem;
+  width: min(92vw, 360px);
+  min-width: 15rem;
   max-width: 100%;
-  background: var(--glass-bg-strong);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--nav-dropdown-radius);
-  box-shadow: var(--shadow-glass);
+  background: var(--nav-flyout-bg);
+  border: 1px solid var(--nav-flyout-border);
+  border-radius: 10px;
+  box-shadow: var(--nav-flyout-shadow);
   overflow: hidden;
 }
 
@@ -651,7 +659,7 @@ header .nav-search-input .search_autocomplete .popover-container {
 .dropdown-wrapper.nav-tools-wrapper .nav-auth-menu-panel .authenticated-user-menu {
   list-style: none;
   cursor: pointer;
-  padding: var(--spacing-xsmall) 0;
+  padding: var(--spacing-xsmall);
   margin: 0;
   overflow: hidden;
 }
@@ -663,7 +671,7 @@ header .nav-search-input .search_autocomplete .popover-container {
 }
 
 .dropdown-wrapper.nav-tools-wrapper .nav-auth-menu-panel .authenticated-user-menu li > a {
-  padding: var(--spacing-xsmall) var(--spacing-small);
+  padding: 10px 12px;
   display: block;
   width: 100%;
   text-decoration: none;
@@ -693,7 +701,7 @@ header .nav-search-input .search_autocomplete .popover-container {
   cursor: pointer;
   background-color: transparent !important;
   color: var(--accent-1) !important;
-  padding: var(--spacing-xsmall) var(--spacing-small) !important;
+  padding: 10px 12px !important;
   display: block !important;
   width: 100% !important;
   text-decoration: none !important;
@@ -712,6 +720,65 @@ header .nav-search-input .search_autocomplete .popover-container {
   color: var(--accent-2) !important;
   border-color: var(--nav-highlight-border) !important;
   box-shadow: var(--nav-highlight-shadow) !important;
+}
+
+/* Mini-cart dropdown visual match */
+header nav .minicart-panel .commerce-mini-cart-wrapper,
+header nav .minicart-panel .commerce-mini-cart,
+header nav .minicart-panel .cart-mini-cart {
+  background: transparent;
+}
+
+header nav .minicart-panel .cart-mini-cart {
+  padding: 22px;
+}
+
+header nav .minicart-panel .cart-cart-summary-list__heading-text,
+header nav .minicart-panel .cart-order-summary__heading-text {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #383a40;
+}
+
+header nav .minicart-panel .cart-cart-summary-list__content {
+  max-height: min(52vh, 540px);
+  overflow: auto;
+  padding-right: 4px;
+}
+
+header nav .minicart-panel .cart-order-summary__entry {
+  color: #3f4149;
+  font-size: 16px;
+}
+
+header nav .minicart-panel .cart-order-summary__label {
+  font-weight: 500;
+}
+
+header nav .minicart-panel .cart-order-summary__price {
+  font-weight: 600;
+}
+
+header nav .minicart-panel .cart-order-summary__primaryAction .dropin-button,
+header nav .minicart-panel [data-testid="checkout-button"] {
+  background: #44454a !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  border: 0 !important;
+  min-height: 46px !important;
+  font-weight: 500 !important;
+  width: 100% !important;
+}
+
+header nav .minicart-panel .cart-order-summary__primaryAction .dropin-button:hover,
+header nav .minicart-panel [data-testid="checkout-button"]:hover {
+  background: #323338 !important;
+}
+
+header nav .minicart-panel .dropin-button--secondary,
+header nav .minicart-panel a[href*="/cart"] {
+  color: #3f4149 !important;
 }
 
 .grecaptcha-badge {
