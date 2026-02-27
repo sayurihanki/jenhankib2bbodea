@@ -127,7 +127,6 @@ subMenuHeader.classList.add('submenu-header');
 subMenuHeader.innerHTML = '<h5 class="back-link">All Categories</h5><hr />';
 
 const CATALOG_CATEGORIES = [
-  'Bodea',
   'Server Racks',
   'Network Enclosures',
   'Power & Cooling',
@@ -463,7 +462,7 @@ export default async function decorate(block) {
     <button type="button" class="nav-search-button">Search</button>
     <div class="nav-search-input nav-search-panel nav-tools-panel">
       <form id="search-bar-form"></form>
-      <div class="search-bar-result" style="display: none;"></div>
+      <div class="search-bar-result" aria-hidden="true"></div>
     </div>
   </div>
   `);
@@ -509,7 +508,9 @@ export default async function decorate(block) {
           scope: 'popover',
           routeProduct: ({ urlKey, sku }) => getProductLink(urlKey, sku),
           onSearchResult: (results) => {
-            searchResult.style.display = results.length > 0 ? 'block' : 'none';
+            const hasResults = results.length > 0;
+            searchResult.classList.toggle('is-open', hasResults);
+            searchResult.setAttribute('aria-hidden', hasResults ? 'false' : 'true');
           },
           slots: {
             ProductImage: (ctx) => {
@@ -535,6 +536,7 @@ export default async function decorate(block) {
             Footer: async (ctx) => {
               // View all results button
               const viewAllResultsWrapper = document.createElement('div');
+              viewAllResultsWrapper.classList.add('search-view-all');
 
               const viewAllResultsButton = await UI.render(Button, {
                 children: labels.Global?.SearchViewAll,
