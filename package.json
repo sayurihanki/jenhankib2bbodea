@@ -16,6 +16,7 @@
     "build:json:models": "merge-json-cli -i \"models/_component-models.json\" -o \"component-models.json\"",
     "build:json:definitions": "merge-json-cli -i \"models/_component-definition.json\" -o \"component-definition.json\"",
     "build:json:filters": "merge-json-cli -i \"models/_component-filters.json\" -o \"component-filters.json\"",
+    "build:ui-ux-package": "node tools/build-ui-ux-portability-package.mjs",
     "test": "npm run lint",
     "test:integration": "sh -c 'if [ \"${RUN_INTEGRATION:-0}\" != \"1\" ]; then echo \"Skipping integration tests (set RUN_INTEGRATION=1 after installing cypress deps and starting local server).\"; exit 0; fi; if [ ! -x cypress/node_modules/.bin/cypress ]; then echo \"Installing Cypress dependencies in ./cypress...\"; npm --prefix cypress ci; fi; npm --prefix cypress run cypress:run'",
     "prepare": "husky"
