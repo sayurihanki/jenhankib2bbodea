@@ -1,4 +1,5 @@
 import { getProductLink, rootLink, fetchPlaceholders } from '../../scripts/commerce.js';
+import { tryRenderAemAssetsImage } from '@dropins/tools/lib/aem/assets.js';
 
 const SEARCH_SCOPE_PREFIX = 'search-bar-block';
 const DEFAULT_MIN_QUERY_LENGTH = 2;
@@ -20,6 +21,11 @@ const DEFAULT_VIEW_ALL_MODE = 'auto';
 const DEFAULT_PLACEHOLDER = 'Search products...';
 const LIVE_SEARCH_OPEN_EVENT = 'bodea:live-search-open';
 let searchBarInstanceCounter = 0;
+
+function getSafeAemAlias(product) {
+  const rawAlias = product?.urlKey || product?.sku || 'product-image';
+  return encodeURIComponent(rawAlias);
+}
 
 function getUniqueId(prefix) {
   if (window.crypto?.randomUUID) {
@@ -538,6 +544,26 @@ export default async function decorate(block) {
         }
       },
       slots: {
+        ProductImage: (ctx) => {
+          const { product, defaultImageProps } = ctx;
+          const anchorWrapper = document.createElement('a');
+          anchorWrapper.href = getProductLink(product.urlKey, product.sku);
+
+          if (!defaultImageProps?.src) {
+            ctx.replaceWith(anchorWrapper);
+            return;
+          }
+
+          tryRenderAemAssetsImage(ctx, {
+            alias: getSafeAemAlias(product),
+            imageProps: defaultImageProps,
+            wrapper: anchorWrapper,
+            params: {
+              width: defaultImageProps.width,
+              height: defaultImageProps.height,
+            },
+          });
+        },
         Footer: async (ctx) => {
           viewAllResultsWrapper = document.createElement('div');
           viewAllResultsWrapper.classList.add('search-bar-view-all');
