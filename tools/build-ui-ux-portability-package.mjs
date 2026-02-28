@@ -159,7 +159,7 @@ function classifyBlock(blockName) {
     return { category: 'shell', subcategory: 'navigation-and-layout' };
   }
   if (blockName.startsWith('form')) return { category: 'forms', subcategory: 'authorable-forms' };
-  if (['accordion', 'tabs', 'modal', 'carousel', 'circle-carousel', 'video', 'embed', 'table'].includes(blockName)) {
+  if (['accordion', 'tabs', 'modal', 'carousel', 'circle-carousel', 'video', 'embed', 'table', 'quiz-router'].includes(blockName)) {
     return { category: 'interactive-content', subcategory: 'engagement' };
   }
   return { category: 'content', subcategory: 'general' };

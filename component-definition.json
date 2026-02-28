@@ -249,6 +249,19 @@
               "type": "key-value-block"
             }
           }
+        },
+        {
+          "title": "Quiz Router",
+          "id": "quiz-router",
+          "model": "quiz-router",
+          "filter": "quiz-router",
+          "plugins": {
+            "da": {
+              "name": "quiz-router",
+              "rows": 1,
+              "columns": 3
+            }
+          }
         }
       ]
     },
