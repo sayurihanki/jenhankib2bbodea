@@ -61,6 +61,82 @@
             "numberMin": 2,
             "numberMax": 20
           }
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "personalization",
+          "value": "on",
+          "label": "Personalization",
+          "description": "Enable or disable personalized search context",
+          "required": false,
+          "options": [
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "liveChips",
+          "value": "on",
+          "label": "Live Filter Chips",
+          "description": "Enable or disable quick filter chips in live search",
+          "required": false,
+          "options": [
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "suggestions",
+          "value": "on",
+          "label": "Live Suggestions",
+          "description": "Enable or disable suggestion pills in live search",
+          "required": false,
+          "options": [
+            {
+              "name": "On",
+              "value": "on"
+            },
+            {
+              "name": "Off",
+              "value": "off"
+            }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "personalizationToggle",
+          "value": "show",
+          "label": "Personalization Toggle",
+          "description": "Show or hide personalization controls in the search panel",
+          "required": false,
+          "options": [
+            {
+              "name": "Show",
+              "value": "show"
+            },
+            {
+              "name": "Hide",
+              "value": "hide"
+            }
+          ]
         }
       ]
     }

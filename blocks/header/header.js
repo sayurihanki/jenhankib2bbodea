@@ -6,6 +6,29 @@ import { getConfigValue } from '@dropins/tools/lib/aem/configs.js';
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 import { fetchPlaceholders, getProductLink, rootLink } from '../../scripts/commerce.js';
+import {
+  deriveQuickChips,
+  hasFilter,
+  serializeFiltersToParam,
+  stripSystemFilters,
+  toggleFilter,
+} from '../../scripts/search/chips.js';
+import { withSearchContext } from '../../scripts/search/context.js';
+import {
+  recordSearchProductClick,
+  recordSearchQuery,
+  recordSuggestionClick,
+  resetSearchProfile,
+} from '../../scripts/search/profile.js';
+import {
+  isPersonalizationTreatment,
+  loadSearchSettings,
+  resetSearchSettings,
+  setPersonalizationEnabled,
+  withP13nParam,
+} from '../../scripts/search/settings.js';
+import { getTopSuggestions } from '../../scripts/search/suggestions.js';
+import { emitSearchTelemetry } from '../../scripts/search/telemetry.js';
 
 import renderAuthCombine from './renderAuthCombine.js';
 import { renderAuthDropdown } from './renderAuthDropdown.js';
@@ -575,6 +598,21 @@ export default async function decorate(block) {
   }, { eager: true });
 
   /** Search */
+  const HEADER_LIVE_RENDER_COUNT = 4;
+  const HEADER_LIVE_REQUEST_SIZE = 20;
+  const HEADER_LIVE_MIN_QUERY_LENGTH = 2;
+  const HEADER_LIVE_DEBOUNCE_MS = 120;
+  let searchSettings = loadSearchSettings();
+
+  function normalizeHref(value) {
+    try {
+      const parsed = new URL(value, window.location.origin);
+      return `${parsed.pathname}${parsed.search}`;
+    } catch (e) {
+      return value;
+    }
+  }
+
   const searchFragment = document.createRange().createContextualFragment(`
   <div class="search-wrapper nav-tools-wrapper">
     <button type="button" class="nav-search-button">Search</button>
@@ -591,6 +629,231 @@ export default async function decorate(block) {
   const searchButton = navTools.querySelector('.nav-search-button');
   const searchForm = searchPanel.querySelector('#search-bar-form');
   const searchResult = searchPanel.querySelector('.search-bar-result');
+  const searchUiText = {
+    searchViewAll: labels.Global?.SearchViewAll || 'View All Results',
+    searchSuggestions: labels.Global?.SearchSuggestions || 'Suggestions',
+    moreFilters: labels.Global?.SearchMoreFilters || 'More filters',
+    personalizedResults: labels.Global?.SearchPersonalized || 'Personalized results',
+    resetSearchPreferences: labels.Global?.SearchResetPreferences || 'Reset search preferences',
+  };
+
+  let liveSearchApi;
+  let liveSearchDebounceTimer;
+  let latestPopoverPhrase = '';
+  let latestPopoverRequestPhrase = '';
+  let latestPopoverResultCount = 0;
+  let latestQuickChips = [];
+  let latestSuggestions = [];
+  let activeQuickFilters = [];
+  let latestResultSkuByHref = new Map();
+  let searchInitialized = false;
+  let searchResultSubscription;
+  let personalizationRow;
+  let suggestionsRow;
+  let quickChipsRow;
+  let resultsMount;
+  let moreFiltersRow;
+  let moreFiltersLink;
+  let viewAllResultsButton;
+  let lastSuggestionImpressionKey = '';
+
+  function getPopoverFilters() {
+    return [
+      { attribute: 'visibility', in: ['Search', 'Catalog, Search'] },
+      ...activeQuickFilters,
+    ];
+  }
+
+  function buildPopoverSearchHref(phrase = latestPopoverPhrase) {
+    const target = new URL(rootLink('/search'), window.location.origin);
+    if (phrase) {
+      target.searchParams.set('q', phrase);
+    }
+    const filterParam = serializeFiltersToParam(activeQuickFilters);
+    if (filterParam) {
+      target.searchParams.set('filter', filterParam);
+    }
+    const relativeUrl = `${target.pathname}${target.search}${target.hash}`;
+    return withP13nParam(relativeUrl, searchSettings);
+  }
+
+  function syncViewAllLink(phrase = latestPopoverPhrase) {
+    if (!viewAllResultsButton) return;
+    const href = buildPopoverSearchHref(phrase);
+    viewAllResultsButton.setProps((prev) => ({ ...prev, href }));
+  }
+
+  function syncMoreFiltersLink(phrase = latestPopoverPhrase) {
+    if (!moreFiltersLink || !moreFiltersRow) return;
+    if (!phrase) {
+      moreFiltersRow.hidden = true;
+      return;
+    }
+    moreFiltersLink.href = buildPopoverSearchHref(phrase);
+    moreFiltersRow.hidden = false;
+  }
+
+  function setPopoverResultsVisible(visible) {
+    searchResult.classList.toggle('is-open', visible);
+    searchResult.setAttribute('aria-hidden', visible ? 'false' : 'true');
+  }
+
+  function updatePopoverVisibility() {
+    const hasResults = latestPopoverResultCount > 0;
+    const hasAuxiliaryContent = latestQuickChips.length > 0 || latestSuggestions.length > 0;
+    setPopoverResultsVisible(hasResults || hasAuxiliaryContent);
+  }
+
+  function emitSearchRequestTelemetry(personalization, request) {
+    emitSearchTelemetry('search-request-context', {
+      surface: 'header-popover',
+      phrase: request?.phrase || '',
+      hasContext: Boolean(personalization.context),
+      personalizationEnabled: searchSettings.personalizationEnabled,
+      treatment: isPersonalizationTreatment(searchSettings),
+      holdoutBucket: searchSettings.holdoutBucket,
+    });
+  }
+
+  function renderQuickChips() {
+    if (!quickChipsRow) return;
+    quickChipsRow.innerHTML = '';
+
+    if (latestQuickChips.length === 0 || !latestPopoverPhrase) {
+      quickChipsRow.hidden = true;
+      return;
+    }
+
+    latestQuickChips.forEach((chip) => {
+      const chipButton = document.createElement('button');
+      chipButton.type = 'button';
+      chipButton.className = 'search-popover-chip';
+      const selected = hasFilter(activeQuickFilters, chip.filter);
+      chipButton.classList.toggle('is-active', selected);
+      chipButton.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      chipButton.textContent = chip.label;
+      chipButton.addEventListener('click', () => {
+        const wasSelected = hasFilter(activeQuickFilters, chip.filter);
+        activeQuickFilters = toggleFilter(activeQuickFilters, chip.filter);
+        emitSearchTelemetry(wasSelected ? 'search-chip-removed' : 'search-chip-applied', {
+          surface: 'header-popover',
+          chip: chip.label,
+          attribute: chip.attribute,
+        });
+        renderQuickChips();
+        syncViewAllLink();
+        syncMoreFiltersLink();
+        performPopoverSearch(latestPopoverPhrase, { immediate: true });
+      });
+      quickChipsRow.append(chipButton);
+    });
+
+    quickChipsRow.hidden = false;
+  }
+
+  function renderSuggestions() {
+    if (!suggestionsRow) return;
+    suggestionsRow.innerHTML = '';
+
+    if (latestSuggestions.length === 0 || !latestPopoverPhrase) {
+      suggestionsRow.hidden = true;
+      return;
+    }
+
+    const label = document.createElement('p');
+    label.className = 'search-popover-suggestions-label';
+    label.textContent = searchUiText.searchSuggestions;
+    suggestionsRow.append(label);
+
+    const list = document.createElement('div');
+    list.className = 'search-popover-suggestions-list';
+
+    latestSuggestions.forEach((suggestion) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'search-popover-suggestion-pill';
+      button.textContent = suggestion;
+      button.addEventListener('click', () => {
+        setLiveSearchInputValue(suggestion, true);
+        recordSuggestionClick(suggestion, { surface: 'header-popover' });
+        emitSearchTelemetry('search-suggestion-click', {
+          surface: 'header-popover',
+          suggestion,
+        });
+        performPopoverSearch(suggestion, { immediate: true });
+      });
+      list.append(button);
+    });
+
+    suggestionsRow.append(list);
+    suggestionsRow.hidden = false;
+
+    const nextImpressionKey = `${latestPopoverPhrase}:${latestSuggestions.join('|')}`;
+    if (nextImpressionKey !== lastSuggestionImpressionKey) {
+      lastSuggestionImpressionKey = nextImpressionKey;
+      emitSearchTelemetry('search-suggestion-impression', {
+        surface: 'header-popover',
+        phrase: latestPopoverPhrase,
+        suggestions: [...latestSuggestions],
+      });
+    }
+  }
+
+  function renderPersonalizationControls() {
+    if (!personalizationRow) return;
+    personalizationRow.innerHTML = '';
+
+    const controlsInner = document.createElement('div');
+    controlsInner.className = 'search-popover-p13n-inner';
+
+    const toggleLabel = document.createElement('label');
+    toggleLabel.className = 'search-popover-p13n-toggle';
+
+    const toggle = document.createElement('input');
+    toggle.type = 'checkbox';
+    toggle.checked = Boolean(searchSettings.personalizationEnabled);
+
+    const toggleText = document.createElement('span');
+    toggleText.textContent = searchUiText.personalizedResults;
+
+    toggleLabel.append(toggle, toggleText);
+
+    const resetButton = document.createElement('button');
+    resetButton.type = 'button';
+    resetButton.className = 'search-popover-p13n-reset';
+    resetButton.textContent = searchUiText.resetSearchPreferences;
+
+    toggle.addEventListener('change', () => {
+      searchSettings = setPersonalizationEnabled(toggle.checked);
+      emitSearchTelemetry('search-personalization-toggle', {
+        surface: 'header-popover',
+        enabled: searchSettings.personalizationEnabled,
+      });
+      syncViewAllLink();
+      syncMoreFiltersLink();
+      if (latestPopoverPhrase.length >= HEADER_LIVE_MIN_QUERY_LENGTH) {
+        performPopoverSearch(latestPopoverPhrase, { immediate: true });
+      }
+    });
+
+    resetButton.addEventListener('click', () => {
+      resetSearchProfile();
+      searchSettings = resetSearchSettings();
+      activeQuickFilters = [];
+      emitSearchTelemetry('search-personalization-reset', {
+        surface: 'header-popover',
+      });
+      renderQuickChips();
+      syncViewAllLink();
+      syncMoreFiltersLink();
+      if (latestPopoverPhrase.length >= HEADER_LIVE_MIN_QUERY_LENGTH) {
+        performPopoverSearch(latestPopoverPhrase, { immediate: true });
+      }
+    });
+
+    controlsInner.append(toggleLabel, resetButton);
+    personalizationRow.append(controlsInner);
+  }
 
   function setLiveSearchInputValue(query = '', focusInput = true) {
     const input = searchForm?.querySelector('input[name="search"], input');
@@ -600,11 +863,56 @@ export default async function decorate(block) {
     if (focusInput) input.focus();
   }
 
-  async function toggleSearch(state) {
-    const pageSize = 4;
+  function performPopoverSearch(phrase, options = {}) {
+    const { immediate = false } = options;
+    latestPopoverPhrase = phrase.trim();
 
+    if (liveSearchDebounceTimer) {
+      clearTimeout(liveSearchDebounceTimer);
+      liveSearchDebounceTimer = undefined;
+    }
+
+    if (!liveSearchApi) {
+      setPopoverResultsVisible(false);
+      return;
+    }
+
+    if (!latestPopoverPhrase) {
+      liveSearchApi(null, { scope: 'popover' });
+      setPopoverResultsVisible(false);
+      return;
+    }
+
+    if (latestPopoverPhrase.length < HEADER_LIVE_MIN_QUERY_LENGTH) {
+      setPopoverResultsVisible(false);
+      return;
+    }
+
+    const runSearch = () => {
+      latestPopoverRequestPhrase = latestPopoverPhrase;
+      const baseRequest = {
+        phrase: latestPopoverRequestPhrase,
+        pageSize: HEADER_LIVE_REQUEST_SIZE,
+        filter: getPopoverFilters(),
+      };
+      const { request, personalization } = withSearchContext(baseRequest, searchSettings);
+      emitSearchRequestTelemetry(personalization, request);
+      liveSearchApi(request, { scope: 'popover' });
+    };
+
+    if (immediate || HEADER_LIVE_DEBOUNCE_MS <= 0) {
+      runSearch();
+      return;
+    }
+
+    liveSearchDebounceTimer = setTimeout(runSearch, HEADER_LIVE_DEBOUNCE_MS);
+  }
+
+  async function toggleSearch(state) {
     if (state) {
       await withLoadingState(searchPanel, searchButton, async () => {
+        if (searchInitialized) return;
+
         await import('../../scripts/initializers/search.js');
 
         // Load search components in parallel
@@ -621,14 +929,86 @@ export default async function decorate(block) {
           import('@dropins/tools/lib.js'),
         ]);
 
+        liveSearchApi = search;
+        searchInitialized = true;
+
+        searchResult.innerHTML = '';
+
+        personalizationRow = document.createElement('div');
+        personalizationRow.className = 'search-popover-p13n-controls';
+
+        suggestionsRow = document.createElement('div');
+        suggestionsRow.className = 'search-popover-suggestions';
+        suggestionsRow.hidden = true;
+
+        quickChipsRow = document.createElement('div');
+        quickChipsRow.className = 'search-popover-chips';
+        quickChipsRow.hidden = true;
+
+        resultsMount = document.createElement('div');
+        resultsMount.className = 'search-popover-results';
+
+        moreFiltersRow = document.createElement('div');
+        moreFiltersRow.className = 'search-popover-more-filters';
+        moreFiltersRow.hidden = true;
+
+        moreFiltersLink = document.createElement('a');
+        moreFiltersLink.className = 'search-popover-more-filters-link';
+        moreFiltersLink.textContent = searchUiText.moreFilters;
+        moreFiltersLink.href = rootLink('/search');
+        moreFiltersRow.append(moreFiltersLink);
+
+        searchResult.append(
+          personalizationRow,
+          suggestionsRow,
+          quickChipsRow,
+          resultsMount,
+          moreFiltersRow,
+        );
+
+        renderPersonalizationControls();
+
+        if (searchResultSubscription?.off) {
+          searchResultSubscription.off();
+        }
+
+        searchResultSubscription = events.on('search/result', (payload) => {
+          const payloadPhrase = payload?.request?.phrase;
+          if (!payload?.request || (payloadPhrase && payloadPhrase !== latestPopoverPhrase)) {
+            return;
+          }
+
+          activeQuickFilters = stripSystemFilters(payload.request.filter || []);
+          latestQuickChips = deriveQuickChips(payload.result?.facets || [], { maxChips: 4 });
+          latestSuggestions = getTopSuggestions(payload.result?.suggestions || [], 3);
+
+          latestResultSkuByHref = new Map((payload.result?.items || []).map((item) => [
+            normalizeHref(getProductLink(item.urlKey, item.sku)),
+            item.sku,
+          ]));
+
+          renderQuickChips();
+          renderSuggestions();
+          syncViewAllLink(payload.request.phrase || latestPopoverPhrase);
+          syncMoreFiltersLink(payload.request.phrase || latestPopoverPhrase);
+          updatePopoverVisibility();
+        }, { eager: true, scope: 'popover' });
+
         render.render(SearchResults, {
-          skeletonCount: pageSize,
+          skeletonCount: HEADER_LIVE_RENDER_COUNT,
           scope: 'popover',
           routeProduct: ({ urlKey, sku }) => getProductLink(urlKey, sku),
           onSearchResult: (results) => {
-            const hasResults = results.length > 0;
-            searchResult.classList.toggle('is-open', hasResults);
-            searchResult.setAttribute('aria-hidden', hasResults ? 'false' : 'true');
+            if (latestPopoverRequestPhrase && latestPopoverPhrase !== latestPopoverRequestPhrase) {
+              return;
+            }
+
+            if (Array.isArray(results) && results.length > HEADER_LIVE_RENDER_COUNT) {
+              results.splice(HEADER_LIVE_RENDER_COUNT);
+            }
+
+            latestPopoverResultCount = results.length;
+            updatePopoverVisibility();
           },
           slots: {
             ProductImage: (ctx) => {
@@ -656,29 +1036,42 @@ export default async function decorate(block) {
               const viewAllResultsWrapper = document.createElement('div');
               viewAllResultsWrapper.classList.add('search-view-all');
 
-              const viewAllResultsButton = await UI.render(Button, {
-                children: labels.Global?.SearchViewAll,
+              const nextViewAllButton = await UI.render(Button, {
+                children: searchUiText.searchViewAll,
                 variant: 'secondary',
-                href: rootLink('/search'),
+                href: buildPopoverSearchHref(),
               })(viewAllResultsWrapper);
+              viewAllResultsButton = nextViewAllButton || null;
 
               ctx.appendChild(viewAllResultsWrapper);
 
               ctx.onChange((next) => {
-                viewAllResultsButton?.setProps((prev) => ({
-                  ...prev,
-                  href: `${rootLink('/search')}?q=${encodeURIComponent(next.variables?.phrase || '')}`,
-                }));
+                const phrase = next.variables?.phrase || latestPopoverPhrase;
+                if (viewAllResultsButton?.setProps) {
+                  const href = buildPopoverSearchHref(phrase);
+                  viewAllResultsButton.setProps((prev) => ({ ...prev, href }));
+                }
               });
             },
           },
-        })(searchResult);
+        })(resultsMount);
+
+        resultsMount.addEventListener('click', (event) => {
+          const anchor = event.target.closest('a[href]');
+          if (!anchor) return;
+
+          const sku = latestResultSkuByHref.get(normalizeHref(anchor.href));
+          if (!sku) return;
+
+          recordSearchProductClick(sku, { surface: 'header-popover' });
+        });
 
         searchForm.addEventListener('submit', (e) => {
           e.preventDefault();
           const query = e.target.search.value;
           if (query.length) {
-            window.location.href = `${rootLink('/search')}?q=${encodeURIComponent(query)}`;
+            recordSearchQuery(query, { surface: 'header-popover' });
+            window.location.href = buildPopoverSearchHref(query);
           }
         });
 
@@ -686,22 +1079,7 @@ export default async function decorate(block) {
           name: 'search',
           placeholder: labels.Global?.Search,
           onValue: (phrase) => {
-            if (!phrase) {
-              search(null, { scope: 'popover' });
-              return;
-            }
-
-            if (phrase.length < 3) {
-              return;
-            }
-
-            search({
-              phrase,
-              pageSize,
-              filter: [
-                { attribute: 'visibility', in: ['Search', 'Catalog, Search'] },
-              ],
-            }, { scope: 'popover' });
+            performPopoverSearch(phrase);
           },
         })(searchForm);
       });

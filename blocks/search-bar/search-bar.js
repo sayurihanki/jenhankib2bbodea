@@ -1,11 +1,36 @@
+import { events } from '@dropins/tools/event-bus.js';
 import { getProductLink, rootLink, fetchPlaceholders } from '../../scripts/commerce.js';
 import { tryRenderAemAssetsImage } from '@dropins/tools/lib/aem/assets.js';
+import {
+  deriveQuickChips,
+  hasFilter,
+  serializeFiltersToParam,
+  stripSystemFilters,
+  toggleFilter,
+} from '../../scripts/search/chips.js';
+import { withSearchContext } from '../../scripts/search/context.js';
+import {
+  recordSearchProductClick,
+  recordSearchQuery,
+  recordSuggestionClick,
+  resetSearchProfile,
+} from '../../scripts/search/profile.js';
+import {
+  isPersonalizationTreatment,
+  loadSearchSettings,
+  resetSearchSettings,
+  setPersonalizationEnabled,
+  withP13nParam,
+} from '../../scripts/search/settings.js';
+import { getTopSuggestions } from '../../scripts/search/suggestions.js';
+import { emitSearchTelemetry } from '../../scripts/search/telemetry.js';
 
 const SEARCH_SCOPE_PREFIX = 'search-bar-block';
+const LIVE_SEARCH_REQUEST_PAGE_SIZE = 20;
 const DEFAULT_MIN_QUERY_LENGTH = 2;
 const MIN_MIN_QUERY_LENGTH = 1;
 const MAX_MIN_QUERY_LENGTH = 5;
-const DEFAULT_DEBOUNCE_MS = 80;
+const DEFAULT_DEBOUNCE_MS = 120;
 const MIN_DEBOUNCE_MS = 0;
 const MAX_DEBOUNCE_MS = 1000;
 const DEFAULT_OPEN_DELAY_MS = 0;
@@ -77,6 +102,31 @@ function normalizePanelMaxHeight(value, fallback = DEFAULT_PANEL_MAX_HEIGHT_PX) 
     return fallback;
   }
   return Math.min(MAX_PANEL_MAX_HEIGHT_PX, Math.max(MIN_PANEL_MAX_HEIGHT_PX, parsed));
+}
+
+function normalizeOnOff(value, fallback = true) {
+  const normalized = (value || '').toString().trim().toLowerCase();
+  if (!normalized) return fallback;
+  if (normalized === 'on' || normalized === 'true') return true;
+  if (normalized === 'off' || normalized === 'false') return false;
+  return fallback;
+}
+
+function normalizeShowHide(value, fallback = true) {
+  const normalized = (value || '').toString().trim().toLowerCase();
+  if (!normalized) return fallback;
+  if (normalized === 'show') return true;
+  if (normalized === 'hide') return false;
+  return fallback;
+}
+
+function normalizeHref(value) {
+  try {
+    const parsed = new URL(value, window.location.origin);
+    return `${parsed.pathname}${parsed.search}`;
+  } catch (e) {
+    return value;
+  }
 }
 
 function parseBlockConfig(block) {
@@ -159,6 +209,42 @@ function parseBlockConfig(block) {
     ),
     DEFAULT_VIEW_ALL_MODE,
   );
+  const personalizationEnabled = normalizeOnOff(
+    getConfigValue(
+      block.dataset.searchbarPersonalization,
+      sectionData,
+      ['searchbarPersonalization', 'dataSearchbarPersonalization'],
+      'on',
+    ),
+    true,
+  );
+  const liveChipsEnabled = normalizeOnOff(
+    getConfigValue(
+      block.dataset.searchbarLivechips,
+      sectionData,
+      ['searchbarLivechips', 'dataSearchbarLivechips'],
+      'on',
+    ),
+    true,
+  );
+  const suggestionsEnabled = normalizeOnOff(
+    getConfigValue(
+      block.dataset.searchbarSuggestions,
+      sectionData,
+      ['searchbarSuggestions', 'dataSearchbarSuggestions'],
+      'on',
+    ),
+    true,
+  );
+  const personalizationToggleVisible = normalizeShowHide(
+    getConfigValue(
+      block.dataset.searchbarPersonalizationToggle,
+      sectionData,
+      ['searchbarPersonalizationToggle', 'dataSearchbarPersonalizationToggle'],
+      'show',
+    ),
+    true,
+  );
 
   return {
     placeholder,
@@ -169,6 +255,10 @@ function parseBlockConfig(block) {
     openDelayMs,
     panelMaxHeightPx,
     viewAllMode,
+    personalizationEnabled,
+    liveChipsEnabled,
+    suggestionsEnabled,
+    personalizationToggleVisible,
   };
 }
 
@@ -194,6 +284,8 @@ export default async function decorate(block) {
   const instanceId = getUniqueId('searchbar');
   const resultsId = getUniqueId('search-results');
   const searchScope = `${SEARCH_SCOPE_PREFIX}-${instanceId}`;
+  let searchSettings = loadSearchSettings();
+
   block.dataset.searchbarAlign = config.position;
   block.dataset.searchbarResults = `${config.resultCount}`;
   block.dataset.searchbarMinquery = `${config.minQueryLength}`;
@@ -201,6 +293,10 @@ export default async function decorate(block) {
   block.dataset.searchbarOpendelay = `${config.openDelayMs}`;
   block.dataset.searchbarMaxheight = `${config.panelMaxHeightPx}`;
   block.dataset.searchbarViewall = config.viewAllMode;
+  block.dataset.searchbarPersonalization = config.personalizationEnabled ? 'on' : 'off';
+  block.dataset.searchbarLivechips = config.liveChipsEnabled ? 'on' : 'off';
+  block.dataset.searchbarSuggestions = config.suggestionsEnabled ? 'on' : 'off';
+  block.dataset.searchbarPersonalizationToggle = config.personalizationToggleVisible ? 'show' : 'hide';
 
   const searchBarContainer = document.createElement('div');
   searchBarContainer.classList.add('search-bar-container', `search-bar--${config.position}`);
@@ -236,10 +332,42 @@ export default async function decorate(block) {
   const resultsDiv = document.createElement('div');
   resultsDiv.classList.add('search-bar-results');
   resultsDiv.setAttribute('id', resultsId);
-  resultsDiv.setAttribute('role', 'listbox');
+  resultsDiv.setAttribute('role', 'region');
   resultsDiv.setAttribute('aria-label', 'Search results');
   resultsDiv.setAttribute('aria-hidden', 'true');
   resultsDiv.setAttribute('aria-busy', 'false');
+
+  const personalizationControls = document.createElement('div');
+  personalizationControls.className = 'search-bar-personalization-controls';
+
+  const suggestionsRow = document.createElement('div');
+  suggestionsRow.className = 'search-bar-suggestions';
+  suggestionsRow.hidden = true;
+
+  const quickChipsRow = document.createElement('div');
+  quickChipsRow.className = 'search-bar-quick-chips';
+  quickChipsRow.hidden = true;
+
+  const resultsMount = document.createElement('div');
+  resultsMount.className = 'search-bar-results-mount';
+
+  const moreFiltersRow = document.createElement('div');
+  moreFiltersRow.className = 'search-bar-more-filters';
+  moreFiltersRow.hidden = true;
+
+  const moreFiltersLink = document.createElement('a');
+  moreFiltersLink.className = 'search-bar-more-filters-link';
+  moreFiltersLink.href = rootLink('/search');
+  moreFiltersLink.textContent = 'More filters';
+  moreFiltersRow.append(moreFiltersLink);
+
+  resultsDiv.append(
+    personalizationControls,
+    suggestionsRow,
+    quickChipsRow,
+    resultsMount,
+    moreFiltersRow,
+  );
 
   const liveRegion = document.createElement('div');
   liveRegion.classList.add('search-bar-sr-only');
@@ -264,10 +392,17 @@ export default async function decorate(block) {
   let debounceTimer;
   let openResultsTimer;
   let disconnectionObserver;
+  let searchResultSubscription;
   let latestTypedPhrase = '';
   let dispatchedPhrase = '';
   let latestResultCount = 0;
   let viewAllResultsWrapper;
+  let viewAllResultsButton;
+  let latestQuickChips = [];
+  let latestSuggestions = [];
+  let activeQuickFilters = [];
+  let latestResultSkuByHref = new Map();
+  let lastSuggestionImpressionKey = '';
 
   const clearTimers = () => {
     if (clearAnnouncementTimer) {
@@ -289,6 +424,10 @@ export default async function decorate(block) {
     if (disconnectionObserver) {
       disconnectionObserver.disconnect();
       disconnectionObserver = undefined;
+    }
+    if (searchResultSubscription?.off) {
+      searchResultSubscription.off();
+      searchResultSubscription = undefined;
     }
   }, { once: true });
 
@@ -389,7 +528,52 @@ export default async function decorate(block) {
     }
   };
 
-  const performSearch = (phrase) => {
+  const getLiveFilters = () => [
+    { attribute: 'visibility', in: ['Search', 'Catalog, Search'] },
+    ...activeQuickFilters,
+  ];
+
+  const getEffectiveSearchSettings = () => (
+    config.personalizationEnabled
+      ? searchSettings
+      : {
+        ...searchSettings,
+        personalizationEnabled: false,
+      }
+  );
+
+  const buildSearchHref = (phrase = latestTypedPhrase) => {
+    const target = new URL(rootLink('/search'), window.location.origin);
+    if (phrase) {
+      target.searchParams.set('q', phrase);
+    }
+
+    const filterParam = serializeFiltersToParam(activeQuickFilters);
+    if (filterParam) {
+      target.searchParams.set('filter', filterParam);
+    }
+
+    const relativeUrl = `${target.pathname}${target.search}${target.hash}`;
+    return withP13nParam(relativeUrl, getEffectiveSearchSettings());
+  };
+
+  const syncViewAllLink = (phrase = latestTypedPhrase) => {
+    if (!viewAllResultsButton) return;
+    const href = buildSearchHref(phrase);
+    viewAllResultsButton.setProps((prev) => ({ ...prev, href }));
+  };
+
+  const syncMoreFiltersLink = (phrase = latestTypedPhrase) => {
+    if (!phrase) {
+      moreFiltersRow.hidden = true;
+      return;
+    }
+    moreFiltersLink.href = buildSearchHref(phrase);
+    moreFiltersRow.hidden = false;
+  };
+
+  function performSearch(phrase, options = {}) {
+    const { immediate = false } = options;
     latestTypedPhrase = phrase.trim();
 
     if (debounceTimer) {
@@ -413,29 +597,226 @@ export default async function decorate(block) {
       return;
     }
 
-    debounceTimer = setTimeout(() => {
+    const runSearch = () => {
       dispatchedPhrase = latestTypedPhrase;
       resultsDiv.setAttribute('aria-busy', 'true');
       lockPanelHeight();
-      search({
+
+      const baseRequest = {
         phrase: dispatchedPhrase,
-        pageSize: config.resultCount,
-        filter: [
-          { attribute: 'visibility', in: ['Search', 'Catalog, Search'] },
-        ],
-      }, { scope: searchScope });
-    }, config.debounceMs);
+        pageSize: LIVE_SEARCH_REQUEST_PAGE_SIZE,
+        filter: getLiveFilters(),
+      };
+      const { request, personalization } = withSearchContext(
+        baseRequest,
+        getEffectiveSearchSettings(),
+      );
+      emitSearchRequestTelemetry(personalization, request);
+
+      search(request, { scope: searchScope });
+    };
+
+    if (immediate || config.debounceMs <= 0) {
+      runSearch();
+      return;
+    }
+
+    debounceTimer = setTimeout(runSearch, config.debounceMs);
+  }
+
+  const renderSuggestions = (uiText) => {
+    suggestionsRow.innerHTML = '';
+
+    if (!config.suggestionsEnabled || latestSuggestions.length === 0 || !latestTypedPhrase) {
+      suggestionsRow.hidden = true;
+      return;
+    }
+
+    const label = document.createElement('p');
+    label.className = 'search-bar-suggestions-label';
+    label.textContent = uiText.searchSuggestions;
+    suggestionsRow.append(label);
+
+    const list = document.createElement('div');
+    list.className = 'search-bar-suggestions-list';
+
+    latestSuggestions.forEach((suggestion) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'search-bar-suggestion-pill';
+      button.textContent = suggestion;
+      button.addEventListener('click', () => {
+        if (!searchInput) return;
+        searchInput.value = suggestion;
+        recordSuggestionClick(suggestion, { surface: 'search-bar' });
+        emitSearchTelemetry('search-suggestion-click', {
+          surface: 'search-bar',
+          suggestion,
+        });
+        performSearch(suggestion, { immediate: true });
+      }, { signal });
+      list.append(button);
+    });
+
+    suggestionsRow.append(list);
+    suggestionsRow.hidden = false;
+
+    const nextImpressionKey = `${latestTypedPhrase}:${latestSuggestions.join('|')}`;
+    if (nextImpressionKey !== lastSuggestionImpressionKey) {
+      lastSuggestionImpressionKey = nextImpressionKey;
+      emitSearchTelemetry('search-suggestion-impression', {
+        surface: 'search-bar',
+        phrase: latestTypedPhrase,
+        suggestions: [...latestSuggestions],
+      });
+    }
   };
+
+  const renderQuickChips = () => {
+    quickChipsRow.innerHTML = '';
+
+    if (!config.liveChipsEnabled || latestQuickChips.length === 0 || !latestTypedPhrase) {
+      quickChipsRow.hidden = true;
+      return;
+    }
+
+    latestQuickChips.forEach((chip) => {
+      const chipButton = document.createElement('button');
+      chipButton.type = 'button';
+      chipButton.className = 'search-bar-chip';
+      const selected = hasFilter(activeQuickFilters, chip.filter);
+      chipButton.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      chipButton.classList.toggle('is-active', selected);
+      chipButton.textContent = chip.label;
+      chipButton.addEventListener('click', () => {
+        const wasSelected = hasFilter(activeQuickFilters, chip.filter);
+        activeQuickFilters = toggleFilter(activeQuickFilters, chip.filter);
+        emitSearchTelemetry(wasSelected ? 'search-chip-removed' : 'search-chip-applied', {
+          surface: 'search-bar',
+          chip: chip.label,
+          attribute: chip.attribute,
+        });
+        syncViewAllLink();
+        syncMoreFiltersLink();
+        renderQuickChips();
+        performSearch(latestTypedPhrase, { immediate: true });
+      }, { signal });
+      quickChipsRow.append(chipButton);
+    });
+
+    quickChipsRow.hidden = false;
+  };
+
+  const updatePanelVisibility = (uiText) => {
+    const hasVisibleResults = latestResultCount > 0;
+    const hasAuxiliaryContent = latestSuggestions.length > 0 || latestQuickChips.length > 0;
+
+    if (hasVisibleResults || hasAuxiliaryContent) {
+      openResults(() => {
+        requestAnimationFrame(() => {
+          syncPanelHeight();
+          unlockPanelHeight();
+        });
+      });
+
+      if (hasVisibleResults) {
+        announce(`${latestResultCount} ${latestResultCount === 1 ? uiText.resultFound : uiText.resultsFound}`);
+      } else {
+        announce('');
+      }
+      return;
+    }
+
+    closeResults();
+    unlockPanelHeight();
+    announce('');
+  };
+
+  function emitSearchRequestTelemetry(personalization, request) {
+    const effectiveSettings = getEffectiveSearchSettings();
+    emitSearchTelemetry('search-request-context', {
+      surface: 'search-bar',
+      phrase: request?.phrase || '',
+      hasContext: Boolean(personalization.context),
+      personalizationEnabled: effectiveSettings.personalizationEnabled,
+      treatment: isPersonalizationTreatment(effectiveSettings),
+      holdoutBucket: effectiveSettings.holdoutBucket,
+    });
+  }
+
+  function updatePersonalizationControls(uiText) {
+    personalizationControls.innerHTML = '';
+
+    if (!config.personalizationEnabled || !config.personalizationToggleVisible) {
+      personalizationControls.hidden = true;
+      return;
+    }
+
+    const controlsInner = document.createElement('div');
+    controlsInner.className = 'search-bar-personalization-inner';
+
+    const toggleLabel = document.createElement('label');
+    toggleLabel.className = 'search-bar-personalization-toggle';
+
+    const toggle = document.createElement('input');
+    toggle.type = 'checkbox';
+    toggle.checked = Boolean(searchSettings.personalizationEnabled);
+
+    const toggleText = document.createElement('span');
+    toggleText.textContent = uiText.personalizedResults;
+
+    toggleLabel.append(toggle, toggleText);
+
+    const resetButton = document.createElement('button');
+    resetButton.type = 'button';
+    resetButton.className = 'search-bar-personalization-reset';
+    resetButton.textContent = uiText.resetSearchPreferences;
+
+    toggle.addEventListener('change', () => {
+      searchSettings = setPersonalizationEnabled(toggle.checked);
+      emitSearchTelemetry('search-personalization-toggle', {
+        surface: 'search-bar',
+        enabled: searchSettings.personalizationEnabled,
+      });
+      syncViewAllLink();
+      syncMoreFiltersLink();
+      if (latestTypedPhrase.length >= config.minQueryLength) {
+        performSearch(latestTypedPhrase, { immediate: true });
+      }
+    }, { signal });
+
+    resetButton.addEventListener('click', () => {
+      resetSearchProfile();
+      searchSettings = resetSearchSettings();
+      activeQuickFilters = [];
+      emitSearchTelemetry('search-personalization-reset', {
+        surface: 'search-bar',
+      });
+      syncViewAllLink();
+      syncMoreFiltersLink();
+      renderQuickChips();
+      if (latestTypedPhrase.length >= config.minQueryLength) {
+        performSearch(latestTypedPhrase, { immediate: true });
+      }
+    }, { signal });
+
+    controlsInner.append(toggleLabel, resetButton);
+    personalizationControls.append(controlsInner);
+    personalizationControls.hidden = false;
+  }
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const query = searchInput?.value?.trim() || '';
+    if (!query) return;
+
+    recordSearchQuery(query, { surface: 'search-bar' });
+
     if (openLinkedLiveSearch(query)) {
       return;
     }
-    if (query.length > 0) {
-      window.location.href = `${rootLink('/search')}?q=${encodeURIComponent(query)}`;
-    }
+
+    window.location.href = buildSearchHref(query);
   }, { signal });
 
   form.addEventListener('focusin', (e) => {
@@ -470,6 +851,16 @@ export default async function decorate(block) {
       syncPanelHeight();
     }
   }, { signal, passive: true });
+
+  resultsMount.addEventListener('click', (event) => {
+    const anchor = event.target.closest('a[href]');
+    if (!anchor) return;
+
+    const sku = latestResultSkuByHref.get(normalizeHref(anchor.href));
+    if (!sku) return;
+
+    recordSearchProductClick(sku, { surface: 'search-bar' });
+  }, { signal });
 
   const observerRoot = block.parentElement || block.closest('main') || document.body;
   disconnectionObserver = new MutationObserver(() => {
@@ -507,12 +898,45 @@ export default async function decorate(block) {
       resultFound: labels.Global?.SearchResultFound || 'result found',
       resultsFound: labels.Global?.SearchResultsFound || 'results found',
       resultsClosed: labels.Global?.SearchResultsClosed || 'Search results closed',
+      searchSuggestions: labels.Global?.SearchSuggestions || 'Suggestions',
+      moreFilters: labels.Global?.SearchMoreFilters || 'More filters',
+      personalizedResults: labels.Global?.SearchPersonalized || 'Personalized results',
+      resetSearchPreferences: labels.Global?.SearchResetPreferences || 'Reset search preferences',
       fallbackInlineUnavailable: labels.Global?.SearchInlineUnavailable
         || 'Inline suggestions unavailable. Press Enter to search.',
     };
 
+    moreFiltersLink.textContent = uiText.moreFilters;
+    updatePersonalizationControls(uiText);
+
     searchIconButton.setAttribute('aria-label', uiText.search);
     resultsDiv.setAttribute('aria-label', uiText.searchResults);
+
+    searchResultSubscription = events.on('search/result', (payload) => {
+      const payloadPhrase = payload?.request?.phrase;
+      if (!payload?.request || (payloadPhrase && payloadPhrase !== latestTypedPhrase)) {
+        return;
+      }
+
+      activeQuickFilters = stripSystemFilters(payload.request.filter || []);
+      latestQuickChips = config.liveChipsEnabled
+        ? deriveQuickChips(payload.result?.facets || [], { maxChips: 4 })
+        : [];
+      latestSuggestions = config.suggestionsEnabled
+        ? getTopSuggestions(payload.result?.suggestions || [], 3)
+        : [];
+
+      latestResultSkuByHref = new Map((payload.result?.items || []).map((item) => [
+        normalizeHref(getProductLink(item.urlKey, item.sku)),
+        item.sku,
+      ]));
+
+      renderQuickChips();
+      renderSuggestions(uiText);
+      syncMoreFiltersLink(payload.request.phrase || latestTypedPhrase);
+      syncViewAllLink(payload.request.phrase || latestTypedPhrase);
+      updatePanelVisibility(uiText);
+    }, { eager: true, scope: searchScope });
 
     render.render(SearchResults, {
       skeletonCount: config.resultCount,
@@ -523,25 +947,16 @@ export default async function decorate(block) {
           return;
         }
 
-        const hasResults = results.length > 0;
+        if (Array.isArray(results) && results.length > config.resultCount) {
+          results.splice(config.resultCount);
+        }
+
         latestResultCount = results.length;
         syncViewAllVisibility();
         resultsDiv.setAttribute('aria-busy', 'false');
         resultsDiv.dataset.resultCount = `${results.length}`;
 
-        if (hasResults) {
-          openResults(() => {
-            requestAnimationFrame(() => {
-              syncPanelHeight();
-              unlockPanelHeight();
-            });
-          });
-          announce(`${results.length} ${results.length === 1 ? uiText.resultFound : uiText.resultsFound}`);
-        } else {
-          closeResults();
-          unlockPanelHeight();
-          announce('');
-        }
+        updatePanelVisibility(uiText);
       },
       slots: {
         ProductImage: (ctx) => {
@@ -568,24 +983,21 @@ export default async function decorate(block) {
           viewAllResultsWrapper = document.createElement('div');
           viewAllResultsWrapper.classList.add('search-bar-view-all');
 
-          const viewAllResultsButton = await UI.render(Button, {
+          viewAllResultsButton = await UI.render(Button, {
             children: uiText.searchViewAll,
             variant: 'secondary',
-            href: rootLink('/search'),
+            href: buildSearchHref(),
           })(viewAllResultsWrapper);
 
           ctx.appendChild(viewAllResultsWrapper);
           syncViewAllVisibility();
 
           ctx.onChange((next) => {
-            viewAllResultsButton?.setProps((prev) => ({
-              ...prev,
-              href: `${rootLink('/search')}?q=${encodeURIComponent(next.variables?.phrase || '')}`,
-            }));
+            syncViewAllLink(next.variables?.phrase || latestTypedPhrase);
           });
         },
       },
-    })(resultsDiv);
+    })(resultsMount);
 
     inputWrapper.replaceChildren();
     UI.render(Input, {
