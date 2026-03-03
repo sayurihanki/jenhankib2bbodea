@@ -9,8 +9,18 @@ import { loadFragment } from '../fragment/fragment.js';
 const NEXT_STEP = '#next';
 const STORAGE_NAMESPACE = 'quizrouter';
 const QUIZ_VERSION = '1.0.0';
-const THEMES = new Set(['default', 'compact', 'card']);
+const THEMES = new Set(['default', 'compact', 'card', 'premium']);
 const RESULT_MODES = new Set(['navigate', 'fragment']);
+const URL_START_TOKENS = ['#', '/', './', '../', '?'];
+const PRESENTATION_SEPARATOR = '||';
+const TRANSITION_DELAY_MS = 120;
+const KEY_ARROW_RIGHT = 'ArrowRight';
+const KEY_ARROW_LEFT = 'ArrowLeft';
+const KEY_ARROW_DOWN = 'ArrowDown';
+const KEY_ARROW_UP = 'ArrowUp';
+const KEY_HOME = 'Home';
+const KEY_END = 'End';
+
 const SAFE_TEXT_TAGS = new Set([
   'p',
   'strong',
@@ -34,6 +44,12 @@ const SAFE_TEXT_TAGS = new Set([
   'sub',
 ]);
 const SAFE_MEDIA_TAGS = new Set(['picture', 'img']);
+
+function wait(ms) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+}
 
 function toSlug(value, fallback = 'quiz-router') {
   const normalized = String(value || '')
@@ -100,18 +116,23 @@ function getQuizSessionId(quizId) {
   return created;
 }
 
+function normalizeAnswersForStorage(answers) {
+  return answers.map((answer) => ({
+    stepId: answer.stepId,
+    optionId: answer.optionId,
+    nextAction: answer.nextAction,
+  }));
+}
+
 function persistQuizSession(runtime, state) {
   const payload = {
     quizId: runtime.quizId,
     quizVersion: runtime.quizVersion,
     sessionId: runtime.sessionId,
     stepIndex: state.currentStep,
+    maxVisitedStep: state.maxVisitedStep,
     selectedOptionIds: state.answers.map((answer) => answer.optionId),
-    answers: state.answers.map((answer) => ({
-      stepId: answer.stepId,
-      optionId: answer.optionId,
-      nextAction: answer.nextAction,
-    })),
+    answers: normalizeAnswersForStorage(state.answers),
     updatedAt: new Date().toISOString(),
   };
   safeSessionSet(runtime.storageKey, JSON.stringify(payload));
@@ -146,15 +167,25 @@ function resolveNextAction(optionAction, resultMode) {
   return 'navigate';
 }
 
+function looksLikeUrlValue(value) {
+  const raw = String(value || '').trim().toLowerCase();
+  if (!raw) return false;
+  if (raw === NEXT_STEP) return true;
+  if (URL_START_TOKENS.some((token) => raw.startsWith(token))) return true;
+  if (raw.startsWith('http://') || raw.startsWith('https://')) return true;
+  if (/^[a-z][a-z0-9+.-]*:/.test(raw)) return true;
+  if (raw.startsWith('//')) return true;
+  return false;
+}
+
 function sanitizeUrl(url) {
   const raw = String(url || '').trim();
   if (!raw) return '';
 
   if (raw.toLowerCase() === NEXT_STEP) return NEXT_STEP;
   if (raw.startsWith('//')) return '';
-  if (raw.toLowerCase().startsWith('javascript:')) return '';
 
-  if (['#', '/', './', '../', '?'].some((token) => raw.startsWith(token))) {
+  if (URL_START_TOKENS.some((token) => raw.startsWith(token))) {
     return raw;
   }
 
@@ -166,6 +197,27 @@ function sanitizeUrl(url) {
   } catch {
     return '';
   }
+}
+
+function parseLabelPresentation(rawLabel) {
+  const text = String(rawLabel || '').trim();
+  if (!text) {
+    return {
+      title: '',
+      subtitle: '',
+      badge: '',
+      icon: '',
+    };
+  }
+
+  const segments = text.split(PRESENTATION_SEPARATOR).map((segment) => segment.trim());
+
+  return {
+    title: segments[0] || text,
+    subtitle: segments[1] || '',
+    badge: segments[2] || '',
+    icon: segments[3] || '',
+  };
 }
 
 function readLabelCell(cell) {
@@ -181,15 +233,19 @@ function readLabelCell(cell) {
   }
 
   const text = (cell?.textContent || '').trim();
+  const hasPresentationSyntax = text.includes(PRESENTATION_SEPARATOR);
   const pipeIdx = text.indexOf('|');
-  if (pipeIdx >= 0) {
-    const rawHref = text.slice(pipeIdx + 1).trim();
-    return {
-      label: text.slice(0, pipeIdx).trim(),
-      href: sanitizeUrl(rawHref),
-      hasHref: !!rawHref,
-      rawHref,
-    };
+
+  if (!hasPresentationSyntax && pipeIdx >= 0) {
+    const maybeHref = text.slice(pipeIdx + 1).trim();
+    if (looksLikeUrlValue(maybeHref)) {
+      return {
+        label: text.slice(0, pipeIdx).trim(),
+        href: sanitizeUrl(maybeHref),
+        hasHref: true,
+        rawHref: maybeHref,
+      };
+    }
   }
 
   return {
@@ -280,39 +336,37 @@ function sanitizeCellContent(cell, options = {}) {
         }
       }
       el.remove();
-      continue;
-    }
-
-    [...el.attributes].forEach((attr) => {
-      const name = attr.name.toLowerCase();
-      if (name.startsWith('on') || name === 'style' || name === 'srcdoc' || name === 'id' || name === 'class') {
-        el.removeAttribute(attr.name);
-      }
-    });
-
-    if (tag === 'img') {
-      const rawSrc = (el.getAttribute('src') || '').trim();
-      const safeSrc = sanitizeUrl(rawSrc);
-      const invalidImageSrc = !safeSrc || safeSrc === NEXT_STEP || safeSrc.startsWith('#') || safeSrc.startsWith('?');
-      if (invalidImageSrc) {
-        el.remove();
-        continue;
-      }
-
-      el.setAttribute('src', safeSrc);
+    } else {
       [...el.attributes].forEach((attr) => {
         const name = attr.name.toLowerCase();
-        if (!['src', 'alt', 'loading', 'width', 'height'].includes(name)) {
+        if (name.startsWith('on') || name === 'style' || name === 'srcdoc' || name === 'id' || name === 'class') {
           el.removeAttribute(attr.name);
         }
       });
-    } else if (tag === 'picture') {
-      [...el.attributes].forEach((attr) => {
-        el.removeAttribute(attr.name);
-      });
-      el.querySelectorAll('source').forEach((source) => source.remove());
-    } else {
-      [...el.attributes].forEach((attr) => el.removeAttribute(attr.name));
+
+      if (tag === 'img') {
+        const rawSrc = (el.getAttribute('src') || '').trim();
+        const safeSrc = sanitizeUrl(rawSrc);
+        const invalidImageSrc = !safeSrc || safeSrc === NEXT_STEP || safeSrc.startsWith('#') || safeSrc.startsWith('?');
+        if (invalidImageSrc) {
+          el.remove();
+        } else {
+          el.setAttribute('src', safeSrc);
+          [...el.attributes].forEach((attr) => {
+            const name = attr.name.toLowerCase();
+            if (!['src', 'alt', 'loading', 'width', 'height'].includes(name)) {
+              el.removeAttribute(attr.name);
+            }
+          });
+        }
+      } else if (tag === 'picture') {
+        [...el.attributes].forEach((attr) => {
+          el.removeAttribute(attr.name);
+        });
+        el.querySelectorAll('source').forEach((source) => source.remove());
+      } else {
+        [...el.attributes].forEach((attr) => el.removeAttribute(attr.name));
+      }
     }
   }
 
@@ -362,28 +416,31 @@ function parseTypedRows(rows) {
         console.warn(`quiz-router: row ${rowNum} option has no preceding question.`);
         return;
       }
+
       const labelCell = cells[1];
       const urlCell = cells[2];
       const labelData = readLabelCell(labelCell);
       const urlData = readUrlCell(urlCell);
       const label = labelData.label || (labelCell?.textContent || '').trim();
+      const presentation = parseLabelPresentation(label);
       const href = labelData.href || urlData.href || '';
       const destinationInput = labelData.hasHref || urlData.hasValue;
       const action = resolveOptionAction(href, destinationInput);
 
-      if (!label) {
+      if (!presentation.title) {
         console.warn(`quiz-router: row ${rowNum} option has no label.`);
         return;
       }
 
       if (action === 'disabled') {
         const invalidTarget = labelData.rawHref || urlData.rawValue || '(empty)';
-        console.warn(`quiz-router: row ${rowNum} option "${label}" has blocked destination "${invalidTarget}". Rendering disabled option.`);
+        console.warn(`quiz-router: row ${rowNum} option "${presentation.title}" has blocked destination "${invalidTarget}". Rendering disabled option.`);
       }
 
       currentQuestion.options.push({
         optionId: `${currentQuestion.stepId}-o${currentQuestion.options.length + 1}`,
         label,
+        presentation,
         href,
         action,
         rowNum,
@@ -430,14 +487,151 @@ function getConfig(block) {
   };
 }
 
-function createOptionElement(option, isBusy, onSelect) {
+function findOptionById(steps, stepId, optionId) {
+  const step = steps.find((item) => item.stepId === stepId);
+  if (!step) return null;
+  return step.options.find((item) => item.optionId === optionId) || null;
+}
+
+function restoreQuizSession(runtime, steps) {
+  const raw = safeSessionGet(runtime.storageKey);
+  if (!raw) {
+    return {
+      stepIndex: 0,
+      answers: [],
+      maxVisitedStep: 0,
+    };
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!parsed || parsed.quizId !== runtime.quizId || parsed.sessionId !== runtime.sessionId) {
+      return {
+        stepIndex: 0,
+        answers: [],
+        maxVisitedStep: 0,
+      };
+    }
+
+    const answers = Array.isArray(parsed.answers)
+      ? parsed.answers
+        .map((answer) => {
+          const stepId = String(answer?.stepId || '').trim();
+          const optionId = String(answer?.optionId || '').trim();
+          if (!stepId || !optionId) return null;
+
+          const option = findOptionById(steps, stepId, optionId);
+          if (!option) return null;
+
+          return {
+            stepId,
+            optionId,
+            nextAction: String(answer?.nextAction || resolveNextAction(option.action, 'navigate')),
+          };
+        })
+        .filter(Boolean)
+      : [];
+
+    const stepIndexNumber = Number(parsed.stepIndex);
+    const stepIndex = Number.isInteger(stepIndexNumber)
+      ? Math.max(0, Math.min(stepIndexNumber, steps.length - 1))
+      : 0;
+
+    const maxVisitedRaw = Number(parsed.maxVisitedStep);
+    const maxVisitedStep = Number.isInteger(maxVisitedRaw)
+      ? Math.max(stepIndex, Math.min(maxVisitedRaw, steps.length - 1))
+      : stepIndex;
+
+    return {
+      stepIndex,
+      answers,
+      maxVisitedStep,
+    };
+  } catch {
+    return {
+      stepIndex: 0,
+      answers: [],
+      maxVisitedStep: 0,
+    };
+  }
+}
+
+function getAnswerForStep(state, stepId) {
+  return state.answers.find((answer) => answer.stepId === stepId) || null;
+}
+
+function setStepAnswer(state, step, option, nextAction) {
+  state.answers = state.answers.filter((answer) => answer.stepId !== step.stepId);
+  state.answers.push({
+    stepId: step.stepId,
+    optionId: option.optionId,
+    nextAction,
+  });
+}
+
+function makeOptionAriaLabel(option) {
+  if (option.presentation.subtitle) {
+    return `${option.presentation.title}. ${option.presentation.subtitle}`;
+  }
+  return option.presentation.title;
+}
+
+function createOptionElement(step, option, state, onSelect) {
   const el = document.createElement('button');
+  const selected = getAnswerForStep(state, step.stepId)?.optionId === option.optionId;
+
   el.type = 'button';
   el.className = 'quiz-router-option';
-  el.textContent = option.label;
-  el.setAttribute('aria-label', option.label);
   el.dataset.action = option.action;
   el.dataset.optionId = option.optionId;
+  el.setAttribute('aria-label', makeOptionAriaLabel(option));
+  el.setAttribute('aria-pressed', selected ? 'true' : 'false');
+
+  if (selected) {
+    el.classList.add('is-selected');
+  }
+
+  const tile = document.createElement('span');
+  tile.className = 'quiz-router-option-main';
+
+  if (option.presentation.icon) {
+    const icon = document.createElement('span');
+    icon.className = 'quiz-router-option-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = option.presentation.icon;
+    tile.append(icon);
+  }
+
+  const copy = document.createElement('span');
+  copy.className = 'quiz-router-option-copy';
+
+  const title = document.createElement('span');
+  title.className = 'quiz-router-option-title';
+  title.textContent = option.presentation.title;
+  copy.append(title);
+
+  if (option.presentation.subtitle) {
+    const subtitle = document.createElement('span');
+    subtitle.className = 'quiz-router-option-subtitle';
+    subtitle.textContent = option.presentation.subtitle;
+    copy.append(subtitle);
+  }
+
+  tile.append(copy);
+  el.append(tile);
+
+  if (option.presentation.badge) {
+    const badge = document.createElement('span');
+    badge.className = 'quiz-router-option-badge';
+    badge.textContent = option.presentation.badge;
+    el.append(badge);
+  }
+
+  const arrow = document.createElement('span');
+  arrow.className = 'quiz-router-option-arrow';
+  arrow.setAttribute('aria-hidden', 'true');
+  arrow.textContent = option.action === 'next' ? '→' : '↗';
+  el.append(arrow);
 
   if (option.action === 'disabled') {
     el.disabled = true;
@@ -445,32 +639,117 @@ function createOptionElement(option, isBusy, onSelect) {
     el.setAttribute('aria-disabled', 'true');
   }
 
-  if (isBusy) {
+  if (state.isBusy) {
     el.disabled = true;
     el.classList.add('is-loading');
   }
 
   el.addEventListener('click', () => {
-    if (el.disabled || isBusy) return;
+    if (el.disabled || state.isBusy) return;
     onSelect(option);
   });
 
   return el;
 }
 
-function renderStep(container, steps, stepIndex, config, state, onStepChange, onNavigate, onAnswer, onComplete) {
-  const step = steps[stepIndex];
-  const totalSteps = steps.length;
-  container.replaceChildren();
+function attachOptionKeyboardNavigation(optionsEl) {
+  optionsEl.addEventListener('keydown', (event) => {
+    const keys = [
+      KEY_ARROW_RIGHT,
+      KEY_ARROW_LEFT,
+      KEY_ARROW_DOWN,
+      KEY_ARROW_UP,
+      KEY_HOME,
+      KEY_END,
+    ];
 
-  if (config.progress && totalSteps > 1) {
-    const progressEl = document.createElement('div');
-    progressEl.className = 'quiz-router-progress';
-    progressEl.setAttribute('role', 'status');
-    progressEl.setAttribute('aria-live', 'polite');
-    progressEl.textContent = `Step ${stepIndex + 1} of ${totalSteps}`;
-    container.append(progressEl);
-  }
+    if (!keys.includes(event.key)) return;
+
+    const active = document.activeElement;
+    if (!active || !active.classList.contains('quiz-router-option')) return;
+
+    const availableOptions = [...optionsEl.querySelectorAll('.quiz-router-option:not(:disabled)')];
+    const currentIndex = availableOptions.indexOf(active);
+    if (currentIndex < 0) return;
+
+    let nextIndex = currentIndex;
+
+    if (event.key === KEY_HOME) nextIndex = 0;
+    if (event.key === KEY_END) nextIndex = availableOptions.length - 1;
+    if (event.key === KEY_ARROW_RIGHT || event.key === KEY_ARROW_DOWN) {
+      nextIndex = Math.min(availableOptions.length - 1, currentIndex + 1);
+    }
+    if (event.key === KEY_ARROW_LEFT || event.key === KEY_ARROW_UP) {
+      nextIndex = Math.max(0, currentIndex - 1);
+    }
+
+    if (nextIndex === currentIndex) return;
+
+    event.preventDefault();
+    availableOptions[nextIndex].focus();
+  });
+}
+
+function createProgressElement(stepIndex, totalSteps) {
+  const progressEl = document.createElement('div');
+  progressEl.className = 'quiz-router-progress';
+  progressEl.setAttribute('role', 'status');
+  progressEl.setAttribute('aria-live', 'polite');
+  progressEl.textContent = `Step ${stepIndex + 1} of ${totalSteps}`;
+  return progressEl;
+}
+
+function renderStepper(stepperEl, state, steps, onStepJump) {
+  stepperEl.replaceChildren();
+
+  steps.forEach((step, index) => {
+    const li = document.createElement('li');
+    li.className = 'quiz-router-step-item';
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'quiz-router-step-pill';
+    button.textContent = String(index + 1);
+    button.setAttribute('aria-label', `Go to step ${index + 1}: ${step.text}`);
+
+    const isActive = index === state.currentStep;
+    const isVisited = index <= state.maxVisitedStep;
+
+    if (isActive) {
+      button.classList.add('is-active');
+      button.setAttribute('aria-current', 'step');
+    }
+
+    if (isVisited) {
+      button.classList.add('is-visited');
+    } else {
+      button.disabled = true;
+      button.classList.add('is-locked');
+    }
+
+    if (state.isBusy) {
+      button.disabled = true;
+    }
+
+    button.addEventListener('click', () => {
+      if (button.disabled || state.isBusy || index === state.currentStep) return;
+      onStepJump(index);
+    });
+
+    li.append(button);
+    stepperEl.append(li);
+  });
+}
+
+function setContentEntering(content) {
+  content.classList.remove('is-entering');
+  window.requestAnimationFrame(() => {
+    content.classList.add('is-entering');
+  });
+}
+
+function renderStepContent(content, step, state, onOptionSelect) {
+  content.replaceChildren();
 
   const questionEl = document.createElement('div');
   questionEl.className = 'quiz-router-question';
@@ -478,54 +757,27 @@ function renderStep(container, steps, stepIndex, config, state, onStepChange, on
   if (!questionEl.textContent.trim()) {
     questionEl.textContent = step.text;
   }
-  container.append(questionEl);
+  content.append(questionEl);
 
   const mediaContent = sanitizeCellContent(step.mediaCell, { preserveImages: true });
   if (mediaContent.childNodes.length) {
     const mediaEl = document.createElement('div');
     mediaEl.className = 'quiz-router-media';
     mediaEl.append(mediaContent);
-    container.append(mediaEl);
+    content.append(mediaEl);
   }
 
   const optionsEl = document.createElement('div');
   optionsEl.className = 'quiz-router-options';
 
   step.options.forEach((option) => {
-    const optionEl = createOptionElement(option, state.isBusy, async (opt) => {
-      const nextAction = resolveNextAction(opt.action, config.resultMode);
-      onAnswer(step, opt, nextAction);
-
-      if (nextAction === 'next') {
-        const nextIndex = stepIndex + 1;
-        if (nextIndex < totalSteps) {
-          onStepChange(nextIndex);
-        } else {
-          console.warn(`quiz-router: row ${opt.rowNum} uses "${NEXT_STEP}" on final step. No further question to display.`);
-        }
-        return;
-      }
-
-      if (nextAction === 'disabled') {
-        return;
-      }
-
-      state.isBusy = true;
-      onStepChange(stepIndex);
-
-      onComplete(opt);
-
-      const shouldLoadFragment = nextAction === 'fragment';
-      const didLeaveView = await onNavigate(opt.href, shouldLoadFragment);
-      if (!didLeaveView) {
-        state.isBusy = false;
-        onStepChange(stepIndex);
-      }
-    });
+    const optionEl = createOptionElement(step, option, state, onOptionSelect);
     optionsEl.append(optionEl);
   });
 
-  container.append(optionsEl);
+  attachOptionKeyboardNavigation(optionsEl);
+  content.append(optionsEl);
+  setContentEntering(content);
 }
 
 export default async function decorate(block) {
@@ -557,16 +809,63 @@ export default async function decorate(block) {
   const wrapper = document.createElement('div');
   wrapper.className = 'quiz-router-wrapper';
 
+  const shell = document.createElement('div');
+  shell.className = 'quiz-router-shell';
+
+  const header = document.createElement('div');
+  header.className = 'quiz-router-header';
+
+  const progressEl = config.progress && steps.length > 1
+    ? createProgressElement(0, steps.length)
+    : null;
+  if (progressEl) {
+    header.append(progressEl);
+  }
+
+  const controls = document.createElement('div');
+  controls.className = 'quiz-router-controls';
+
+  const backButton = document.createElement('button');
+  backButton.type = 'button';
+  backButton.className = 'quiz-router-control quiz-router-control-back';
+  backButton.textContent = 'Back';
+
+  const restartButton = document.createElement('button');
+  restartButton.type = 'button';
+  restartButton.className = 'quiz-router-control quiz-router-control-restart';
+  restartButton.textContent = 'Restart';
+
+  controls.append(backButton, restartButton);
+
+  if (config.theme === 'premium') {
+    header.append(controls);
+  }
+
+  const stepper = document.createElement('ol');
+  stepper.className = 'quiz-router-stepper';
+  if (config.theme === 'premium') {
+    shell.append(header, stepper);
+  } else {
+    shell.append(header);
+  }
+
   const content = document.createElement('div');
   content.className = 'quiz-router-content';
+
   const state = {
     currentStep: 0,
+    maxVisitedStep: 0,
     isBusy: false,
     startedAt: performance.now(),
     lastTrackedStep: -1,
     isCompleteTracked: false,
     answers: [],
   };
+
+  const restored = restoreQuizSession(runtime, steps);
+  state.currentStep = restored.stepIndex;
+  state.maxVisitedStep = restored.maxVisitedStep;
+  state.answers = restored.answers;
 
   const persistState = () => {
     persistQuizSession(runtime, state);
@@ -587,19 +886,14 @@ export default async function decorate(block) {
   };
 
   const trackAnswer = (step, option, nextAction) => {
-    state.answers = state.answers.filter((answer) => answer.stepId !== step.stepId);
-    state.answers.push({
-      stepId: step.stepId,
-      optionId: option.optionId,
-      nextAction,
-    });
+    setStepAnswer(state, step, option, nextAction);
     persistState();
 
     pushQuizEvent('quiz_answer_select', {
       quiz_id: runtime.quizId,
       step_id: step.stepId,
       option_id: option.optionId,
-      option_label: option.label,
+      option_label: option.presentation.title,
       next_action: nextAction,
     });
   };
@@ -653,24 +947,123 @@ export default async function decorate(block) {
     return true;
   };
 
+  const updateControlState = () => {
+    const onFirstStep = state.currentStep === 0;
+    const disabled = state.isBusy;
+
+    backButton.disabled = onFirstStep || disabled;
+    restartButton.disabled = disabled;
+  };
+
   const renderCurrentStep = (nextStep = state.currentStep) => {
-    state.currentStep = nextStep;
+    state.currentStep = Math.max(0, Math.min(nextStep, steps.length - 1));
+    state.maxVisitedStep = Math.max(state.maxVisitedStep, state.currentStep);
+
     wrapper.classList.toggle('is-loading', state.isBusy);
     content.setAttribute('aria-busy', state.isBusy ? 'true' : 'false');
-    renderStep(
-      content,
-      steps,
-      state.currentStep,
-      config,
-      state,
-      renderCurrentStep,
-      handleNavigate,
-      trackAnswer,
-      trackCompletion,
-    );
+
+    if (progressEl) {
+      progressEl.textContent = `Step ${state.currentStep + 1} of ${steps.length}`;
+    }
+
+    if (config.theme === 'premium') {
+      updateControlState();
+      renderStepper(stepper, state, steps, (stepIndex) => {
+        if (stepIndex > state.maxVisitedStep) return;
+
+        const fromStep = steps[state.currentStep];
+        const toStep = steps[stepIndex];
+
+        pushQuizEvent('quiz_step_jump', {
+          quiz_id: runtime.quizId,
+          from_step_index: state.currentStep + 1,
+          to_step_index: stepIndex + 1,
+          from_step_id: fromStep?.stepId || '',
+          to_step_id: toStep?.stepId || '',
+        });
+
+        renderCurrentStep(stepIndex);
+      });
+    }
+
+    const step = steps[state.currentStep];
+
+    renderStepContent(content, step, state, async (option) => {
+      const nextAction = resolveNextAction(option.action, config.resultMode);
+      trackAnswer(step, option, nextAction);
+
+      if (nextAction === 'next') {
+        const nextIndex = state.currentStep + 1;
+        if (nextIndex < steps.length) {
+          state.maxVisitedStep = Math.max(state.maxVisitedStep, nextIndex);
+          if (config.theme === 'premium') {
+            await wait(TRANSITION_DELAY_MS);
+          }
+          renderCurrentStep(nextIndex);
+        } else {
+          console.warn(`quiz-router: row ${option.rowNum} uses "${NEXT_STEP}" on final step. No further question to display.`);
+        }
+        return;
+      }
+
+      if (nextAction === 'disabled') {
+        return;
+      }
+
+      state.isBusy = true;
+      renderCurrentStep(state.currentStep);
+
+      trackCompletion(option);
+
+      const shouldLoadFragment = nextAction === 'fragment';
+      const didLeaveView = await handleNavigate(option.href, shouldLoadFragment);
+      if (!didLeaveView) {
+        state.isBusy = false;
+        renderCurrentStep(state.currentStep);
+      }
+    });
+
     trackStepView(state.currentStep);
     persistState();
   };
+
+  backButton.addEventListener('click', () => {
+    if (backButton.disabled || state.currentStep === 0 || state.isBusy) return;
+
+    const nextStep = state.currentStep - 1;
+    const fromStep = steps[state.currentStep];
+    const toStep = steps[nextStep];
+
+    pushQuizEvent('quiz_step_back', {
+      quiz_id: runtime.quizId,
+      from_step_index: state.currentStep + 1,
+      to_step_index: nextStep + 1,
+      from_step_id: fromStep?.stepId || '',
+      to_step_id: toStep?.stepId || '',
+    });
+
+    renderCurrentStep(nextStep);
+  });
+
+  restartButton.addEventListener('click', () => {
+    if (restartButton.disabled || state.isBusy) return;
+
+    state.currentStep = 0;
+    state.maxVisitedStep = 0;
+    state.answers = [];
+    state.startedAt = performance.now();
+    state.isCompleteTracked = false;
+    state.lastTrackedStep = -1;
+
+    clearQuizSession(runtime);
+
+    pushQuizEvent('quiz_restart', {
+      quiz_id: runtime.quizId,
+      total_steps: steps.length,
+    });
+
+    renderCurrentStep(0);
+  });
 
   pushQuizEvent('quiz_start', {
     quiz_id: runtime.quizId,
@@ -678,8 +1071,9 @@ export default async function decorate(block) {
     entry_path: runtime.entryPath,
   });
 
-  renderCurrentStep(0);
-
-  wrapper.append(content);
+  shell.append(content);
+  wrapper.append(shell);
   block.replaceChildren(wrapper);
+
+  renderCurrentStep(state.currentStep);
 }

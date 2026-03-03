@@ -17,12 +17,30 @@ Author using a **3-column** `quiz-router` table.
 | Row Type (Col 1) | Col 2 | Col 3 |
 |-----------------|-------|-------|
 | `question` | Question text (rich text) | Optional image/media |
-| `option` | Option label | Destination URL (PLP, PDP, or fragment path) |
+| `option` | Option label (supports presentation microformat) | Destination URL (PLP, PDP, or fragment path) |
 
 - **question** rows define each step; options that follow belong to the preceding question.
-- **option** rows: Col 2 = label, Col 3 = link or URL (supports authored `a[href]` or `Label|URL` text).
+- **option** rows: Col 2 = label, Col 3 = link or URL (supports authored `a[href]`, `Label|URL`, or `Title || Subtitle || Badge || Icon` in Col 2).
 - Use `#next` or leave URL empty to advance to the next question instead of routing.
 - Destination URLs: relative paths for PLP/PDP/fragments (e.g. `/products/shirts`, `/product/abc123`, `/fragments/recommendations`).
+
+### Option Presentation Microformat (Optional)
+
+Use `||` segments in the option label cell for richer tile content:
+
+```text
+Title || Subtitle || Badge || Icon
+```
+
+Examples:
+- `Small server room || 7-24U growth-ready footprint || Popular || 🧰`
+- `Industrial edge || Ruggedized & dust-aware || Warehouse || 🏭`
+- `Open office / retail || Quiet, customer-adjacent installs`
+
+Notes:
+- All segments are optional after `Title`.
+- Existing `Label|URL` shorthand remains supported.
+- If Col 3 has a URL, it takes precedence over any URL shorthand in Col 2.
 
 ### Authoring Examples
 
@@ -46,7 +64,7 @@ Place section metadata immediately above the block. Page metadata (meta tags) ca
 | Key | Possible Values | Default | Effect |
 |-----|-----------------|---------|--------|
 | `quizrouter-progress` | `true`, `false` | `true` | Show step progress (e.g. "Step 2 of 4") |
-| `quizrouter-theme` | `default`, `compact`, `card` | `default` | Visual style variant |
+| `quizrouter-theme` | `default`, `compact`, `card`, `premium` | `default` | Visual style variant |
 | `quizrouter-result-mode` | `navigate`, `fragment` | `navigate` | On final selection: full navigation vs load fragment inline |
 
 ### Metadata Precedence
@@ -68,6 +86,8 @@ Place section metadata immediately above the block. Page metadata (meta tags) ca
 - Options with `#next` or empty URL advance to the next question.
 - Options with a valid URL route immediately (or load fragment when `quizrouter-result-mode` is `fragment`).
 - `#next` on the final question is a no-op (safe warning in console).
+- In `premium` theme, users get Back/Restart controls and clickable visited step pills.
+- Selected answers persist when revisiting previous steps.
 
 ### URL Safety Rules
 
@@ -84,6 +104,7 @@ When a destination is blocked and no explicit `#next`/empty-next action is prese
 - Progress text uses `role="status"` and `aria-live="polite"`.
 - Content sets `aria-busy` during async navigation work.
 - Option buttons are keyboard-focusable with visible focus states.
+- Option grids support arrow-key navigation (`←`, `→`, `↑`, `↓`, `Home`, `End`) between enabled options.
 - Labels use safe text rendering.
 - Question markup is rendered from sanitized authored content (no unsanitized HTML insertion).
 
@@ -111,9 +132,9 @@ Recommended block order:
 ```text
 quiz-router
 question | 1) Where will this rack/enclosure be deployed? | ![Deployment context](/images/quiz/rack-finder/q1-deployment.jpg)
-option | Data closet / branch office | #next
-option | Small server room | #next
-option | Open office / retail backroom | #next
+option | Data closet / branch office || Quiet near-desk installs || Popular || 🏢 | #next
+option | Small server room || 7-24U growth-ready footprint || Scalable || 🧰 | #next
+option | Open office / retail backroom || Customer-facing and noise-sensitive || Retail || 🛍️ | #next
 option | Industrial / warehouse edge | #next
 question | 2) How many rack units (U) do you expect now? | ![Rack units guide](/images/quiz/rack-finder/q2-rack-units.jpg)
 option | 1-6U (compact edge) | #next
@@ -149,7 +170,7 @@ option | Start from Category View | /server-racks?sort=position_DESC
 ```text
 section-metadata
 quizrouter-progress | true
-quizrouter-theme | card
+quizrouter-theme | premium
 quizrouter-result-mode | navigate
 ```
 
@@ -180,11 +201,14 @@ circle-carousel
 3. `quiz_answer_select`: `quiz_id`, `step_id`, `option_id`, `option_label`, `next_action`
 4. `quiz_complete`: `quiz_id`, `total_steps`, `completion_ms`, `result_route`
 5. `quiz_result_click`: `quiz_id`, `result_id`, `destination_url`
+6. `quiz_step_back`: `quiz_id`, `from_step_index`, `to_step_index`, `from_step_id`, `to_step_id`
+7. `quiz_step_jump`: `quiz_id`, `from_step_index`, `to_step_index`, `from_step_id`, `to_step_id`
+8. `quiz_restart`: `quiz_id`, `total_steps`
 
 ### Session-only state
 
 - Saved in `sessionStorage` under `quizrouter:{quiz-id}:{sessionId}`
-- Contains current step and selected option IDs
+- Contains current step, max visited step, and selected option IDs
 - Cleared when a completion route is selected
 
 For direct copy/paste assets, use:

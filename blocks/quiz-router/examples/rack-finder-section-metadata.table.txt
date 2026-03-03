@@ -1,4 +1,4 @@
 section-metadata
 quizrouter-progress | true
-quizrouter-theme | card
+quizrouter-theme | premium
 quizrouter-result-mode | navigate

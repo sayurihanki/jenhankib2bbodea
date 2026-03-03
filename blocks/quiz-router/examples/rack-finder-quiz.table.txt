@@ -1,8 +1,8 @@
 quiz-router
 question | 1) Where will this rack/enclosure be deployed? | ![Deployment context](/images/quiz/rack-finder/q1-deployment.jpg)
-option | Data closet / branch office | #next
-option | Small server room | #next
-option | Open office / retail backroom | #next
+option | Data closet / branch office || Quiet near-desk installs || Popular || 🏢 | #next
+option | Small server room || 7-24U growth-ready footprint || Scalable || 🧰 | #next
+option | Open office / retail backroom || Customer-facing and noise-sensitive || Retail || 🛍️ | #next
 option | Industrial / warehouse edge | #next
 question | 2) How many rack units (U) do you expect now? | ![Rack units guide](/images/quiz/rack-finder/q2-rack-units.jpg)
 option | 1-6U (compact edge) | #next
