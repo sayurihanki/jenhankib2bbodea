@@ -48,6 +48,38 @@ function rowParts(block, rowIndex) {
 }
 
 /**
+ * Parse step row values, supporting both:
+ * - icon | title | description
+ * - 01 | icon | title | description
+ * @param {string[]} parts
+ * @returns {{icon: string, title: string, description: string}}
+ */
+function parseStep(parts) {
+  if (!parts.length) return { icon: '', title: '', description: '' };
+
+  const hasLeadingNumber = /^\d{1,2}$/.test(parts[0]);
+  const start = hasLeadingNumber ? 1 : 0;
+  const icon = parts[start] || '';
+  const title = parts[start + 1] || '';
+  const description = parts.slice(start + 2).join(' | ');
+
+  return { icon, title, description };
+}
+
+/**
+ * Parse stat row values as value | label (supports extra pipes in label).
+ * @param {string[]} parts
+ * @returns {{value: string, label: string}}
+ */
+function parseStat(parts) {
+  if (!parts.length) return { value: '', label: '' };
+  return {
+    value: parts[0] || '',
+    label: parts.slice(1).join(' | '),
+  };
+}
+
+/**
  * Tiny element factory.
  * @param {string} tag
  * @param {string} className
@@ -79,6 +111,17 @@ function splitValue(value) {
     main: match[1].trim(),
     suffix: match[2].trim(),
   };
+}
+
+/**
+ * Convert authored break text into real line breaks for title rich text.
+ * @param {string} html
+ * @returns {string}
+ */
+function normalizeBreakMarkup(html) {
+  return (html || '')
+    .replace(/&lt;br\s*\/?&gt;/gi, '<br>')
+    .replace(/<br\s*\/?>/gi, '<br>');
 }
 
 /**
@@ -164,15 +207,15 @@ export default function decorate(block) {
   ];
 
   const steps = stepRows
-    .map((rowIndex) => rowParts(block, rowIndex))
-    .map(([icon, title, description], index) => {
-      if (icon || title || description) return { icon, title, description };
+    .map((rowIndex) => parseStep(rowParts(block, rowIndex)))
+    .map((step, index) => {
+      if (step.icon || step.title || step.description) return step;
       return defaultSteps[index];
     });
   const stats = statRows
-    .map((rowIndex) => rowParts(block, rowIndex))
-    .map(([value, label], index) => {
-      if (value || label) return { value, label };
+    .map((rowIndex) => parseStat(rowParts(block, rowIndex)))
+    .map((stat, index) => {
+      if (stat.value || stat.label) return stat;
       return defaultStats[index];
     });
 
@@ -185,7 +228,7 @@ export default function decorate(block) {
   const titleEl = el('h2', 'hiws-title');
   const titleCell = rowCell(block, 1);
   if (titleCell) {
-    titleEl.innerHTML = titleCell.innerHTML;
+    titleEl.innerHTML = normalizeBreakMarkup(titleCell.innerHTML);
   } else {
     titleEl.textContent = 'From onboarding to order in under an hour';
   }

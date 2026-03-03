@@ -39,16 +39,6 @@ function cellText(row) {
 }
 
 /**
- * Get row HTML from the value column.
- * @param {HTMLElement | undefined} row
- * @returns {string}
- */
-function cellHTML(row) {
-  const cell = getCell(row);
-  return cell ? cell.innerHTML.trim() : '';
-}
-
-/**
  * Parse a pipe-delimited card row.
  * @param {string} text
  * @returns {string[]}
@@ -154,8 +144,8 @@ export default function decorate(block) {
   if (rows.length < 5) return;
 
   const sectionTag = cellText(rows[0]);
-  const titleHTML = cellHTML(rows[1]);
-  const subtitleHTML = cellHTML(rows[2]);
+  const titleText = cellText(rows[1]);
+  const subtitleText = cellText(rows[2]);
   const ctaLabel = cellText(rows[3]);
   const ctaUrl = cellText(rows[4]);
 
@@ -199,30 +189,30 @@ export default function decorate(block) {
   inner.className = 'fg-inner';
 
   const header = document.createElement('header');
-  header.className = 'features-header';
+  header.className = 'fg-header';
 
   const headerLeft = document.createElement('div');
   headerLeft.className = 'fg-header-left';
 
   if (sectionTag) {
     const tagEl = document.createElement('p');
-    tagEl.className = 'section-tag';
+    tagEl.className = 'fg-kicker';
     tagEl.textContent = sectionTag;
     headerLeft.append(tagEl);
   }
 
   const heading = document.createElement('h2');
-  heading.className = 'section-title';
-  heading.innerHTML = titleHTML;
+  heading.className = 'fg-title';
+  heading.textContent = titleText;
   headerLeft.append(heading);
 
   const headerRight = document.createElement('div');
   headerRight.className = 'fg-header-right';
 
-  if (subtitleHTML) {
+  if (subtitleText) {
     const subtitle = document.createElement('p');
-    subtitle.className = 'section-sub';
-    subtitle.innerHTML = subtitleHTML;
+    subtitle.className = 'fg-subtitle';
+    subtitle.textContent = subtitleText;
     headerRight.append(subtitle);
   }
 

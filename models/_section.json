@@ -152,6 +152,7 @@
         "text",
         "targeted-block",
         "product-recommendations",
+        "product-highlights",
         "quiz-router"
       ]
     }

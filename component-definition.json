@@ -335,6 +335,18 @@
       "id": "product",
       "components": [
         {
+          "title": "Product Highlights",
+          "id": "product-highlights",
+          "model": "product-highlights",
+          "plugins": {
+            "da": {
+              "name": "product-highlights",
+              "rows": 4,
+              "columns": 2
+            }
+          }
+        },
+        {
           "title": "Product Recommendations",
           "id": "product-recommendations",
           "model": "product-recommendations",
