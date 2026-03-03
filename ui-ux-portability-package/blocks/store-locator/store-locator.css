@@ -110,7 +110,7 @@
   --sl-action-text: #fff;
   --sl-action-border: #1558b0;
   --sl-action-shadow: 0 2px 8px rgb(26 115 232 / 25%);
-  --sl-ui-font-family: var(--type-body-2-default-font-family, "adobe-clean", roboto, "Roboto", sans-serif);
+  --sl-ui-font-family: var(--type-body-2-default-font-family, var(--type-base-font-family));
   --sl-ui-text-size: 13px;
   --sl-ui-text-weight: 600;
   --sl-ui-meta-size: 12px;

@@ -48,12 +48,12 @@
 .product-details__price .pdp-price-range .dropin-price {
   font: var(--type-price-strong-font);
   letter-spacing: var(--type-price-letter-spacing);
-  line-height: 1.15;
+  line-height: 1;
 }
 
 .product-details__price .pdp-price__amount--grey {
   font: var(--type-price-default-font);
-  letter-spacing: 0.02em;
+  letter-spacing: var(--type-price-letter-spacing);
   text-decoration-thickness: 1.5px;
   text-decoration-skip-ink: none;
 }

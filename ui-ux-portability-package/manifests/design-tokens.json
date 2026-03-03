@@ -6086,7 +6086,7 @@
     {
       "name": "--sl-ui-font-family",
       "prefix": "sl",
-      "value": "var(--type-body-2-default-font-family, \"adobe-clean\", roboto, \"Roboto\", sans-serif)",
+      "value": "var(--type-body-2-default-font-family, var(--type-base-font-family))",
       "definedIn": [
         "blocks/store-locator/store-locator.css"
       ],
@@ -6700,7 +6700,7 @@
     {
       "name": "--type-base-font-family",
       "prefix": "type",
-      "value": "\"Satoshi\", adobe-clean, roboto, roboto-fallback, system-ui, sans-serif",
+      "value": "\"Plus Jakarta Sans\", \"DM Sans\", \"Sora\", system-ui, sans-serif",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7203,7 +7203,7 @@
     {
       "name": "--type-display-font-family",
       "prefix": "type",
-      "value": "\"Clash Display\", var(--type-base-font-family)",
+      "value": "\"Syne\", \"Sora\", var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7217,7 +7217,7 @@
     {
       "name": "--type-fixed-font-family",
       "prefix": "type",
-      "value": "adobe-clean, \"Roboto Mono\", menlo, consolas, \"Liberation Mono\", monospace, system-ui, sans-serif",
+      "value": "ui-monospace, \"SFMono-Regular\", menlo, consolas, \"Liberation Mono\", monospace, system-ui, sans-serif",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7398,7 +7398,7 @@
     {
       "name": "--type-price-font-family",
       "prefix": "type",
-      "value": "\"Clash Display\", var(--type-base-font-family)",
+      "value": "\"Sora\", \"Syne\", var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],

@@ -118,7 +118,7 @@
 
 .product-teaser .price .price-regular {
     font: var(--type-price-default-font);
-    letter-spacing: 0.02em;
+    letter-spacing: var(--type-price-letter-spacing);
     color: rgb(255 255 255 / 60%);
     text-decoration: line-through;
     text-decoration-thickness: 1.5px;

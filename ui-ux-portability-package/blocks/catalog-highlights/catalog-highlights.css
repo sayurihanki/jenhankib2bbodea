@@ -34,9 +34,10 @@
   align-items: center;
   gap: 8px;
   color: var(--green-500, #1f7a4d);
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
   text-transform: uppercase;
   margin-bottom: 12px;
 }
@@ -55,7 +56,7 @@
   font-family: var(--type-display-font-family, sans-serif);
   font-size: clamp(3.2rem, 4vw, 5.2rem);
   font-weight: 700;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   line-height: 1.1;
 }
 
@@ -173,9 +174,9 @@
   color: var(--ink-900, #0e1410);
   font-family: var(--type-display-font-family, sans-serif);
   font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 .catalog-highlights .catalog-highlights-sku {
@@ -194,11 +195,11 @@
 
 .catalog-highlights .catalog-highlights-price {
   color: var(--ink-900, #0e1410);
-  font-family: var(--type-display-font-family, sans-serif);
-  font-size: 2.2rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font: var(--type-price-strong-font);
+  letter-spacing: var(--type-price-letter-spacing);
   line-height: 1;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
 }
 
 .catalog-highlights .catalog-highlights-add {

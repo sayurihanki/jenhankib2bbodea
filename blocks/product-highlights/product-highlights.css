@@ -73,9 +73,9 @@
 .product-highlights .section-title {
   font-family: var(--font-display, var(--type-display-font-family, sans-serif));
   font-size: clamp(28px, 4vw, 48px);
-  font-weight: 800;
-  letter-spacing: -.04em;
-  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.1;
   color: var(--color-ink-900, #0d1311);
 }
 
@@ -220,8 +220,9 @@
 .product-highlights .product-card__name {
   font-family: var(--font-display, var(--type-display-font-family, sans-serif));
   font-size: 15.5px;
-  font-weight: 700;
-  letter-spacing: -.02em;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  line-height: 1.2;
   color: var(--color-ink-900, #0d1311);
   margin-block-end: 4px;
 }
@@ -246,10 +247,11 @@
    Source: .product-card__price (line ~736)
    HTML:   <div class="product-card__price"><sup>$</sup>4,299</div>         */
 .product-highlights .product-card__price {
-  font-family: var(--font-display, var(--type-display-font-family, sans-serif));
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -.03em;
+  font: var(--type-price-strong-font);
+  letter-spacing: var(--type-price-letter-spacing);
+  line-height: 1;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
   color: var(--color-ink-900, #0d1311);
 }
 
