@@ -284,9 +284,9 @@ header nav .nav-sections ul > li:empty {
 
   header nav .nav-sections .default-content-wrapper > ul > li > p,
   header nav .nav-sections .default-content-wrapper > ul > li > a {
-    font-size: 1.75rem;
+    font-size: 1.85rem;
     font-weight: 700;
-    line-height: 2.4rem;
+    line-height: 2.5rem;
     letter-spacing: 0.02em;
     transition:
       color var(--nav-interaction-speed) ease-out,
@@ -332,7 +332,8 @@ header nav .nav-sections ul > li:empty {
     left: 0;
     padding: var(--spacing-xsmall) 0;
     position: absolute;
-    top: calc(100% + var(--spacing-xsmall));
+    top: calc(100% + var(--spacing-small));
+    z-index: 20;
     background: var(--glass-bg-strong);
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
