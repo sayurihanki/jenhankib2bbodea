@@ -258,7 +258,7 @@
           "model": "how-it-works-stats",
           "plugins": {
             "da": {
-              "rows": 10,
+              "rows": 12,
               "columns": 1,
               "fields": [
                 {
@@ -300,6 +300,14 @@
                 {
                   "name": "stat4",
                   "selector": "div:nth-child(10)>div:nth-child(1)"
+                },
+                {
+                  "name": "buttonPrimary",
+                  "selector": "div:nth-child(11)>div:nth-child(1)>a"
+                },
+                {
+                  "name": "buttonSecondary",
+                  "selector": "div:nth-child(12)>div:nth-child(1)>a"
                 }
               ]
             }

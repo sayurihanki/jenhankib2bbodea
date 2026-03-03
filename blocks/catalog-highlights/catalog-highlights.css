@@ -52,11 +52,11 @@
 .catalog-highlights .catalog-highlights-title {
   margin: 0;
   color: var(--ink-900, #0e1410);
-  font-family: var(--type-display-font-family, 'Syne', sans-serif);
+  font-family: var(--type-price-font-family, 'Sora', sans-serif);
   font-size: clamp(3.2rem, 4vw, 5.2rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
 }
 
 .catalog-highlights .catalog-highlights-subtitle {

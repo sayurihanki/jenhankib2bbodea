@@ -189,20 +189,21 @@ export default function decorate(block) {
   inner.className = 'fg-inner';
 
   const header = document.createElement('header');
-  header.className = 'fg-header';
+  header.className = 'fg-header features-header';
 
   const headerLeft = document.createElement('div');
   headerLeft.className = 'fg-header-left';
 
   if (sectionTag) {
     const tagEl = document.createElement('p');
-    tagEl.className = 'fg-kicker';
+    // Keep legacy class names for cached/older CSS compatibility.
+    tagEl.className = 'fg-kicker section-tag';
     tagEl.textContent = sectionTag;
     headerLeft.append(tagEl);
   }
 
   const heading = document.createElement('h2');
-  heading.className = 'fg-title';
+  heading.className = 'fg-title section-title';
   heading.textContent = titleText;
   headerLeft.append(heading);
 
@@ -211,7 +212,7 @@ export default function decorate(block) {
 
   if (subtitleText) {
     const subtitle = document.createElement('p');
-    subtitle.className = 'fg-subtitle';
+    subtitle.className = 'fg-subtitle section-sub';
     subtitle.textContent = subtitleText;
     headerRight.append(subtitle);
   }

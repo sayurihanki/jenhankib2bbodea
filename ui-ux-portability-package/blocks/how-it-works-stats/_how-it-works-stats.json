@@ -6,7 +6,7 @@
       "model": "how-it-works-stats",
       "plugins": {
         "da": {
-          "rows": 10,
+          "rows": 12,
           "columns": 1,
           "fields": [
             { "name": "tag", "selector": "div:nth-child(1)>div:nth-child(1)" },
@@ -18,7 +18,9 @@
             { "name": "stat1", "selector": "div:nth-child(7)>div:nth-child(1)" },
             { "name": "stat2", "selector": "div:nth-child(8)>div:nth-child(1)" },
             { "name": "stat3", "selector": "div:nth-child(9)>div:nth-child(1)" },
-            { "name": "stat4", "selector": "div:nth-child(10)>div:nth-child(1)" }
+            { "name": "stat4", "selector": "div:nth-child(10)>div:nth-child(1)" },
+            { "name": "buttonPrimary", "selector": "div:nth-child(11)>div:nth-child(1)>a" },
+            { "name": "buttonSecondary", "selector": "div:nth-child(12)>div:nth-child(1)>a" }
           ]
         }
       }
@@ -96,6 +98,18 @@
           "name": "stat4",
           "label": "Stat 4 (value | label)",
           "value": ""
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "buttonPrimary",
+          "label": "Primary Button Link"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "buttonSecondary",
+          "label": "Secondary Button Link"
         }
       ]
     }

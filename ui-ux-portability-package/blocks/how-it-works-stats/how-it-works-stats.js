@@ -1,7 +1,7 @@
 /**
  * How-it-works-stats block for EDS document authoring.
  *
- * Table contract (1 column, 10 rows after block name):
+ * Table contract (1 column, 12 rows after block name):
  * 0 tag
  * 1 title (supports rich text)
  * 2 step 1: icon | title | description
@@ -12,6 +12,8 @@
  * 7 stat 2: value | label
  * 8 stat 3: value | label
  * 9 stat 4: value | label
+ * 10 primary CTA link
+ * 11 secondary CTA link
  */
 
 /**
@@ -80,6 +82,66 @@ function parseStat(parts) {
 }
 
 /**
+ * Validate URL protocols for CTA links.
+ * @param {string} url
+ * @returns {string}
+ */
+function sanitizeUrl(url) {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+
+  if (trimmed.startsWith('//')) return '';
+  if (['#', '/', './', '../', '?'].some((token) => trimmed.startsWith(token))) return trimmed;
+
+  try {
+    const parsed = new URL(trimmed, window.location.origin);
+    if (['http:', 'https:', 'mailto:', 'tel:'].includes(parsed.protocol)) return trimmed;
+    return '';
+  } catch {
+    return '';
+  }
+}
+
+/**
+ * Read CTA link from authored row.
+ * Supports a real link in rich text, or fallback `label | href`.
+ * @param {HTMLElement} block
+ * @param {number} rowIndex
+ * @returns {{href: string, text: string, target: string, rel: string} | null}
+ */
+function rowLink(block, rowIndex) {
+  const cell = rowCell(block, rowIndex);
+  if (!cell) return null;
+
+  const anchor = cell.querySelector('a[href]');
+  if (anchor) {
+    const href = sanitizeUrl(anchor.getAttribute('href') || '');
+    if (!href) return null;
+    return {
+      href,
+      text: anchor.textContent.trim() || 'Learn More',
+      target: anchor.getAttribute('target') || '',
+      rel: anchor.getAttribute('rel') || '',
+    };
+  }
+
+  const parts = rowText(block, rowIndex).split('|').map((part) => part.trim());
+  if (parts.length >= 2) {
+    const href = sanitizeUrl(parts[1]);
+    if (!href) return null;
+    return {
+      href,
+      text: parts[0] || 'Learn More',
+      target: '',
+      rel: '',
+    };
+  }
+
+  return null;
+}
+
+/**
  * Tiny element factory.
  * @param {string} tag
  * @param {string} className
@@ -134,7 +196,7 @@ function normalizeBreakMarkup(html) {
  */
 function buildStep(index, icon, title, description) {
   const number = String(index + 1).padStart(2, '0');
-  const step = el('div', 'hiws-step');
+  const step = el('div', 'hiws-step hiws-reveal');
   step.append(
     el('div', 'hiws-step-num', {}, [document.createTextNode(number)]),
     el('div', 'hiws-step-icon', {}, [document.createTextNode(icon || '•')]),
@@ -159,10 +221,64 @@ function buildStat(value, label) {
     parts.suffix ? el('span', '', {}, [document.createTextNode(parts.suffix)]) : null,
   );
 
-  return el('div', 'hiws-stat-item', {}, [
+  return el('div', 'hiws-stat-item hiws-reveal', {}, [
     valueEl,
     el('div', 'hiws-stat-label', {}, [document.createTextNode(label || '')]),
   ]);
+}
+
+/**
+ * Build CTA action button.
+ * @param {{href: string, text: string, target: string, rel: string}} link
+ * @param {'primary' | 'secondary'} variant
+ * @returns {HTMLAnchorElement}
+ */
+function buildAction(link, variant) {
+  const anchor = document.createElement('a');
+  anchor.className = `hiws-btn hiws-btn-${variant}`;
+  anchor.href = link.href;
+  anchor.textContent = link.text;
+  if (link.target) anchor.target = link.target;
+  if (link.rel) {
+    anchor.rel = link.rel;
+  } else if (link.target === '_blank') {
+    anchor.rel = 'noopener noreferrer';
+  }
+
+  const arrow = el('span', 'hiws-btn-arrow', { 'aria-hidden': 'true' }, [
+    document.createTextNode('→'),
+  ]);
+  anchor.append(arrow);
+  return anchor;
+}
+
+/**
+ * Reveal elements on scroll for staged motion.
+ * @param {HTMLElement} root
+ */
+function setupReveal(root) {
+  const targets = [...root.querySelectorAll('.hiws-reveal')];
+  if (!targets.length) return;
+
+  const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+  if (prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
+    targets.forEach((target) => target.classList.add('is-visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.16 });
+
+  targets.forEach((target, index) => {
+    target.style.setProperty('--hiws-delay', `${Math.min(index * 70, 700)}ms`);
+    observer.observe(target);
+  });
 }
 
 /**
@@ -173,6 +289,18 @@ export default function decorate(block) {
   const tag = rowText(block, 0) || 'How It Works';
   const stepRows = [2, 3, 4, 5];
   const statRows = [6, 7, 8, 9];
+  const primaryAction = rowLink(block, 10) || {
+    href: '#',
+    text: 'Request Demo',
+    target: '',
+    rel: '',
+  };
+  const secondaryAction = rowLink(block, 11) || {
+    href: '#',
+    text: 'Talk to Sales',
+    target: '',
+    rel: '',
+  };
   const defaultSteps = [
     {
       icon: '🏢',
@@ -223,9 +351,9 @@ export default function decorate(block) {
   hiwSection.append(el('div', 'hiws-bg', { 'aria-hidden': 'true' }));
 
   const inner = el('div', 'hiws-inner');
-  const tagEl = el('div', 'hiws-tag', {}, [document.createTextNode(tag)]);
+  const tagEl = el('div', 'hiws-tag hiws-reveal', {}, [document.createTextNode(tag)]);
 
-  const titleEl = el('h2', 'hiws-title');
+  const titleEl = el('h2', 'hiws-title hiws-reveal');
   const titleCell = rowCell(block, 1);
   if (titleCell) {
     titleEl.innerHTML = normalizeBreakMarkup(titleCell.innerHTML);
@@ -246,8 +374,14 @@ export default function decorate(block) {
   stats.forEach((stat) => {
     statsInner.append(buildStat(stat.value, stat.label));
   });
-  statsBand.append(statsInner);
+  const actions = el('div', 'hiws-actions hiws-reveal');
+  actions.append(
+    buildAction(primaryAction, 'primary'),
+    buildAction(secondaryAction, 'secondary'),
+  );
+  statsBand.append(statsInner, actions);
 
   block.textContent = '';
   block.append(hiwSection, statsBand);
+  setupReveal(block);
 }

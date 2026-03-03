@@ -1013,6 +1013,18 @@
         "name": "stat4",
         "label": "Stat 4 (value | label)",
         "value": ""
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "buttonPrimary",
+        "label": "Primary Button Link"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "buttonSecondary",
+        "label": "Secondary Button Link"
       }
     ]
   },
