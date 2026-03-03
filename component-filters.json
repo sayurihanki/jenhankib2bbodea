@@ -74,6 +74,10 @@
     ]
   },
   {
+    "id": "quiz-router",
+    "components": []
+  },
+  {
     "id": "search-bar",
     "components": []
   },
@@ -92,10 +96,6 @@
     "components": [
       "text"
     ]
-  },
-  {
-    "id": "quiz-router",
-    "components": []
   },
   {
     "id": "table",

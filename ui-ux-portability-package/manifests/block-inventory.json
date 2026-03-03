@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-02-27T05:14:05.854Z",
+  "generatedAt": "2026-03-03T02:13:16.669Z",
   "summary": {
-    "totalBlocks": 92,
-    "withStyles": 92,
-    "withRuntime": 92,
+    "totalBlocks": 93,
+    "withStyles": 93,
+    "withRuntime": 93,
     "byCategory": {
-      "interactive-content": 8,
+      "interactive-content": 9,
       "content": 21,
       "commerce": 54,
       "shell": 5,
@@ -1814,6 +1814,29 @@
       "hasStyles": true,
       "hasRuntime": true,
       "fileCount": 4
+    },
+    {
+      "name": "quiz-router",
+      "category": "interactive-content",
+      "subcategory": "engagement",
+      "title": "Quiz Router Block",
+      "overview": "The `quiz-router` block is a guided \"find your perfect product\" wizard that routes users to PLP (Product Listing Page), PDP (Product Detail Page), or a fragment based on authored question rows with option labels and destination URLs.",
+      "sourcePath": "blocks/quiz-router",
+      "files": {
+        "css": [
+          "blocks/quiz-router/quiz-router.css"
+        ],
+        "js": [
+          "blocks/quiz-router/quiz-router.js"
+        ],
+        "json": [
+          "blocks/quiz-router/_quiz-router.json"
+        ],
+        "readme": "blocks/quiz-router/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 8
     },
     {
       "name": "quote",

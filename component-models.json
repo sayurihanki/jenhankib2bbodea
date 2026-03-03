@@ -1572,6 +1572,39 @@
     "fields": []
   },
   {
+    "id": "quiz-router",
+    "fields": [
+      {
+        "component": "select",
+        "name": "rowType",
+        "label": "Row Type",
+        "description": "Use question to start a step, then add option rows below it.",
+        "options": [
+          {
+            "name": "Question",
+            "value": "question"
+          },
+          {
+            "name": "Option",
+            "value": "option"
+          }
+        ]
+      },
+      {
+        "component": "richtext",
+        "name": "label",
+        "label": "Question Text or Option Label",
+        "description": "For options, Label|URL is supported as a shorthand."
+      },
+      {
+        "component": "text",
+        "name": "url",
+        "label": "Destination URL (Options: #next or /path)",
+        "description": "Use #next or leave empty to advance; same-origin URLs route immediately."
+      }
+    ]
+  },
+  {
     "id": "quote",
     "fields": [
       {
@@ -1911,36 +1944,6 @@
   {
     "id": "table",
     "fields": []
-  },
-  {
-    "id": "quiz-router",
-    "fields": [
-      {
-        "component": "select",
-        "name": "rowType",
-        "label": "Row Type",
-        "options": [
-          {
-            "name": "Question",
-            "value": "question"
-          },
-          {
-            "name": "Option",
-            "value": "option"
-          }
-        ]
-      },
-      {
-        "component": "richtext",
-        "name": "label",
-        "label": "Question Text or Option Label"
-      },
-      {
-        "component": "text",
-        "name": "url",
-        "label": "Destination URL (Options Only)"
-      }
-    ]
   },
   {
     "id": "tab-item",

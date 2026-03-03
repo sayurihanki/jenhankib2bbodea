@@ -6,12 +6,12 @@
   --f4-glass: rgb(255 255 255 / 52%);
   --f4-glass-h: rgb(255 255 255 / 68%);
   --f4-gb: rgb(0 0 0 / 8%);
-  --f4-gb-f: rgb(136 33 244 / 40%);
+  --f4-gb-f: rgb(46 190 122 / 40%);
   --f4-text: var(--color-neutral-900, #292929);
   --f4-dim: var(--color-neutral-600, #8f8f8f);
   --f4-lbl: var(--color-neutral-700, #666);
-  --f4-a: var(--main-color-accent, #8821f4);
-  --f4-a2: #6d28d9;
+  --f4-a: var(--main-color-accent, #26a067);
+  --f4-a2: #1f7a4d;
   --f4-a3: #059669;
   --f4-err: var(--color-alert-800, #c35050);
   --f4-ok: var(--color-positive-800, #53824c);
@@ -62,7 +62,7 @@
 .form-4 .f4-orb:nth-child(1) {
   width: 700px;
   height: 700px;
-  background: radial-gradient(#c4b5fd, transparent 70%);
+  background: radial-gradient(#a8edcc, transparent 70%);
   top: -150px;
   left: -200px;
 
@@ -72,7 +72,7 @@
 .form-4 .f4-orb:nth-child(2) {
   width: 550px;
   height: 550px;
-  background: radial-gradient(#a78bfa, transparent 70%);
+  background: radial-gradient(#5fd49f, transparent 70%);
   top: 35%;
   right: -120px;
 
@@ -119,8 +119,8 @@
   z-index: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgb(136 33 244 / 3%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(136 33 244 / 3%) 1px, transparent 1px);
+    linear-gradient(rgb(46 190 122 / 3%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(46 190 122 / 3%) 1px, transparent 1px);
   background-size: 64px 64px;
 }
 
@@ -166,8 +166,8 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--f4-a);
-  background: rgb(136 33 244 / 6%);
-  border: 1px solid rgb(136 33 244 / 14%);
+  background: rgb(46 190 122 / 6%);
+  border: 1px solid rgb(46 190 122 / 14%);
   padding: 0.6rem 1.6rem;
   border-radius: 3.2rem;
 }
@@ -204,7 +204,7 @@
   box-shadow:
     0 0 0 1px rgb(255 255 255 / 50%) inset,
     0 4px 6px rgb(0 0 0 / 3%),
-    0 24px 80px rgb(136 33 244 / 6%),
+    0 24px 80px rgb(46 190 122 / 6%),
     0 48px 120px rgb(0 0 0 / 6%);
   position: relative;
 }
@@ -219,8 +219,8 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgb(136 33 244 / 20%) 30%,
-    rgb(109 40 217 / 25%) 50%,
+    rgb(46 190 122 / 20%) 30%,
+    rgb(31 122 77 / 25%) 50%,
     rgb(5 150 105 / 15%) 70%,
     transparent
   );
@@ -322,7 +322,7 @@
   background: var(--f4-a);
   border-color: var(--f4-a);
   color: #fff;
-  box-shadow: 0 4px 20px rgb(136 33 244 / 30%);
+  box-shadow: 0 4px 20px rgb(46 190 122 / 30%);
 }
 
 .form-4 .f4-sb--done {
@@ -535,8 +535,8 @@
   background: rgb(255 255 255 / 80%);
   border-color: var(--f4-gb-f);
   box-shadow:
-    0 0 0 3px rgb(136 33 244 / 10%),
-    0 0 24px rgb(136 33 244 / 5%) inset;
+    0 0 0 3px rgb(46 190 122 / 10%),
+    0 0 24px rgb(46 190 122 / 5%) inset;
 }
 
 .form-4 .f4-field--err .f4-fi {
@@ -644,17 +644,17 @@
 }
 
 .form-4 .f4-pc label:hover {
-  border-color: rgb(136 33 244 / 25%);
+  border-color: rgb(46 190 122 / 25%);
   color: var(--f4-text);
-  background: rgb(136 33 244 / 5%);
+  background: rgb(46 190 122 / 5%);
 }
 
 .form-4 .f4-pc input:checked + label {
-  background: rgb(136 33 244 / 10%);
-  border-color: rgb(136 33 244 / 40%);
+  background: rgb(46 190 122 / 10%);
+  border-color: rgb(46 190 122 / 40%);
   color: var(--f4-a);
   font-weight: 500;
-  box-shadow: 0 2px 12px rgb(136 33 244 / 10%);
+  box-shadow: 0 2px 12px rgb(46 190 122 / 10%);
 }
 
 .form-4 .f4-pc--wide {
@@ -686,13 +686,13 @@
   border-radius: 50%;
   background: var(--f4-a);
   border: 3px solid #fff;
-  box-shadow: 0 2px 12px rgb(136 33 244 / 35%);
+  box-shadow: 0 2px 12px rgb(46 190 122 / 35%);
   cursor: pointer;
   transition: box-shadow 0.2s;
 }
 
 .form-4 .f4-fslider::-webkit-slider-thumb:hover {
-  box-shadow: 0 4px 20px rgb(136 33 244 / 50%);
+  box-shadow: 0 4px 20px rgb(46 190 122 / 50%);
 }
 
 .form-4 .f4-fslider::-moz-range-thumb {
@@ -701,7 +701,7 @@
   border-radius: 50%;
   background: var(--f4-a);
   border: 3px solid #fff;
-  box-shadow: 0 2px 12px rgb(136 33 244 / 35%);
+  box-shadow: 0 2px 12px rgb(46 190 122 / 35%);
   cursor: pointer;
 }
 
@@ -808,7 +808,7 @@
 .form-4 .f4-tswitch input:checked + .f4-ttrack::after {
   transform: translateX(2rem);
   background: #fff;
-  box-shadow: 0 2px 8px rgb(136 33 244 / 30%);
+  box-shadow: 0 2px 8px rgb(46 190 122 / 30%);
 }
 
 /* ── Dropzone ───────────────────────────────── */
@@ -828,8 +828,8 @@
 
 .form-4 .f4-dropzone:hover,
 .form-4 .f4-dropzone--over {
-  border-color: rgb(136 33 244 / 30%);
-  background: rgb(136 33 244 / 4%);
+  border-color: rgb(46 190 122 / 30%);
+  background: rgb(46 190 122 / 4%);
 }
 
 .form-4 .f4-dropzone input[type='file'] {
@@ -1029,7 +1029,7 @@
   position: relative;
   overflow: hidden;
   transition: all 0.25s;
-  box-shadow: 0 4px 24px rgb(136 33 244 / 25%);
+  box-shadow: 0 4px 24px rgb(46 190 122 / 25%);
 }
 
 .form-4 .f4-bnx::before {
@@ -1043,7 +1043,7 @@
 
 .form-4 .f4-bnx:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgb(136 33 244 / 35%);
+  box-shadow: 0 8px 32px rgb(46 190 122 / 35%);
 }
 
 .form-4 .f4-bnx:hover::before {
@@ -1079,12 +1079,12 @@
 }
 
 .form-4 .f4-bsub {
-  background: linear-gradient(135deg, var(--f4-a), #e74694);
-  box-shadow: 0 4px 24px rgb(136 33 244 / 25%);
+  background: linear-gradient(135deg, var(--f4-a), var(--f4-a2));
+  box-shadow: 0 4px 24px rgb(46 190 122 / 25%);
 }
 
 .form-4 .f4-bsub:hover {
-  box-shadow: 0 8px 32px rgb(136 33 244 / 35%);
+  box-shadow: 0 8px 32px rgb(46 190 122 / 35%);
 }
 
 /* ── Link ───────────────────────────────────── */
@@ -1198,8 +1198,8 @@
   align-items: center;
   gap: 0.6rem;
   padding: 0.6rem 1.4rem;
-  background: rgb(136 33 244 / 5%);
-  border: 1px solid rgb(136 33 244 / 12%);
+  background: rgb(46 190 122 / 5%);
+  border: 1px solid rgb(46 190 122 / 12%);
   border-radius: 3.2rem;
   font: var(--type-body-2-default-font, 300 1.4rem/2rem 'adobe-clean', sans-serif);
   color: var(--f4-text);
@@ -1264,7 +1264,7 @@
 
 .form-4 .f4-bgn {
   background: none;
-  border: 1px solid rgb(136 33 244 / 25%);
+  border: 1px solid rgb(46 190 122 / 25%);
   color: var(--f4-a);
   border-radius: 3.2rem;
   font: var(--type-body-2-default-font, 300 1.4rem/2rem 'adobe-clean', sans-serif);
@@ -1277,8 +1277,8 @@
 }
 
 .form-4 .f4-bgn:hover {
-  background: rgb(136 33 244 / 5%);
-  border-color: rgb(136 33 244 / 45%);
+  background: rgb(46 190 122 / 5%);
+  border-color: rgb(46 190 122 / 45%);
 }
 
 /* ── Responsive ─────────────────────────────── */

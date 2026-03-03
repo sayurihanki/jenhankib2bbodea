@@ -6,27 +6,27 @@
   --search-bar-form-shadow:
     0 0 0 1px rgb(255 255 255 / 50%) inset,
     0 4px 6px rgb(0 0 0 / 3%),
-    0 24px 80px rgb(136 33 244 / 4%);
-  --search-bar-form-hover-border: rgb(136 33 244 / 25%);
+    0 24px 80px rgb(46 190 122 / 4%);
+  --search-bar-form-hover-border: rgb(46 190 122 / 25%);
   --search-bar-form-hover-shadow:
     0 0 0 1px rgb(255 255 255 / 60%) inset,
     0 8px 16px rgb(0 0 0 / 5%),
-    0 32px 80px rgb(136 33 244 / 8%);
-  --search-bar-focus-ring-color: rgb(136 33 244 / 10%);
+    0 32px 80px rgb(46 190 122 / 8%);
+  --search-bar-focus-ring-color: rgb(46 190 122 / 10%);
   --search-bar-input-color: var(--color-neutral-900);
   --search-bar-placeholder-color: var(--color-neutral-500);
   --search-bar-autofill-bg: rgb(255 255 255 / 80%);
   --search-bar-autofill-text: var(--search-bar-input-color);
   --search-bar-icon-bg: transparent;
-  --search-bar-icon-border: var(--accent-1, #8821f4);
-  --search-bar-icon-color: var(--accent-1, #8821f4);
-  --search-bar-icon-hover-bg: var(--accent-1, #8821f4);
+  --search-bar-icon-border: var(--accent-1, #26a067);
+  --search-bar-icon-color: var(--accent-1, #26a067);
+  --search-bar-icon-hover-bg: var(--accent-1, #26a067);
   --search-bar-icon-hover-color: var(--color-neutral-50);
   --search-bar-results-bg: rgb(255 255 255 / 85%);
   --search-bar-results-border: var(--glass-border, rgb(255 255 255 / 70%));
   --search-bar-results-shadow:
     0 0 0 1px rgb(255 255 255 / 50%) inset,
-    0 24px 80px rgb(136 33 244 / 8%),
+    0 24px 80px rgb(46 190 122 / 8%),
     0 48px 120px rgb(0 0 0 / 10%);
   --search-bar-radius: var(--shape-border-radius-3, 24px);
 
@@ -269,9 +269,9 @@
 }
 
 .search-bar-results .dropin-product-item-card:hover {
-  box-shadow: 0 4px 16px rgb(136 33 244 / 8%);
+  box-shadow: 0 4px 16px rgb(46 190 122 / 8%);
   transform: translateY(-2px);
-  border-color: rgb(136 33 244 / 12%);
+  border-color: rgb(46 190 122 / 12%);
 }
 
 @media (min-width: 1440px) {

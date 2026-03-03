@@ -42,16 +42,16 @@
 .commerce-company-profile-wrapper .account-company-profile-card__actions .dropin-button,
 .commerce-company-profile-wrapper .account-company-profile-card__actions button {
     padding: var(--spacing-xxsmall) var(--spacing-small);
-    border: 1px solid rgb(136 33 244 / 25%);
+    border: 1px solid rgb(46 190 122 / 25%);
     border-radius: var(--shape-border-radius-3);
-    background: rgb(136 33 244 / 6%);
+    background: rgb(46 190 122 / 6%);
     color: var(--main-color-accent);
     transition: background-color var(--transition-fast) var(--ease-out), transform var(--transition-fast) var(--ease-out);
 }
 
 .commerce-company-profile-wrapper .account-company-profile-card__actions .dropin-button:hover,
 .commerce-company-profile-wrapper .account-company-profile-card__actions button:hover {
-    background: rgb(136 33 244 / 12%);
+    background: rgb(46 190 122 / 12%);
     transform: translateY(-1px);
 }
 

@@ -1,0 +1,4 @@
+section-metadata
+quizrouter-progress | true
+quizrouter-theme | card
+quizrouter-result-mode | navigate

@@ -1,16 +1,14 @@
 /**
  * Promo Popup — Modern Edition
- * Clean layout, Plus Jakarta Sans, larger wheel, consistent labels.
+ * Clean layout, premium motion, consistent labels.
  */
-
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 /* ─── Tokens ─────────────────────────────────────────────────────── */
 .promo-popup,
 main .promo-popup,
 .pp-overlay {
-  --pp-accent: var(--main-color-accent, #6d28d9);
-  --pp-accent-light: #8b5cf6;
+  --pp-accent: var(--main-color-accent, #1f7a4d);
+  --pp-accent-light: #2ebe7a;
   --pp-text-primary: #0f0f1a;
   --pp-text-secondary: #6b7280;
   --pp-text-muted: #9ca3af;
@@ -63,7 +61,7 @@ main .promo-popup,
   max-height: 95svh;
   overflow: hidden auto;
   border-radius: var(--pp-radius-xl);
-  font-family: 'Plus Jakarta Sans', var(--type-base-font-family, sans-serif);
+  font-family: var(--type-base-font-family, sans-serif);
   -webkit-font-smoothing: antialiased;
   background: rgb(255 255 255 / 35%);
   backdrop-filter: blur(16px) saturate(130%);
@@ -72,7 +70,7 @@ main .promo-popup,
     0 0 0 0.5px rgb(0 0 0 / 6%),
     0 4px 6px rgb(0 0 0 / 4%),
     0 20px 60px rgb(0 0 0 / 12%),
-    0 60px 120px rgb(109 40 217 / 8%),
+    0 60px 120px rgb(31 122 77 / 8%),
     inset 0 1px 0 rgb(255 255 255 / 100%);
   transform: translateY(24px) scale(0.95);
   transition: transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1);
@@ -142,8 +140,8 @@ main .promo-popup,
   gap: 0.35rem;
   padding: 0.4rem 1rem;
   border-radius: var(--pp-radius-full);
-  background: rgb(109 40 217 / 8%);
-  border: 1px solid rgb(109 40 217 / 14%);
+  background: rgb(31 122 77 / 8%);
+  border: 1px solid rgb(31 122 77 / 14%);
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -182,7 +180,7 @@ main .promo-popup,
 }
 
 .pp-headline span {
-  background: linear-gradient(135deg, #6d28d9 0%, #a78bfa 100%);
+  background: linear-gradient(135deg, #1f7a4d 0%, #5fd49f 100%);
   /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-background-clip: text;
   background-clip: text;
@@ -261,7 +259,7 @@ main .promo-popup,
   left: 50%;
   transform-origin: left center;
   margin-top: -0.48em;
-  font-family: 'Plus Jakarta Sans', var(--type-base-font-family, sans-serif);
+  font-family: var(--type-base-font-family, sans-serif);
   font-size: 1.25rem;
   font-weight: 600;
   color: rgb(0 0 0 / 75%);
@@ -352,15 +350,15 @@ main .promo-popup,
   border-radius: var(--pp-radius-full);
   border: none;
   cursor: pointer;
-  font-family: 'Plus Jakarta Sans', var(--type-base-font-family, sans-serif);
+  font-family: var(--type-base-font-family, sans-serif);
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.01em;
   color: #fff;
-  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  background: linear-gradient(135deg, #155230 0%, #1f7a4d 100%);
   box-shadow:
     0 1px 3px rgb(0 0 0 / 10%),
-    0 4px 20px rgb(109 40 217 / 35%),
+    0 4px 20px rgb(31 122 77 / 35%),
     inset 0 1px 0 rgb(255 255 255 / 15%);
   transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
   position: relative;
@@ -392,7 +390,7 @@ main .promo-popup,
   transform: translateY(-2px);
   box-shadow:
     0 2px 8px rgb(0 0 0 / 12%),
-    0 8px 28px rgb(109 40 217 / 45%),
+    0 8px 28px rgb(31 122 77 / 45%),
     inset 0 1px 0 rgb(255 255 255 / 15%);
 }
 
@@ -473,18 +471,18 @@ main .promo-popup,
   border-radius: var(--pp-radius-full);
   background: var(--pp-accent);
   color: #fff;
-  font-family: 'Plus Jakarta Sans', var(--type-base-font-family, sans-serif);
+  font-family: var(--type-base-font-family, sans-serif);
   font-weight: 600;
   font-size: 1.1rem;
   text-decoration: none;
   letter-spacing: 0.01em;
-  box-shadow: 0 2px 12px rgb(109 40 217 / 30%);
+  box-shadow: 0 2px 12px rgb(31 122 77 / 30%);
   transition: transform 0.15s, box-shadow 0.15s;
 }
 
 .pp-result-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgb(109 40 217 / 40%);
+  box-shadow: 0 4px 20px rgb(31 122 77 / 40%);
   color: #fff;
 }
 
@@ -493,7 +491,7 @@ main .promo-popup,
   background: none;
   border: none;
   color: var(--pp-text-muted);
-  font-family: 'Plus Jakarta Sans', var(--type-base-font-family, sans-serif);
+  font-family: var(--type-base-font-family, sans-serif);
   font-size: 1rem;
   cursor: pointer;
   padding: 0.2rem 0.5rem;

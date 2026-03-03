@@ -5,7 +5,7 @@
 - `head.html` for bootstrapping import maps and script-loading order.
 - `styles/` for global token, theme, and motion layers.
 - `fonts/` and `icons/` for all visual assets referenced by CSS/blocks.
-- `blocks/` for all `92` authored UI blocks.
+- `blocks/` for all `93` authored UI blocks.
 - `scripts/` runtime files needed by the UI layer:
   - core files (`aem.js`, `scripts.js`, `commerce.js`, delayed and analytics files)
   - `initializers/`
@@ -29,5 +29,5 @@
 - `commerce/core`: 36 blocks -> `commerce-account-header`, `commerce-account-nav`, `commerce-account-sidebar`, `commerce-addresses`, `commerce-cart`, `commerce-checkout`, `commerce-checkout-success`, `commerce-company-accept-invitation`, `commerce-company-create`, `commerce-company-credit`, `commerce-company-profile`, `commerce-company-roles-permissions`, `commerce-company-structure`, `commerce-company-users`, `commerce-confirm-account`, `commerce-create-account`, `commerce-create-password`, `commerce-create-return`, `commerce-customer-company`, `commerce-customer-details`, `commerce-customer-information`, `commerce-forgot-password`, `commerce-gift-options`, `commerce-login`, `commerce-mini-cart`, `commerce-order-cost-summary`, `commerce-order-header`, `commerce-order-product-list`, `commerce-order-returns`, `commerce-order-status`, `commerce-orders-list`, `commerce-return-header`, `commerce-returns-list`, `commerce-search-order`, `commerce-shipping-status`, `commerce-wishlist`
 - `content/general`: 21 blocks -> `age-gate`, `age-verification`, `blog-post`, `cards`, `cards-list`, `columns`, `enrichment`, `fragment`, `hero`, `hero-3`, `hero-cta`, `newsletter`, `product-details`, `product-list-page`, `product-recommendations`, `product-teaser`, `promo-popup`, `promotional-hero`, `quote`, `store-locator`, `targeted-block`
 - `forms/authorable-forms`: 4 blocks -> `form`, `form-2`, `form-3`, `form-4`
-- `interactive-content/engagement`: 8 blocks -> `accordion`, `carousel`, `circle-carousel`, `embed`, `modal`, `table`, `tabs`, `video`
+- `interactive-content/engagement`: 9 blocks -> `accordion`, `carousel`, `circle-carousel`, `embed`, `modal`, `quiz-router`, `table`, `tabs`, `video`
 - `shell/navigation-and-layout`: 5 blocks -> `footer`, `header`, `search`, `search-bar`, `top-banner`

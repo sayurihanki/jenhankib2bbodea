@@ -11,10 +11,10 @@ body::before {
   z-index: -2;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 80% 50% at 20% 20%, rgb(136 33 244 / 18%), transparent 50%),
-    radial-gradient(ellipse 60% 40% at 80% 10%, rgb(109 40 217 / 12%), transparent 45%),
-    radial-gradient(ellipse 50% 30% at 70% 80%, rgb(5 150 105 / 10%), transparent 45%),
-    radial-gradient(ellipse 40% 30% at 10% 70%, rgb(234 179 8 / 8%), transparent 45%);
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgb(46 190 122 / 16%), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 10%, rgb(31 122 77 / 12%), transparent 45%),
+    radial-gradient(ellipse 50% 30% at 70% 80%, rgb(15 61 36 / 11%), transparent 45%),
+    radial-gradient(ellipse 40% 30% at 10% 70%, rgb(201 168 76 / 9%), transparent 45%);
   filter: blur(60px);
   animation: drift 25s ease-in-out infinite;
 }

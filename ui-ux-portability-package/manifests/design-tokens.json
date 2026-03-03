@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-02-27T05:14:05.868Z",
+  "generatedAt": "2026-03-03T02:13:16.683Z",
   "summary": {
-    "totalTokens": 468,
-    "definedTokens": 442,
+    "totalTokens": 500,
+    "definedTokens": 474,
     "unresolvedTokens": 26,
     "byPrefix": {
       "accent": 3,
@@ -12,6 +12,7 @@
       "circle": 4,
       "color": 40,
       "column": 1,
+      "cream": 1,
       "d": 1,
       "desktop": 5,
       "dialog": 1,
@@ -22,9 +23,12 @@
       "float": 1,
       "gap": 1,
       "glass": 9,
+      "gold": 2,
+      "green": 10,
       "grid": 15,
       "header": 1,
       "hero": 34,
+      "ink": 11,
       "light": 1,
       "main": 1,
       "minifiedView": 1,
@@ -33,6 +37,7 @@
       "no": 1,
       "pp": 8,
       "promotional": 51,
+      "quiz": 7,
       "readonly": 1,
       "search": 21,
       "sel": 1,
@@ -45,7 +50,7 @@
       "text": 1,
       "top": 7,
       "transition": 3,
-      "type": 42,
+      "type": 43,
       "width": 1,
       "yes": 1
     }
@@ -75,7 +80,7 @@
     {
       "name": "--accent-2",
       "prefix": "accent",
-      "value": "#6d28d9",
+      "value": "var(--green-500)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -94,7 +99,7 @@
     {
       "name": "--accent-3",
       "prefix": "accent",
-      "value": "#059669",
+      "value": "var(--gold)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -108,7 +113,7 @@
     {
       "name": "--background-color",
       "prefix": "background",
-      "value": "#f7f6f4",
+      "value": "var(--cream)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -336,7 +341,7 @@
     {
       "name": "--color-brand-300",
       "prefix": "color",
-      "value": "#6d6d6d",
+      "value": "var(--ink-500)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -358,7 +363,7 @@
     {
       "name": "--color-brand-500",
       "prefix": "color",
-      "value": "#454545",
+      "value": "var(--ink-700)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -378,7 +383,7 @@
     {
       "name": "--color-brand-600",
       "prefix": "color",
-      "value": "#383838",
+      "value": "var(--ink-800)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -393,7 +398,7 @@
     {
       "name": "--color-brand-700",
       "prefix": "color",
-      "value": "#2b2b2b",
+      "value": "var(--ink-900)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -486,9 +491,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
-        "blocks/newsletter/newsletter.css"
+        "blocks/newsletter/newsletter.css",
+        "blocks/quiz-router/quiz-router.css"
       ],
       "status": "defined"
     },
@@ -518,48 +524,7 @@
     {
       "name": "--color-neutral-100",
       "prefix": "color",
-      "value": "#fafafa",
-      "definedIn": [
-        "styles/styles.css"
-      ],
-      "usageCount": 14,
-      "usedIn": [
-        "blocks/blog-post/blog-post.css",
-        "blocks/circle-carousel/circle-carousel.css",
-        "blocks/commerce-account-nav/commerce-account-nav.css",
-        "blocks/footer/footer.css",
-        "blocks/header/header.css",
-        "blocks/hero-cta/hero-cta.css",
-        "blocks/newsletter/newsletter.css",
-        "blocks/product-list-page/product-list-page.css",
-        "blocks/store-locator/store-locator.css",
-        "styles/styles.css"
-      ],
-      "status": "defined"
-    },
-    {
-      "name": "--color-neutral-200",
-      "prefix": "color",
-      "value": "#f5f5f5",
-      "definedIn": [
-        "styles/styles.css"
-      ],
-      "usageCount": 21,
-      "usedIn": [
-        "blocks/blog-post/blog-post.css",
-        "blocks/commerce-account-nav/commerce-account-nav.css",
-        "blocks/hero-cta/hero-cta.css",
-        "blocks/newsletter/newsletter.css",
-        "blocks/search-bar/search-bar.css",
-        "blocks/top-banner/top-banner.css",
-        "styles/styles.css"
-      ],
-      "status": "defined"
-    },
-    {
-      "name": "--color-neutral-300",
-      "prefix": "color",
-      "value": "#e8e8e8",
+      "value": "var(--ink-50)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -570,7 +535,50 @@
         "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/header/header.css",
         "blocks/hero-cta/hero-cta.css",
+        "blocks/newsletter/newsletter.css",
+        "blocks/product-list-page/product-list-page.css",
+        "blocks/quiz-router/quiz-router.css",
+        "blocks/store-locator/store-locator.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--color-neutral-200",
+      "prefix": "color",
+      "value": "#e8efe9",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 23,
+      "usedIn": [
+        "blocks/blog-post/blog-post.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
+        "blocks/hero-cta/hero-cta.css",
+        "blocks/newsletter/newsletter.css",
+        "blocks/quiz-router/quiz-router.css",
+        "blocks/search-bar/search-bar.css",
+        "blocks/top-banner/top-banner.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--color-neutral-300",
+      "prefix": "color",
+      "value": "var(--ink-100)",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 16,
+      "usedIn": [
+        "blocks/blog-post/blog-post.css",
+        "blocks/circle-carousel/circle-carousel.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
+        "blocks/header/header.css",
+        "blocks/hero-cta/hero-cta.css",
         "blocks/promotional-hero/promotional-hero.css",
+        "blocks/quiz-router/quiz-router.css",
         "blocks/store-locator/store-locator.css",
         "styles/styles.css"
       ],
@@ -579,7 +587,7 @@
     {
       "name": "--color-neutral-400",
       "prefix": "color",
-      "value": "#d6d6d6",
+      "value": "var(--ink-200)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -604,7 +612,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 44,
+      "usageCount": 45,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -619,6 +627,7 @@
         "blocks/newsletter/newsletter.css",
         "blocks/product-teaser/product-teaser.css",
         "blocks/promotional-hero/promotional-hero.css",
+        "blocks/quiz-router/quiz-router.css",
         "blocks/search-bar/search-bar.css",
         "styles/styles.css"
       ],
@@ -627,11 +636,11 @@
     {
       "name": "--color-neutral-500",
       "prefix": "color",
-      "value": "#b8b8b8",
+      "value": "var(--ink-300)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 9,
+      "usageCount": 10,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/cards/cards.css",
@@ -640,6 +649,7 @@
         "blocks/header/header.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-recommendations/product-recommendations.css",
+        "blocks/quiz-router/quiz-router.css",
         "blocks/search-bar/search-bar.css"
       ],
       "status": "defined"
@@ -647,24 +657,25 @@
     {
       "name": "--color-neutral-600",
       "prefix": "color",
-      "value": "#8f8f8f",
+      "value": "var(--ink-400)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 6,
+      "usageCount": 8,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/form-4/form-4.css",
         "blocks/form/form.css",
-        "blocks/hero-cta/hero-cta.css"
+        "blocks/hero-cta/hero-cta.css",
+        "blocks/quiz-router/quiz-router.css"
       ],
       "status": "defined"
     },
     {
       "name": "--color-neutral-700",
       "prefix": "color",
-      "value": "#666",
+      "value": "var(--ink-500)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -688,7 +699,7 @@
     {
       "name": "--color-neutral-800",
       "prefix": "color",
-      "value": "#3d3d3d",
+      "value": "var(--ink-700)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -709,11 +720,11 @@
     {
       "name": "--color-neutral-900",
       "prefix": "color",
-      "value": "#292929",
+      "value": "var(--ink-900)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 30,
+      "usageCount": 32,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/cards-list/cards-list.css",
@@ -726,6 +737,7 @@
         "blocks/hero-3/hero-3.css",
         "blocks/newsletter/newsletter.css",
         "blocks/promotional-hero/promotional-hero.css",
+        "blocks/quiz-router/quiz-router.css",
         "blocks/search-bar/search-bar.css",
         "blocks/search/search.css",
         "blocks/top-banner/top-banner.css",
@@ -758,7 +770,7 @@
     {
       "name": "--color-positive-200",
       "prefix": "color",
-      "value": "#eff5ef",
+      "value": "var(--green-50)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -771,7 +783,7 @@
     {
       "name": "--color-positive-500",
       "prefix": "color",
-      "value": "#7fb078",
+      "value": "var(--green-300)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -795,7 +807,7 @@
     {
       "name": "--color-positive-800",
       "prefix": "color",
-      "value": "#53824c",
+      "value": "var(--green-600)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -821,7 +833,7 @@
     {
       "name": "--color-warning-500",
       "prefix": "color",
-      "value": "#e79f5c",
+      "value": "var(--gold-light)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -832,7 +844,7 @@
     {
       "name": "--color-warning-800",
       "prefix": "color",
-      "value": "#cc7a2e",
+      "value": "var(--gold)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -852,6 +864,19 @@
         "styles/styles.css"
       ],
       "status": "referenced-without-definition"
+    },
+    {
+      "name": "--cream",
+      "prefix": "cream",
+      "value": "#faf8f3",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
     },
     {
       "name": "--d",
@@ -1381,7 +1406,7 @@
     {
       "name": "--f4-a",
       "prefix": "f4",
-      "value": "var(--main-color-accent, #8821f4)",
+      "value": "var(--main-color-accent, #26a067)",
       "definedIn": [
         "blocks/form-4/form-4.css"
       ],
@@ -1394,11 +1419,11 @@
     {
       "name": "--f4-a2",
       "prefix": "f4",
-      "value": "#6d28d9",
+      "value": "#1f7a4d",
       "definedIn": [
         "blocks/form-4/form-4.css"
       ],
-      "usageCount": 4,
+      "usageCount": 5,
       "usedIn": [
         "blocks/form-4/form-4.css"
       ],
@@ -1485,7 +1510,7 @@
     {
       "name": "--f4-gb-f",
       "prefix": "f4",
-      "value": "rgb(136 33 244 / 40%)",
+      "value": "rgb(46 190 122 / 40%)",
       "definedIn": [
         "blocks/form-4/form-4.css"
       ],
@@ -1660,7 +1685,7 @@
     {
       "name": "--glass-bg",
       "prefix": "glass",
-      "value": "rgb(255 255 255 / 52%)",
+      "value": "rgb(255 255 255 / 58%)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -1681,7 +1706,7 @@
     {
       "name": "--glass-bg-hover",
       "prefix": "glass",
-      "value": "rgb(255 255 255 / 68%)",
+      "value": "rgb(255 255 255 / 72%)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -1697,7 +1722,7 @@
     {
       "name": "--glass-bg-strong",
       "prefix": "glass",
-      "value": "rgb(255 255 255 / 80%)",
+      "value": "rgb(255 255 255 / 84%)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -1776,7 +1801,7 @@
     {
       "name": "--glass-border",
       "prefix": "glass",
-      "value": "rgb(255 255 255 / 70%)",
+      "value": "rgb(255 255 255 / 74%)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -1797,7 +1822,7 @@
     {
       "name": "--glass-border-subtle",
       "prefix": "glass",
-      "value": "rgb(0 0 0 / 8%)",
+      "value": "rgb(15 61 36 / 12%)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -1837,6 +1862,156 @@
         "blocks/search-bar/search-bar.css",
         "blocks/search/search.css"
       ],
+      "status": "defined"
+    },
+    {
+      "name": "--gold",
+      "prefix": "gold",
+      "value": "#c9a84c",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--gold-light",
+      "prefix": "gold",
+      "value": "#e8c97a",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--green-100",
+      "prefix": "green",
+      "value": "#a8edcc",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--green-200",
+      "prefix": "green",
+      "value": "#5fd49f",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/footer/footer.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--green-300",
+      "prefix": "green",
+      "value": "#2ebe7a",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--green-400",
+      "prefix": "green",
+      "value": "#26a067",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--green-50",
+      "prefix": "green",
+      "value": "#e8faf2",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--green-500",
+      "prefix": "green",
+      "value": "#1f7a4d",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/header/header.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--green-600",
+      "prefix": "green",
+      "value": "#1a6640",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/header/header.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--green-700",
+      "prefix": "green",
+      "value": "#155230",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--green-800",
+      "prefix": "green",
+      "value": "#0f3d24",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--green-900",
+      "prefix": "green",
+      "value": "#0a2918",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
       "status": "defined"
     },
     {
@@ -2475,6 +2650,151 @@
       "status": "defined"
     },
     {
+      "name": "--ink-100",
+      "prefix": "ink",
+      "value": "#d8e5da",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--ink-200",
+      "prefix": "ink",
+      "value": "#b0c5b5",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/footer/footer.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--ink-300",
+      "prefix": "ink",
+      "value": "#7f9985",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/footer/footer.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--ink-400",
+      "prefix": "ink",
+      "value": "#5a7060",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--ink-50",
+      "prefix": "ink",
+      "value": "#f2f7f3",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--ink-500",
+      "prefix": "ink",
+      "value": "#3d5342",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--ink-600",
+      "prefix": "ink",
+      "value": "#2d3d30",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/header/header.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--ink-700",
+      "prefix": "ink",
+      "value": "#1f2b22",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 4,
+      "usedIn": [
+        "blocks/header/header.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--ink-800",
+      "prefix": "ink",
+      "value": "#161d18",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/header/header.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--ink-900",
+      "prefix": "ink",
+      "value": "#0e1410",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--ink-950",
+      "prefix": "ink",
+      "value": "#080c0a",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
       "name": "--light-color",
       "prefix": "light",
       "value": null,
@@ -2488,11 +2808,11 @@
     {
       "name": "--main-color-accent",
       "prefix": "main",
-      "value": "#8821f4",
+      "value": "var(--green-400)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 7,
+      "usageCount": 6,
       "usedIn": [
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
@@ -2529,7 +2849,7 @@
     {
       "name": "--nav-flyout-bg",
       "prefix": "nav",
-      "value": "rgb(250 250 252 / 98%)",
+      "value": "rgb(250 248 243 / 98%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -2542,7 +2862,7 @@
     {
       "name": "--nav-flyout-border",
       "prefix": "nav",
-      "value": "rgb(207 207 214 / 78%)",
+      "value": "rgb(176 197 181 / 68%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -2555,7 +2875,7 @@
     {
       "name": "--nav-flyout-shadow",
       "prefix": "nav",
-      "value": "0 16px 44px rgb(18 20 28 / 18%)",
+      "value": "0 16px 44px rgb(14 20 16 / 15%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -2584,7 +2904,7 @@
     {
       "name": "--nav-highlight-bg",
       "prefix": "nav",
-      "value": "rgb(136 33 244 / 5%)",
+      "value": "rgb(46 190 122 / 5%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -2610,7 +2930,7 @@
     {
       "name": "--nav-highlight-border",
       "prefix": "nav",
-      "value": "rgb(136 33 244 / 12%)",
+      "value": "rgb(46 190 122 / 12%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -2623,7 +2943,7 @@
     {
       "name": "--nav-highlight-shadow",
       "prefix": "nav",
-      "value": "0 0 0 1px rgb(255 255 255 / 50%) inset, 0 2px 8px rgb(136 33 244 / 8%)",
+      "value": "0 0 0 1px rgb(255 255 255 / 50%) inset, 0 2px 8px rgb(46 190 122 / 8%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -2662,7 +2982,7 @@
     {
       "name": "--nav-live-search-bg",
       "prefix": "nav",
-      "value": "linear-gradient(158deg, rgb(255 255 255 / 91%) 0%, rgb(248 250 252 / 86%) 100%)",
+      "value": "linear-gradient(158deg, rgb(255 255 255 / 93%) 0%, rgb(242 247 243 / 88%) 100%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -2675,7 +2995,7 @@
     {
       "name": "--nav-live-search-border",
       "prefix": "nav",
-      "value": "rgb(255 255 255 / 64%)",
+      "value": "rgb(232 250 242 / 72%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -2701,7 +3021,7 @@
     {
       "name": "--nav-live-search-shadow",
       "prefix": "nav",
-      "value": "0 1px 0 rgb(255 255 255 / 50%) inset,\n    0 12px 28px rgb(17 24 39 / 14%)",
+      "value": "0 1px 0 rgb(255 255 255 / 50%) inset,\n    0 12px 28px rgb(14 20 16 / 14%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -2842,7 +3162,7 @@
     {
       "name": "--newsletter-button-filled-bg",
       "prefix": "newsletter",
-      "value": "var(--accent-1, #8821f4)",
+      "value": "var(--accent-1, #26a067)",
       "definedIn": [
         "blocks/newsletter/newsletter.css"
       ],
@@ -2855,7 +3175,7 @@
     {
       "name": "--newsletter-button-filled-border",
       "prefix": "newsletter",
-      "value": "var(--accent-1, #8821f4)",
+      "value": "var(--accent-1, #26a067)",
       "definedIn": [
         "blocks/newsletter/newsletter.css"
       ],
@@ -3109,7 +3429,7 @@
     {
       "name": "--pp-accent",
       "prefix": "pp",
-      "value": "var(--main-color-accent, #6d28d9)",
+      "value": "var(--main-color-accent, #1f7a4d)",
       "definedIn": [
         "blocks/promo-popup/promo-popup.css"
       ],
@@ -3122,7 +3442,7 @@
     {
       "name": "--pp-accent-light",
       "prefix": "pp",
-      "value": "#8b5cf6",
+      "value": "#2ebe7a",
       "definedIn": [
         "blocks/promo-popup/promo-popup.css"
       ],
@@ -3872,6 +4192,97 @@
       "status": "defined"
     },
     {
+      "name": "--quiz-router-gap",
+      "prefix": "quiz",
+      "value": "var(--spacing-medium)",
+      "definedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--quiz-router-option-font-size",
+      "prefix": "quiz",
+      "value": "1rem",
+      "definedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--quiz-router-option-padding",
+      "prefix": "quiz",
+      "value": "16px 24px",
+      "definedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--quiz-router-option-radius",
+      "prefix": "quiz",
+      "value": "12px",
+      "definedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--quiz-router-padding",
+      "prefix": "quiz",
+      "value": "var(--spacing-large)",
+      "definedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--quiz-router-progress-font-size",
+      "prefix": "quiz",
+      "value": "0.875rem",
+      "definedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--quiz-router-question-font-size",
+      "prefix": "quiz",
+      "value": "1.5rem",
+      "definedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--readonly",
       "prefix": "readonly",
       "value": "empty) {\n    display: none",
@@ -3912,7 +4323,7 @@
     {
       "name": "--search-bar-focus-ring-color",
       "prefix": "search",
-      "value": "rgb(136 33 244 / 10%)",
+      "value": "rgb(46 190 122 / 10%)",
       "definedIn": [
         "blocks/search-bar/search-bar.css"
       ],
@@ -3964,7 +4375,7 @@
     {
       "name": "--search-bar-form-hover-border",
       "prefix": "search",
-      "value": "rgb(136 33 244 / 25%)",
+      "value": "rgb(46 190 122 / 25%)",
       "definedIn": [
         "blocks/search-bar/search-bar.css"
       ],
@@ -3977,7 +4388,7 @@
     {
       "name": "--search-bar-form-hover-shadow",
       "prefix": "search",
-      "value": "0 0 0 1px rgb(255 255 255 / 60%) inset,\n    0 8px 16px rgb(0 0 0 / 5%),\n    0 32px 80px rgb(136 33 244 / 8%)",
+      "value": "0 0 0 1px rgb(255 255 255 / 60%) inset,\n    0 8px 16px rgb(0 0 0 / 5%),\n    0 32px 80px rgb(46 190 122 / 8%)",
       "definedIn": [
         "blocks/search-bar/search-bar.css"
       ],
@@ -3990,7 +4401,7 @@
     {
       "name": "--search-bar-form-shadow",
       "prefix": "search",
-      "value": "0 0 0 1px rgb(255 255 255 / 50%) inset,\n    0 4px 6px rgb(0 0 0 / 3%),\n    0 24px 80px rgb(136 33 244 / 4%)",
+      "value": "0 0 0 1px rgb(255 255 255 / 50%) inset,\n    0 4px 6px rgb(0 0 0 / 3%),\n    0 24px 80px rgb(46 190 122 / 4%)",
       "definedIn": [
         "blocks/search-bar/search-bar.css"
       ],
@@ -4016,7 +4427,7 @@
     {
       "name": "--search-bar-icon-border",
       "prefix": "search",
-      "value": "var(--accent-1, #8821f4)",
+      "value": "var(--accent-1, #26a067)",
       "definedIn": [
         "blocks/search-bar/search-bar.css"
       ],
@@ -4029,7 +4440,7 @@
     {
       "name": "--search-bar-icon-color",
       "prefix": "search",
-      "value": "var(--accent-1, #8821f4)",
+      "value": "var(--accent-1, #26a067)",
       "definedIn": [
         "blocks/search-bar/search-bar.css"
       ],
@@ -4042,7 +4453,7 @@
     {
       "name": "--search-bar-icon-hover-bg",
       "prefix": "search",
-      "value": "var(--accent-1, #8821f4)",
+      "value": "var(--accent-1, #26a067)",
       "definedIn": [
         "blocks/search-bar/search-bar.css"
       ],
@@ -4146,7 +4557,7 @@
     {
       "name": "--search-bar-results-shadow",
       "prefix": "search",
-      "value": "0 0 0 1px rgb(255 255 255 / 50%) inset,\n    0 24px 80px rgb(136 33 244 / 8%),\n    0 48px 120px rgb(0 0 0 / 10%)",
+      "value": "0 0 0 1px rgb(255 255 255 / 50%) inset,\n    0 24px 80px rgb(46 190 122 / 8%),\n    0 48px 120px rgb(0 0 0 / 10%)",
       "definedIn": [
         "blocks/search-bar/search-bar.css"
       ],
@@ -4170,7 +4581,7 @@
     {
       "name": "--shadow-button",
       "prefix": "shadow",
-      "value": "0 4px 14px rgb(136 33 244 / 40%)",
+      "value": "0 4px 14px rgb(31 122 77 / 36%)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -4186,7 +4597,7 @@
     {
       "name": "--shadow-button-hover",
       "prefix": "shadow",
-      "value": "0 6px 20px rgb(136 33 244 / 50%)",
+      "value": "0 6px 20px rgb(31 122 77 / 48%)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -4202,7 +4613,7 @@
     {
       "name": "--shadow-focus",
       "prefix": "shadow",
-      "value": "0 0 0 3px var(--color-neutral-50), 0 0 0 5px var(--main-color-accent)",
+      "value": "0 0 0 3px var(--color-neutral-50), 0 0 0 5px rgb(46 190 122 / 45%)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -4218,7 +4629,7 @@
     {
       "name": "--shadow-glass",
       "prefix": "shadow",
-      "value": "0 8px 32px rgb(0 0 0 / 12%)",
+      "value": "0 8px 32px rgb(0 0 0 / 10%)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -4236,7 +4647,7 @@
     {
       "name": "--shadow-glass-hover",
       "prefix": "shadow",
-      "value": "0 12px 40px rgb(0 0 0 / 16%)",
+      "value": "0 12px 40px rgb(0 0 0 / 14%)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -5408,7 +5819,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 21,
+      "usageCount": 23,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-b2b-po-checkout-success/commerce-b2b-po-checkout-success.css",
@@ -5419,6 +5830,7 @@
         "blocks/commerce-return-header/commerce-return-header.css",
         "blocks/header/header.css",
         "blocks/promotional-hero/promotional-hero.css",
+        "blocks/quiz-router/quiz-router.css",
         "blocks/store-locator/store-locator.css",
         "styles/styles.css"
       ],
@@ -5431,7 +5843,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 89,
+      "usageCount": 91,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -5457,6 +5869,7 @@
         "blocks/newsletter/newsletter.css",
         "blocks/product-details/product-details.css",
         "blocks/promotional-hero/promotional-hero.css",
+        "blocks/quiz-router/quiz-router.css",
         "blocks/search-bar/search-bar.css",
         "blocks/store-locator/store-locator.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
@@ -5471,7 +5884,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 127,
+      "usageCount": 131,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -5508,6 +5921,7 @@
         "blocks/product-list-page/product-list-page.css",
         "blocks/product-teaser/product-teaser.css",
         "blocks/promotional-hero/promotional-hero.css",
+        "blocks/quiz-router/quiz-router.css",
         "blocks/search-bar/search-bar.css",
         "blocks/store-locator/store-locator.css",
         "blocks/top-banner/top-banner.css",
@@ -5848,11 +6262,11 @@
     {
       "name": "--type-base-font-family",
       "prefix": "type",
-      "value": "adobe-clean, roboto, roboto-fallback, system-ui, sans-serif",
+      "value": "\"DM Sans\", adobe-clean, roboto, roboto-fallback, system-ui, sans-serif",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 26,
+      "usageCount": 21,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/form-4/form-4.css",
@@ -5866,7 +6280,7 @@
     {
       "name": "--type-body-1-default-font",
       "prefix": "type",
-      "value": "normal normal 300 1.6rem/2.4rem var(--type-base-font-family)",
+      "value": "normal normal 400 1.6rem/2.4rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -5911,7 +6325,7 @@
     {
       "name": "--type-body-1-emphasized-font",
       "prefix": "type",
-      "value": "normal normal 700 1.6rem/2.4rem var(--type-base-font-family)",
+      "value": "normal normal 600 1.6rem/2.4rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -5935,7 +6349,7 @@
     {
       "name": "--type-body-1-strong-font",
       "prefix": "type",
-      "value": "normal normal 700 1.6rem/2.4rem var(--type-base-font-family)",
+      "value": "normal normal 600 1.6rem/2.4rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -5976,7 +6390,7 @@
     {
       "name": "--type-body-2-default-font",
       "prefix": "type",
-      "value": "normal normal 300 1.4rem/2rem var(--type-base-font-family)",
+      "value": "normal normal 400 1.4rem/2rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6040,7 +6454,7 @@
     {
       "name": "--type-body-2-emphasized-font",
       "prefix": "type",
-      "value": "normal normal 700 1.4rem/2rem var(--type-base-font-family)",
+      "value": "normal normal 600 1.4rem/2rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6068,7 +6482,7 @@
     {
       "name": "--type-body-2-strong-font",
       "prefix": "type",
-      "value": "normal normal 700 1.4rem/2rem var(--type-base-font-family)",
+      "value": "normal normal 600 1.4rem/2rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6104,7 +6518,7 @@
     {
       "name": "--type-button-1-font",
       "prefix": "type",
-      "value": "normal normal 400 2rem/2.6rem var(--type-base-font-family)",
+      "value": "normal normal 600 2rem/2.6rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6126,7 +6540,7 @@
     {
       "name": "--type-button-2-font",
       "prefix": "type",
-      "value": "normal normal 400 1.6rem/2.4rem var(--type-base-font-family)",
+      "value": "normal normal 600 1.6rem/2.4rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6265,7 +6679,7 @@
     {
       "name": "--type-display-1-font",
       "prefix": "type",
-      "value": "normal normal 300 6rem/7.2rem var(--type-base-font-family)",
+      "value": "normal normal 700 6rem/7.2rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6291,7 +6705,7 @@
     {
       "name": "--type-display-2-font",
       "prefix": "type",
-      "value": "normal normal 300 4.8rem/5.6rem var(--type-base-font-family)",
+      "value": "normal normal 700 4.8rem/5.6rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6320,7 +6734,7 @@
     {
       "name": "--type-display-3-font",
       "prefix": "type",
-      "value": "normal normal 300 3.4rem/4rem var(--type-base-font-family)",
+      "value": "normal normal 700 3.4rem/4rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6349,6 +6763,19 @@
       "status": "defined"
     },
     {
+      "name": "--type-display-font-family",
+      "prefix": "type",
+      "value": "\"Syne\", var(--type-base-font-family)",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 6,
+      "usedIn": [
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--type-fixed-font-family",
       "prefix": "type",
       "value": "adobe-clean, \"Roboto Mono\", menlo, consolas, \"Liberation Mono\", monospace, system-ui, sans-serif",
@@ -6364,7 +6791,7 @@
     {
       "name": "--type-headline-1-font",
       "prefix": "type",
-      "value": "normal normal 400 2.4rem/3.2rem var(--type-base-font-family)",
+      "value": "normal normal 700 2.4rem/3.2rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6421,7 +6848,7 @@
     {
       "name": "--type-headline-2-default-font",
       "prefix": "type",
-      "value": "normal normal 300 2rem/2.4rem var(--type-base-font-family)",
+      "value": "normal normal 600 2rem/2.4rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6459,7 +6886,7 @@
     {
       "name": "--type-headline-2-strong-font",
       "prefix": "type",
-      "value": "normal normal 700 2rem/2.4rem var(--type-base-font-family)",
+      "value": "normal normal 800 2rem/2.4rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],

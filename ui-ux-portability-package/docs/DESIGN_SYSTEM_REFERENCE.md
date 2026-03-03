@@ -41,12 +41,12 @@
 
 ## Component Inventory Summary
 
-- Total blocks: `92`
-- Blocks with CSS: `92`
-- Blocks with JS runtime: `92`
+- Total blocks: `93`
+- Blocks with CSS: `93`
+- Blocks with JS runtime: `93`
 
 Category distribution:
-- `interactive-content`: 8
+- `interactive-content`: 9
 - `content`: 21
 - `commerce`: 54
 - `shell`: 5
@@ -61,6 +61,7 @@ Category distribution:
 - `circle`: 4
 - `color`: 40
 - `column`: 1
+- `cream`: 1
 - `d`: 1
 - `desktop`: 5
 - `dialog`: 1
@@ -71,9 +72,12 @@ Category distribution:
 - `float`: 1
 - `gap`: 1
 - `glass`: 9
+- `gold`: 2
+- `green`: 10
 - `grid`: 15
 - `header`: 1
 - `hero`: 34
+- `ink`: 11
 - `light`: 1
 - `main`: 1
 - `minifiedView`: 1
@@ -82,6 +86,7 @@ Category distribution:
 - `no`: 1
 - `pp`: 8
 - `promotional`: 51
+- `quiz`: 7
 - `readonly`: 1
 - `search`: 21
 - `sel`: 1
@@ -94,6 +99,6 @@ Category distribution:
 - `text`: 1
 - `top`: 7
 - `transition`: 3
-- `type`: 42
+- `type`: 43
 - `width`: 1
 - `yes`: 1

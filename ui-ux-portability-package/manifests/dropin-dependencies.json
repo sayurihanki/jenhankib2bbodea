@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T05:14:05.951Z",
+  "generatedAt": "2026-03-03T02:13:16.773Z",
   "summary": {
     "totalPackages": 17,
     "undeclaredPackages": []
@@ -408,7 +408,7 @@
       "package": "@dropins/tools",
       "version": "~1.6.0",
       "source": "declared",
-      "importCount": 149,
+      "importCount": 150,
       "importSpecifiers": [
         "@dropins/tools/components.js",
         "@dropins/tools/event-bus.js",

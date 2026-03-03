@@ -8,9 +8,9 @@
   --newsletter-button-empty-bg: rgb(0 0 0 / 6%);
   --newsletter-button-empty-text: var(--color-neutral-700);
   --newsletter-button-empty-border: rgb(0 0 0 / 8%);
-  --newsletter-button-filled-bg: var(--accent-1, #8821f4);
+  --newsletter-button-filled-bg: var(--accent-1, #26a067);
   --newsletter-button-filled-text: var(--color-neutral-50);
-  --newsletter-button-filled-border: var(--accent-1, #8821f4);
+  --newsletter-button-filled-border: var(--accent-1, #26a067);
   --newsletter-block-padding-y: clamp(24px, 5vw, 56px);
   --newsletter-block-padding-x: clamp(16px, 4vw, 40px);
   --newsletter-space-heading-subheading: var(--spacing-small);
@@ -32,7 +32,7 @@
   box-shadow: var(--shadow-glass,
     0 0 0 1px rgb(255 255 255 / 50%) inset,
     0 4px 6px rgb(0 0 0 / 3%),
-    0 24px 80px rgb(136 33 244 / 6%),
+    0 24px 80px rgb(46 190 122 / 6%),
     0 48px 120px rgb(0 0 0 / 6%));
 }
 
@@ -373,10 +373,10 @@
 
 .newsletter-email:focus-visible {
   background: var(--glass-bg-strong, rgb(255 255 255 / 80%));
-  border-color: rgb(136 33 244 / 40%);
+  border-color: rgb(46 190 122 / 40%);
   box-shadow: var(--shadow-focus,
-    0 0 0 3px rgb(136 33 244 / 10%),
-    0 0 24px rgb(136 33 244 / 5%) inset);
+    0 0 0 3px rgb(46 190 122 / 10%),
+    0 0 24px rgb(46 190 122 / 5%) inset);
   outline: none;
 }
 
@@ -472,13 +472,13 @@
 
 .newsletter[data-email-state='filled'] .newsletter-submit {
   border-color: transparent;
-  background: linear-gradient(135deg, var(--accent-1, #8821f4), var(--accent-2, #6d28d9));
+  background: linear-gradient(135deg, var(--accent-1, #26a067), var(--accent-2, #1f7a4d));
   color: var(--newsletter-button-filled-text);
-  box-shadow: var(--shadow-button, 0 4px 24px rgb(136 33 244 / 25%));
+  box-shadow: var(--shadow-button, 0 4px 24px rgb(46 190 122 / 25%));
 }
 
 .newsletter[data-email-state='filled'] .newsletter-submit:hover {
-  box-shadow: var(--shadow-button-hover, 0 8px 32px rgb(136 33 244 / 35%));
+  box-shadow: var(--shadow-button-hover, 0 8px 32px rgb(46 190 122 / 35%));
 }
 
 /* stylelint-disable no-descending-specificity -- button-style/width variants intentionally override hover */

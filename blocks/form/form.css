@@ -98,7 +98,7 @@
 
 .form label[data-required]::after {
   content: '*';
-  color: var(--accent-1, #8821f4);
+  color: var(--accent-1, #26a067);
   margin-inline-start: 0.5ch;
 }
 
@@ -149,10 +149,10 @@
 .form select:focus,
 .form textarea:focus {
   background: var(--glass-bg-strong, rgb(255 255 255 / 80%));
-  border-color: rgb(136 33 244 / 40%);
+  border-color: rgb(46 190 122 / 40%);
   box-shadow: var(--shadow-focus,
-    0 0 0 3px rgb(136 33 244 / 10%),
-    0 0 24px rgb(136 33 244 / 5%) inset);
+    0 0 0 3px rgb(46 190 122 / 10%),
+    0 0 24px rgb(46 190 122 / 5%) inset);
   transform: translateY(-1px);
 }
 
@@ -207,10 +207,10 @@
 }
 
 .form button[type='submit'].button {
-  background: linear-gradient(135deg, var(--accent-1, #8821f4), var(--accent-2, #6d28d9));
+  background: linear-gradient(135deg, var(--accent-1, #26a067), var(--accent-2, #1f7a4d));
   color: var(--color-neutral-50, #fff);
   border: none;
-  box-shadow: var(--shadow-button, 0 4px 24px rgb(136 33 244 / 25%));
+  box-shadow: var(--shadow-button, 0 4px 24px rgb(46 190 122 / 25%));
   transition:
     transform 0.3s var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1)),
     box-shadow 0.3s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
@@ -218,7 +218,7 @@
 
 .form button[type='submit'].button:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-button-hover, 0 8px 32px rgb(136 33 244 / 35%));
+  box-shadow: var(--shadow-button-hover, 0 8px 32px rgb(46 190 122 / 35%));
 }
 
 .form button[type='submit'].button:disabled {
@@ -240,7 +240,7 @@
 
 .form button[type='reset'].button:hover {
   background: var(--glass-bg-hover, rgb(255 255 255 / 68%));
-  border-color: rgb(136 33 244 / 15%);
+  border-color: rgb(46 190 122 / 15%);
   color: var(--color-neutral-900, #292929);
 }
 
@@ -284,19 +284,19 @@
 }
 
 .form .toggle-wrapper input:checked + .slider {
-  background: var(--accent-1, #8821f4);
-  border-color: var(--accent-1, #8821f4);
+  background: var(--accent-1, #26a067);
+  border-color: var(--accent-1, #26a067);
 }
 
 .form .toggle-wrapper input:focus + .slider {
   box-shadow: var(--shadow-focus,
-    0 0 0 3px rgb(136 33 244 / 10%),
-    0 0 24px rgb(136 33 244 / 5%) inset);
+    0 0 0 3px rgb(46 190 122 / 10%),
+    0 0 24px rgb(46 190 122 / 5%) inset);
 }
 
 .form .toggle-wrapper input:checked + .slider::before {
   transform: translateX(24px);
-  box-shadow: 0 2px 8px rgb(136 33 244 / 30%);
+  box-shadow: 0 2px 8px rgb(46 190 122 / 30%);
 }
 
 @media (prefers-reduced-motion: reduce) {

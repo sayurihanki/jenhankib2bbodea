@@ -1913,6 +1913,36 @@
     "fields": []
   },
   {
+    "id": "quiz-router",
+    "fields": [
+      {
+        "component": "select",
+        "name": "rowType",
+        "label": "Row Type",
+        "options": [
+          {
+            "name": "Question",
+            "value": "question"
+          },
+          {
+            "name": "Option",
+            "value": "option"
+          }
+        ]
+      },
+      {
+        "component": "richtext",
+        "name": "label",
+        "label": "Question Text or Option Label"
+      },
+      {
+        "component": "text",
+        "name": "url",
+        "label": "Destination URL (Options Only)"
+      }
+    ]
+  },
+  {
     "id": "tab-item",
     "fields": [
       {

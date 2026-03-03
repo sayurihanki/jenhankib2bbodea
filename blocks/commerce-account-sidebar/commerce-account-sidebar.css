@@ -30,7 +30,7 @@
 }
 
 .commerce-account-sidebar-wrapper .commerce-account-sidebar .commerce-account-sidebar-item-active {
-    background: linear-gradient(90deg, rgb(136 33 244 / 10%) 0%, rgb(136 33 244 / 3%) 100%);
+    background: linear-gradient(90deg, rgb(46 190 122 / 10%) 0%, rgb(46 190 122 / 3%) 100%);
 }
 
 .commerce-account-sidebar-wrapper .commerce-account-sidebar .commerce-account-sidebar-item-active::before {

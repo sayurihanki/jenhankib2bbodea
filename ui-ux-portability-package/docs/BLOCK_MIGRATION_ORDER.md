@@ -98,6 +98,7 @@
 | `product-teaser` | `content` | `general` | 1 | 2 |
 | `promo-popup` | `content` | `general` | 1 | 1 |
 | `promotional-hero` | `content` | `general` | 1 | 1 |
+| `quiz-router` | `interactive-content` | `engagement` | 1 | 1 |
 | `quote` | `content` | `general` | 1 | 1 |
 | `search` | `shell` | `navigation-and-layout` | 1 | 1 |
 | `search-bar` | `shell` | `navigation-and-layout` | 1 | 1 |
