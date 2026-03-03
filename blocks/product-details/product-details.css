@@ -31,6 +31,33 @@
   margin-top: var(--spacing-medium);
 }
 
+.product-details__price .pdp-price,
+.product-details__price .pdp-price__amount,
+.product-details__price .pdp-price__amount-special,
+.product-details__price .pdp-price-range,
+.product-details__price .pdp-price-range .dropin-price {
+  font-family: var(--type-price-font-family);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.product-details__price .pdp-price__amount,
+.product-details__price .pdp-price__amount-special,
+.product-details__price .pdp-price-range .dropin-price {
+  font: var(--type-price-strong-font);
+  letter-spacing: var(--type-price-letter-spacing);
+  line-height: 1.15;
+}
+
+.product-details__price .pdp-price__amount--grey {
+  font: var(--type-price-default-font);
+  letter-spacing: 0.02em;
+  text-decoration-thickness: 1.5px;
+  text-decoration-skip-ink: none;
+}
+
 .product-details__gallery .pdp-carousel {
   max-height: 60vh;
 }

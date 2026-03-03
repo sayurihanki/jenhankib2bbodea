@@ -109,16 +109,20 @@
 }
 
 .product-teaser .price {
-    font: var(--type-headline-2-strong-font);
-    letter-spacing: var(--type-headline-2-strong-letter-spacing);
+    font: var(--type-price-strong-font);
+    letter-spacing: var(--type-price-letter-spacing);
+    font-variant-numeric: lining-nums tabular-nums;
+    font-feature-settings: "lnum" 1, "tnum" 1;
     color: var(--color-neutral-50);
 }
 
 .product-teaser .price .price-regular {
-    font: var(--type-headline-2-default-font);
-    letter-spacing: var(--type-headline-2-default-letter-spacing);
+    font: var(--type-price-default-font);
+    letter-spacing: 0.02em;
     color: rgb(255 255 255 / 60%);
     text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+    text-decoration-skip-ink: none;
 }
 
 .product-teaser .price .price-range {
@@ -128,13 +132,13 @@
 }
 
 .product-teaser .price .price-range .price-from {
-    font: var(--type-headline-2-strong-font);
-    letter-spacing: var(--type-headline-2-strong-letter-spacing);
+    font: var(--type-price-strong-font);
+    letter-spacing: var(--type-price-letter-spacing);
 }
 
 .product-teaser .price .price-final {
-    font: var(--type-headline-2-strong-font);
-    letter-spacing: var(--type-headline-2-strong-letter-spacing);
+    font: var(--type-price-strong-font);
+    letter-spacing: var(--type-price-letter-spacing);
     font-size: 20px;
     line-height: 28px;
     padding-right: 24px;

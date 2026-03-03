@@ -119,6 +119,10 @@
   --spacing-xxhuge: 192px;
   --type-base-font-family: "DM Sans", adobe-clean, roboto, roboto-fallback, system-ui, sans-serif;
   --type-display-font-family: "Syne", var(--type-base-font-family);
+  --type-price-font-family: "Sora", "DM Sans", adobe-clean, roboto, roboto-fallback, system-ui, sans-serif;
+  --type-price-default-font: normal normal 600 2rem/2.4rem var(--type-price-font-family);
+  --type-price-strong-font: normal normal 700 2rem/2.4rem var(--type-price-font-family);
+  --type-price-letter-spacing: 0.01em;
   --type-display-1-font: normal normal 700 6rem/7.2rem var(--type-display-font-family);
   --type-display-1-letter-spacing: 0.04em;
   --type-display-2-font: normal normal 700 4.8rem/5.6rem var(--type-display-font-family);
