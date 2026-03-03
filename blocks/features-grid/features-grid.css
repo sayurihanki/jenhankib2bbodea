@@ -20,7 +20,6 @@
   isolation: isolate;
   background: rgb(250 248 243 / 72%);
   backdrop-filter: var(--glass-blur-sm, blur(12px)) var(--glass-saturate, saturate(160%));
-  -webkit-backdrop-filter: var(--glass-blur-sm, blur(12px)) var(--glass-saturate, saturate(160%));
   border-top: 1px solid rgb(216 229 218 / 68%);
   border-bottom: 1px solid rgb(216 229 218 / 68%);
   padding-block: clamp(64px, 7.5vw, 100px);
@@ -38,7 +37,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 48px;
   align-items: start;
-  margin-block-end: clamp(56px, 7vw, 104px);
+  margin-block-end: clamp(84px, 9vw, 148px);
 }
 
 .features-grid .fg-header-left {
@@ -61,7 +60,7 @@
 }
 
 .features-grid .fg-title {
-  margin: 0;
+  margin: 0 0 clamp(16px, 2.2vw, 34px);
   font-family: var(--font-display, var(--type-display-font-family, sans-serif));
   font-size: clamp(34px, 4.4vw, 60px);
   font-weight: 700;
@@ -121,6 +120,7 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 24px;
   align-items: stretch;
+  margin-top: clamp(8px, 1.2vw, 16px);
 }
 
 .features-grid .feat-card {
@@ -319,7 +319,7 @@
   .features-grid .fg-header {
     grid-template-columns: 1fr;
     gap: 24px;
-    margin-block-end: 56px;
+    margin-block-end: clamp(64px, 8vw, 96px);
   }
 
   .features-grid .fg-header-right {
@@ -355,6 +355,7 @@
   .features-grid .fg-grid {
     grid-template-columns: 1fr;
     gap: 16px;
+    margin-top: 0;
   }
 
   .features-grid .feat-card,
