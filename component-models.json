@@ -943,6 +943,92 @@
     ]
   },
   {
+    "id": "how-it-works-stats-2",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "tag",
+        "label": "Section Tag",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "title",
+        "label": "Title"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "step1",
+        "label": "Step 1 (icon | title | description)",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "step2",
+        "label": "Step 2 (icon | title | description)",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "step3",
+        "label": "Step 3 (icon | title | description)",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "step4",
+        "label": "Step 4 (icon | title | description)",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "stat1",
+        "label": "Stat 1 (value | label)",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "stat2",
+        "label": "Stat 2 (value | label)",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "stat3",
+        "label": "Stat 3 (value | label)",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "stat4",
+        "label": "Stat 4 (value | label)",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "buttonPrimary",
+        "label": "Primary Button Link"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "buttonSecondary",
+        "label": "Secondary Button Link"
+      }
+    ]
+  },
+  {
     "id": "how-it-works-stats",
     "fields": [
       {

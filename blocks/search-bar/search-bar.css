@@ -1,5 +1,5 @@
 .search-bar {
-  --search-bar-max-width: clamp(20rem, 92vw, 64rem);
+  --search-bar-max-width: clamp(22rem, 95vw, 78rem);
   --search-bar-layer: 30;
   --search-bar-form-bg: var(--glass-bg, rgb(255 255 255 / 52%));
   --search-bar-form-border: var(--glass-border, rgb(255 255 255 / 70%));
@@ -25,17 +25,19 @@
   --search-bar-icon-hover-color: var(--color-neutral-50);
   --search-bar-results-bg: linear-gradient(
     155deg,
-    rgb(255 255 255 / 78%),
-    rgb(247 255 251 / 60%) 45%,
-    rgb(235 248 241 / 56%)
+    rgb(255 255 255 / 95%),
+    rgb(249 255 252 / 93%) 45%,
+    rgb(241 249 245 / 90%)
   );
-  --search-bar-results-blur: blur(18px);
-  --search-bar-results-saturate: saturate(150%);
+  --search-bar-results-blur: blur(16px);
+  --search-bar-results-saturate: saturate(140%);
   --search-bar-results-border: var(--glass-border, rgb(255 255 255 / 70%));
   --search-bar-results-shadow:
     0 0 0 1px rgb(255 255 255 / 50%) inset,
     0 24px 80px rgb(46 190 122 / 8%),
     0 48px 120px rgb(0 0 0 / 10%);
+  --search-bar-result-card-bg: rgb(255 255 255 / 94%);
+  --search-bar-result-card-border: rgb(208 226 216 / 85%);
   --search-bar-radius: var(--shape-border-radius-3, 24px);
 
   margin: var(--spacing-small) auto 0;
@@ -277,8 +279,8 @@ main > .section.search-bar-live-results-open {
 }
 
 .search-bar-results .dropin-product-item-card {
-  background: var(--glass-bg, rgb(255 255 255 / 52%));
-  border: 1px solid var(--glass-border-subtle, rgb(0 0 0 / 8%));
+  background: var(--search-bar-result-card-bg);
+  border: 1px solid var(--search-bar-result-card-border);
   border-radius: var(--shape-border-radius-2, 8px);
   display: grid;
   gap: var(--spacing-small);
@@ -298,13 +300,13 @@ main > .section.search-bar-live-results-open {
 
 @media (min-width: 1440px) {
   .search-bar {
-    --search-bar-max-width: 70rem;
+    --search-bar-max-width: 84rem;
   }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
   .search-bar {
-    --search-bar-max-width: clamp(20rem, 94vw, 54rem);
+    --search-bar-max-width: clamp(22rem, 96vw, 64rem);
   }
 }
 

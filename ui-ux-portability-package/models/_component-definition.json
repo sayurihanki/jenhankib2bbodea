@@ -50,6 +50,9 @@
           "...": "../blocks/how-it-works-stats/_*.json#/definitions"
         },
         {
+          "...": "../blocks/how-it-works-stats-2/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/targeted-block/_*.json#/definitions"
         },
         {
