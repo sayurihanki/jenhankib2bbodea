@@ -11,7 +11,7 @@
   --hiws-ink500: #3d5844;
   --hiws-ink400: #587460;
   --hiws-white: #fff;
-  --hiws-font-syne: 'Syne', var(--type-base-font-family);
+  --hiws-font-sora: 'Sora', var(--type-base-font-family);
 }
 
 .how-it-works-stats .hiws-section {
@@ -74,7 +74,7 @@
   max-width: 720px;
   margin: 0;
   color: var(--hiws-white);
-  font-family: var(--hiws-font-syne);
+  font-family: var(--hiws-font-sora);
   font-size: clamp(32px, 4.2vw, 54px);
   font-weight: 800;
   letter-spacing: -0.04em;
@@ -119,7 +119,7 @@
   top: 24px;
   right: 24px;
   color: rgb(38 160 103 / 12%);
-  font-family: var(--hiws-font-syne);
+  font-family: var(--hiws-font-sora);
   font-size: 64px;
   font-weight: 800;
   letter-spacing: -0.06em;
@@ -136,7 +136,7 @@
 .how-it-works-stats .hiws-step-title {
   margin: 0 0 10px;
   color: var(--hiws-white);
-  font-family: var(--hiws-font-syne);
+  font-family: var(--hiws-font-sora);
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -247,7 +247,7 @@
 .how-it-works-stats .hiws-stat-value {
   margin-bottom: 8px;
   color: var(--hiws-white);
-  font-family: var(--hiws-font-syne);
+  font-family: var(--hiws-font-sora);
   font-size: 52px;
   font-weight: 800;
   letter-spacing: -0.05em;
@@ -261,7 +261,7 @@
 
 .how-it-works-stats .hiws-stat-label {
   color: var(--hiws-g100);
-  font-family: var(--hiws-font-syne);
+  font-family: var(--hiws-font-sora);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -288,7 +288,7 @@
   gap: 9px;
   border-radius: 12px;
   padding: 12px 22px;
-  font-family: var(--hiws-font-syne);
+  font-family: var(--hiws-font-sora);
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.015em;
