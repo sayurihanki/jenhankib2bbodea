@@ -19,6 +19,7 @@
       "image",
       "text",
       "targeted-block",
+      "live-block",
       "product-recommendations",
       "product-highlights",
       "quiz-router"

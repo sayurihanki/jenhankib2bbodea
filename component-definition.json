@@ -324,6 +324,16 @@
           }
         },
         {
+          "title": "Live Block",
+          "id": "live-block",
+          "model": "live-block",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
           "title": "Quiz Router",
           "id": "quiz-router",
           "model": "quiz-router",

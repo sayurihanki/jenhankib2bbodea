@@ -1,0 +1,207 @@
+.live-block {
+  color: var(--color-white, #fff);
+}
+
+.live-block .live-block-shell {
+  background:
+    radial-gradient(circle at 15% 0%, rgb(22 163 74 / 20%), transparent 40%),
+    radial-gradient(circle at 100% 100%, rgb(34 197 94 / 14%), transparent 45%),
+    linear-gradient(145deg, #03140f 0%, #051e17 50%, #06110d 100%);
+  border: 1px solid rgb(148 163 184 / 20%);
+  border-radius: 20px;
+  box-shadow:
+    0 22px 48px rgb(2 6 23 / 34%),
+    inset 0 1px 0 rgb(255 255 255 / 8%);
+  display: grid;
+  gap: 18px;
+  margin: 0 auto;
+  max-width: 980px;
+  padding: clamp(18px, 3vw, 28px);
+}
+
+.live-block .live-block-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.live-block .live-block-title {
+  color: var(--color-white, #fff);
+  font-family: var(--font-display, var(--type-display-font-family, sans-serif));
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.live-block .live-block-pill {
+  background: rgb(34 197 94 / 15%);
+  border: 1px solid rgb(34 197 94 / 35%);
+  border-radius: 999px;
+  color: #86efac;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .03em;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.live-block .live-block-description {
+  color: rgb(226 232 240 / 88%);
+  margin: 0;
+}
+
+.live-block .live-block-cta {
+  align-items: center;
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+  border: 0;
+  border-radius: 10px;
+  color: #04160f;
+  display: inline-flex;
+  font-weight: 700;
+  justify-content: center;
+  max-width: 180px;
+  padding: 10px 16px;
+  text-decoration: none;
+  transition: transform .18s ease, filter .18s ease;
+}
+
+.live-block .live-block-cta:hover,
+.live-block .live-block-cta:focus-visible {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.live-block .live-block-metrics {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.live-block .live-block-metric {
+  background: rgb(15 23 42 / 45%);
+  border: 1px solid rgb(148 163 184 / 20%);
+  border-radius: 12px;
+  display: grid;
+  gap: 4px;
+  min-height: 76px;
+  padding: 12px;
+}
+
+.live-block .live-block-metric-value {
+  color: #e2fce9;
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: .01em;
+  line-height: 1.2;
+}
+
+.live-block .live-block-metric.is-fallback .live-block-metric-value {
+  color: rgb(148 163 184 / 92%);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.live-block .live-block-metric-label {
+  color: rgb(226 232 240 / 70%);
+  font-size: .82rem;
+  margin-top: 2px;
+}
+
+.live-block .live-block-sparkline {
+  background: linear-gradient(180deg, rgb(15 23 42 / 42%) 0%, rgb(15 23 42 / 16%) 100%);
+  border: 1px solid rgb(148 163 184 / 15%);
+  border-radius: 12px;
+  min-height: 90px;
+  overflow: hidden;
+  padding: 6px;
+}
+
+.live-block .live-block-sparkline-svg {
+  display: block;
+  height: 76px;
+  width: 100%;
+}
+
+.live-block .live-block-activity {
+  background: rgb(15 23 42 / 34%);
+  border: 1px solid rgb(148 163 184 / 18%);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.live-block .live-block-activity-title {
+  color: #f8fafc;
+  font-size: .95rem;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.live-block .live-block-activity-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.live-block .live-block-activity-item {
+  align-items: center;
+  background: rgb(2 6 23 / 32%);
+  border: 1px solid rgb(148 163 184 / 12%);
+  border-radius: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.live-block .live-block-activity-main {
+  display: grid;
+  gap: 2px;
+}
+
+.live-block .live-block-activity-label {
+  color: #e2fce9;
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+.live-block .live-block-activity-sub {
+  color: rgb(203 213 225 / 82%);
+  font-size: .75rem;
+}
+
+.live-block .live-block-activity-amount {
+  color: #bbf7d0;
+  font-size: .85rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.live-block .live-block-empty {
+  color: rgb(226 232 240 / 78%);
+  margin: 0;
+}
+
+.live-block .live-block-shell-loading,
+.live-block .live-block-shell-error {
+  min-height: 210px;
+}
+
+@media (max-width: 900px) {
+  .live-block .live-block-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .live-block .live-block-activity-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .live-block .live-block-activity-amount {
+    margin-top: 2px;
+  }
+}
