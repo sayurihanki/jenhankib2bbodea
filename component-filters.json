@@ -9,8 +9,10 @@
     "id": "section",
     "components": [
       "hero",
+      "how-it-works-stats",
       "accordion",
       "cards",
+      "catalog-highlights",
       "carousel",
       "columns",
       "fragment",

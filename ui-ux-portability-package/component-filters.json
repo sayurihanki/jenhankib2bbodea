@@ -9,8 +9,10 @@
     "id": "section",
     "components": [
       "hero",
+      "how-it-works-stats",
       "accordion",
       "cards",
+      "catalog-highlights",
       "carousel",
       "columns",
       "fragment",
@@ -74,6 +76,10 @@
     ]
   },
   {
+    "id": "quiz-router",
+    "components": []
+  },
+  {
     "id": "search-bar",
     "components": []
   },
@@ -92,10 +98,6 @@
     "components": [
       "text"
     ]
-  },
-  {
-    "id": "quiz-router",
-    "components": []
   },
   {
     "id": "table",

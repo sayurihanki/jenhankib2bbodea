@@ -1,0 +1,219 @@
+.how-it-works-stats {
+  --hiws-g900: #061a0e;
+  --hiws-g700: #0f3d24;
+  --hiws-g500: #1a6640;
+  --hiws-g300: #26a067;
+  --hiws-g200: #2ebe7a;
+  --hiws-g150: #5fd49f;
+  --hiws-g100: #a8edcc;
+  --hiws-ink950: #06090a;
+  --hiws-ink700: #1d2d24;
+  --hiws-ink500: #3d5844;
+  --hiws-ink400: #587460;
+  --hiws-white: #fff;
+}
+
+.how-it-works-stats .hiws-section {
+  position: relative;
+  overflow: hidden;
+  background: var(--hiws-ink950);
+  padding: 100px 40px;
+}
+
+.how-it-works-stats .hiws-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 50%, rgb(38 160 103 / 8%) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 85% 50%, rgb(201 168 76 / 5%) 0%, transparent 70%);
+}
+
+.how-it-works-stats .hiws-inner,
+.how-it-works-stats .hiws-stats-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.how-it-works-stats .hiws-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  color: var(--hiws-g150);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.how-it-works-stats .hiws-tag::before {
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--hiws-g300);
+  content: '';
+}
+
+.how-it-works-stats .hiws-title {
+  max-width: 720px;
+  margin: 0;
+  color: var(--hiws-white);
+  font-family: var(--heading-font-family);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+}
+
+.how-it-works-stats .hiws-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 64px;
+}
+
+.how-it-works-stats .hiws-step {
+  position: relative;
+  border-right: 1px solid rgb(255 255 255 / 6%);
+  padding: 36px 32px;
+}
+
+.how-it-works-stats .hiws-step:last-child {
+  border-right: 0;
+}
+
+.how-it-works-stats .hiws-step-num {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: rgb(38 160 103 / 12%);
+  font-family: var(--heading-font-family);
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.how-it-works-stats .hiws-step-icon {
+  margin-bottom: 20px;
+  font-size: 32px;
+}
+
+.how-it-works-stats .hiws-step-title {
+  margin: 0 0 10px;
+  color: var(--hiws-white);
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.how-it-works-stats .hiws-step-desc {
+  margin: 0;
+  color: var(--hiws-ink400);
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.how-it-works-stats .hiws-step-connector {
+  position: absolute;
+  top: 50px;
+  right: -16px;
+  z-index: 2;
+  color: var(--hiws-g500);
+  font-size: 20px;
+}
+
+.how-it-works-stats .hiws-step:last-child .hiws-step-connector {
+  display: none;
+}
+
+.how-it-works-stats .hiws-stats-band {
+  background: var(--hiws-g900);
+  border-top: 1px solid var(--hiws-g700);
+  border-bottom: 1px solid var(--hiws-g700);
+  padding: 60px 40px;
+}
+
+.how-it-works-stats .hiws-stats-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.how-it-works-stats .hiws-stat-item {
+  border-right: 1px solid rgb(38 160 103 / 20%);
+  padding: 20px;
+  text-align: center;
+}
+
+.how-it-works-stats .hiws-stat-item:last-child {
+  border-right: 0;
+}
+
+.how-it-works-stats .hiws-stat-value {
+  margin-bottom: 8px;
+  color: var(--hiws-white);
+  font-family: var(--heading-font-family);
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.how-it-works-stats .hiws-stat-value span {
+  color: var(--hiws-g200);
+}
+
+.how-it-works-stats .hiws-stat-label {
+  color: var(--hiws-g100);
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.6;
+}
+
+@media (max-width: 1100px) {
+  .how-it-works-stats .hiws-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .how-it-works-stats .hiws-step {
+    border: 1px solid rgb(255 255 255 / 8%);
+    border-radius: 16px;
+    padding: 28px;
+  }
+
+  .how-it-works-stats .hiws-step-connector {
+    display: none;
+  }
+
+  .how-it-works-stats .hiws-step-num {
+    font-size: 52px;
+  }
+}
+
+@media (max-width: 768px) {
+  .how-it-works-stats .hiws-section,
+  .how-it-works-stats .hiws-stats-band {
+    padding: 72px 20px;
+  }
+
+  .how-it-works-stats .hiws-grid,
+  .how-it-works-stats .hiws-stats-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .how-it-works-stats .hiws-stat-item {
+    border-right: 0;
+    border-bottom: 1px solid rgb(38 160 103 / 20%);
+  }
+
+  .how-it-works-stats .hiws-stat-item:last-child {
+    border-bottom: 0;
+  }
+
+  .how-it-works-stats .hiws-stat-value {
+    font-size: 42px;
+  }
+}

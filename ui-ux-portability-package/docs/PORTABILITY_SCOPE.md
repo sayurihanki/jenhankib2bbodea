@@ -5,7 +5,7 @@
 - `head.html` for bootstrapping import maps and script-loading order.
 - `styles/` for global token, theme, and motion layers.
 - `fonts/` and `icons/` for all visual assets referenced by CSS/blocks.
-- `blocks/` for all `93` authored UI blocks.
+- `blocks/` for all `97` authored UI blocks.
 - `scripts/` runtime files needed by the UI layer:
   - core files (`aem.js`, `scripts.js`, `commerce.js`, delayed and analytics files)
   - `initializers/`
@@ -27,7 +27,7 @@
 
 - `commerce/b2b`: 18 blocks -> `commerce-b2b-negotiable-quote`, `commerce-b2b-negotiable-quote-template`, `commerce-b2b-po-approval-flow`, `commerce-b2b-po-approval-rule-details`, `commerce-b2b-po-approval-rule-form`, `commerce-b2b-po-approval-rules-list`, `commerce-b2b-po-checkout-success`, `commerce-b2b-po-comment-form`, `commerce-b2b-po-comments-list`, `commerce-b2b-po-company-purchase-orders`, `commerce-b2b-po-customer-purchase-orders`, `commerce-b2b-po-header`, `commerce-b2b-po-history-log`, `commerce-b2b-po-require-approval-purchase-orders`, `commerce-b2b-po-status`, `commerce-b2b-quote-checkout`, `commerce-b2b-requisition-list`, `commerce-b2b-requisition-list-view`
 - `commerce/core`: 36 blocks -> `commerce-account-header`, `commerce-account-nav`, `commerce-account-sidebar`, `commerce-addresses`, `commerce-cart`, `commerce-checkout`, `commerce-checkout-success`, `commerce-company-accept-invitation`, `commerce-company-create`, `commerce-company-credit`, `commerce-company-profile`, `commerce-company-roles-permissions`, `commerce-company-structure`, `commerce-company-users`, `commerce-confirm-account`, `commerce-create-account`, `commerce-create-password`, `commerce-create-return`, `commerce-customer-company`, `commerce-customer-details`, `commerce-customer-information`, `commerce-forgot-password`, `commerce-gift-options`, `commerce-login`, `commerce-mini-cart`, `commerce-order-cost-summary`, `commerce-order-header`, `commerce-order-product-list`, `commerce-order-returns`, `commerce-order-status`, `commerce-orders-list`, `commerce-return-header`, `commerce-returns-list`, `commerce-search-order`, `commerce-shipping-status`, `commerce-wishlist`
-- `content/general`: 21 blocks -> `age-gate`, `age-verification`, `blog-post`, `cards`, `cards-list`, `columns`, `enrichment`, `fragment`, `hero`, `hero-3`, `hero-cta`, `newsletter`, `product-details`, `product-list-page`, `product-recommendations`, `product-teaser`, `promo-popup`, `promotional-hero`, `quote`, `store-locator`, `targeted-block`
+- `content/general`: 25 blocks -> `age-gate`, `age-verification`, `blog-post`, `cards`, `cards-list`, `catalog-highlights`, `columns`, `enrichment`, `features-grid`, `fragment`, `hero`, `hero-3`, `hero-5`, `hero-cta`, `how-it-works-stats`, `newsletter`, `product-details`, `product-list-page`, `product-recommendations`, `product-teaser`, `promo-popup`, `promotional-hero`, `quote`, `store-locator`, `targeted-block`
 - `forms/authorable-forms`: 4 blocks -> `form`, `form-2`, `form-3`, `form-4`
 - `interactive-content/engagement`: 9 blocks -> `accordion`, `carousel`, `circle-carousel`, `embed`, `modal`, `quiz-router`, `table`, `tabs`, `video`
 - `shell/navigation-and-layout`: 5 blocks -> `footer`, `header`, `search`, `search-bar`, `top-banner`

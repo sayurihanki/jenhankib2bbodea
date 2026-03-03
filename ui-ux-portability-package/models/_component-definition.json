@@ -32,6 +32,9 @@
           "...": "../blocks/cards/_*.json#/definitions"
         },
         {
+          "...": "../blocks/catalog-highlights/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/carousel/_*.json#/definitions"
         },
         {
@@ -42,6 +45,9 @@
         },
         {
           "...": "../blocks/hero/_*.json#/definitions"
+        },
+        {
+          "...": "../blocks/how-it-works-stats/_*.json#/definitions"
         },
         {
           "...": "../blocks/targeted-block/_*.json#/definitions"

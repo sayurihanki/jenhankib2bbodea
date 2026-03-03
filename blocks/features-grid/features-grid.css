@@ -1,0 +1,296 @@
+/*
+ * features-grid.css
+ * AEM Edge Delivery Services block styles.
+ */
+
+.features-grid {
+  background: var(--color-neutral-50, #fff);
+  border-top: 1px solid var(--color-ink-100, #d4e3d9);
+  border-bottom: 1px solid var(--color-ink-100, #d4e3d9);
+  padding-block: 100px;
+}
+
+.features-grid .fg-inner {
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-inline: 40px;
+}
+
+.features-grid .features-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-block-end: 64px;
+}
+
+.features-grid .section-tag {
+  margin: 0 0 14px;
+}
+
+.features-grid .section-title {
+  margin: 0;
+  font-family: var(--font-display, "Syne", sans-serif);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+  color: var(--color-ink-900, #0d1311);
+}
+
+.features-grid .section-sub {
+  margin: 0;
+  max-width: 560px;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--color-ink-400, #587460);
+}
+
+.features-grid .fg-header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-green-500, #1a6640);
+  text-decoration: none;
+  transition: gap 0.2s, color 0.2s;
+}
+
+.features-grid .fg-header-cta:hover {
+  gap: 12px;
+  color: var(--color-green-700, #0f3d24);
+}
+
+.features-grid .fg-header-cta svg {
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.features-grid .fg-header-cta:hover svg {
+  transform: translateX(3px);
+}
+
+.features-grid .fg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.features-grid .feat-card[data-wide="true"] {
+  grid-column: span 2;
+}
+
+.features-grid .feat-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-ink-100, #d4e3d9);
+  border-radius: 20px;
+  padding: 32px;
+  transition: box-shadow 0.3s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)),
+    transform 0.3s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)),
+    border-color 0.3s;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.features-grid .feat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-green-300, #26a067), var(--color-green-150, #5fd49f));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.features-grid .feat-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.features-grid .feat-card:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.features-grid .feat-card:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.features-grid .feat-card:nth-child(3) {
+  transition-delay: 0.15s;
+}
+
+.features-grid .feat-card:nth-child(4) {
+  transition-delay: 0.2s;
+}
+
+.features-grid .feat-card:nth-child(5) {
+  transition-delay: 0.25s;
+}
+
+.features-grid .feat-card:nth-child(6) {
+  transition-delay: 0.3s;
+}
+
+.features-grid .feat-card:hover {
+  border-color: var(--color-green-100, #a8edcc);
+  box-shadow: 0 16px 48px rgb(0 0 0 / 8%);
+  transform: translateY(-4px);
+}
+
+.features-grid .feat-card:hover::before {
+  opacity: 1;
+}
+
+.features-grid .feat-card--featured {
+  background: var(--color-green-900, #061a0e);
+  border-color: var(--color-green-700, #0f3d24);
+}
+
+.features-grid .feat-card--featured::before {
+  opacity: 1;
+}
+
+.features-grid .feat-card--featured:hover {
+  border-color: var(--color-green-500, #1a6640);
+  box-shadow: 0 16px 48px rgb(0 0 0 / 30%);
+}
+
+.features-grid .feat-card--wide {
+  background: var(--color-neutral-100, #f4f8f5);
+}
+
+.features-grid .feat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 0 20px;
+  border-radius: 12px;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.features-grid .fi-green {
+  background: var(--color-green-50, #e4f9ef);
+}
+
+.features-grid .fi-gold {
+  background: #fffbeb;
+}
+
+.features-grid .fi-blue {
+  background: #eff6ff;
+}
+
+.features-grid .fi-dark {
+  background: rgb(255 255 255 / 10%);
+}
+
+.features-grid .feat-tag {
+  margin: 0 0 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-green-400, #1f7a4d);
+}
+
+.features-grid .feat-title {
+  margin: 0 0 10px;
+  font-family: var(--font-display, "Syne", sans-serif);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-ink-900, #0d1311);
+}
+
+.features-grid .feat-desc {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-ink-400, #587460);
+}
+
+.features-grid .feat-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-green-400, #1f7a4d);
+  text-decoration: none;
+  transition: gap 0.2s, color 0.2s;
+}
+
+.features-grid .feat-link:hover {
+  gap: 9px;
+  color: var(--color-green-600, #155230);
+}
+
+.features-grid .feat-card .feat-link svg {
+  transition: transform 0.2s;
+}
+
+.features-grid .feat-card .feat-link:hover svg {
+  transform: translateX(3px);
+}
+
+.features-grid .feat-card--featured .feat-tag {
+  color: var(--color-green-150, #5fd49f);
+}
+
+.features-grid .feat-card--featured .feat-title {
+  color: var(--color-neutral-50, #fff);
+}
+
+.features-grid .feat-card--featured .feat-desc {
+  color: var(--color-green-100, #a8edcc);
+}
+
+.features-grid .feat-card--featured .feat-link {
+  color: var(--color-green-150, #5fd49f);
+}
+
+@media (max-width: 1100px) {
+  .features-grid .features-header {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-block-end: 48px;
+  }
+
+  .features-grid .fg-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .features-grid .feat-card[data-wide="true"] {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 700px) {
+  .features-grid {
+    padding-block: 60px;
+  }
+
+  .features-grid .fg-inner {
+    padding-inline: 20px;
+  }
+
+  .features-grid .fg-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features-grid .feat-card[data-wide="true"] {
+    grid-column: auto;
+  }
+
+  .features-grid .feat-card {
+    padding: 24px;
+  }
+}

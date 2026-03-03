@@ -22,6 +22,7 @@
 | `cards` | `content` | `general` | 1 | 1 |
 | `cards-list` | `content` | `general` | 1 | 1 |
 | `carousel` | `interactive-content` | `engagement` | 1 | 1 |
+| `catalog-highlights` | `content` | `general` | 1 | 1 |
 | `circle-carousel` | `interactive-content` | `engagement` | 1 | 1 |
 | `columns` | `content` | `general` | 1 | 1 |
 | `commerce-account-header` | `commerce` | `core` | 1 | 1 |
@@ -80,6 +81,7 @@
 | `commerce-wishlist` | `commerce` | `core` | 1 | 1 |
 | `embed` | `interactive-content` | `engagement` | 1 | 1 |
 | `enrichment` | `content` | `general` | 1 | 1 |
+| `features-grid` | `content` | `general` | 1 | 1 |
 | `footer` | `shell` | `navigation-and-layout` | 1 | 1 |
 | `form` | `forms` | `authorable-forms` | 1 | 2 |
 | `form-2` | `forms` | `authorable-forms` | 1 | 1 |
@@ -89,7 +91,9 @@
 | `header` | `shell` | `navigation-and-layout` | 1 | 4 |
 | `hero` | `content` | `general` | 1 | 1 |
 | `hero-3` | `content` | `general` | 1 | 1 |
+| `hero-5` | `content` | `general` | 1 | 1 |
 | `hero-cta` | `content` | `general` | 1 | 1 |
+| `how-it-works-stats` | `content` | `general` | 1 | 1 |
 | `modal` | `interactive-content` | `engagement` | 1 | 1 |
 | `newsletter` | `content` | `general` | 1 | 1 |
 | `product-details` | `content` | `general` | 1 | 2 |

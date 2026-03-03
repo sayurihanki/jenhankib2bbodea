@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-03-03T02:13:16.669Z",
+  "generatedAt": "2026-03-03T07:48:29.494Z",
   "summary": {
-    "totalBlocks": 93,
-    "withStyles": 93,
-    "withRuntime": 93,
+    "totalBlocks": 97,
+    "withStyles": 97,
+    "withRuntime": 97,
     "byCategory": {
       "interactive-content": 9,
-      "content": 21,
+      "content": 25,
       "commerce": 54,
       "shell": 5,
       "forms": 4
@@ -167,6 +167,29 @@
           "blocks/carousel/_carousel.json"
         ],
         "readme": "blocks/carousel/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
+    },
+    {
+      "name": "catalog-highlights",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Catalog Highlights Block",
+      "overview": "The `catalog-highlights` block renders a section header and a responsive product-card grid for featured catalog items.",
+      "sourcePath": "blocks/catalog-highlights",
+      "files": {
+        "css": [
+          "blocks/catalog-highlights/catalog-highlights.css"
+        ],
+        "js": [
+          "blocks/catalog-highlights/catalog-highlights.js"
+        ],
+        "json": [
+          "blocks/catalog-highlights/_catalog-highlights.json"
+        ],
+        "readme": "blocks/catalog-highlights/README.md"
       },
       "hasStyles": true,
       "hasRuntime": true,
@@ -1405,11 +1428,32 @@
       "fileCount": 3
     },
     {
+      "name": "features-grid",
+      "category": "content",
+      "subcategory": "general",
+      "title": "features-grid",
+      "overview": "",
+      "sourcePath": "blocks/features-grid",
+      "files": {
+        "css": [
+          "blocks/features-grid/features-grid.css"
+        ],
+        "js": [
+          "blocks/features-grid/features-grid.js"
+        ],
+        "json": [],
+        "readme": ""
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 3
+    },
+    {
       "name": "footer",
       "category": "shell",
       "subcategory": "navigation-and-layout",
-      "title": "footer",
-      "overview": "",
+      "title": "Footer Block",
+      "overview": "The Footer block provides the site footer by loading content from a fragment. On multistore setups, it also renders a store switcher button that opens a modal for selecting the active store view. The block uses design tokens for typography, spacing, and colors and supports responsive layout.",
       "sourcePath": "blocks/footer",
       "files": {
         "css": [
@@ -1419,11 +1463,11 @@
           "blocks/footer/footer.js"
         ],
         "json": [],
-        "readme": ""
+        "readme": "blocks/footer/README.md"
       },
       "hasStyles": true,
       "hasRuntime": true,
-      "fileCount": 2
+      "fileCount": 3
     },
     {
       "name": "form",
@@ -1612,6 +1656,29 @@
       "fileCount": 4
     },
     {
+      "name": "hero-5",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Hero 5 Block",
+      "overview": "The `hero-5` block renders a two-column enterprise hero with animated background layers,",
+      "sourcePath": "blocks/hero-5",
+      "files": {
+        "css": [
+          "blocks/hero-5/hero-5.css"
+        ],
+        "js": [
+          "blocks/hero-5/hero-5.js"
+        ],
+        "json": [
+          "blocks/hero-5/_hero-5.json"
+        ],
+        "readme": "blocks/hero-5/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
+    },
+    {
       "name": "hero-cta",
       "category": "content",
       "subcategory": "general",
@@ -1629,6 +1696,29 @@
           "blocks/hero-cta/_hero-cta.json"
         ],
         "readme": "blocks/hero-cta/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
+    },
+    {
+      "name": "how-it-works-stats",
+      "category": "content",
+      "subcategory": "general",
+      "title": "How It Works + Stats Block",
+      "overview": "The `how-it-works-stats` block renders a 4-step process section followed by a",
+      "sourcePath": "blocks/how-it-works-stats",
+      "files": {
+        "css": [
+          "blocks/how-it-works-stats/how-it-works-stats.css"
+        ],
+        "js": [
+          "blocks/how-it-works-stats/how-it-works-stats.js"
+        ],
+        "json": [
+          "blocks/how-it-works-stats/_how-it-works-stats.json"
+        ],
+        "readme": "blocks/how-it-works-stats/README.md"
       },
       "hasStyles": true,
       "hasRuntime": true,

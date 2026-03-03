@@ -1,33 +1,37 @@
 {
-  "generatedAt": "2026-03-03T02:13:16.683Z",
+  "generatedAt": "2026-03-03T07:48:29.510Z",
   "summary": {
-    "totalTokens": 500,
-    "definedTokens": 474,
-    "unresolvedTokens": 26,
+    "totalTokens": 539,
+    "definedTokens": 491,
+    "unresolvedTokens": 48,
     "byPrefix": {
       "accent": 3,
       "background": 2,
       "blogpost": 1,
       "body": 4,
       "circle": 4,
-      "color": 40,
+      "color": 59,
       "column": 1,
       "cream": 1,
       "d": 1,
       "desktop": 5,
       "dialog": 1,
-      "ease": 2,
+      "ease": 3,
       "f2": 15,
       "f3": 15,
       "f4": 20,
+      "featured": 1,
       "float": 1,
+      "font": 1,
       "gap": 1,
       "glass": 9,
       "gold": 2,
       "green": 10,
       "grid": 15,
       "header": 1,
+      "heading": 1,
       "hero": 34,
+      "hiws": 12,
       "ink": 11,
       "light": 1,
       "main": 1,
@@ -50,7 +54,7 @@
       "text": 1,
       "top": 7,
       "transition": 3,
-      "type": 43,
+      "type": 47,
       "width": 1,
       "yes": 1
     }
@@ -474,6 +478,133 @@
       "status": "defined"
     },
     {
+      "name": "--color-gold-2",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-green-100",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 4,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-green-150",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 8,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-green-200",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 10,
+      "usedIn": [
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-green-300",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-green-400",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-green-50",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-green-500",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 4,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-green-600",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-green-700",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 4,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-green-900",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
       "name": "--color-informational-200",
       "prefix": "color",
       "value": "#eeeffb",
@@ -510,6 +641,86 @@
       "status": "defined"
     },
     {
+      "name": "--color-ink-100",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 5,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-ink-200",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-ink-300",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-ink-400",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 5,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-ink-600",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-ink-900",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-ink-950",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
       "name": "--color-negative-700",
       "prefix": "color",
       "value": null,
@@ -528,11 +739,12 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 15,
+      "usageCount": 16,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/circle-carousel/circle-carousel.css",
         "blocks/commerce-account-nav/commerce-account-nav.css",
+        "blocks/features-grid/features-grid.css",
         "blocks/header/header.css",
         "blocks/hero-cta/hero-cta.css",
         "blocks/newsletter/newsletter.css",
@@ -612,15 +824,17 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 45,
+      "usageCount": 50,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
         "blocks/blog-post/blog-post.css",
         "blocks/cards-list/cards-list.css",
+        "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/circle-carousel/circle-carousel.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
         "blocks/commerce-checkout/commerce-checkout.css",
+        "blocks/features-grid/features-grid.css",
         "blocks/form/form.css",
         "blocks/header/header.css",
         "blocks/hero-cta/hero-cta.css",
@@ -855,6 +1069,17 @@
       "status": "defined"
     },
     {
+      "name": "--color-white",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
       "name": "--column-width",
       "prefix": "column",
       "value": null,
@@ -872,8 +1097,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -976,9 +1202,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 68,
+      "usageCount": 70,
       "usedIn": [
         "blocks/accordion/accordion.css",
+        "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
@@ -996,14 +1223,27 @@
       "status": "defined"
     },
     {
+      "name": "--ease-out-expo",
+      "prefix": "ease",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 9,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
       "name": "--ease-spring",
       "prefix": "ease",
       "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 13,
+      "usageCount": 14,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/form/form.css",
         "blocks/hero-3/hero-3.css",
         "blocks/newsletter/newsletter.css",
@@ -1660,6 +1900,17 @@
       "status": "defined"
     },
     {
+      "name": "--featured",
+      "prefix": "featured",
+      "value": ":before {\n  opacity: 1",
+      "definedIn": [
+        "blocks/features-grid/features-grid.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
       "name": "--float",
       "prefix": "float",
       "value": "focus-within .f2-label {\n  top: 0.3125rem",
@@ -1670,6 +1921,18 @@
       "usageCount": 0,
       "usedIn": [],
       "status": "defined"
+    },
+    {
+      "name": "--font-display",
+      "prefix": "font",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 7,
+      "usedIn": [
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
     },
     {
       "name": "--gap",
@@ -1871,8 +2134,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 2,
+      "usageCount": 3,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -1897,8 +2161,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 0,
-      "usedIn": [],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css"
+      ],
       "status": "defined"
     },
     {
@@ -1934,8 +2200,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 5,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -1947,8 +2214,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 3,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -1960,8 +2228,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 3,
+      "usageCount": 6,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/header/header.css",
         "styles/styles.css"
       ],
@@ -1974,8 +2243,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 2,
+      "usageCount": 3,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/header/header.css",
         "styles/styles.css"
       ],
@@ -2212,6 +2482,17 @@
       "usageCount": 1,
       "usedIn": [
         "blocks/carousel/carousel.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--heading-font-family",
+      "prefix": "heading",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 4,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -2650,14 +2931,167 @@
       "status": "defined"
     },
     {
+      "name": "--hiws-g100",
+      "prefix": "hiws",
+      "value": "#a8edcc",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-g150",
+      "prefix": "hiws",
+      "value": "#5fd49f",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-g200",
+      "prefix": "hiws",
+      "value": "#2ebe7a",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-g300",
+      "prefix": "hiws",
+      "value": "#26a067",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-g500",
+      "prefix": "hiws",
+      "value": "#1a6640",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-g700",
+      "prefix": "hiws",
+      "value": "#0f3d24",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-g900",
+      "prefix": "hiws",
+      "value": "#061a0e",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-ink400",
+      "prefix": "hiws",
+      "value": "#587460",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-ink500",
+      "prefix": "hiws",
+      "value": "#3d5844",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-ink700",
+      "prefix": "hiws",
+      "value": "#1d2d24",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-ink950",
+      "prefix": "hiws",
+      "value": "#06090a",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-white",
+      "prefix": "hiws",
+      "value": "#fff",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--ink-100",
       "prefix": "ink",
       "value": "#d8e5da",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -2683,8 +3117,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 3,
+      "usageCount": 5,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/footer/footer.css",
         "styles/styles.css"
       ],
@@ -2697,8 +3132,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -2710,8 +3146,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -2777,8 +3214,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 2,
+      "usageCount": 5,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -6769,8 +7207,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 6,
+      "usageCount": 9,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -6852,13 +7291,12 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 12,
+      "usageCount": 11,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
         "blocks/commerce-checkout/commerce-checkout.css",
         "blocks/header/header.css",
-        "blocks/product-teaser/product-teaser.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
         "styles/styles.css"
       ],
@@ -6871,13 +7309,12 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 12,
+      "usageCount": 11,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
         "blocks/commerce-checkout/commerce-checkout.css",
         "blocks/header/header.css",
-        "blocks/product-teaser/product-teaser.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
         "styles/styles.css"
       ],
@@ -6890,7 +7327,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 16,
+      "usageCount": 13,
       "usedIn": [
         "blocks/commerce-addresses/commerce-addresses.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
@@ -6900,7 +7337,6 @@
         "blocks/commerce-orders-list/commerce-orders-list.css",
         "blocks/form-4/form-4.css",
         "blocks/newsletter/newsletter.css",
-        "blocks/product-teaser/product-teaser.css",
         "blocks/store-locator/store-locator.css",
         "styles/styles.css"
       ],
@@ -6913,12 +7349,11 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 10,
+      "usageCount": 7,
       "usedIn": [
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
         "blocks/commerce-checkout/commerce-checkout.css",
         "blocks/newsletter/newsletter.css",
-        "blocks/product-teaser/product-teaser.css",
         "blocks/store-locator/store-locator.css",
         "styles/styles.css"
       ],
@@ -6945,6 +7380,62 @@
         "blocks/newsletter/newsletter.css"
       ],
       "status": "referenced-without-definition"
+    },
+    {
+      "name": "--type-price-default-font",
+      "prefix": "type",
+      "value": "normal normal 600 2rem/2.4rem var(--type-price-font-family)",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/product-details/product-details.css",
+        "blocks/product-teaser/product-teaser.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--type-price-font-family",
+      "prefix": "type",
+      "value": "\"Sora\", \"DM Sans\", adobe-clean, roboto, roboto-fallback, system-ui, sans-serif",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/product-details/product-details.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--type-price-letter-spacing",
+      "prefix": "type",
+      "value": "0.01em",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 4,
+      "usedIn": [
+        "blocks/product-details/product-details.css",
+        "blocks/product-teaser/product-teaser.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--type-price-strong-font",
+      "prefix": "type",
+      "value": "normal normal 700 2rem/2.4rem var(--type-price-font-family)",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 4,
+      "usedIn": [
+        "blocks/product-details/product-details.css",
+        "blocks/product-teaser/product-teaser.css"
+      ],
+      "status": "defined"
     },
     {
       "name": "--width",
