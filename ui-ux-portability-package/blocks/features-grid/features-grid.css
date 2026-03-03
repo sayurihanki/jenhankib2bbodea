@@ -36,7 +36,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: end;
-  margin-block-end: 64px;
+  margin-block-end: 80px;
 }
 
 .features-grid .section-tag {
@@ -278,7 +278,7 @@
   .features-grid .features-header {
     grid-template-columns: 1fr;
     gap: 24px;
-    margin-block-end: 48px;
+    margin-block-end: 60px;
   }
 
   .features-grid .fg-grid {

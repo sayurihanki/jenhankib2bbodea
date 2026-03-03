@@ -20,6 +20,8 @@ const MAX_PANEL_MAX_HEIGHT_PX = 1200;
 const DEFAULT_VIEW_ALL_MODE = 'auto';
 const DEFAULT_PLACEHOLDER = 'Search products...';
 const LIVE_SEARCH_OPEN_EVENT = 'bodea:live-search-open';
+const SEARCH_BAR_OPEN_SECTION_CLASS = 'search-bar-live-results-open';
+const SEARCH_BAR_OPEN_COUNT_ATTR = 'data-search-bar-open-count';
 let searchBarInstanceCounter = 0;
 
 function getSafeAemAlias(product) {
@@ -191,6 +193,7 @@ export default async function decorate(block) {
   const config = parseBlockConfig(block);
   const eventsController = new AbortController();
   const { signal } = eventsController;
+  const hostSection = block.closest('.section');
   const instanceId = getUniqueId('searchbar');
   const resultsId = getUniqueId('search-results');
   const searchScope = `${SEARCH_SCOPE_PREFIX}-${instanceId}`;
@@ -268,6 +271,23 @@ export default async function decorate(block) {
   let dispatchedPhrase = '';
   let latestResultCount = 0;
   let viewAllResultsWrapper;
+  let panelIsOpen = false;
+
+  const setHostSectionOpenState = (isOpen) => {
+    if (!hostSection) return;
+    const currentCount = Number.parseInt(hostSection.getAttribute(SEARCH_BAR_OPEN_COUNT_ATTR) || '0', 10);
+    const normalizedCurrentCount = Number.isFinite(currentCount) ? currentCount : 0;
+    const nextCount = isOpen ? normalizedCurrentCount + 1 : Math.max(0, normalizedCurrentCount - 1);
+
+    if (nextCount > 0) {
+      hostSection.classList.add(SEARCH_BAR_OPEN_SECTION_CLASS);
+      hostSection.setAttribute(SEARCH_BAR_OPEN_COUNT_ATTR, `${nextCount}`);
+      return;
+    }
+
+    hostSection.classList.remove(SEARCH_BAR_OPEN_SECTION_CLASS);
+    hostSection.removeAttribute(SEARCH_BAR_OPEN_COUNT_ATTR);
+  };
 
   const clearTimers = () => {
     if (clearAnnouncementTimer) {
@@ -286,6 +306,10 @@ export default async function decorate(block) {
 
   signal.addEventListener('abort', () => {
     clearTimers();
+    if (panelIsOpen) {
+      setHostSectionOpenState(false);
+      panelIsOpen = false;
+    }
     if (disconnectionObserver) {
       disconnectionObserver.disconnect();
       disconnectionObserver = undefined;
@@ -304,6 +328,10 @@ export default async function decorate(block) {
   };
 
   const setResultsOpen = (isOpen) => {
+    if (isOpen !== panelIsOpen) {
+      setHostSectionOpenState(isOpen);
+      panelIsOpen = isOpen;
+    }
     resultsDiv.classList.toggle('is-open', isOpen);
     resultsDiv.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
     searchBarContainer.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
