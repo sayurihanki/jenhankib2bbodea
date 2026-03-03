@@ -11,6 +11,7 @@
   --hiws-ink500: #3d5844;
   --hiws-ink400: #587460;
   --hiws-white: #fff;
+  --hiws-font-syne: 'Syne', var(--type-base-font-family);
 }
 
 .how-it-works-stats .hiws-section {
@@ -35,10 +36,10 @@
   width: min(620px, 46vw);
   height: min(620px, 46vw);
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(46 190 122 / 18%) 0%, transparent 68%);
+  background: radial-gradient(circle, rgb(46 190 122 / 8%) 0%, transparent 72%);
   content: '';
-  filter: blur(6px);
-  animation: hiws-float-glow 13s ease-in-out infinite;
+  filter: blur(20px);
+  animation: hiws-float-glow 18s ease-in-out infinite;
 }
 
 .how-it-works-stats .hiws-inner,
@@ -73,7 +74,7 @@
   max-width: 720px;
   margin: 0;
   color: var(--hiws-white);
-  font-family: var(--heading-font-family);
+  font-family: var(--hiws-font-syne);
   font-size: clamp(32px, 4.2vw, 54px);
   font-weight: 800;
   letter-spacing: -0.04em;
@@ -118,7 +119,7 @@
   top: 24px;
   right: 24px;
   color: rgb(38 160 103 / 12%);
-  font-family: var(--heading-font-family);
+  font-family: var(--hiws-font-syne);
   font-size: 64px;
   font-weight: 800;
   letter-spacing: -0.06em;
@@ -135,7 +136,7 @@
 .how-it-works-stats .hiws-step-title {
   margin: 0 0 10px;
   color: var(--hiws-white);
-  font-family: var(--heading-font-family);
+  font-family: var(--hiws-font-syne);
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -163,10 +164,10 @@
 }
 
 .how-it-works-stats .hiws-step:hover {
-  transform: translateY(-6px);
-  border-color: rgb(95 212 159 / 28%);
-  background: rgb(255 255 255 / 2%);
-  box-shadow: 0 18px 40px rgb(0 0 0 / 30%);
+  transform: translateY(-4px);
+  border-color: rgb(95 212 159 / 24%);
+  background: rgb(255 255 255 / 1.25%);
+  box-shadow: 0 10px 24px rgb(0 0 0 / 22%);
 }
 
 .how-it-works-stats .hiws-step:hover::before {
@@ -207,15 +208,23 @@
   transition:
     transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
     background-color 260ms ease,
-    box-shadow 260ms ease;
+    border-color 260ms ease;
 }
 
 .how-it-works-stats .hiws-stat-item::before {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgb(95 212 159 / 11%) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 240ms ease;
+  top: 0;
+  left: 16%;
+  width: 68%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgb(95 212 159 / 70%), transparent);
+  opacity: 0.35;
+  transform: scaleX(0.45);
+  transform-origin: center;
+  transition:
+    opacity 240ms ease,
+    transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
   content: '';
   pointer-events: none;
 }
@@ -225,19 +234,20 @@
 }
 
 .how-it-works-stats .hiws-stat-item:hover {
-  transform: translateY(-4px);
-  background: rgb(255 255 255 / 2%);
-  box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
+  transform: translateY(-3px);
+  border-color: rgb(95 212 159 / 45%);
+  background: rgb(255 255 255 / 1.5%);
 }
 
 .how-it-works-stats .hiws-stat-item:hover::before {
-  opacity: 1;
+  opacity: 0.9;
+  transform: scaleX(1);
 }
 
 .how-it-works-stats .hiws-stat-value {
   margin-bottom: 8px;
   color: var(--hiws-white);
-  font-family: var(--heading-font-family);
+  font-family: var(--hiws-font-syne);
   font-size: 52px;
   font-weight: 800;
   letter-spacing: -0.05em;
@@ -251,8 +261,10 @@
 
 .how-it-works-stats .hiws-stat-label {
   color: var(--hiws-g100);
+  font-family: var(--hiws-font-syne);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   opacity: 0.6;
 }
 
@@ -276,13 +288,13 @@
   gap: 9px;
   border-radius: 12px;
   padding: 12px 22px;
+  font-family: var(--hiws-font-syne);
   font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
+  font-weight: 600;
+  letter-spacing: 0.015em;
   text-decoration: none;
   transition:
     transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 220ms ease,
     background-color 220ms ease,
     color 220ms ease,
     border-color 220ms ease;
@@ -296,15 +308,14 @@
 
 .how-it-works-stats .hiws-btn-primary {
   color: var(--hiws-white);
-  border: 1px solid var(--hiws-g300);
-  background: linear-gradient(135deg, var(--hiws-g300) 0%, #1f8559 100%);
-  box-shadow: 0 8px 24px rgb(38 160 103 / 30%);
+  border: 1px solid #2ab575;
+  background: #219c66;
 }
 
 .how-it-works-stats .hiws-btn-secondary {
   color: var(--hiws-g100);
-  border: 1px solid rgb(95 212 159 / 40%);
-  background: rgb(255 255 255 / 4%);
+  border: 1px solid rgb(95 212 159 / 36%);
+  background: rgb(255 255 255 / 2%);
 }
 
 .how-it-works-stats .hiws-btn:hover {
@@ -316,8 +327,8 @@
 }
 
 .how-it-works-stats .hiws-btn-primary:hover {
-  background: linear-gradient(135deg, #2ebe7a 0%, #1d8f5c 100%);
-  box-shadow: 0 14px 36px rgb(38 160 103 / 40%);
+  background: #28ab72;
+  border-color: #38c184;
 }
 
 .how-it-works-stats .hiws-btn-secondary:hover {
