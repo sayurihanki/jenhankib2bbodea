@@ -284,6 +284,10 @@ header nav .nav-sections ul > li:empty {
 
   header nav .nav-sections .default-content-wrapper > ul > li > p,
   header nav .nav-sections .default-content-wrapper > ul > li > a {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 2.4rem;
+    letter-spacing: 0.02em;
     transition:
       color var(--nav-interaction-speed) ease-out,
       transform var(--nav-interaction-speed) ease-out;

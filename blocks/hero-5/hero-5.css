@@ -27,7 +27,8 @@ main > .section.appear > div > .hero-5-wrapper {
 /* Block shell */
 .hero-5 {
   position: relative;
-  min-height: 108vh;
+  min-height: calc(100dvh - var(--nav-height, 0px));
+  min-height: calc(100vh - var(--nav-height, 0px));
   background: var(--color-ink-950, #06090a);
   display: flex;
   flex-direction: column;
@@ -170,7 +171,7 @@ main > .section.appear > div > .hero-5-wrapper {
   z-index: 2;
   max-width: 1480px;
   margin-inline: auto;
-  padding: 120px 40px;
+  padding: clamp(72px, 8vh, 104px) 40px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -194,7 +195,7 @@ main > .section.appear > div > .hero-5-wrapper {
   border: 1px solid rgb(38 160 103 / 30%);
   border-radius: 999px;
   padding: 6px 14px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: .08em;
   line-height: 1.4;
@@ -222,12 +223,12 @@ main > .section.appear > div > .hero-5-wrapper {
 /* Headline */
 .hero-5 .hero-title {
   font-family: var(--font-display, var(--type-display-font-family, sans-serif));
-  font-size: clamp(56px, 7.8vw, 112px);
+  font-size: clamp(52px, 7.2vw, 104px);
   font-weight: 700;
-  line-height: 1.02;
+  line-height: 1.03;
   letter-spacing: -.03em;
   color: var(--color-white, #fff);
-  margin-block-end: 28px;
+  margin-block-end: 18px;
   animation: hero5-slide-up .8s var(--ease-out-expo) .1s both;
 }
 
@@ -240,12 +241,12 @@ main > .section.appear > div > .hero-5-wrapper {
 
 /* Subtitle */
 .hero-5 .hero-sub {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 500;
-  line-height: 1.6;
+  line-height: 1.45;
   color: var(--color-ink-200, #aec4b5);
   max-width: 620px;
-  margin-block-end: 48px;
+  margin-block-end: 44px;
   animation: hero5-slide-up .8s var(--ease-out-expo) .2s both;
 }
 
@@ -264,7 +265,7 @@ main > .section.appear > div > .hero-5-wrapper {
   gap: 9px;
   padding: 14px 28px;
   border-radius: 12px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   background: var(--color-green-300, #26a067);
   color: #fff;
@@ -294,7 +295,7 @@ main > .section.appear > div > .hero-5-wrapper {
   gap: 9px;
   padding: 14px 28px;
   border-radius: 12px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   border: 1.5px solid rgb(255 255 255 / 20%);
   color: rgb(255 255 255 / 75%);
@@ -329,7 +330,7 @@ main > .section.appear > div > .hero-5-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: 14px;
   background: linear-gradient(135deg, var(--color-green-700, #0f3d24), var(--color-green-500, #1a6640));
   color: #fff;
   font-weight: 700;
@@ -341,14 +342,14 @@ main > .section.appear > div > .hero-5-wrapper {
 }
 
 .hero-5 .trust-text {
-  font-size: 12.5px;
+  font-size: 13.5px;
   color: var(--color-ink-300, #7d9985);
   line-height: 1.4;
 }
 
 .hero-5 .trust-stars {
   color: var(--color-gold-2, #e8c97a);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -693,11 +694,11 @@ main > .section.appear > div > .hero-5-wrapper {
   }
 
   .hero-5 .hero-title {
-    font-size: clamp(42px, 12vw, 64px);
+    font-size: clamp(40px, 11vw, 60px);
   }
 
   .hero-5 .hero-sub {
-    font-size: 18px;
+    font-size: 19px;
   }
 
   .hero-5 .hero-float-badge {
