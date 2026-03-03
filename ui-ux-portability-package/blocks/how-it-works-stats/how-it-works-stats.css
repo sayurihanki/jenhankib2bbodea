@@ -11,7 +11,7 @@
   --hiws-ink500: #3d5844;
   --hiws-ink400: #587460;
   --hiws-white: #fff;
-  --hiws-font-sora: 'Sora', var(--type-base-font-family);
+  --hiws-font-sora: var(--type-display-font-family, var(--type-base-font-family));
 }
 
 .how-it-works-stats .hiws-section {

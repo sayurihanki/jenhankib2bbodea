@@ -47,7 +47,7 @@
 
 .features-grid .fg-title {
   margin: 0;
-  font-family: var(--font-display, "Syne", sans-serif);
+  font-family: var(--font-display, var(--type-display-font-family, sans-serif));
   font-size: clamp(34px, 5vw, 66px);
   font-weight: 800;
   letter-spacing: -0.04em;
@@ -230,7 +230,7 @@
 
 .features-grid .feat-title {
   margin: 0 0 10px;
-  font-family: var(--font-display, "Syne", sans-serif);
+  font-family: var(--font-display, var(--type-display-font-family, sans-serif));
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.02em;

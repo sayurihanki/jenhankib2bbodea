@@ -220,7 +220,7 @@ main > .section.appear > div > .hero-5-wrapper {
 
 /* Headline */
 .hero-5 .hero-title {
-  font-family: var(--font-display, 'Syne', sans-serif);
+  font-family: var(--font-display, var(--type-display-font-family, sans-serif));
   font-size: clamp(44px, 5.5vw, 72px);
   font-weight: 800;
   line-height: 1.02;
@@ -380,7 +380,7 @@ main > .section.appear > div > .hero-5-wrapper {
 }
 
 .hero-5 .hfb-val {
-  font-family: var(--font-display, 'Syne', sans-serif);
+  font-family: var(--font-display, var(--type-display-font-family, sans-serif));
   font-size: 16px;
   font-weight: 800;
   color: #fff;
@@ -411,7 +411,7 @@ main > .section.appear > div > .hero-5-wrapper {
 }
 
 .hero-5 .hero-card-title {
-  font-family: var(--font-display, 'Syne', sans-serif);
+  font-family: var(--font-display, var(--type-display-font-family, sans-serif));
   font-size: 13px;
   font-weight: 700;
   color: var(--color-ink-200, #aec4b5);
@@ -443,7 +443,7 @@ main > .section.appear > div > .hero-5-wrapper {
 }
 
 .hero-5 .hm-val {
-  font-family: var(--font-display, 'Syne', sans-serif);
+  font-family: var(--font-display, var(--type-display-font-family, sans-serif));
   font-size: 26px;
   font-weight: 800;
   color: #fff;
@@ -531,7 +531,7 @@ main > .section.appear > div > .hero-5-wrapper {
 }
 
 .hero-5 .hc-order-amount {
-  font-family: var(--font-display, 'Syne', sans-serif);
+  font-family: var(--font-display, var(--type-display-font-family, sans-serif));
   font-size: 13px;
   font-weight: 700;
   color: #fff;

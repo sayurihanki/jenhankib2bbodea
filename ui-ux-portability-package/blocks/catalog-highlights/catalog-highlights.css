@@ -52,7 +52,7 @@
 .catalog-highlights .catalog-highlights-title {
   margin: 0;
   color: var(--ink-900, #0e1410);
-  font-family: var(--type-price-font-family, 'Sora', sans-serif);
+  font-family: var(--type-display-font-family, sans-serif);
   font-size: clamp(3.2rem, 4vw, 5.2rem);
   font-weight: 700;
   letter-spacing: -0.015em;
@@ -171,7 +171,7 @@
 .catalog-highlights .catalog-highlights-name {
   margin: 0 0 4px;
   color: var(--ink-900, #0e1410);
-  font-family: var(--type-display-font-family, 'Syne', sans-serif);
+  font-family: var(--type-display-font-family, sans-serif);
   font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -194,7 +194,7 @@
 
 .catalog-highlights .catalog-highlights-price {
   color: var(--ink-900, #0e1410);
-  font-family: var(--type-display-font-family, 'Syne', sans-serif);
+  font-family: var(--type-display-font-family, sans-serif);
   font-size: 2.2rem;
   font-weight: 800;
   letter-spacing: -0.03em;

@@ -6700,7 +6700,7 @@
     {
       "name": "--type-base-font-family",
       "prefix": "type",
-      "value": "\"DM Sans\", adobe-clean, roboto, roboto-fallback, system-ui, sans-serif",
+      "value": "\"Satoshi\", adobe-clean, roboto, roboto-fallback, system-ui, sans-serif",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7203,7 +7203,7 @@
     {
       "name": "--type-display-font-family",
       "prefix": "type",
-      "value": "\"Syne\", var(--type-base-font-family)",
+      "value": "\"Clash Display\", var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7398,7 +7398,7 @@
     {
       "name": "--type-price-font-family",
       "prefix": "type",
-      "value": "\"Sora\", \"DM Sans\", adobe-clean, roboto, roboto-fallback, system-ui, sans-serif",
+      "value": "\"Clash Display\", var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
