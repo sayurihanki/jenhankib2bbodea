@@ -690,12 +690,29 @@ function attachOptionKeyboardNavigation(optionsEl) {
   });
 }
 
+function setProgressText(progressEl, stepIndex, totalSteps) {
+  if (!progressEl) return;
+
+  const current = document.createElement('span');
+  current.textContent = String(stepIndex + 1);
+
+  const total = document.createElement('span');
+  total.textContent = String(totalSteps);
+
+  progressEl.replaceChildren(
+    document.createTextNode('Step '),
+    current,
+    document.createTextNode(' of '),
+    total,
+  );
+}
+
 function createProgressElement(stepIndex, totalSteps) {
   const progressEl = document.createElement('div');
   progressEl.className = 'quiz-router-progress';
   progressEl.setAttribute('role', 'status');
   progressEl.setAttribute('aria-live', 'polite');
-  progressEl.textContent = `Step ${stepIndex + 1} of ${totalSteps}`;
+  setProgressText(progressEl, stepIndex, totalSteps);
   return progressEl;
 }
 
@@ -748,16 +765,28 @@ function setContentEntering(content) {
   });
 }
 
-function renderStepContent(content, step, state, onOptionSelect) {
+function renderStepContent(content, step, stepIndex, state, isPremium, onOptionSelect) {
   content.replaceChildren();
 
-  const questionEl = document.createElement('div');
-  questionEl.className = 'quiz-router-question';
-  questionEl.append(sanitizeCellContent(step.questionCell));
-  if (!questionEl.textContent.trim()) {
-    questionEl.textContent = step.text;
+  const questionWrap = document.createElement('div');
+  questionWrap.className = 'quiz-router-question';
+
+  if (isPremium) {
+    const questionEyebrow = document.createElement('div');
+    questionEyebrow.className = 'quiz-router-question-eyebrow';
+    questionEyebrow.textContent = `Question ${stepIndex + 1}`;
+    questionWrap.append(questionEyebrow);
   }
-  content.append(questionEl);
+
+  const questionText = document.createElement('div');
+  questionText.className = 'quiz-router-question-text';
+  questionText.append(sanitizeCellContent(step.questionCell));
+  if (!questionText.textContent.trim()) {
+    questionText.textContent = step.text;
+  }
+
+  questionWrap.append(questionText);
+  content.append(questionWrap);
 
   const mediaContent = sanitizeCellContent(step.mediaCell, { preserveImages: true });
   if (mediaContent.childNodes.length) {
@@ -815,11 +844,22 @@ export default async function decorate(block) {
   const header = document.createElement('div');
   header.className = 'quiz-router-header';
 
-  const progressEl = config.progress && steps.length > 1
+  const showProgress = config.progress && steps.length > 1;
+  const progressEl = showProgress
     ? createProgressElement(0, steps.length)
     : null;
   if (progressEl) {
     header.append(progressEl);
+  }
+
+  let progressFill = null;
+  let progressTrack = null;
+  if (showProgress && config.theme === 'premium') {
+    progressTrack = document.createElement('div');
+    progressTrack.className = 'quiz-router-progress-track';
+    progressFill = document.createElement('div');
+    progressFill.className = 'quiz-router-progress-fill';
+    progressTrack.append(progressFill);
   }
 
   const controls = document.createElement('div');
@@ -828,7 +868,7 @@ export default async function decorate(block) {
   const backButton = document.createElement('button');
   backButton.type = 'button';
   backButton.className = 'quiz-router-control quiz-router-control-back';
-  backButton.textContent = 'Back';
+  backButton.textContent = '← Back';
 
   const restartButton = document.createElement('button');
   restartButton.type = 'button';
@@ -844,7 +884,11 @@ export default async function decorate(block) {
   const stepper = document.createElement('ol');
   stepper.className = 'quiz-router-stepper';
   if (config.theme === 'premium') {
-    shell.append(header, stepper);
+    if (progressTrack) {
+      shell.append(header, progressTrack, stepper);
+    } else {
+      shell.append(header, stepper);
+    }
   } else {
     shell.append(header);
   }
@@ -963,7 +1007,11 @@ export default async function decorate(block) {
     content.setAttribute('aria-busy', state.isBusy ? 'true' : 'false');
 
     if (progressEl) {
-      progressEl.textContent = `Step ${state.currentStep + 1} of ${steps.length}`;
+      setProgressText(progressEl, state.currentStep, steps.length);
+    }
+    if (progressFill) {
+      const denominator = Math.max(1, steps.length - 1);
+      progressFill.style.width = `${(state.currentStep / denominator) * 100}%`;
     }
 
     if (config.theme === 'premium') {
@@ -988,40 +1036,47 @@ export default async function decorate(block) {
 
     const step = steps[state.currentStep];
 
-    renderStepContent(content, step, state, async (option) => {
-      const nextAction = resolveNextAction(option.action, config.resultMode);
-      trackAnswer(step, option, nextAction);
+    renderStepContent(
+      content,
+      step,
+      state.currentStep,
+      state,
+      config.theme === 'premium',
+      async (option) => {
+        const nextAction = resolveNextAction(option.action, config.resultMode);
+        trackAnswer(step, option, nextAction);
 
-      if (nextAction === 'next') {
-        const nextIndex = state.currentStep + 1;
-        if (nextIndex < steps.length) {
-          state.maxVisitedStep = Math.max(state.maxVisitedStep, nextIndex);
-          if (config.theme === 'premium') {
-            await wait(TRANSITION_DELAY_MS);
+        if (nextAction === 'next') {
+          const nextIndex = state.currentStep + 1;
+          if (nextIndex < steps.length) {
+            state.maxVisitedStep = Math.max(state.maxVisitedStep, nextIndex);
+            if (config.theme === 'premium') {
+              await wait(TRANSITION_DELAY_MS);
+            }
+            renderCurrentStep(nextIndex);
+          } else {
+            console.warn(`quiz-router: row ${option.rowNum} uses "${NEXT_STEP}" on final step. No further question to display.`);
           }
-          renderCurrentStep(nextIndex);
-        } else {
-          console.warn(`quiz-router: row ${option.rowNum} uses "${NEXT_STEP}" on final step. No further question to display.`);
+          return;
         }
-        return;
-      }
 
-      if (nextAction === 'disabled') {
-        return;
-      }
+        if (nextAction === 'disabled') {
+          return;
+        }
 
-      state.isBusy = true;
-      renderCurrentStep(state.currentStep);
-
-      trackCompletion(option);
-
-      const shouldLoadFragment = nextAction === 'fragment';
-      const didLeaveView = await handleNavigate(option.href, shouldLoadFragment);
-      if (!didLeaveView) {
-        state.isBusy = false;
+        state.isBusy = true;
         renderCurrentStep(state.currentStep);
-      }
-    });
+
+        trackCompletion(option);
+
+        const shouldLoadFragment = nextAction === 'fragment';
+        const didLeaveView = await handleNavigate(option.href, shouldLoadFragment);
+        if (!didLeaveView) {
+          state.isBusy = false;
+          renderCurrentStep(state.currentStep);
+        }
+      },
+    );
 
     trackStepView(state.currentStep);
     persistState();
