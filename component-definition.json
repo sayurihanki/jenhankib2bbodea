@@ -395,6 +395,16 @@
           }
         },
         {
+          "title": "Commerce Account Hub",
+          "id": "commerce-account-hub",
+          "model": "commerce-account-hub",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
           "title": "Quiz Router",
           "id": "quiz-router",
           "model": "quiz-router",

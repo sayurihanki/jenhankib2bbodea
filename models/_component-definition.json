@@ -59,6 +59,9 @@
           "...": "../blocks/live-block/_*.json#/definitions"
         },
         {
+          "...": "../blocks/commerce-account-hub/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/quiz-router/_*.json#/definitions"
         }
       ]

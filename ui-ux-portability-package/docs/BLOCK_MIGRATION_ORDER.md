@@ -26,6 +26,7 @@
 | `circle-carousel` | `interactive-content` | `engagement` | 1 | 1 |
 | `columns` | `content` | `general` | 1 | 1 |
 | `commerce-account-header` | `commerce` | `core` | 1 | 1 |
+| `commerce-account-hub` | `commerce` | `core` | 1 | 1 |
 | `commerce-account-nav` | `commerce` | `core` | 1 | 1 |
 | `commerce-account-sidebar` | `commerce` | `core` | 1 | 1 |
 | `commerce-addresses` | `commerce` | `core` | 1 | 1 |
@@ -94,9 +95,12 @@
 | `hero-5` | `content` | `general` | 1 | 1 |
 | `hero-cta` | `content` | `general` | 1 | 1 |
 | `how-it-works-stats` | `content` | `general` | 1 | 1 |
+| `how-it-works-stats-2` | `content` | `general` | 1 | 1 |
+| `live-block` | `content` | `general` | 1 | 1 |
 | `modal` | `interactive-content` | `engagement` | 1 | 1 |
 | `newsletter` | `content` | `general` | 1 | 1 |
 | `product-details` | `content` | `general` | 1 | 2 |
+| `product-highlights` | `content` | `general` | 1 | 1 |
 | `product-list-page` | `content` | `general` | 1 | 2 |
 | `product-recommendations` | `content` | `general` | 1 | 1 |
 | `product-teaser` | `content` | `general` | 1 | 2 |

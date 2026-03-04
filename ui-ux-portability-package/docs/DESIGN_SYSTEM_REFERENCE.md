@@ -41,25 +41,26 @@
 
 ## Component Inventory Summary
 
-- Total blocks: `97`
-- Blocks with CSS: `97`
-- Blocks with JS runtime: `97`
+- Total blocks: `101`
+- Blocks with CSS: `101`
+- Blocks with JS runtime: `101`
 
 Category distribution:
 - `interactive-content`: 9
-- `content`: 25
-- `commerce`: 54
+- `content`: 28
+- `commerce`: 55
 - `shell`: 5
 - `forms`: 4
 
 ## Token Prefix Distribution
 
 - `accent`: 3
+- `active`: 1
 - `background`: 2
 - `blogpost`: 1
 - `body`: 4
 - `circle`: 4
-- `color`: 59
+- `color`: 63
 - `column`: 1
 - `cream`: 1
 - `d`: 1
@@ -78,9 +79,8 @@ Category distribution:
 - `green`: 10
 - `grid`: 15
 - `header`: 1
-- `heading`: 1
 - `hero`: 34
-- `hiws`: 12
+- `hiws`: 22
 - `ink`: 11
 - `light`: 1
 - `main`: 1
@@ -90,9 +90,9 @@ Category distribution:
 - `no`: 1
 - `pp`: 8
 - `promotional`: 51
-- `quiz`: 7
+- `quiz`: 11
 - `readonly`: 1
-- `search`: 21
+- `search`: 26
 - `sel`: 1
 - `shadow`: 5
 - `shape`: 15
@@ -100,6 +100,7 @@ Category distribution:
 - `slide`: 1
 - `spacing`: 13
 - `store`: 3
+- `tertiary`: 1
 - `text`: 1
 - `top`: 7
 - `transition`: 3

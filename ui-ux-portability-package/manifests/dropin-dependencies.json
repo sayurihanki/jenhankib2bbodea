@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-03T07:48:29.595Z",
+  "generatedAt": "2026-03-04T07:00:26.733Z",
   "summary": {
     "totalPackages": 17,
     "undeclaredPackages": []
@@ -9,7 +9,7 @@
       "package": "@dropins/storefront-account",
       "version": "~3.0.0",
       "source": "declared",
-      "importCount": 19,
+      "importCount": 21,
       "importSpecifiers": [
         "@dropins/storefront-account/api.js",
         "@dropins/storefront-account/containers/Addresses.js",
@@ -19,6 +19,7 @@
         "@dropins/storefront-account/render.js"
       ],
       "importedBy": [
+        "blocks/commerce-account-hub/commerce-account-hub.js",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.js",
         "blocks/commerce-addresses/commerce-addresses.js",
         "blocks/commerce-b2b-negotiable-quote-template/commerce-b2b-negotiable-quote-template.js",
@@ -27,6 +28,7 @@
         "blocks/commerce-checkout/containers.js",
         "blocks/commerce-customer-information/commerce-customer-information.js",
         "blocks/commerce-orders-list/commerce-orders-list.js",
+        "blocks/live-block/live-block.js",
         "scripts/initializers/account.js"
       ]
     },
@@ -131,7 +133,7 @@
       "package": "@dropins/storefront-company-management",
       "version": "~1.0.0",
       "source": "declared",
-      "importCount": 23,
+      "importCount": 25,
       "importSpecifiers": [
         "@dropins/storefront-company-management/api.js",
         "@dropins/storefront-company-management/containers/AcceptInvitation.js",
@@ -145,6 +147,7 @@
         "@dropins/storefront-company-management/render.js"
       ],
       "importedBy": [
+        "blocks/commerce-account-hub/commerce-account-hub.js",
         "blocks/commerce-b2b-negotiable-quote-template/commerce-b2b-negotiable-quote-template.js",
         "blocks/commerce-b2b-negotiable-quote/commerce-b2b-negotiable-quote.js",
         "blocks/commerce-company-accept-invitation/commerce-company-accept-invitation.js",
@@ -155,6 +158,7 @@
         "blocks/commerce-company-structure/commerce-company-structure.js",
         "blocks/commerce-company-users/commerce-company-users.js",
         "blocks/commerce-customer-company/commerce-customer-company.js",
+        "blocks/live-block/live-block.js",
         "scripts/initializers/company.js"
       ]
     },
@@ -289,7 +293,7 @@
       "package": "@dropins/storefront-purchase-order",
       "version": "~1.0.0",
       "source": "declared",
-      "importCount": 39,
+      "importCount": 40,
       "importSpecifiers": [
         "@dropins/storefront-purchase-order/api.js",
         "@dropins/storefront-purchase-order/containers/ApprovalRuleDetails.js",
@@ -321,6 +325,7 @@
         "blocks/commerce-b2b-po-status/commerce-b2b-po-status.js",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.js",
         "blocks/commerce-checkout/commerce-checkout.js",
+        "blocks/live-block/live-block.js",
         "scripts/initializers/purchase-order.js"
       ]
     },
@@ -328,7 +333,7 @@
       "package": "@dropins/storefront-quote-management",
       "version": "~1.0.0",
       "source": "declared",
-      "importCount": 14,
+      "importCount": 15,
       "importSpecifiers": [
         "@dropins/storefront-quote-management/api.js",
         "@dropins/storefront-quote-management/containers/ManageNegotiableQuote.js",
@@ -341,6 +346,7 @@
         "@dropins/storefront-quote-management/render.js"
       ],
       "importedBy": [
+        "blocks/commerce-account-hub/commerce-account-hub.js",
         "blocks/commerce-b2b-negotiable-quote-template/commerce-b2b-negotiable-quote-template.js",
         "blocks/commerce-b2b-negotiable-quote/commerce-b2b-negotiable-quote.js",
         "blocks/commerce-b2b-quote-checkout/containers.js",
@@ -367,7 +373,7 @@
       "package": "@dropins/storefront-requisition-list",
       "version": "1.0.0",
       "source": "declared",
-      "importCount": 9,
+      "importCount": 10,
       "importSpecifiers": [
         "@dropins/storefront-requisition-list/api.js",
         "@dropins/storefront-requisition-list/containers/RequisitionListGrid.js",
@@ -376,6 +382,7 @@
         "@dropins/storefront-requisition-list/render.js"
       ],
       "importedBy": [
+        "blocks/commerce-account-hub/commerce-account-hub.js",
         "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.js",
         "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.js",
         "blocks/product-details/requisition-list.js",
@@ -408,7 +415,7 @@
       "package": "@dropins/tools",
       "version": "~1.6.0",
       "source": "declared",
-      "importCount": 150,
+      "importCount": 152,
       "importSpecifiers": [
         "@dropins/tools/components.js",
         "@dropins/tools/event-bus.js",
@@ -422,6 +429,7 @@
       ],
       "importedBy": [
         "blocks/commerce-account-header/commerce-account-header.js",
+        "blocks/commerce-account-hub/commerce-account-hub.js",
         "blocks/commerce-account-nav/commerce-account-nav.js",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.js",
         "blocks/commerce-b2b-negotiable-quote-template/commerce-b2b-negotiable-quote-template.js",
@@ -467,6 +475,7 @@
         "blocks/header/header.js",
         "blocks/header/renderAuthCombine.js",
         "blocks/header/renderAuthDropdown.js",
+        "blocks/live-block/live-block.js",
         "blocks/modal/modal.js",
         "blocks/product-details/product-details.js",
         "blocks/product-details/requisition-list.js",

@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-03-03T07:48:29.494Z",
+  "generatedAt": "2026-03-04T07:00:26.638Z",
   "summary": {
-    "totalBlocks": 97,
-    "withStyles": 97,
-    "withRuntime": 97,
+    "totalBlocks": 101,
+    "withStyles": 101,
+    "withRuntime": 101,
     "byCategory": {
       "interactive-content": 9,
-      "content": 25,
-      "commerce": 54,
+      "content": 28,
+      "commerce": 55,
       "shell": 5,
       "forms": 4
     }
@@ -261,6 +261,29 @@
       "hasStyles": true,
       "hasRuntime": true,
       "fileCount": 3
+    },
+    {
+      "name": "commerce-account-hub",
+      "category": "commerce",
+      "subcategory": "core",
+      "title": "Commerce Account Hub Block",
+      "overview": "The Commerce Account Hub block renders a staged, live-data summary dashboard for `/customer/account`.",
+      "sourcePath": "blocks/commerce-account-hub",
+      "files": {
+        "css": [
+          "blocks/commerce-account-hub/commerce-account-hub.css"
+        ],
+        "js": [
+          "blocks/commerce-account-hub/commerce-account-hub.js"
+        ],
+        "json": [
+          "blocks/commerce-account-hub/_commerce-account-hub.json"
+        ],
+        "readme": "blocks/commerce-account-hub/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
     },
     {
       "name": "commerce-account-nav",
@@ -1431,8 +1454,8 @@
       "name": "features-grid",
       "category": "content",
       "subcategory": "general",
-      "title": "features-grid",
-      "overview": "",
+      "title": "Features Grid Block",
+      "overview": "The `features-grid` block renders a section header and a responsive grid of feature cards. It supports multiple card variants (`featured`, `default`, `wide`) and uses an IntersectionObserver to reveal cards as they enter the viewport. Built for EDS document authoring with a 2-column table structure.",
       "sourcePath": "blocks/features-grid",
       "files": {
         "css": [
@@ -1442,11 +1465,11 @@
           "blocks/features-grid/features-grid.js"
         ],
         "json": [],
-        "readme": ""
+        "readme": "blocks/features-grid/README.md"
       },
       "hasStyles": true,
       "hasRuntime": true,
-      "fileCount": 3
+      "fileCount": 4
     },
     {
       "name": "footer",
@@ -1706,7 +1729,7 @@
       "category": "content",
       "subcategory": "general",
       "title": "How It Works + Stats Block",
-      "overview": "The `how-it-works-stats` block renders a 4-step process section followed by a",
+      "overview": "The `how-it-works-stats` block renders a 4-step process section, a 4-metric",
       "sourcePath": "blocks/how-it-works-stats",
       "files": {
         "css": [
@@ -1719,6 +1742,52 @@
           "blocks/how-it-works-stats/_how-it-works-stats.json"
         ],
         "readme": "blocks/how-it-works-stats/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
+    },
+    {
+      "name": "how-it-works-stats-2",
+      "category": "content",
+      "subcategory": "general",
+      "title": "How It Works + Stats 2 Block",
+      "overview": "The `how-it-works-stats-2` block renders a 4-step process section, a 4-metric",
+      "sourcePath": "blocks/how-it-works-stats-2",
+      "files": {
+        "css": [
+          "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
+        ],
+        "js": [
+          "blocks/how-it-works-stats-2/how-it-works-stats-2.js"
+        ],
+        "json": [
+          "blocks/how-it-works-stats-2/_how-it-works-stats-2.json"
+        ],
+        "readme": "blocks/how-it-works-stats-2/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
+    },
+    {
+      "name": "live-block",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Live Block",
+      "overview": "`live-block` renders a portable, authenticated dashboard card backed by Adobe Commerce account-level data.",
+      "sourcePath": "blocks/live-block",
+      "files": {
+        "css": [
+          "blocks/live-block/live-block.css"
+        ],
+        "js": [
+          "blocks/live-block/live-block.js"
+        ],
+        "json": [
+          "blocks/live-block/_live-block.json"
+        ],
+        "readme": "blocks/live-block/README.md"
       },
       "hasStyles": true,
       "hasRuntime": true,
@@ -1785,6 +1854,29 @@
         ],
         "json": [],
         "readme": "blocks/product-details/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
+    },
+    {
+      "name": "product-highlights",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Product Highlights Block",
+      "overview": "The `product-highlights` block renders a section header and a responsive product",
+      "sourcePath": "blocks/product-highlights",
+      "files": {
+        "css": [
+          "blocks/product-highlights/product-highlights.css"
+        ],
+        "js": [
+          "blocks/product-highlights/product-highlights.js"
+        ],
+        "json": [
+          "blocks/product-highlights/_product-highlights.json"
+        ],
+        "readme": "blocks/product-highlights/README.md"
       },
       "hasStyles": true,
       "hasRuntime": true,

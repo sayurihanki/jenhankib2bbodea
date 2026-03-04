@@ -1,16 +1,17 @@
 {
-  "generatedAt": "2026-03-03T07:48:29.510Z",
+  "generatedAt": "2026-03-04T07:00:26.655Z",
   "summary": {
-    "totalTokens": 539,
-    "definedTokens": 491,
-    "unresolvedTokens": 48,
+    "totalTokens": 563,
+    "definedTokens": 514,
+    "unresolvedTokens": 49,
     "byPrefix": {
       "accent": 3,
+      "active": 1,
       "background": 2,
       "blogpost": 1,
       "body": 4,
       "circle": 4,
-      "color": 59,
+      "color": 63,
       "column": 1,
       "cream": 1,
       "d": 1,
@@ -29,9 +30,8 @@
       "green": 10,
       "grid": 15,
       "header": 1,
-      "heading": 1,
       "hero": 34,
-      "hiws": 12,
+      "hiws": 22,
       "ink": 11,
       "light": 1,
       "main": 1,
@@ -41,9 +41,9 @@
       "no": 1,
       "pp": 8,
       "promotional": 51,
-      "quiz": 7,
+      "quiz": 11,
       "readonly": 1,
-      "search": 21,
+      "search": 26,
       "sel": 1,
       "shadow": 5,
       "shape": 15,
@@ -51,6 +51,7 @@
       "slide": 1,
       "spacing": 13,
       "store": 3,
+      "tertiary": 1,
       "text": 1,
       "top": 7,
       "transition": 3,
@@ -112,6 +113,17 @@
         "blocks/hero-3/hero-3.css",
         "styles/styles.css"
       ],
+      "status": "defined"
+    },
+    {
+      "name": "--active",
+      "prefix": "active",
+      "value": ":before {\n    width: 3px",
+      "definedIn": [
+        "blocks/commerce-account-nav/commerce-account-nav.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
       "status": "defined"
     },
     {
@@ -211,10 +223,8 @@
       "definedIn": [
         "blocks/circle-carousel/circle-carousel.css"
       ],
-      "usageCount": 3,
-      "usedIn": [
-        "blocks/circle-carousel/circle-carousel.css"
-      ],
+      "usageCount": 0,
+      "usedIn": [],
       "status": "defined"
     },
     {
@@ -309,11 +319,13 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 6,
+      "usageCount": 9,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-cart/commerce-cart.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
         "blocks/form-4/form-4.css",
         "blocks/form/form.css",
         "blocks/store-locator/store-locator.css"
@@ -371,7 +383,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 21,
+      "usageCount": 20,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/circle-carousel/circle-carousel.css",
@@ -478,6 +490,39 @@
       "status": "defined"
     },
     {
+      "name": "--color-coral",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/product-highlights/product-highlights.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-cream",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/product-highlights/product-highlights.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-gold",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/product-highlights/product-highlights.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
       "name": "--color-gold-2",
       "prefix": "color",
       "value": null,
@@ -493,10 +538,11 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 4,
+      "usageCount": 6,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
-        "blocks/hero-5/hero-5.css"
+        "blocks/hero-5/hero-5.css",
+        "blocks/product-highlights/product-highlights.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -528,10 +574,11 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 3,
+      "usageCount": 8,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
-        "blocks/hero-5/hero-5.css"
+        "blocks/hero-5/hero-5.css",
+        "blocks/product-highlights/product-highlights.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -552,9 +599,10 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 1,
+      "usageCount": 3,
       "usedIn": [
-        "blocks/features-grid/features-grid.css"
+        "blocks/features-grid/features-grid.css",
+        "blocks/product-highlights/product-highlights.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -563,10 +611,11 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 4,
+      "usageCount": 6,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
-        "blocks/hero-5/hero-5.css"
+        "blocks/hero-5/hero-5.css",
+        "blocks/product-highlights/product-highlights.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -575,7 +624,7 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
         "blocks/features-grid/features-grid.css"
       ],
@@ -586,10 +635,11 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 4,
+      "usageCount": 5,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
-        "blocks/hero-5/hero-5.css"
+        "blocks/hero-5/hero-5.css",
+        "blocks/product-highlights/product-highlights.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -645,10 +695,11 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 5,
+      "usageCount": 4,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
-        "blocks/hero-5/hero-5.css"
+        "blocks/hero-5/hero-5.css",
+        "blocks/product-highlights/product-highlights.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -668,9 +719,10 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 2,
+      "usageCount": 3,
       "usedIn": [
-        "blocks/hero-5/hero-5.css"
+        "blocks/hero-5/hero-5.css",
+        "blocks/product-highlights/product-highlights.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -683,6 +735,17 @@
       "usedIn": [
         "blocks/features-grid/features-grid.css",
         "blocks/hero-5/hero-5.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--color-ink-50",
+      "prefix": "color",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/product-highlights/product-highlights.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -702,10 +765,11 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 3,
+      "usageCount": 6,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
-        "blocks/hero-5/hero-5.css"
+        "blocks/hero-5/hero-5.css",
+        "blocks/product-highlights/product-highlights.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -739,11 +803,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 16,
+      "usageCount": 14,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
-        "blocks/circle-carousel/circle-carousel.css",
-        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/features-grid/features-grid.css",
         "blocks/header/header.css",
         "blocks/hero-cta/hero-cta.css",
@@ -762,10 +824,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 23,
+      "usageCount": 22,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
-        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/hero-cta/hero-cta.css",
         "blocks/newsletter/newsletter.css",
         "blocks/quiz-router/quiz-router.css",
@@ -782,11 +843,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 16,
+      "usageCount": 14,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/circle-carousel/circle-carousel.css",
-        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/header/header.css",
         "blocks/hero-cta/hero-cta.css",
         "blocks/promotional-hero/promotional-hero.css",
@@ -803,11 +863,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 13,
+      "usageCount": 12,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/carousel/carousel.css",
-        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
         "blocks/commerce-checkout/commerce-checkout.css",
         "blocks/header/header.css",
@@ -824,7 +883,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 50,
+      "usageCount": 58,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -854,7 +913,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 10,
+      "usageCount": 12,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/cards/cards.css",
@@ -875,9 +934,11 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 8,
+      "usageCount": 11,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/form-4/form-4.css",
         "blocks/form/form.css",
@@ -893,15 +954,23 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 20,
+      "usageCount": 34,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/blog-post/blog-post.css",
         "blocks/carousel/carousel.css",
         "blocks/circle-carousel/circle-carousel.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
         "blocks/commerce-checkout-success/commerce-checkout-success.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/form-4/form-4.css",
         "blocks/form/form.css",
         "blocks/newsletter/newsletter.css",
@@ -917,13 +986,14 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 15,
+      "usageCount": 16,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/age-gate/age-gate.css",
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
         "blocks/commerce-checkout/commerce-checkout.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
         "blocks/hero-cta/hero-cta.css",
         "blocks/product-details/product-details.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
@@ -938,13 +1008,19 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 32,
+      "usageCount": 41,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/cards-list/cards-list.css",
         "blocks/circle-carousel/circle-carousel.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
         "blocks/form-4/form-4.css",
         "blocks/form/form.css",
         "blocks/header/header.css",
@@ -988,9 +1064,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
-        "blocks/commerce-mini-cart/commerce-mini-cart.css"
+        "blocks/commerce-mini-cart/commerce-mini-cart.css",
+        "blocks/quiz-router/quiz-router.css"
       ],
       "status": "defined"
     },
@@ -1073,9 +1150,11 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 1,
+      "usageCount": 4,
       "usedIn": [
-        "blocks/hero-5/hero-5.css"
+        "blocks/hero-5/hero-5.css",
+        "blocks/live-block/live-block.css",
+        "blocks/product-highlights/product-highlights.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -1120,7 +1199,7 @@
     {
       "name": "--desktop-item-panel-max-width",
       "prefix": "desktop",
-      "value": "300px",
+      "value": "420px",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -1133,7 +1212,7 @@
     {
       "name": "--desktop-item-panel-min-width",
       "prefix": "desktop",
-      "value": "200px",
+      "value": "260px",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -1146,7 +1225,7 @@
     {
       "name": "--desktop-large-panel-width",
       "prefix": "desktop",
-      "value": "900px",
+      "value": "1080px",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -1202,18 +1281,25 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 70,
+      "usageCount": 89,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/catalog-highlights/catalog-highlights.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-orders-list/commerce-orders-list.css",
         "blocks/form/form.css",
         "blocks/hero-3/hero-3.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-teaser/product-teaser.css",
+        "blocks/quiz-router/quiz-router.css",
         "blocks/search-bar/search-bar.css",
         "blocks/search/search.css",
         "blocks/tabs/tabs.css",
@@ -1227,10 +1313,11 @@
       "prefix": "ease",
       "value": null,
       "definedIn": [],
-      "usageCount": 9,
+      "usageCount": 12,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
-        "blocks/hero-5/hero-5.css"
+        "blocks/hero-5/hero-5.css",
+        "blocks/product-highlights/product-highlights.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -1241,13 +1328,15 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 14,
+      "usageCount": 16,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/form/form.css",
         "blocks/hero-3/hero-3.css",
         "blocks/newsletter/newsletter.css",
+        "blocks/product-highlights/product-highlights.css",
         "blocks/product-teaser/product-teaser.css",
+        "blocks/quiz-router/quiz-router.css",
         "blocks/search-bar/search-bar.css",
         "blocks/search/search.css",
         "blocks/video/video.css",
@@ -1925,14 +2014,19 @@
     {
       "name": "--font-display",
       "prefix": "font",
-      "value": null,
-      "definedIn": [],
-      "usageCount": 7,
+      "value": "var(--type-display-font-family)",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 11,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
-        "blocks/hero-5/hero-5.css"
+        "blocks/hero-5/hero-5.css",
+        "blocks/live-block/live-block.css",
+        "blocks/product-highlights/product-highlights.css",
+        "blocks/quiz-router/quiz-router.css"
       ],
-      "status": "referenced-without-definition"
+      "status": "defined"
     },
     {
       "name": "--gap",
@@ -1952,9 +2046,11 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 16,
+      "usageCount": 17,
       "usedIn": [
         "blocks/accordion/accordion.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
         "blocks/form/form.css",
@@ -1973,8 +2069,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 6,
+      "usageCount": 7,
       "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/form/form.css",
         "blocks/newsletter/newsletter.css",
         "blocks/search/search.css",
@@ -1989,11 +2086,19 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 13,
+      "usageCount": 24,
       "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-customer-information/commerce-customer-information.css",
         "blocks/commerce-orders-list/commerce-orders-list.css",
         "blocks/form/form.css",
@@ -2012,7 +2117,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 9,
+      "usageCount": 8,
       "usedIn": [
         "blocks/header/header.css",
         "blocks/hero-3/hero-3.css",
@@ -2031,11 +2136,14 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 9,
+      "usageCount": 12,
       "usedIn": [
         "blocks/accordion/accordion.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/features-grid/features-grid.css",
         "blocks/form/form.css",
         "blocks/hero-3/hero-3.css",
         "blocks/newsletter/newsletter.css",
@@ -2051,9 +2159,15 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 5,
+      "usageCount": 13,
       "usedIn": [
         "blocks/commerce-addresses/commerce-addresses.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-customer-information/commerce-customer-information.css",
         "blocks/commerce-orders-list/commerce-orders-list.css",
         "blocks/form/form.css",
@@ -2089,17 +2203,24 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 16,
+      "usageCount": 26,
       "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-customer-information/commerce-customer-information.css",
         "blocks/commerce-orders-list/commerce-orders-list.css",
         "blocks/form/form.css",
         "blocks/hero-3/hero-3.css",
         "blocks/newsletter/newsletter.css",
-        "blocks/search-bar/search-bar.css",
         "blocks/search/search.css",
         "styles/styles.css"
       ],
@@ -2112,13 +2233,22 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 12,
+      "usageCount": 22,
       "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-customer-information/commerce-customer-information.css",
         "blocks/commerce-orders-list/commerce-orders-list.css",
+        "blocks/features-grid/features-grid.css",
         "blocks/hero-3/hero-3.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-teaser/product-teaser.css",
@@ -2161,9 +2291,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 2,
+      "usageCount": 6,
       "usedIn": [
-        "blocks/catalog-highlights/catalog-highlights.css"
+        "blocks/catalog-highlights/catalog-highlights.css",
+        "blocks/quiz-router/quiz-router.css"
       ],
       "status": "defined"
     },
@@ -2174,9 +2305,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
-        "blocks/footer/footer.css"
+        "blocks/footer/footer.css",
+        "blocks/quiz-router/quiz-router.css"
       ],
       "status": "defined"
     },
@@ -2187,8 +2319,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 8,
       "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/quiz-router/quiz-router.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -2200,9 +2334,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 5,
+      "usageCount": 10,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
+        "blocks/quiz-router/quiz-router.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -2214,9 +2349,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 3,
+      "usageCount": 8,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
+        "blocks/quiz-router/quiz-router.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -2228,10 +2364,12 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 6,
+      "usageCount": 19,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/header/header.css",
+        "blocks/quiz-router/quiz-router.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -2243,10 +2381,11 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 3,
+      "usageCount": 6,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/header/header.css",
+        "blocks/quiz-router/quiz-router.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -2258,8 +2397,11 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 0,
-      "usedIn": [],
+      "usageCount": 6,
+      "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/quiz-router/quiz-router.css"
+      ],
       "status": "defined"
     },
     {
@@ -2269,8 +2411,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 0,
-      "usedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
       "status": "defined"
     },
     {
@@ -2482,17 +2626,6 @@
       "usageCount": 1,
       "usedIn": [
         "blocks/carousel/carousel.css"
-      ],
-      "status": "referenced-without-definition"
-    },
-    {
-      "name": "--heading-font-family",
-      "prefix": "heading",
-      "value": null,
-      "definedIn": [],
-      "usageCount": 4,
-      "usedIn": [
-        "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -2931,75 +3064,128 @@
       "status": "defined"
     },
     {
-      "name": "--hiws-g100",
+      "name": "--hiws-beige-100",
+      "prefix": "hiws",
+      "value": "#f4f1e7",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-beige-200",
+      "prefix": "hiws",
+      "value": "#ece8dc",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-delay",
+      "prefix": "hiws",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--hiws-font-display",
+      "prefix": "hiws",
+      "value": "\"Syne\", var(--type-base-font-family)",
+      "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-font-sora",
+      "prefix": "hiws",
+      "value": "\"Sora\", var(--type-base-font-family)",
+      "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 11,
+      "usedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-green-300",
       "prefix": "hiws",
       "value": "#a8edcc",
       "definedIn": [
-        "blocks/how-it-works-stats/how-it-works-stats.css"
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
-        "blocks/how-it-works-stats/how-it-works-stats.css"
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
       ],
       "status": "defined"
     },
     {
-      "name": "--hiws-g150",
+      "name": "--hiws-green-400",
       "prefix": "hiws",
-      "value": "#5fd49f",
+      "value": "#62d8a1",
       "definedIn": [
-        "blocks/how-it-works-stats/how-it-works-stats.css"
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
       ],
-      "usageCount": 1,
+      "usageCount": 3,
       "usedIn": [
-        "blocks/how-it-works-stats/how-it-works-stats.css"
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
       ],
       "status": "defined"
     },
     {
-      "name": "--hiws-g200",
+      "name": "--hiws-green-500",
       "prefix": "hiws",
       "value": "#2ebe7a",
       "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-green-600",
+      "prefix": "hiws",
+      "value": "#1f8a5a",
+      "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
         "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
-      "usageCount": 1,
+      "usageCount": 4,
       "usedIn": [
         "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
       "status": "defined"
     },
     {
-      "name": "--hiws-g300",
+      "name": "--hiws-green-700",
       "prefix": "hiws",
-      "value": "#26a067",
+      "value": "#145239",
       "definedIn": [
-        "blocks/how-it-works-stats/how-it-works-stats.css"
-      ],
-      "usageCount": 1,
-      "usedIn": [
-        "blocks/how-it-works-stats/how-it-works-stats.css"
-      ],
-      "status": "defined"
-    },
-    {
-      "name": "--hiws-g500",
-      "prefix": "hiws",
-      "value": "#1a6640",
-      "definedIn": [
-        "blocks/how-it-works-stats/how-it-works-stats.css"
-      ],
-      "usageCount": 1,
-      "usedIn": [
-        "blocks/how-it-works-stats/how-it-works-stats.css"
-      ],
-      "status": "defined"
-    },
-    {
-      "name": "--hiws-g700",
-      "prefix": "hiws",
-      "value": "#0f3d24",
-      "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
         "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
       "usageCount": 2,
@@ -3009,10 +3195,11 @@
       "status": "defined"
     },
     {
-      "name": "--hiws-g900",
+      "name": "--hiws-green-800",
       "prefix": "hiws",
-      "value": "#061a0e",
+      "value": "#0b3624",
       "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
         "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
       "usageCount": 1,
@@ -3022,23 +3209,37 @@
       "status": "defined"
     },
     {
-      "name": "--hiws-ink400",
+      "name": "--hiws-green-850",
       "prefix": "hiws",
-      "value": "#587460",
+      "value": "#062217",
       "definedIn": [
-        "blocks/how-it-works-stats/how-it-works-stats.css"
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
       ],
       "usageCount": 1,
       "usedIn": [
-        "blocks/how-it-works-stats/how-it-works-stats.css"
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
       ],
       "status": "defined"
     },
     {
-      "name": "--hiws-ink500",
+      "name": "--hiws-green-900",
       "prefix": "hiws",
-      "value": "#3d5844",
+      "value": "#03140c",
       "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-ink-400",
+      "prefix": "hiws",
+      "value": "#7b9788",
+      "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
         "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
       "usageCount": 0,
@@ -3046,20 +3247,52 @@
       "status": "defined"
     },
     {
-      "name": "--hiws-ink700",
+      "name": "--hiws-ink-500",
       "prefix": "hiws",
-      "value": "#1d2d24",
+      "value": "#9cb7a8",
       "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
         "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
-      "usageCount": 0,
-      "usedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
       "status": "defined"
     },
     {
-      "name": "--hiws-ink950",
+      "name": "--hiws-ink-700",
       "prefix": "hiws",
-      "value": "#06090a",
+      "value": "#d2e2d7",
+      "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-ink-900",
+      "prefix": "hiws",
+      "value": "#f2fbf5",
+      "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-sage-100",
+      "prefix": "hiws",
+      "value": "#e8efe4",
       "definedIn": [
         "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
@@ -3067,6 +3300,43 @@
       "usedIn": [
         "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-sage-200",
+      "prefix": "hiws",
+      "value": "#dbe6d6",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-sage-300",
+      "prefix": "hiws",
+      "value": "#c8d8c5",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--hiws-sage-400",
+      "prefix": "hiws",
+      "value": "#a9c0ab",
+      "definedIn": [
+        "blocks/how-it-works-stats/how-it-works-stats.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
       "status": "defined"
     },
     {
@@ -3074,10 +3344,12 @@
       "prefix": "hiws",
       "value": "#fff",
       "definedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
         "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
-      "usageCount": 3,
+      "usageCount": 6,
       "usedIn": [
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
         "blocks/how-it-works-stats/how-it-works-stats.css"
       ],
       "status": "defined"
@@ -3089,9 +3361,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 2,
+      "usageCount": 4,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
+        "blocks/quiz-router/quiz-router.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -3117,10 +3390,11 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 5,
+      "usageCount": 8,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/footer/footer.css",
+        "blocks/quiz-router/quiz-router.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -3160,8 +3434,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 2,
+      "usageCount": 3,
       "usedIn": [
+        "blocks/quiz-router/quiz-router.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -3214,9 +3489,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 5,
+      "usageCount": 7,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
+        "blocks/quiz-router/quiz-router.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -3250,10 +3526,17 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 6,
+      "usageCount": 19,
       "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/form-4/form-4.css",
         "blocks/promo-popup/promo-popup.css",
         "styles/styles.css"
@@ -3330,10 +3613,11 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 14,
+      "usageCount": 16,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/header/header.css",
+        "blocks/hero-5/hero-5.css",
         "blocks/store-locator/store-locator.css",
         "styles/styles.css"
       ],
@@ -4630,13 +4914,65 @@
       "status": "defined"
     },
     {
+      "name": "--quiz-router-ease",
+      "prefix": "quiz",
+      "value": "var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1))",
+      "definedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "usageCount": 18,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--quiz-router-ease-spring",
+      "prefix": "quiz",
+      "value": "var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1))",
+      "definedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "usageCount": 5,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--quiz-router-font-body",
+      "prefix": "quiz",
+      "value": "var(--type-base-font-family, \"Plus Jakarta Sans\", sans-serif)",
+      "definedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "usageCount": 9,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--quiz-router-font-display",
+      "prefix": "quiz",
+      "value": "var(--font-display, var(--type-display-font-family, sans-serif))",
+      "definedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/quiz-router/quiz-router.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--quiz-router-gap",
       "prefix": "quiz",
       "value": "var(--spacing-medium)",
       "definedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
@@ -4662,7 +4998,7 @@
       "definedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
@@ -4675,7 +5011,7 @@
       "definedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
-      "usageCount": 1,
+      "usageCount": 3,
       "usedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
@@ -4688,7 +5024,7 @@
       "definedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
@@ -4701,7 +5037,7 @@
       "definedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
@@ -4714,7 +5050,7 @@
       "definedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
         "blocks/quiz-router/quiz-router.css"
       ],
@@ -4928,9 +5264,22 @@
       "status": "defined"
     },
     {
+      "name": "--search-bar-layer",
+      "prefix": "search",
+      "value": "30",
+      "definedIn": [
+        "blocks/search-bar/search-bar.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/search-bar/search-bar.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--search-bar-max-width",
       "prefix": "search",
-      "value": "clamp(20rem, 92vw, 64rem)",
+      "value": "clamp(22rem, 95vw, 78rem)",
       "definedIn": [
         "blocks/search-bar/search-bar.css"
       ],
@@ -4967,13 +5316,52 @@
       "status": "defined"
     },
     {
-      "name": "--search-bar-results-bg",
+      "name": "--search-bar-result-card-bg",
       "prefix": "search",
-      "value": "rgb(255 255 255 / 85%)",
+      "value": "rgb(255 255 255 / 94%)",
       "definedIn": [
         "blocks/search-bar/search-bar.css"
       ],
       "usageCount": 1,
+      "usedIn": [
+        "blocks/search-bar/search-bar.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--search-bar-result-card-border",
+      "prefix": "search",
+      "value": "rgb(208 226 216 / 85%)",
+      "definedIn": [
+        "blocks/search-bar/search-bar.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/search-bar/search-bar.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--search-bar-results-bg",
+      "prefix": "search",
+      "value": "linear-gradient(\n    155deg,\n    rgb(255 255 255 / 95%),\n    rgb(249 255 252 / 93%) 45%,\n    rgb(241 249 245 / 90%)\n  )",
+      "definedIn": [
+        "blocks/search-bar/search-bar.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/search-bar/search-bar.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--search-bar-results-blur",
+      "prefix": "search",
+      "value": "blur(16px)",
+      "definedIn": [
+        "blocks/search-bar/search-bar.css"
+      ],
+      "usageCount": 2,
       "usedIn": [
         "blocks/search-bar/search-bar.css"
       ],
@@ -4987,6 +5375,19 @@
         "blocks/search-bar/search-bar.css"
       ],
       "usageCount": 1,
+      "usedIn": [
+        "blocks/search-bar/search-bar.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--search-bar-results-saturate",
+      "prefix": "search",
+      "value": "saturate(140%)",
+      "definedIn": [
+        "blocks/search-bar/search-bar.css"
+      ],
+      "usageCount": 2,
       "usedIn": [
         "blocks/search-bar/search-bar.css"
       ],
@@ -5071,8 +5472,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 6,
+      "usageCount": 8,
       "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
         "blocks/header/header.css",
@@ -5102,11 +5505,12 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 10,
+      "usageCount": 11,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
         "blocks/blog-post/blog-post.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
         "blocks/commerce-mini-cart/commerce-mini-cart.css",
         "blocks/hero-cta/hero-cta.css",
         "blocks/modal/modal.css",
@@ -5122,17 +5526,24 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 34,
+      "usageCount": 49,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
         "blocks/blog-post/blog-post.css",
         "blocks/cards-list/cards-list.css",
         "blocks/carousel/carousel.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-customer-information/commerce-customer-information.css",
         "blocks/commerce-orders-list/commerce-orders-list.css",
         "blocks/form-4/form-4.css",
@@ -5158,10 +5569,15 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 21,
+      "usageCount": 27,
       "usedIn": [
         "blocks/accordion/accordion.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/form-4/form-4.css",
         "blocks/form/form.css",
         "blocks/hero-3/hero-3.css",
@@ -5209,11 +5625,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 5,
+      "usageCount": 3,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/blog-post/blog-post.css",
-        "blocks/commerce-account-nav/commerce-account-nav.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -6281,7 +6696,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 91,
+      "usageCount": 98,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -6289,16 +6704,22 @@
         "blocks/cards-list/cards-list.css",
         "blocks/cards/cards.css",
         "blocks/circle-carousel/circle-carousel.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
         "blocks/commerce-b2b-negotiable-quote-template/commerce-b2b-negotiable-quote-template.css",
         "blocks/commerce-b2b-negotiable-quote/commerce-b2b-negotiable-quote.css",
         "blocks/commerce-b2b-po-header/commerce-b2b-po-header.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
         "blocks/commerce-cart/commerce-cart.css",
         "blocks/commerce-checkout-success/commerce-checkout-success.css",
         "blocks/commerce-checkout/commerce-checkout.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-customer-information/commerce-customer-information.css",
         "blocks/commerce-order-header/commerce-order-header.css",
         "blocks/commerce-return-header/commerce-return-header.css",
@@ -6322,7 +6743,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 131,
+      "usageCount": 178,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -6331,16 +6752,23 @@
         "blocks/cards/cards.css",
         "blocks/carousel/carousel.css",
         "blocks/circle-carousel/circle-carousel.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
         "blocks/commerce-b2b-negotiable-quote-template/commerce-b2b-negotiable-quote-template.css",
         "blocks/commerce-b2b-negotiable-quote/commerce-b2b-negotiable-quote.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
         "blocks/commerce-cart/commerce-cart.css",
         "blocks/commerce-checkout-success/commerce-checkout-success.css",
         "blocks/commerce-checkout/commerce-checkout.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-customer-details/commerce-customer-details.css",
         "blocks/commerce-gift-options/commerce-gift-options.css",
         "blocks/commerce-mini-cart/commerce-mini-cart.css",
@@ -6424,7 +6852,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 67,
+      "usageCount": 83,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -6435,9 +6863,14 @@
         "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
         "blocks/commerce-cart/commerce-cart.css",
         "blocks/commerce-checkout/commerce-checkout.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-mini-cart/commerce-mini-cart.css",
         "blocks/header/header.css",
         "blocks/hero-cta/hero-cta.css",
@@ -6555,6 +6988,17 @@
       "status": "defined"
     },
     {
+      "name": "--tertiary",
+      "prefix": "tertiary",
+      "value": "hover {\n    background: rgb(46 190 122 / 16%)",
+      "definedIn": [
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
       "name": "--text-color",
       "prefix": "text",
       "value": null,
@@ -6663,11 +7107,17 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 15,
+      "usageCount": 33,
       "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-orders-list/commerce-orders-list.css",
         "styles/styles.css"
       ],
@@ -6704,12 +7154,16 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 21,
+      "usageCount": 58,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/form-4/form-4.css",
         "blocks/header/header.css",
+        "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
+        "blocks/how-it-works-stats/how-it-works-stats.css",
         "blocks/promo-popup/promo-popup.css",
+        "blocks/quiz-router/quiz-router.css",
+        "blocks/store-locator/store-locator.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
         "styles/styles.css"
       ],
@@ -6718,7 +7172,7 @@
     {
       "name": "--type-body-1-default-font",
       "prefix": "type",
-      "value": "normal normal 400 1.6rem/2.4rem var(--type-base-font-family)",
+      "value": "normal normal 500 1.8rem/2.88rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6739,9 +7193,20 @@
       "status": "defined"
     },
     {
+      "name": "--type-body-1-default-font-family",
+      "prefix": "type",
+      "value": "var(--type-base-font-family)",
+      "definedIn": [
+        "styles/styles.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
       "name": "--type-body-1-default-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "0",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6763,7 +7228,7 @@
     {
       "name": "--type-body-1-emphasized-font",
       "prefix": "type",
-      "value": "normal normal 600 1.6rem/2.4rem var(--type-base-font-family)",
+      "value": "normal normal 600 1.8rem/2.88rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6776,7 +7241,7 @@
     {
       "name": "--type-body-1-emphasized-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "0",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6787,15 +7252,18 @@
     {
       "name": "--type-body-1-strong-font",
       "prefix": "type",
-      "value": "normal normal 600 1.6rem/2.4rem var(--type-base-font-family)",
+      "value": "normal normal 600 1.8rem/2.88rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 11,
+      "usageCount": 18,
       "usedIn": [
         "blocks/cards-list/cards-list.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
         "blocks/commerce-cart/commerce-cart.css",
         "blocks/commerce-orders-list/commerce-orders-list.css",
         "blocks/header/header.css",
@@ -6809,11 +7277,11 @@
     {
       "name": "--type-body-1-strong-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "0",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 8,
+      "usageCount": 12,
       "usedIn": [
         "blocks/cards-list/cards-list.css",
         "blocks/commerce-cart/commerce-cart.css",
@@ -6828,19 +7296,22 @@
     {
       "name": "--type-body-2-default-font",
       "prefix": "type",
-      "value": "normal normal 400 1.4rem/2rem var(--type-base-font-family)",
+      "value": "normal normal 500 1.6rem/2.56rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 31,
+      "usageCount": 34,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/blog-post/blog-post.css",
         "blocks/circle-carousel/circle-carousel.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
         "blocks/commerce-checkout-success/commerce-checkout-success.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-mini-cart/commerce-mini-cart.css",
         "blocks/footer/footer.css",
         "blocks/form-4/form-4.css",
@@ -6856,18 +7327,20 @@
     {
       "name": "--type-body-2-default-font-family",
       "prefix": "type",
-      "value": null,
-      "definedIn": [],
+      "value": "var(--type-base-font-family)",
+      "definedIn": [
+        "styles/styles.css"
+      ],
       "usageCount": 1,
       "usedIn": [
         "blocks/store-locator/store-locator.css"
       ],
-      "status": "referenced-without-definition"
+      "status": "defined"
     },
     {
       "name": "--type-body-2-default-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "0",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6892,12 +7365,13 @@
     {
       "name": "--type-body-2-emphasized-font",
       "prefix": "type",
-      "value": "normal normal 600 1.4rem/2rem var(--type-base-font-family)",
+      "value": "normal normal 600 1.6rem/2.56rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 2,
+      "usageCount": 3,
       "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-b2b-negotiable-quote-template/commerce-b2b-negotiable-quote-template.css",
         "blocks/commerce-b2b-negotiable-quote/commerce-b2b-negotiable-quote.css"
       ],
@@ -6906,7 +7380,7 @@
     {
       "name": "--type-body-2-emphasized-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "0",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6920,16 +7394,20 @@
     {
       "name": "--type-body-2-strong-font",
       "prefix": "type",
-      "value": "normal normal 600 1.4rem/2rem var(--type-base-font-family)",
+      "value": "normal normal 600 1.6rem/2.56rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 9,
+      "usageCount": 12,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
         "blocks/commerce-checkout-success/commerce-checkout-success.css",
         "blocks/commerce-checkout/commerce-checkout.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
         "blocks/form-4/form-4.css",
         "blocks/header/header.css",
         "blocks/promotional-hero/promotional-hero.css"
@@ -6939,11 +7417,11 @@
     {
       "name": "--type-body-2-strong-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "0",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 7,
+      "usageCount": 5,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
@@ -6956,7 +7434,7 @@
     {
       "name": "--type-button-1-font",
       "prefix": "type",
-      "value": "normal normal 600 2rem/2.6rem var(--type-base-font-family)",
+      "value": "normal normal 500 2rem/2.8rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -6978,14 +7456,15 @@
     {
       "name": "--type-button-2-font",
       "prefix": "type",
-      "value": "normal normal 600 1.6rem/2.4rem var(--type-base-font-family)",
+      "value": "normal normal 500 1.6rem/2.24rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 9,
+      "usageCount": 10,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/form-4/form-4.css",
         "blocks/hero-cta/hero-cta.css",
         "blocks/newsletter/newsletter.css",
@@ -7014,26 +7493,16 @@
       "status": "defined"
     },
     {
-      "name": "--type-button-3-font",
-      "prefix": "type",
-      "value": null,
-      "definedIn": [],
-      "usageCount": 1,
-      "usedIn": [
-        "blocks/commerce-account-nav/commerce-account-nav.css"
-      ],
-      "status": "referenced-without-definition"
-    },
-    {
       "name": "--type-details-caption-1-font",
       "prefix": "type",
-      "value": "normal normal 400 1.2rem/1.6rem var(--type-base-font-family)",
+      "value": "normal normal 500 1.4rem/2.1rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 7,
+      "usageCount": 8,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/form-4/form-4.css",
         "blocks/store-locator/store-locator.css",
         "blocks/top-banner/top-banner.css",
@@ -7044,7 +7513,7 @@
     {
       "name": "--type-details-caption-1-letter-spacing",
       "prefix": "type",
-      "value": "0.08em",
+      "value": "0.01em",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7060,14 +7529,19 @@
     {
       "name": "--type-details-caption-2-font",
       "prefix": "type",
-      "value": "normal normal 300 1.2rem/1.6rem var(--type-base-font-family)",
+      "value": "normal normal 500 1.4rem/2.1rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 15,
+      "usageCount": 23,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-account-nav/commerce-account-nav.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
         "blocks/commerce-cart/commerce-cart.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
         "blocks/form-4/form-4.css",
         "blocks/hero-cta/hero-cta.css",
         "blocks/store-locator/store-locator.css"
@@ -7077,7 +7551,7 @@
     {
       "name": "--type-details-caption-2-letter-spacing",
       "prefix": "type",
-      "value": "0.08em",
+      "value": "0.01em",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7093,12 +7567,17 @@
     {
       "name": "--type-details-overline-font",
       "prefix": "type",
-      "value": "normal normal 400 1.2rem/2rem var(--type-base-font-family)",
+      "value": "normal normal 500 1.2rem/1.68rem var(--type-base-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 2,
+      "usageCount": 7,
       "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/form-4/form-4.css"
       ],
       "status": "defined"
@@ -7106,7 +7585,7 @@
     {
       "name": "--type-details-overline-letter-spacing",
       "prefix": "type",
-      "value": "0.16em",
+      "value": "0.08em",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7117,7 +7596,7 @@
     {
       "name": "--type-display-1-font",
       "prefix": "type",
-      "value": "normal normal 700 6rem/7.2rem var(--type-display-font-family)",
+      "value": "normal normal 700 6rem/6.3rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7130,7 +7609,7 @@
     {
       "name": "--type-display-1-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "-0.03em",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7143,7 +7622,7 @@
     {
       "name": "--type-display-2-font",
       "prefix": "type",
-      "value": "normal normal 700 4.8rem/5.6rem var(--type-display-font-family)",
+      "value": "normal normal 700 4.8rem/5.28rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7158,7 +7637,7 @@
     {
       "name": "--type-display-2-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "-0.02em",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7172,7 +7651,7 @@
     {
       "name": "--type-display-3-font",
       "prefix": "type",
-      "value": "normal normal 700 3.4rem/4rem var(--type-display-font-family)",
+      "value": "normal normal 500 3.4rem/4.08rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7188,7 +7667,7 @@
     {
       "name": "--type-display-3-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "-0.01em",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7207,9 +7686,14 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 9,
+      "usageCount": 20,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
+        "blocks/features-grid/features-grid.css",
+        "blocks/hero-5/hero-5.css",
+        "blocks/live-block/live-block.css",
+        "blocks/product-highlights/product-highlights.css",
+        "blocks/quiz-router/quiz-router.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -7230,7 +7714,7 @@
     {
       "name": "--type-headline-1-font",
       "prefix": "type",
-      "value": "normal normal 700 2.4rem/3.2rem var(--type-display-font-family)",
+      "value": "normal normal 400 2.4rem/3.12rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7248,7 +7732,7 @@
     {
       "name": "--type-headline-1-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "0",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7287,7 +7771,7 @@
     {
       "name": "--type-headline-2-default-font",
       "prefix": "type",
-      "value": "normal normal 600 2rem/2.4rem var(--type-display-font-family)",
+      "value": "normal normal 600 2rem/2.2rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7305,7 +7789,7 @@
     {
       "name": "--type-headline-2-default-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "-0.01em",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7323,16 +7807,23 @@
     {
       "name": "--type-headline-2-strong-font",
       "prefix": "type",
-      "value": "normal normal 800 2rem/2.4rem var(--type-display-font-family)",
+      "value": "normal normal 700 2rem/2.2rem var(--type-display-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 13,
+      "usageCount": 22,
       "usedIn": [
+        "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-addresses/commerce-addresses.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
+        "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
+        "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.css",
         "blocks/commerce-checkout/commerce-checkout.css",
+        "blocks/commerce-company-credit/commerce-company-credit.css",
         "blocks/commerce-company-profile/commerce-company-profile.css",
+        "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
+        "blocks/commerce-company-structure/commerce-company-structure.css",
+        "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-customer-information/commerce-customer-information.css",
         "blocks/commerce-orders-list/commerce-orders-list.css",
         "blocks/form-4/form-4.css",
@@ -7345,7 +7836,7 @@
     {
       "name": "--type-headline-2-strong-letter-spacing",
       "prefix": "type",
-      "value": "0.04em",
+      "value": "-0.02em",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7384,7 +7875,7 @@
     {
       "name": "--type-price-default-font",
       "prefix": "type",
-      "value": "normal normal 600 2rem/2.4rem var(--type-price-font-family)",
+      "value": "normal normal 600 2.4rem/2.4rem var(--type-price-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
@@ -7412,13 +7903,15 @@
     {
       "name": "--type-price-letter-spacing",
       "prefix": "type",
-      "value": "0.01em",
+      "value": "-0.01em",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 4,
+      "usageCount": 8,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/product-details/product-details.css",
+        "blocks/product-highlights/product-highlights.css",
         "blocks/product-teaser/product-teaser.css"
       ],
       "status": "defined"
@@ -7426,13 +7919,15 @@
     {
       "name": "--type-price-strong-font",
       "prefix": "type",
-      "value": "normal normal 700 2rem/2.4rem var(--type-price-font-family)",
+      "value": "normal normal 600 2.4rem/2.4rem var(--type-price-font-family)",
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 4,
+      "usageCount": 6,
       "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/product-details/product-details.css",
+        "blocks/product-highlights/product-highlights.css",
         "blocks/product-teaser/product-teaser.css"
       ],
       "status": "defined"

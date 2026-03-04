@@ -39,16 +39,6 @@ function cellText(row) {
 }
 
 /**
- * Get row HTML from the value column.
- * @param {HTMLElement | undefined} row
- * @returns {string}
- */
-function cellHTML(row) {
-  const cell = getCell(row);
-  return cell ? cell.innerHTML.trim() : '';
-}
-
-/**
  * Parse a pipe-delimited card row.
  * @param {string} text
  * @returns {string[]}
@@ -83,6 +73,7 @@ function buildCard(cardData) {
 
   const card = document.createElement('article');
   card.className = 'feat-card';
+  card.dataset.variant = variant;
 
   if (variant === 'featured') {
     card.classList.add('feat-card--featured');
@@ -154,12 +145,12 @@ export default function decorate(block) {
   if (rows.length < 5) return;
 
   const sectionTag = cellText(rows[0]);
-  const titleHTML = cellHTML(rows[1]);
-  const subtitleHTML = cellHTML(rows[2]);
+  const titleText = cellText(rows[1]);
+  const subtitleText = cellText(rows[2]);
   const ctaLabel = cellText(rows[3]);
   const ctaUrl = cellText(rows[4]);
 
-  const cards = [];
+  const parsedCards = [];
   let defaultCardIndex = 0;
 
   rows.slice(5).forEach((row) => {
@@ -183,7 +174,7 @@ export default function decorate(block) {
 
     if (safeVariant === 'default') defaultCardIndex += 1;
 
-    cards.push(buildCard({
+    parsedCards.push({
       variant: safeVariant,
       icon,
       tag,
@@ -192,37 +183,59 @@ export default function decorate(block) {
       ctaLabel: ctaLabelCard,
       ctaUrl: ctaUrlCard,
       iconBg,
-    }));
+    });
+  });
+
+  // Stable visual ordering:
+  // 1) featured card(s), 2) default cards, 3) wide card(s), 4) any unknown fallback.
+  const orderedCardsData = [
+    ...parsedCards.filter((card) => card.variant === 'featured'),
+    ...parsedCards.filter((card) => card.variant === 'default'),
+    ...parsedCards.filter((card) => card.variant === 'wide'),
+    ...parsedCards.filter((card) => !VALID_VARIANTS.has(card.variant)),
+  ];
+
+  const cards = orderedCardsData.map((cardData, index) => {
+    const card = buildCard(cardData);
+    card.classList.add(`feat-card--slot-${index + 1}`);
+    return card;
   });
 
   const inner = document.createElement('div');
   inner.className = 'fg-inner';
 
   const header = document.createElement('header');
-  header.className = 'features-header';
+  header.className = 'fg-header features-header';
 
   const headerLeft = document.createElement('div');
   headerLeft.className = 'fg-header-left';
 
   if (sectionTag) {
     const tagEl = document.createElement('p');
-    tagEl.className = 'section-tag';
+    // Keep legacy class names for cached/older CSS compatibility.
+    tagEl.className = 'fg-kicker section-tag';
     tagEl.textContent = sectionTag;
     headerLeft.append(tagEl);
   }
 
   const heading = document.createElement('h2');
-  heading.className = 'section-title';
-  heading.innerHTML = titleHTML;
+  heading.className = 'fg-title section-title';
+  heading.textContent = titleText;
+  // Inline safety reset protects against unexpected external heading styles.
+  heading.style.margin = '0';
+  heading.style.position = 'static';
+  heading.style.transform = 'none';
+  heading.style.lineHeight = '1.03';
+  heading.style.maxWidth = '12ch';
   headerLeft.append(heading);
 
   const headerRight = document.createElement('div');
   headerRight.className = 'fg-header-right';
 
-  if (subtitleHTML) {
+  if (subtitleText) {
     const subtitle = document.createElement('p');
-    subtitle.className = 'section-sub';
-    subtitle.innerHTML = subtitleHTML;
+    subtitle.className = 'fg-subtitle section-sub';
+    subtitle.textContent = subtitleText;
     headerRight.append(subtitle);
   }
 
