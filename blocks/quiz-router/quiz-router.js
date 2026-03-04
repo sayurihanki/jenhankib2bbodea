@@ -591,6 +591,12 @@ function createOptionElement(step, option, state, onSelect) {
     el.classList.add('is-selected');
   }
 
+  const check = document.createElement('span');
+  check.className = 'quiz-router-option-check';
+  check.setAttribute('aria-hidden', 'true');
+  check.textContent = '✓';
+  el.append(check);
+
   const tile = document.createElement('span');
   tile.className = 'quiz-router-option-main';
 
@@ -726,11 +732,12 @@ function renderStepper(stepperEl, state, steps, onStepJump) {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'quiz-router-step-pill';
-    button.textContent = String(index + 1);
+    button.textContent = index < state.currentStep ? '✓' : String(index + 1);
     button.setAttribute('aria-label', `Go to step ${index + 1}: ${step.text}`);
 
     const isActive = index === state.currentStep;
-    const isVisited = index <= state.maxVisitedStep;
+    const isVisited = index < state.currentStep;
+    const isReachable = index <= state.maxVisitedStep;
 
     if (isActive) {
       button.classList.add('is-active');
@@ -739,7 +746,7 @@ function renderStepper(stepperEl, state, steps, onStepJump) {
 
     if (isVisited) {
       button.classList.add('is-visited');
-    } else {
+    } else if (!isReachable) {
       button.disabled = true;
       button.classList.add('is-locked');
     }
@@ -754,6 +761,17 @@ function renderStepper(stepperEl, state, steps, onStepJump) {
     });
 
     li.append(button);
+
+    if (index < steps.length - 1) {
+      const connector = document.createElement('div');
+      connector.className = 'quiz-router-step-connector';
+      const connectorFill = document.createElement('div');
+      connectorFill.className = 'quiz-router-step-connector-fill';
+      connectorFill.style.width = index < state.currentStep ? '100%' : '0%';
+      connector.append(connectorFill);
+      li.append(connector);
+    }
+
     stepperEl.append(li);
   });
 }
@@ -848,18 +866,24 @@ export default async function decorate(block) {
   const progressEl = showProgress
     ? createProgressElement(0, steps.length)
     : null;
-  if (progressEl) {
+  if (progressEl && config.theme !== 'premium') {
     header.append(progressEl);
   }
 
   let progressFill = null;
-  let progressTrack = null;
+  let progressWrap = null;
   if (showProgress && config.theme === 'premium') {
-    progressTrack = document.createElement('div');
+    progressWrap = document.createElement('div');
+    progressWrap.className = 'quiz-router-progress-wrap';
+    if (progressEl) {
+      progressWrap.append(progressEl);
+    }
+    const progressTrack = document.createElement('div');
     progressTrack.className = 'quiz-router-progress-track';
     progressFill = document.createElement('div');
     progressFill.className = 'quiz-router-progress-fill';
     progressTrack.append(progressFill);
+    progressWrap.append(progressTrack);
   }
 
   const controls = document.createElement('div');
@@ -878,23 +902,38 @@ export default async function decorate(block) {
   controls.append(backButton, restartButton);
 
   if (config.theme === 'premium') {
+    if (progressWrap) {
+      header.append(progressWrap);
+    }
     header.append(controls);
   }
 
   const stepper = document.createElement('ol');
   stepper.className = 'quiz-router-stepper';
   if (config.theme === 'premium') {
-    if (progressTrack) {
-      shell.append(header, progressTrack, stepper);
-    } else {
-      shell.append(header, stepper);
-    }
+    shell.append(header, stepper);
   } else {
     shell.append(header);
   }
 
   const content = document.createElement('div');
   content.className = 'quiz-router-content';
+
+  let footer = null;
+  if (config.theme === 'premium') {
+    footer = document.createElement('div');
+    footer.className = 'quiz-router-footer';
+
+    const footerPip = document.createElement('span');
+    footerPip.className = 'quiz-router-footer-pip';
+    footerPip.setAttribute('aria-hidden', 'true');
+
+    const footerText = document.createElement('span');
+    footerText.className = 'quiz-router-footer-text';
+    footerText.textContent = 'Your answers are saved for this session only.';
+
+    footer.append(footerPip, footerText);
+  }
 
   const state = {
     currentStep: 0,
@@ -1126,7 +1165,11 @@ export default async function decorate(block) {
     entry_path: runtime.entryPath,
   });
 
-  shell.append(content);
+  if (footer) {
+    shell.append(content, footer);
+  } else {
+    shell.append(content);
+  }
   wrapper.append(shell);
   block.replaceChildren(wrapper);
 
