@@ -58,27 +58,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-small);
+  gap: 0;
   text-align: center;
 }
 
 /* Circle container */
 .circle-carousel-circle {
-  position: relative;
-  width: var(--circle-carousel-circle-size);
-  height: var(--circle-carousel-circle-size);
-  border-radius: 50%;
-  overflow: hidden;
-  background-color: var(--color-neutral-100);
-  border: 3px solid var(--color-neutral-300);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
-  transition: all 0.3s ease;
-}
-
-.circle-carousel-circle:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 20px rgb(0 0 0 / 12%);
-  border-color: var(--color-brand-500);
+  display: none;
 }
 
 /* Image inside circle */
@@ -98,7 +84,7 @@
 
 /* Text/link below circle */
 .circle-carousel-text {
-  max-width: var(--circle-carousel-circle-size);
+  max-width: none;
 }
 
 .circle-carousel-text a,
