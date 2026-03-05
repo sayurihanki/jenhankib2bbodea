@@ -126,13 +126,35 @@ const subMenuHeader = document.createElement('div');
 subMenuHeader.classList.add('submenu-header');
 subMenuHeader.innerHTML = '<h5 class="back-link">All Categories</h5><hr />';
 
-const CATALOG_CATEGORIES = [
-  'Server Racks',
-  'Network Enclosures',
-  'Power & Cooling',
-  'Cable Management',
-  'Accessories',
+const CATALOG_CATEGORY_ITEMS = [
+  { label: 'Server Racks' },
+  { label: 'Network Enclosures' },
+  { label: 'Power & Cooling' },
+  { label: 'Cable Management' },
+  { label: 'Accessories' },
+  {
+    label: 'VIP Category',
+    fallbackPath: '/vip-category',
+    aliases: ['VIPs Only Category'],
+    requiresVipGroup: true,
+  },
 ];
+
+function normalizeGroupHash(value) {
+  return typeof value === 'string' ? value.trim().toLowerCase() : '';
+}
+
+function readVipGroupAllowlist() {
+  const configValue = getConfigValue('navigation.catalog.vipCategory.allowedGroupHashes');
+  let values = [];
+  if (Array.isArray(configValue)) {
+    values = configValue;
+  } else if (typeof configValue === 'string') {
+    values = configValue.split(',');
+  }
+
+  return [...new Set(values.map(normalizeGroupHash).filter(Boolean))];
+}
 
 const STORE_SWITCHER_OPTIONS = [
   {
@@ -251,7 +273,7 @@ function getCategoryFallbackPath(label) {
   return rootLink(`/${label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`);
 }
 
-function enforceCatalogCategories(navList) {
+function enforceCatalogCategories(navList, { showVipCategory = false } = {}) {
   if (!navList) return;
 
   const catalogLi = [...navList.querySelectorAll(':scope > li')].find(
@@ -276,16 +298,25 @@ function enforceCatalogCategories(navList) {
   );
 
   const nextCatalogList = document.createElement('ul');
-  CATALOG_CATEGORIES.forEach((category) => {
-    const linkData = existingLinks.get(category.toLowerCase()) || {};
-    const li = document.createElement('li');
-    const anchor = document.createElement('a');
-    anchor.textContent = category;
-    anchor.title = linkData.title || category;
-    anchor.href = linkData.href || getCategoryFallbackPath(category);
-    li.appendChild(anchor);
-    nextCatalogList.appendChild(li);
-  });
+  CATALOG_CATEGORY_ITEMS
+    .filter((item) => !item.requiresVipGroup || showVipCategory)
+    .forEach((item) => {
+      const linkKeys = [item.label, ...(item.aliases || [])].map((value) => value.toLowerCase());
+      const linkData = linkKeys
+        .map((key) => existingLinks.get(key))
+        .find(Boolean) || {};
+      const fallbackHref = item.fallbackPath
+        ? rootLink(item.fallbackPath)
+        : getCategoryFallbackPath(item.label);
+
+      const li = document.createElement('li');
+      const anchor = document.createElement('a');
+      anchor.textContent = item.label;
+      anchor.title = linkData.title || item.label;
+      anchor.href = linkData.href || fallbackHref;
+      li.appendChild(anchor);
+      nextCatalogList.appendChild(li);
+    });
 
   catalogLi.replaceChild(nextCatalogList, catalogList);
 }
@@ -402,7 +433,33 @@ export default async function decorate(block) {
 
     const navList = navSections.querySelector('.default-content-wrapper > ul');
     if (navList) {
-      enforceCatalogCategories(navList);
+      const vipGroupAllowlist = new Set(readVipGroupAllowlist());
+      let currentGroupHash = normalizeGroupHash(events.lastPayload('auth/group-uid'));
+      let isAuthenticated = events.lastPayload('authenticated') === true;
+
+      const shouldShowVipCategory = () => (
+        isAuthenticated
+        && !!currentGroupHash
+        && vipGroupAllowlist.has(currentGroupHash)
+      );
+
+      const updateCatalogCategories = () => {
+        enforceCatalogCategories(navList, {
+          showVipCategory: shouldShowVipCategory(),
+        });
+      };
+
+      updateCatalogCategories();
+
+      events.on('authenticated', (payload) => {
+        isAuthenticated = payload === true;
+        updateCatalogCategories();
+      }, { eager: true });
+
+      events.on('auth/group-uid', (payload) => {
+        currentGroupHash = normalizeGroupHash(payload);
+        updateCatalogCategories();
+      }, { eager: true });
 
       const hasAccount = [...navList.querySelectorAll(':scope > li')].some(
         (li) => li.textContent.trim().toLowerCase().includes('account'),
