@@ -136,7 +136,6 @@ const CATALOG_CATEGORY_ITEMS = [
     label: 'VIPs Only Category',
     fallbackPath: '/vip-category',
     aliases: ['VIP Category'],
-    requiresVipGroup: true,
   },
 ];
 
