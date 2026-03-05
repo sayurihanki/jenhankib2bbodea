@@ -12,15 +12,67 @@ const DEFAULT_CONFIG = {
   guestCtaHref: CUSTOMER_LOGIN_PATH,
   rowsLimit: 3,
   showSparkline: true,
+  orderWindowDays: 90,
+  trendPoints: 12,
+  showFinanceSection: true,
+  showOperationsSection: true,
+  showSourcingSection: true,
+  showCharts: true,
+  showLastUpdated: true,
+  refreshLabel: 'Refresh data',
 };
 
-const MIN_ROWS = 1;
-const MAX_ROWS = 5;
+const LIMITS = {
+  rowsLimit: { min: 1, max: 5 },
+  orderWindowDays: { min: 30, max: 365 },
+  trendPoints: { min: 6, max: 24 },
+};
+
 const FALLBACK_TEXT = 'Not available';
+const MIXED_CURRENCY_TEXT = 'Mixed currency';
 const EMPTY_ACTIVITY_TEXT = 'No recent commerce activity';
+const TERMINAL_QUOTE_STATUSES = new Set([
+  'ORDERED',
+  'CLOSED',
+  'DECLINED',
+  'EXPIRED',
+  'INACTIVE',
+  'CANCELED',
+]);
+
+const CHART_COLORS = [
+  '#22c55e',
+  '#06b6d4',
+  '#84cc16',
+  '#f59e0b',
+  '#38bdf8',
+  '#14b8a6',
+  '#f97316',
+  '#10b981',
+];
+
+const SOURCE_STATUS = {
+  OK: 'ok',
+  ERROR: 'error',
+  SKIPPED: 'skipped',
+};
 
 /**
- * Parse a string/boolean value to boolean.
+ * Escape string to safe HTML.
+ * @param {string | number | undefined | null} value
+ * @returns {string}
+ */
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+/**
+ * Parse value to boolean.
  * @param {string | boolean | undefined} value
  * @param {boolean} fallback
  * @returns {boolean}
@@ -36,18 +88,20 @@ function parseBoolean(value, fallback) {
 }
 
 /**
- * Clamp rows limit to allowed range.
+ * Parse integer with clamp.
  * @param {string | number | undefined} value
+ * @param {number} fallback
+ * @param {{ min: number, max: number }} range
  * @returns {number}
  */
-function parseRowsLimit(value) {
+function parseIntInRange(value, fallback, range) {
   const parsed = Number.parseInt(value, 10);
-  if (Number.isNaN(parsed)) return DEFAULT_CONFIG.rowsLimit;
-  return Math.max(MIN_ROWS, Math.min(MAX_ROWS, parsed));
+  if (Number.isNaN(parsed)) return fallback;
+  return Math.max(range.min, Math.min(range.max, parsed));
 }
 
 /**
- * Resolve author config with defaults.
+ * Build block configuration from authored values.
  * @param {HTMLElement} block
  * @returns {object}
  */
@@ -57,23 +111,101 @@ function getConfig(block) {
     title: config.title?.trim() || DEFAULT_CONFIG.title,
     guestCtaLabel: config['guest-cta-label']?.trim() || DEFAULT_CONFIG.guestCtaLabel,
     guestCtaHref: config['guest-cta-href']?.trim() || DEFAULT_CONFIG.guestCtaHref,
-    rowsLimit: parseRowsLimit(config['rows-limit']),
+    rowsLimit: parseIntInRange(config['rows-limit'], DEFAULT_CONFIG.rowsLimit, LIMITS.rowsLimit),
     showSparkline: parseBoolean(config['show-sparkline'], DEFAULT_CONFIG.showSparkline),
+    orderWindowDays: parseIntInRange(
+      config['order-window-days'],
+      DEFAULT_CONFIG.orderWindowDays,
+      LIMITS.orderWindowDays,
+    ),
+    trendPoints: parseIntInRange(config['trend-points'], DEFAULT_CONFIG.trendPoints, LIMITS.trendPoints),
+    showFinanceSection: parseBoolean(
+      config['show-finance-section'],
+      DEFAULT_CONFIG.showFinanceSection,
+    ),
+    showOperationsSection: parseBoolean(
+      config['show-operations-section'],
+      DEFAULT_CONFIG.showOperationsSection,
+    ),
+    showSourcingSection: parseBoolean(
+      config['show-sourcing-section'],
+      DEFAULT_CONFIG.showSourcingSection,
+    ),
+    showCharts: parseBoolean(config['show-charts'], DEFAULT_CONFIG.showCharts),
+    showLastUpdated: parseBoolean(config['show-last-updated'], DEFAULT_CONFIG.showLastUpdated),
+    refreshLabel: config['refresh-label']?.trim() || DEFAULT_CONFIG.refreshLabel,
   };
 }
 
 /**
+ * Convert configured href to localized route when needed.
+ * @param {string} href
+ * @returns {string}
+ */
+function resolveHref(href) {
+  if (!href) return rootLink(CUSTOMER_LOGIN_PATH);
+  if (href.startsWith('/')) return rootLink(href);
+  return href;
+}
+
+/**
+ * Parse ISO-like date safely.
+ * @param {string | undefined} value
+ * @returns {Date | null}
+ */
+function parseDate(value) {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return date;
+}
+
+/**
+ * Format date for human labels.
+ * @param {string | Date | undefined} value
+ * @returns {string}
+ */
+function formatDate(value) {
+  const date = value instanceof Date ? value : parseDate(value);
+  if (!date) return FALLBACK_TEXT;
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+  }).format(date);
+}
+
+/**
+ * Format datetime for status text.
+ * @param {string | Date | undefined} value
+ * @returns {string}
+ */
+function formatDateTime(value) {
+  const date = value instanceof Date ? value : parseDate(value);
+  if (!date) return FALLBACK_TEXT;
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(date);
+}
+
+/**
  * Format monetary amount.
- * @param {number | undefined} value
+ * @param {number | undefined} amount
  * @param {string | undefined} currency
  * @returns {string}
  */
-function formatMoney(value, currency) {
-  if (typeof value !== 'number' || Number.isNaN(value) || !currency) return FALLBACK_TEXT;
+function formatMoney(amount, currency) {
+  if (typeof amount !== 'number' || Number.isNaN(amount) || !currency) return FALLBACK_TEXT;
   try {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(value);
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: 2,
+    }).format(amount);
   } catch {
-    return `${value.toFixed(2)} ${currency}`;
+    return `${amount.toFixed(2)} ${currency}`;
   }
 }
 
@@ -85,6 +217,16 @@ function formatMoney(value, currency) {
 function formatCount(value) {
   if (typeof value !== 'number' || Number.isNaN(value)) return FALLBACK_TEXT;
   return value.toLocaleString('en-US');
+}
+
+/**
+ * Format percent text.
+ * @param {number | undefined} value
+ * @returns {string}
+ */
+function formatPercent(value) {
+  if (typeof value !== 'number' || Number.isNaN(value)) return FALLBACK_TEXT;
+  return `${value.toFixed(1)}%`;
 }
 
 /**
@@ -102,80 +244,614 @@ function formatStatus(status) {
 }
 
 /**
- * Convert configured href to localized route when needed.
- * @param {string} href
+ * Normalize source status for monitoring in UI.
+ * @param {Record<string, any>} sources
+ * @param {string} source
+ * @param {string} status
+ * @param {object} [extra]
+ */
+function setSourceStatus(sources, source, status, extra = {}) {
+  sources[source] = {
+    status,
+    updatedAt: new Date().toISOString(),
+    ...extra,
+  };
+}
+
+/**
+ * Execute a request and persist source-level status.
+ * @param {Record<string, any>} sources
+ * @param {string} source
+ * @param {Function | null} requestFn
+ * @param {string} [missingReason]
+ * @returns {Promise<any | null>}
+ */
+async function safeRequest(sources, source, requestFn, missingReason = 'Unavailable') {
+  if (typeof requestFn !== 'function') {
+    setSourceStatus(sources, source, SOURCE_STATUS.ERROR, { message: missingReason });
+    return null;
+  }
+
+  try {
+    const data = await requestFn();
+    setSourceStatus(sources, source, SOURCE_STATUS.OK, {
+      isEmpty: data == null,
+    });
+    return data ?? null;
+  } catch (error) {
+    console.warn(`live-block: ${source} request failed`, error);
+    setSourceStatus(sources, source, SOURCE_STATUS.ERROR, {
+      message: error?.message || 'Request failed',
+    });
+    return null;
+  }
+}
+
+/**
+ * Mark source as skipped for visibility.
+ * @param {Record<string, any>} sources
+ * @param {string} source
+ * @param {string} reason
+ */
+function markSkippedSource(sources, source, reason) {
+  setSourceStatus(sources, source, SOURCE_STATUS.SKIPPED, { reason });
+}
+
+/**
+ * Try to import a module without throwing.
+ * @param {Function} importer
+ * @returns {Promise<any | null>}
+ */
+async function safeImport(importer) {
+  try {
+    return await importer();
+  } catch (error) {
+    console.warn('live-block: import failed', error);
+    return null;
+  }
+}
+
+/**
+ * Determine data dependencies based on section flags.
+ * @param {object} config
+ * @returns {object}
+ */
+function getRequirements(config) {
+  const hasActiveSection = config.showFinanceSection
+    || config.showOperationsSection
+    || config.showSourcingSection;
+
+  return {
+    hasActiveSection,
+    orders: config.showFinanceSection || config.showOperationsSection || config.showCharts || config.showSparkline,
+    purchaseOrders: config.showOperationsSection || config.showCharts,
+    myApprovals: config.showOperationsSection,
+    companyPurchaseOrders: config.showOperationsSection || config.showCharts,
+    companyCredit: config.showFinanceSection,
+    companyCreditHistory: config.showFinanceSection || config.showCharts,
+    cart: config.showSourcingSection,
+    companyUsers: config.showOperationsSection || config.showCharts,
+    negotiableQuotes: config.showSourcingSection || config.showCharts,
+    quoteTemplates: config.showSourcingSection,
+    requisitionLists: config.showSourcingSection,
+    wishlists: config.showSourcingSection,
+  };
+}
+
+/**
+ * Initialize only required drop-ins.
+ * @param {object} requirements
+ */
+async function initializeRequiredDropins(requirements) {
+  const initializers = [];
+
+  if (requirements.orders) {
+    initializers.push(import('../../scripts/initializers/account.js'));
+  }
+
+  if (requirements.companyCredit || requirements.companyCreditHistory || requirements.companyUsers) {
+    initializers.push(import('../../scripts/initializers/company.js'));
+  }
+
+  if (requirements.purchaseOrders || requirements.myApprovals || requirements.companyPurchaseOrders) {
+    initializers.push(import('../../scripts/initializers/purchase-order.js'));
+  }
+
+  if (requirements.cart) {
+    initializers.push(import('../../scripts/initializers/cart.js'));
+  }
+
+  if (requirements.negotiableQuotes || requirements.quoteTemplates) {
+    initializers.push(import('../../scripts/initializers/quote-management.js'));
+  }
+
+  if (requirements.requisitionLists) {
+    initializers.push(import('../../scripts/initializers/requisition-list.js'));
+  }
+
+  if (requirements.wishlists) {
+    initializers.push(import('../../scripts/initializers/wishlist.js'));
+  }
+
+  const settled = await Promise.allSettled(initializers);
+  settled
+    .filter((result) => result.status === 'rejected')
+    .forEach((result) => {
+      console.warn('live-block: initializer failed', result.reason);
+    });
+}
+
+/**
+ * Load APIs required by current config.
+ * @param {object} requirements
+ * @returns {Promise<object>}
+ */
+async function loadRequiredApis(requirements) {
+  const [
+    accountApi,
+    companyApi,
+    purchaseOrderApi,
+    cartApi,
+    quoteApi,
+    requisitionApi,
+    wishlistApi,
+  ] = await Promise.all([
+    requirements.orders ? safeImport(() => import('@dropins/storefront-account/api.js')) : null,
+    (requirements.companyCredit || requirements.companyCreditHistory || requirements.companyUsers)
+      ? safeImport(() => import('@dropins/storefront-company-management/api.js'))
+      : null,
+    (requirements.purchaseOrders || requirements.myApprovals || requirements.companyPurchaseOrders)
+      ? safeImport(() => import('@dropins/storefront-purchase-order/api.js'))
+      : null,
+    requirements.cart ? safeImport(() => import('@dropins/storefront-cart/api.js')) : null,
+    (requirements.negotiableQuotes || requirements.quoteTemplates)
+      ? safeImport(() => import('@dropins/storefront-quote-management/api.js'))
+      : null,
+    requirements.requisitionLists
+      ? safeImport(() => import('@dropins/storefront-requisition-list/api.js'))
+      : null,
+    requirements.wishlists
+      ? safeImport(() => import('@dropins/storefront-wishlist/api.js'))
+      : null,
+  ]);
+
+  return {
+    accountApi,
+    companyApi,
+    purchaseOrderApi,
+    cartApi,
+    quoteApi,
+    requisitionApi,
+    wishlistApi,
+  };
+}
+
+/**
+ * Fetch all requested data sources.
+ * @param {object} requirements
+ * @param {object} apis
+ * @param {object} config
+ * @param {Record<string, any>} sources
+ * @returns {Promise<object>}
+ */
+async function fetchDashboardData(requirements, apis, config, sources) {
+  const orderHistoryPromise = requirements.orders
+    ? safeRequest(
+      sources,
+      'orderHistory',
+      apis.accountApi ? () => apis.accountApi.getOrderHistoryList(50, 'viewAll', 1) : null,
+      'Account API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'orderHistory', 'Orders section disabled'));
+
+  const companyCreditPromise = requirements.companyCredit
+    ? safeRequest(
+      sources,
+      'companyCredit',
+      apis.companyApi ? () => apis.companyApi.getCompanyCredit() : null,
+      'Company API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'companyCredit', 'Finance section disabled'));
+
+  const companyCreditHistoryPromise = requirements.companyCreditHistory
+    ? safeRequest(
+      sources,
+      'companyCreditHistory',
+      apis.companyApi
+        ? () => apis.companyApi.getCompanyCreditHistory({
+          pageSize: Math.max(config.trendPoints, config.rowsLimit, 20),
+          currentPage: 1,
+        })
+        : null,
+      'Company API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'companyCreditHistory', 'Finance/charts section disabled'));
+
+  const allPurchaseOrdersPromise = requirements.purchaseOrders
+    ? safeRequest(
+      sources,
+      'purchaseOrdersAll',
+      apis.purchaseOrderApi ? () => apis.purchaseOrderApi.getPurchaseOrders({}, 50, 1) : null,
+      'Purchase order API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'purchaseOrdersAll', 'Operations/charts section disabled'));
+
+  const myApprovalsPromise = requirements.myApprovals
+    ? safeRequest(
+      sources,
+      'purchaseOrdersMyApprovals',
+      apis.purchaseOrderApi
+        ? () => apis.purchaseOrderApi.getPurchaseOrders({ myApprovals: true }, 50, 1)
+        : null,
+      'Purchase order API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'purchaseOrdersMyApprovals', 'Operations section disabled'));
+
+  const companyPurchaseOrdersPromise = requirements.companyPurchaseOrders
+    ? safeRequest(
+      sources,
+      'purchaseOrdersCompany',
+      apis.purchaseOrderApi
+        ? () => apis.purchaseOrderApi.getPurchaseOrders({ companyPurchaseOrders: true }, 50, 1)
+        : null,
+      'Purchase order API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'purchaseOrdersCompany', 'Operations/charts section disabled'));
+
+  const cartPromise = requirements.cart
+    ? safeRequest(
+      sources,
+      'cartData',
+      apis.cartApi ? () => apis.cartApi.getCartData() : null,
+      'Cart API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'cartData', 'Sourcing section disabled'));
+
+  const companyUsersPromise = requirements.companyUsers
+    ? safeRequest(
+      sources,
+      'companyUsers',
+      apis.companyApi ? () => apis.companyApi.getCompanyUsers({ pageSize: 100, currentPage: 1 }) : null,
+      'Company API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'companyUsers', 'Operations/charts section disabled'));
+
+  const negotiableQuotesPromise = requirements.negotiableQuotes
+    ? safeRequest(
+      sources,
+      'negotiableQuotes',
+      apis.quoteApi ? () => apis.quoteApi.negotiableQuotes({ pageSize: 50, currentPage: 1 }) : null,
+      'Quote API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'negotiableQuotes', 'Sourcing/charts section disabled'));
+
+  const quoteTemplatesPromise = requirements.quoteTemplates
+    ? safeRequest(
+      sources,
+      'quoteTemplates',
+      apis.quoteApi ? () => apis.quoteApi.getQuoteTemplates({ pageSize: 50, currentPage: 1 }) : null,
+      'Quote API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'quoteTemplates', 'Sourcing section disabled'));
+
+  const requisitionListsPromise = requirements.requisitionLists
+    ? safeRequest(
+      sources,
+      'requisitionLists',
+      apis.requisitionApi ? () => apis.requisitionApi.getRequisitionLists(1, 50) : null,
+      'Requisition list API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'requisitionLists', 'Sourcing section disabled'));
+
+  const wishlistsPromise = requirements.wishlists
+    ? safeRequest(
+      sources,
+      'wishlists',
+      apis.wishlistApi ? () => apis.wishlistApi.getWishlists() : null,
+      'Wishlist API unavailable',
+    )
+    : Promise.resolve(markSkippedSource(sources, 'wishlists', 'Sourcing section disabled'));
+
+  const [
+    orderHistory,
+    companyCredit,
+    companyCreditHistory,
+    allPurchaseOrders,
+    myApprovals,
+    companyPurchaseOrders,
+    cart,
+    companyUsers,
+    negotiableQuotes,
+    quoteTemplates,
+    requisitionLists,
+    wishlists,
+  ] = await Promise.all([
+    orderHistoryPromise,
+    companyCreditPromise,
+    companyCreditHistoryPromise,
+    allPurchaseOrdersPromise,
+    myApprovalsPromise,
+    companyPurchaseOrdersPromise,
+    cartPromise,
+    companyUsersPromise,
+    negotiableQuotesPromise,
+    quoteTemplatesPromise,
+    requisitionListsPromise,
+    wishlistsPromise,
+  ]);
+
+  return {
+    orderHistory,
+    companyCredit,
+    companyCreditHistory,
+    allPurchaseOrders,
+    myApprovals,
+    companyPurchaseOrders,
+    cart,
+    companyUsers,
+    negotiableQuotes,
+    quoteTemplates,
+    requisitionLists,
+    wishlists,
+  };
+}
+
+/**
+ * Get latest money object list and determine whether aggregate is safe.
+ * @param {Array<any>} collection
+ * @param {Function} moneyGetter
+ * @returns {{ state: 'none'|'mixed'|'single', values: number[], total: number, average: number, currency?: string }}
+ */
+function aggregateMoney(collection, moneyGetter) {
+  const entries = Array.isArray(collection) ? collection : [];
+  const valid = entries
+    .map((item) => moneyGetter(item))
+    .filter((money) => money && typeof money.value === 'number' && Number.isFinite(money.value) && money.currency);
+
+  if (valid.length === 0) {
+    return {
+      state: 'none',
+      values: [],
+      total: 0,
+      average: 0,
+    };
+  }
+
+  const currencies = [...new Set(valid.map((money) => money.currency))];
+  if (currencies.length > 1) {
+    return {
+      state: 'mixed',
+      values: valid.map((money) => money.value),
+      total: 0,
+      average: 0,
+    };
+  }
+
+  const values = valid.map((money) => money.value);
+  const total = values.reduce((sum, value) => sum + value, 0);
+
+  return {
+    state: 'single',
+    values,
+    total,
+    average: total / values.length,
+    currency: currencies[0],
+  };
+}
+
+/**
+ * Format aggregate money result.
+ * @param {{ state: string, total: number, average: number, currency?: string }} aggregate
+ * @param {'total'|'average'} mode
+ * @returns {{ value: string, isFallback: boolean, isMixed?: boolean }}
+ */
+function formatAggregateMoney(aggregate, mode = 'total') {
+  if (!aggregate || aggregate.state === 'none') {
+    return { value: FALLBACK_TEXT, isFallback: true };
+  }
+
+  if (aggregate.state === 'mixed') {
+    return { value: MIXED_CURRENCY_TEXT, isFallback: true, isMixed: true };
+  }
+
+  const value = mode === 'average' ? aggregate.average : aggregate.total;
+  return { value: formatMoney(value, aggregate.currency), isFallback: false };
+}
+
+/**
+ * Create a metric descriptor.
+ * @param {string} id
+ * @param {string} group
+ * @param {string} label
+ * @param {string} value
+ * @param {boolean} isFallback
+ * @param {string} [note]
+ * @returns {object}
+ */
+function createMetric(id, group, label, value, isFallback, note = '') {
+  return {
+    id,
+    group,
+    label,
+    value,
+    isFallback,
+    note,
+  };
+}
+
+/**
+ * Get a color from the chart palette.
+ * @param {number} index
  * @returns {string}
  */
-function resolveHref(href) {
-  if (!href) return rootLink(CUSTOMER_LOGIN_PATH);
-  if (href.startsWith('/')) return rootLink(href);
-  return href;
+function getChartColor(index) {
+  return CHART_COLORS[index % CHART_COLORS.length];
 }
 
 /**
- * Build metric descriptor list from fetched data.
+ * Build ordered trend points from order history.
  * @param {object | null} orderHistory
- * @param {object | null} companyCredit
- * @param {object | null} myApprovals
- * @returns {Array<{label: string, value: string, isFallback?: boolean}>}
+ * @param {number} trendPoints
+ * @returns {Array<{label: string, date: string, value: number, currency: string}>}
  */
-function buildMetrics(orderHistory, companyCredit, myApprovals) {
-  const credit = companyCredit?.credit?.available_credit;
-  const approvalsCount = myApprovals?.totalCount;
-  const ordersCount = orderHistory?.totalCount;
+function buildOrderTrendPoints(orderHistory, trendPoints) {
+  const items = Array.isArray(orderHistory?.items) ? orderHistory.items : [];
 
-  return [
-    {
-      label: 'Credit Available',
-      value: formatMoney(credit?.value, credit?.currency),
-      isFallback: !credit || typeof credit.value !== 'number',
-    },
-    {
-      label: 'Orders',
-      value: formatCount(ordersCount),
-      isFallback: typeof ordersCount !== 'number',
-    },
-    {
-      label: 'Pending Approvals',
-      value: formatCount(approvalsCount),
-      isFallback: typeof approvalsCount !== 'number',
-    },
-  ];
+  const points = items
+    .map((item) => {
+      const money = item?.total?.grandTotal;
+      const date = parseDate(item?.orderDate);
+      if (!money || typeof money.value !== 'number' || !money.currency || !date) return null;
+      return {
+        label: formatDate(date),
+        date: date.toISOString(),
+        value: money.value,
+        currency: money.currency,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  return points.slice(-trendPoints);
 }
 
 /**
- * Build activity rows from purchase order list.
- * @param {object | null} purchaseOrders
- * @param {number} rowsLimit
- * @returns {Array<{id: string, label: string, sub: string, amount: string}>}
+ * Return statuses count map for records.
+ * @param {Array<any>} items
+ * @param {Function} getter
+ * @returns {Array<{label: string, raw: string, value: number}>}
  */
-function buildActivities(purchaseOrders, rowsLimit) {
-  const items = purchaseOrders?.purchaseOrderItems || [];
-  return items.slice(0, rowsLimit).map((po) => ({
-    id: po.uid || po.number || '',
-    label: po.number ? `PO #${po.number}` : 'Purchase Order',
-    sub: formatStatus(po.status),
-    amount: formatMoney(po.quote?.grandTotal?.value, po.quote?.grandTotal?.currency),
-  }));
+function buildStatusCounts(items, getter) {
+  const map = new Map();
+  (Array.isArray(items) ? items : []).forEach((item) => {
+    const raw = getter(item);
+    if (!raw) return;
+    const key = String(raw).trim();
+    if (!key) return;
+    map.set(key, (map.get(key) || 0) + 1);
+  });
+
+  return [...map.entries()]
+    .map(([raw, value]) => ({
+      raw,
+      value,
+      label: formatStatus(raw),
+    }))
+    .sort((a, b) => b.value - a.value);
 }
 
 /**
- * Extract order total points for sparkline.
- * @param {object | null} orderHistory
- * @returns {number[]}
+ * Create chart model for line trend.
+ * @param {string} id
+ * @param {string} title
+ * @param {string} description
+ * @param {Array<{label: string, value: number, currency: string}>} points
+ * @returns {object}
  */
-function buildSparklinePoints(orderHistory) {
-  const totals = (orderHistory?.items || [])
-    .map((item) => item?.total?.grandTotal?.value)
-    .filter((value) => typeof value === 'number' && Number.isFinite(value))
-    .slice(0, 8);
+function createLineChart(id, title, description, points) {
+  if (!Array.isArray(points) || points.length < 2) {
+    return {
+      id,
+      title,
+      description,
+      type: 'line',
+      state: 'empty',
+      emptyText: 'Not enough data points yet.',
+    };
+  }
 
-  return totals.reverse();
+  const currencies = [...new Set(points.map((point) => point.currency))];
+  if (currencies.length > 1) {
+    return {
+      id,
+      title,
+      description,
+      type: 'line',
+      state: 'mixed',
+      emptyText: MIXED_CURRENCY_TEXT,
+    };
+  }
+
+  return {
+    id,
+    title,
+    description,
+    type: 'line',
+    state: 'ready',
+    points,
+    currency: currencies[0],
+  };
 }
 
 /**
- * Build sparkline SVG from numeric points.
- * @param {number[]} points
+ * Create chart model for status bars.
+ * @param {string} id
+ * @param {string} title
+ * @param {string} description
+ * @param {Array<{label: string, value: number, raw: string}>} entries
+ * @param {'bar'|'stacked'} variant
+ * @returns {object}
+ */
+function createStatusChart(id, title, description, entries, variant = 'bar') {
+  const filtered = (Array.isArray(entries) ? entries : []).filter((entry) => entry.value > 0);
+  if (filtered.length === 0) {
+    return {
+      id,
+      title,
+      description,
+      type: variant,
+      state: 'empty',
+      emptyText: 'No status data available.',
+    };
+  }
+
+  return {
+    id,
+    title,
+    description,
+    type: variant,
+    state: 'ready',
+    entries: filtered,
+    total: filtered.reduce((sum, entry) => sum + entry.value, 0),
+  };
+}
+
+/**
+ * Create chart model for team split donut.
+ * @param {number} active
+ * @param {number} inactive
+ * @returns {object}
+ */
+function createTeamChart(active, inactive) {
+  const total = (active || 0) + (inactive || 0);
+  if (!total) {
+    return {
+      id: 'team-status-split',
+      title: 'Team Status Split',
+      description: 'Active vs inactive company users',
+      type: 'donut',
+      state: 'empty',
+      emptyText: 'No team members found.',
+    };
+  }
+
+  return {
+    id: 'team-status-split',
+    title: 'Team Status Split',
+    description: 'Active vs inactive company users',
+    type: 'donut',
+    state: 'ready',
+    total,
+    entries: [
+      { label: 'Active', value: active || 0 },
+      { label: 'Inactive', value: inactive || 0 },
+    ],
+  };
+}
+
+/**
+ * Build a compact sparkline from line points.
+ * @param {Array<{value:number}>} points
  * @returns {SVGElement | null}
  */
 function buildSparkline(points) {
@@ -186,19 +862,22 @@ function buildSparkline(points) {
   const topPadding = 12;
   const bottomPadding = 12;
   const availableHeight = height - topPadding - bottomPadding;
-  const min = Math.min(...points);
-  const max = Math.max(...points);
+  const values = points.map((point) => point.value);
+  const min = Math.min(...values);
+  const max = Math.max(...values);
   const range = Math.max(max - min, 1);
   const stepX = width / (points.length - 1);
 
-  const coordinates = points.map((point, index) => {
+  const coordinates = values.map((point, index) => {
     const x = Math.round(index * stepX * 100) / 100;
     const normalized = (point - min) / range;
     const y = Math.round((height - bottomPadding - (normalized * availableHeight)) * 100) / 100;
     return [x, y];
   });
 
-  const linePath = coordinates.map(([x, y], index) => `${index === 0 ? 'M' : 'L'}${x} ${y}`).join(' ');
+  const linePath = coordinates
+    .map(([x, y], index) => `${index === 0 ? 'M' : 'L'}${x} ${y}`)
+    .join(' ');
   const areaPath = `${linePath} L${width} ${height} L0 ${height} Z`;
   const [lastX, lastY] = coordinates[coordinates.length - 1];
 
@@ -254,7 +933,697 @@ function buildSparkline(points) {
 }
 
 /**
- * Render guest-safe block state.
+ * Generate line chart SVG markup.
+ * @param {object} chart
+ * @returns {string}
+ */
+function renderLineChartMarkup(chart) {
+  const width = 440;
+  const height = 230;
+  const padLeft = 44;
+  const padRight = 16;
+  const padTop = 18;
+  const padBottom = 42;
+
+  const values = chart.points.map((point) => point.value);
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = Math.max(max - min, 1);
+  const graphWidth = width - padLeft - padRight;
+  const graphHeight = height - padTop - padBottom;
+  const stepX = graphWidth / Math.max(chart.points.length - 1, 1);
+
+  const coords = chart.points.map((point, index) => {
+    const x = padLeft + (index * stepX);
+    const y = padTop + (graphHeight - (((point.value - min) / range) * graphHeight));
+    return {
+      ...point,
+      x,
+      y,
+    };
+  });
+
+  const linePath = coords
+    .map((point, index) => `${index === 0 ? 'M' : 'L'}${point.x.toFixed(2)} ${point.y.toFixed(2)}`)
+    .join(' ');
+
+  const areaPath = `${linePath} L${(padLeft + graphWidth).toFixed(2)} ${(padTop + graphHeight).toFixed(2)} L${padLeft} ${(padTop + graphHeight).toFixed(2)} Z`;
+
+  const circleMarkup = coords.map((point) => `
+    <circle cx="${point.x.toFixed(2)}" cy="${point.y.toFixed(2)}" r="3.5" fill="#22c55e">
+      <title>${escapeHtml(`${point.label}: ${formatMoney(point.value, chart.currency)}`)}</title>
+    </circle>
+  `).join('');
+
+  const xTickIndexes = [0, Math.floor((coords.length - 1) / 2), coords.length - 1]
+    .filter((index, position, arr) => arr.indexOf(index) === position);
+
+  const xTicks = xTickIndexes.map((index) => {
+    const point = coords[index];
+    return `<text x="${point.x.toFixed(2)}" y="${(height - 16).toFixed(2)}" text-anchor="middle" class="live-block-chart-axis">${escapeHtml(point.label)}</text>`;
+  }).join('');
+
+  return `
+    <div class="live-block-chart-svg-wrap">
+      <svg class="live-block-chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${chart.id}-title ${chart.id}-desc">
+        <title id="${chart.id}-title">${escapeHtml(chart.title)}</title>
+        <desc id="${chart.id}-desc">${escapeHtml(chart.description)}</desc>
+
+        <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + graphHeight}" class="live-block-chart-grid" />
+        <line x1="${padLeft}" y1="${padTop + graphHeight}" x2="${padLeft + graphWidth}" y2="${padTop + graphHeight}" class="live-block-chart-grid" />
+
+        <text x="8" y="${(padTop + 8).toFixed(2)}" class="live-block-chart-axis">${escapeHtml(formatMoney(max, chart.currency))}</text>
+        <text x="8" y="${(padTop + graphHeight).toFixed(2)}" class="live-block-chart-axis">${escapeHtml(formatMoney(min, chart.currency))}</text>
+
+        <path d="${areaPath}" fill="url(#${chart.id}-area)" />
+        <defs>
+          <linearGradient id="${chart.id}-area" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#22c55e" stop-opacity="0.35" />
+            <stop offset="100%" stop-color="#22c55e" stop-opacity="0.04" />
+          </linearGradient>
+        </defs>
+
+        <path d="${linePath}" class="live-block-chart-line" />
+        ${circleMarkup}
+        ${xTicks}
+      </svg>
+      <ul class="live-block-legend">
+        <li>
+          <span class="live-block-legend-dot" style="--live-legend-color:#22c55e"></span>
+          <span>Order total (${escapeHtml(chart.currency)})</span>
+        </li>
+      </ul>
+    </div>
+  `;
+}
+
+/**
+ * Generate vertical bar chart SVG markup.
+ * @param {object} chart
+ * @returns {string}
+ */
+function renderBarChartMarkup(chart) {
+  const width = 440;
+  const height = 230;
+  const padLeft = 42;
+  const padRight = 16;
+  const padTop = 18;
+  const padBottom = 52;
+
+  const entries = chart.entries.slice(0, 8);
+  const max = Math.max(...entries.map((entry) => entry.value));
+  const graphWidth = width - padLeft - padRight;
+  const graphHeight = height - padTop - padBottom;
+  const barSlot = graphWidth / entries.length;
+  const barWidth = Math.max(16, barSlot * 0.58);
+
+  const bars = entries.map((entry, index) => {
+    const ratio = entry.value / Math.max(max, 1);
+    const h = Math.max(4, ratio * graphHeight);
+    const x = padLeft + (index * barSlot) + ((barSlot - barWidth) / 2);
+    const y = padTop + (graphHeight - h);
+    const color = getChartColor(index);
+
+    return `
+      <rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${barWidth.toFixed(2)}" height="${h.toFixed(2)}" rx="5" fill="${color}">
+        <title>${escapeHtml(`${entry.label}: ${entry.value}`)}</title>
+      </rect>
+      <text x="${(x + (barWidth / 2)).toFixed(2)}" y="${(padTop + graphHeight + 16).toFixed(2)}" text-anchor="middle" class="live-block-chart-axis">
+        ${escapeHtml(entry.label.length > 10 ? `${entry.label.slice(0, 10)}…` : entry.label)}
+      </text>
+    `;
+  }).join('');
+
+  const legend = entries.map((entry, index) => `
+    <li>
+      <span class="live-block-legend-dot" style="--live-legend-color:${getChartColor(index)}"></span>
+      <span>${escapeHtml(entry.label)}: ${escapeHtml(formatCount(entry.value))}</span>
+    </li>
+  `).join('');
+
+  return `
+    <div class="live-block-chart-svg-wrap">
+      <svg class="live-block-chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${chart.id}-title ${chart.id}-desc">
+        <title id="${chart.id}-title">${escapeHtml(chart.title)}</title>
+        <desc id="${chart.id}-desc">${escapeHtml(chart.description)}</desc>
+
+        <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + graphHeight}" class="live-block-chart-grid" />
+        <line x1="${padLeft}" y1="${padTop + graphHeight}" x2="${padLeft + graphWidth}" y2="${padTop + graphHeight}" class="live-block-chart-grid" />
+
+        <text x="8" y="${(padTop + 8).toFixed(2)}" class="live-block-chart-axis">${escapeHtml(formatCount(max))}</text>
+        <text x="8" y="${(padTop + graphHeight).toFixed(2)}" class="live-block-chart-axis">0</text>
+
+        ${bars}
+      </svg>
+
+      <ul class="live-block-legend">
+        ${legend}
+      </ul>
+    </div>
+  `;
+}
+
+/**
+ * Generate donut chart SVG markup.
+ * @param {object} chart
+ * @returns {string}
+ */
+function renderDonutChartMarkup(chart) {
+  const width = 440;
+  const height = 230;
+  const cx = 145;
+  const cy = 112;
+  const radius = 62;
+  const strokeWidth = 26;
+
+  let offset = 0;
+  const circumference = 2 * Math.PI * radius;
+
+  const segments = chart.entries.map((entry, index) => {
+    const value = Math.max(entry.value, 0);
+    const ratio = chart.total ? value / chart.total : 0;
+    const length = ratio * circumference;
+    const color = getChartColor(index);
+    const segment = `
+      <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="${color}" stroke-width="${strokeWidth}" stroke-dasharray="${length.toFixed(2)} ${(circumference - length).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})">
+        <title>${escapeHtml(`${entry.label}: ${entry.value}`)}</title>
+      </circle>
+    `;
+    offset += length;
+    return segment;
+  }).join('');
+
+  const legend = chart.entries.map((entry, index) => `
+    <li>
+      <span class="live-block-legend-dot" style="--live-legend-color:${getChartColor(index)}"></span>
+      <span>${escapeHtml(entry.label)}: ${escapeHtml(formatCount(entry.value))}</span>
+    </li>
+  `).join('');
+
+  return `
+    <div class="live-block-chart-svg-wrap">
+      <svg class="live-block-chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${chart.id}-title ${chart.id}-desc">
+        <title id="${chart.id}-title">${escapeHtml(chart.title)}</title>
+        <desc id="${chart.id}-desc">${escapeHtml(chart.description)}</desc>
+
+        <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="rgb(148 163 184 / 25%)" stroke-width="${strokeWidth}" />
+        ${segments}
+
+        <text x="${cx}" y="${cy - 2}" text-anchor="middle" class="live-block-chart-center-label">${escapeHtml(formatCount(chart.total))}</text>
+        <text x="${cx}" y="${cy + 18}" text-anchor="middle" class="live-block-chart-axis">Users</text>
+      </svg>
+
+      <ul class="live-block-legend">
+        ${legend}
+      </ul>
+    </div>
+  `;
+}
+
+/**
+ * Generate stacked status bar chart SVG markup.
+ * @param {object} chart
+ * @returns {string}
+ */
+function renderStackedBarChartMarkup(chart) {
+  const width = 440;
+  const height = 190;
+  const x = 18;
+  const y = 58;
+  const barWidth = 400;
+  const barHeight = 34;
+  const total = Math.max(chart.total, 1);
+
+  let cursor = x;
+
+  const segments = chart.entries.map((entry, index) => {
+    const segmentWidth = Math.max(6, (entry.value / total) * barWidth);
+    const color = getChartColor(index);
+    const rect = `
+      <rect x="${cursor.toFixed(2)}" y="${y}" width="${segmentWidth.toFixed(2)}" height="${barHeight}" rx="4" fill="${color}">
+        <title>${escapeHtml(`${entry.label}: ${entry.value}`)}</title>
+      </rect>
+    `;
+    cursor += segmentWidth;
+    return rect;
+  }).join('');
+
+  const legend = chart.entries.map((entry, index) => {
+    const pct = chart.total ? ((entry.value / chart.total) * 100) : 0;
+    return `
+      <li>
+        <span class="live-block-legend-dot" style="--live-legend-color:${getChartColor(index)}"></span>
+        <span>${escapeHtml(entry.label)}: ${escapeHtml(formatCount(entry.value))} (${pct.toFixed(0)}%)</span>
+      </li>
+    `;
+  }).join('');
+
+  return `
+    <div class="live-block-chart-svg-wrap">
+      <svg class="live-block-chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${chart.id}-title ${chart.id}-desc">
+        <title id="${chart.id}-title">${escapeHtml(chart.title)}</title>
+        <desc id="${chart.id}-desc">${escapeHtml(chart.description)}</desc>
+
+        <rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="6" fill="rgb(15 23 42 / 42%)" />
+        ${segments}
+        <text x="${x}" y="${y - 14}" class="live-block-chart-axis">0</text>
+        <text x="${x + barWidth}" y="${y - 14}" text-anchor="end" class="live-block-chart-axis">${escapeHtml(formatCount(chart.total))}</text>
+      </svg>
+
+      <ul class="live-block-legend">
+        ${legend}
+      </ul>
+    </div>
+  `;
+}
+
+/**
+ * Render chart markup with fallback handling.
+ * @param {object} chart
+ * @returns {string}
+ */
+function renderChartMarkup(chart) {
+  if (chart.state !== 'ready') {
+    return `<p class="live-block-chart-empty" role="status">${escapeHtml(chart.emptyText || FALLBACK_TEXT)}</p>`;
+  }
+
+  if (chart.type === 'line') return renderLineChartMarkup(chart);
+  if (chart.type === 'bar') return renderBarChartMarkup(chart);
+  if (chart.type === 'donut') return renderDonutChartMarkup(chart);
+  if (chart.type === 'stacked') return renderStackedBarChartMarkup(chart);
+
+  return `<p class="live-block-chart-empty" role="status">${escapeHtml(FALLBACK_TEXT)}</p>`;
+}
+
+/**
+ * Build the data view-model for rendering.
+ * @param {object} config
+ * @param {object} requirements
+ * @param {object} data
+ * @param {Record<string, any>} sources
+ * @returns {object}
+ */
+function buildViewModel(config, requirements, data, sources) {
+  const now = new Date().toISOString();
+
+  const orderItems = Array.isArray(data.orderHistory?.items) ? data.orderHistory.items : [];
+  const orderWindowThreshold = Date.now() - (config.orderWindowDays * 24 * 60 * 60 * 1000);
+  const orderItemsInWindow = orderItems.filter((item) => {
+    const date = parseDate(item?.orderDate);
+    return date && date.getTime() >= orderWindowThreshold;
+  });
+
+  const orderWindowMoney = aggregateMoney(orderItemsInWindow, (item) => item?.total?.grandTotal);
+  const windowSpend = formatAggregateMoney(orderWindowMoney, 'total');
+  const windowAov = formatAggregateMoney(orderWindowMoney, 'average');
+
+  const companyPoItems = Array.isArray(data.companyPurchaseOrders?.purchaseOrderItems)
+    ? data.companyPurchaseOrders.purchaseOrderItems
+    : [];
+  const fallbackPoItems = Array.isArray(data.allPurchaseOrders?.purchaseOrderItems)
+    ? data.allPurchaseOrders.purchaseOrderItems
+    : [];
+  const poItems = companyPoItems.length ? companyPoItems : fallbackPoItems;
+  const poMoney = aggregateMoney(poItems, (item) => item?.quote?.grandTotal);
+  const poPipeline = formatAggregateMoney(poMoney, 'total');
+
+  const credit = data.companyCredit?.credit;
+  const availableCredit = credit?.available_credit;
+  const creditLimit = credit?.credit_limit;
+  const outstandingBalance = credit?.outstanding_balance;
+
+  const utilization = (
+    typeof creditLimit?.value === 'number'
+    && creditLimit.value > 0
+    && typeof outstandingBalance?.value === 'number'
+  )
+    ? (outstandingBalance.value / creditLimit.value) * 100
+    : undefined;
+
+  const users = Array.isArray(data.companyUsers?.users) ? data.companyUsers.users : [];
+  const activeUsers = users.filter((user) => user?.status === 'ACTIVE').length;
+  const inactiveUsers = users.filter((user) => user?.status === 'INACTIVE').length;
+
+  const quotes = Array.isArray(data.negotiableQuotes?.items) ? data.negotiableQuotes.items : [];
+  const openQuotes = quotes.filter((quote) => !TERMINAL_QUOTE_STATUSES.has(String(quote?.status || '').toUpperCase())).length;
+
+  const requisitionLists = Array.isArray(data.requisitionLists) ? data.requisitionLists : [];
+  const wishlists = Array.isArray(data.wishlists) ? data.wishlists : [];
+  const wishlistItemsCount = wishlists.reduce((sum, wishlist) => {
+    const count = wishlist?.items_count;
+    return sum + (typeof count === 'number' ? count : 0);
+  }, 0);
+
+  const quoteTemplatesCount = typeof data.quoteTemplates?.totalCount === 'number'
+    ? data.quoteTemplates.totalCount
+    : undefined;
+
+  const orderTrendPoints = buildOrderTrendPoints(data.orderHistory, config.trendPoints);
+
+  const creditHistoryItems = Array.isArray(data.companyCreditHistory?.items)
+    ? data.companyCreditHistory.items
+    : [];
+
+  const creditTrendPoints = creditHistoryItems
+    .map((item) => {
+      const date = parseDate(item?.date);
+      const available = item?.balance?.availableCredit;
+      if (!date || !available || typeof available.value !== 'number' || !available.currency) return null;
+      return {
+        label: formatDate(date),
+        date: date.toISOString(),
+        value: available.value,
+        currency: available.currency,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .slice(-config.trendPoints);
+
+  const poStatusCounts = buildStatusCounts(poItems, (item) => item?.status);
+  const quoteStatusCounts = buildStatusCounts(quotes, (item) => item?.status);
+
+  const metricsList = [
+    createMetric(
+      'creditAvailable',
+      'finance',
+      'Credit Available',
+      formatMoney(availableCredit?.value, availableCredit?.currency),
+      !availableCredit || typeof availableCredit.value !== 'number',
+    ),
+    createMetric(
+      'creditLimit',
+      'finance',
+      'Credit Limit',
+      formatMoney(creditLimit?.value, creditLimit?.currency),
+      !creditLimit || typeof creditLimit.value !== 'number',
+    ),
+    createMetric(
+      'outstandingBalance',
+      'finance',
+      'Outstanding Balance',
+      formatMoney(outstandingBalance?.value, outstandingBalance?.currency),
+      !outstandingBalance || typeof outstandingBalance.value !== 'number',
+    ),
+    createMetric(
+      'creditUtilization',
+      'finance',
+      'Utilization',
+      formatPercent(utilization),
+      typeof utilization !== 'number',
+    ),
+
+    createMetric(
+      'ordersTotal',
+      'operations',
+      'Total Orders',
+      formatCount(data.orderHistory?.totalCount),
+      typeof data.orderHistory?.totalCount !== 'number',
+    ),
+    createMetric(
+      'ordersInWindow',
+      'operations',
+      `Orders (${config.orderWindowDays}d)`,
+      formatCount(orderItemsInWindow.length),
+      !requirements.orders,
+      'Within fetched orders',
+    ),
+    createMetric(
+      'windowSpend',
+      'operations',
+      `Window Spend (${config.orderWindowDays}d)`,
+      windowSpend.value,
+      windowSpend.isFallback,
+      'Within fetched orders',
+    ),
+    createMetric(
+      'orderAov',
+      'operations',
+      `AOV (${config.orderWindowDays}d)`,
+      windowAov.value,
+      windowAov.isFallback,
+      'Within fetched orders',
+    ),
+    createMetric(
+      'pendingApprovals',
+      'operations',
+      'Pending Approvals',
+      formatCount(data.myApprovals?.totalCount),
+      typeof data.myApprovals?.totalCount !== 'number',
+    ),
+    createMetric(
+      'companyPoCount',
+      'operations',
+      'Company PO Count',
+      formatCount(data.companyPurchaseOrders?.totalCount),
+      typeof data.companyPurchaseOrders?.totalCount !== 'number',
+    ),
+    createMetric(
+      'poPipelineValue',
+      'operations',
+      'PO Pipeline Value',
+      poPipeline.value,
+      poPipeline.isFallback,
+    ),
+    createMetric(
+      'activeUsers',
+      'operations',
+      'Active Users',
+      formatCount(activeUsers),
+      !requirements.companyUsers,
+    ),
+    createMetric(
+      'inactiveUsers',
+      'operations',
+      'Inactive Users',
+      formatCount(inactiveUsers),
+      !requirements.companyUsers,
+    ),
+
+    createMetric(
+      'cartValue',
+      'sourcing',
+      'Cart Value',
+      formatMoney(data.cart?.total?.includingTax?.value, data.cart?.total?.includingTax?.currency),
+      !data.cart?.total?.includingTax || typeof data.cart.total.includingTax.value !== 'number',
+    ),
+    createMetric(
+      'cartQuantity',
+      'sourcing',
+      'Cart Quantity',
+      formatCount(data.cart?.totalQuantity),
+      typeof data.cart?.totalQuantity !== 'number',
+    ),
+    createMetric(
+      'openQuotes',
+      'sourcing',
+      'Open Quotes',
+      formatCount(openQuotes),
+      !requirements.negotiableQuotes,
+    ),
+    createMetric(
+      'quoteCount',
+      'sourcing',
+      'Quote Count',
+      formatCount(data.negotiableQuotes?.totalCount),
+      typeof data.negotiableQuotes?.totalCount !== 'number',
+    ),
+    createMetric(
+      'quoteTemplates',
+      'sourcing',
+      'Quote Templates',
+      formatCount(quoteTemplatesCount),
+      typeof quoteTemplatesCount !== 'number',
+    ),
+    createMetric(
+      'requisitionListCount',
+      'sourcing',
+      'Requisition Lists',
+      formatCount(requisitionLists.length),
+      !requirements.requisitionLists,
+    ),
+    createMetric(
+      'wishlistItems',
+      'sourcing',
+      'Wishlist Items',
+      formatCount(wishlistItemsCount),
+      !requirements.wishlists,
+    ),
+  ];
+
+  const metrics = Object.fromEntries(metricsList.map((metric) => [metric.id, metric]));
+
+  const charts = [
+    createLineChart(
+      'order-value-trend',
+      'Order Value Trend',
+      `Recent order totals (${config.trendPoints} points max)`,
+      orderTrendPoints,
+    ),
+    createStatusChart(
+      'po-status-breakdown',
+      'PO Status Breakdown',
+      'Distribution of company purchase orders by status',
+      poStatusCounts,
+      'bar',
+    ),
+    createLineChart(
+      'credit-timeline',
+      'Credit Timeline',
+      'Available company credit over recent transactions',
+      creditTrendPoints,
+    ),
+    createTeamChart(activeUsers, inactiveUsers),
+    createStatusChart(
+      'quote-pipeline',
+      'Quote Pipeline',
+      'Stacked distribution of quote statuses',
+      quoteStatusCounts,
+      'stacked',
+    ),
+  ];
+
+  const activities = {
+    purchaseOrders: poItems
+      .slice(0, config.rowsLimit)
+      .map((item) => ({
+        id: item?.uid || item?.number || '',
+        title: item?.number ? `PO #${item.number}` : 'Purchase Order',
+        subtitle: formatStatus(item?.status),
+        amount: formatMoney(item?.quote?.grandTotal?.value, item?.quote?.grandTotal?.currency),
+        date: formatDate(item?.createdAt),
+      })),
+    creditHistory: creditHistoryItems
+      .slice(0, config.rowsLimit)
+      .map((item) => ({
+        id: `${item?.date || ''}-${item?.type || ''}`,
+        title: formatStatus(item?.type),
+        subtitle: item?.updatedBy?.name || FALLBACK_TEXT,
+        amount: formatMoney(item?.amount?.value, item?.amount?.currency),
+        date: formatDate(item?.date),
+      })),
+    quotes: quotes
+      .slice(0, config.rowsLimit)
+      .map((item) => ({
+        id: item?.uid || item?.name || '',
+        title: item?.name || 'Negotiable Quote',
+        subtitle: formatStatus(item?.status),
+        amount: formatMoney(item?.prices?.grandTotal?.value, item?.prices?.grandTotal?.currency),
+        date: formatDate(item?.updatedAt || item?.createdAt),
+      })),
+  };
+
+  const sparklinePoints = orderTrendPoints;
+
+  return {
+    metrics,
+    charts,
+    activity: activities,
+    sources,
+    lastUpdatedAt: now,
+    windows: {
+      orderWindowDays: config.orderWindowDays,
+      trendPoints: config.trendPoints,
+    },
+    sparklinePoints,
+  };
+}
+
+/**
+ * Build grouped metric list for section rendering.
+ * @param {Record<string, any>} metrics
+ * @param {'finance'|'operations'|'sourcing'} group
+ * @returns {Array<object>}
+ */
+function metricsByGroup(metrics, group) {
+  return Object.values(metrics).filter((metric) => metric.group === group);
+}
+
+/**
+ * Render a metric group section.
+ * @param {string} title
+ * @param {Array<object>} metrics
+ * @param {string} subtitle
+ * @returns {string}
+ */
+function renderMetricSection(title, metrics, subtitle = '') {
+  const cards = metrics.map((metric) => `
+    <article class="live-block-metric${metric.isFallback ? ' is-fallback' : ''}" tabindex="0">
+      <div class="live-block-metric-value">${escapeHtml(metric.value)}</div>
+      <div class="live-block-metric-label">${escapeHtml(metric.label)}</div>
+      ${metric.note ? `<div class="live-block-metric-note">${escapeHtml(metric.note)}</div>` : ''}
+    </article>
+  `).join('');
+
+  return `
+    <section class="live-block-section" aria-label="${escapeHtml(title)}">
+      <header class="live-block-section-header">
+        <h3 class="live-block-section-title">${escapeHtml(title)}</h3>
+        ${subtitle ? `<p class="live-block-section-subtitle">${escapeHtml(subtitle)}</p>` : ''}
+      </header>
+      <div class="live-block-metrics-grid">
+        ${cards}
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * Render an activity list card.
+ * @param {string} title
+ * @param {Array<object>} rows
+ * @returns {string}
+ */
+function renderActivityCard(title, rows) {
+  const items = rows.length
+    ? `<ul class="live-block-activity-list">
+        ${rows.map((row) => `
+          <li class="live-block-activity-item" tabindex="0">
+            <div class="live-block-activity-main">
+              <div class="live-block-activity-title">${escapeHtml(row.title)}</div>
+              <div class="live-block-activity-subtitle">${escapeHtml(row.subtitle)}</div>
+              <div class="live-block-activity-date">${escapeHtml(row.date)}</div>
+            </div>
+            <div class="live-block-activity-amount">${escapeHtml(row.amount)}</div>
+          </li>
+        `).join('')}
+      </ul>`
+    : `<p class="live-block-empty">${EMPTY_ACTIVITY_TEXT}</p>`;
+
+  return `
+    <section class="live-block-activity-card" aria-label="${escapeHtml(title)}">
+      <h3 class="live-block-activity-card-title">${escapeHtml(title)}</h3>
+      ${items}
+    </section>
+  `;
+}
+
+/**
+ * Render source health chips.
+ * @param {Record<string, any>} sources
+ * @returns {string}
+ */
+function renderSourceHealth(sources) {
+  const entries = Object.entries(sources);
+  const okCount = entries.filter(([, source]) => source.status === SOURCE_STATUS.OK).length;
+
+  return `
+    <section class="live-block-sources" aria-label="Data source status">
+      <div class="live-block-sources-summary">${escapeHtml(`Sources live: ${okCount}/${entries.length}`)}</div>
+      <ul class="live-block-sources-list">
+        ${entries.map(([name, source]) => `
+          <li class="live-block-source-chip is-${escapeHtml(source.status)}">
+            <span class="live-block-source-name">${escapeHtml(name)}</span>
+            <span class="live-block-source-status">${escapeHtml(source.status)}</span>
+          </li>
+        `).join('')}
+      </ul>
+    </section>
+  `;
+}
+
+/**
+ * Render guest mode.
  * @param {HTMLElement} block
  * @param {object} config
  */
@@ -263,11 +1632,11 @@ function renderGuest(block, config) {
   wrapper.className = 'live-block-shell live-block-shell-guest';
   wrapper.innerHTML = `
     <header class="live-block-header">
-      <h2 class="live-block-title">${config.title}</h2>
+      <h2 class="live-block-title">${escapeHtml(config.title)}</h2>
       <span class="live-block-pill">Guest</span>
     </header>
     <p class="live-block-description">Sign in to view live commerce data.</p>
-    <a class="live-block-cta" href="${resolveHref(config.guestCtaHref)}">${config.guestCtaLabel}</a>
+    <a class="live-block-cta" href="${escapeHtml(resolveHref(config.guestCtaHref))}">${escapeHtml(config.guestCtaLabel)}</a>
   `;
   block.replaceChildren(wrapper);
 }
@@ -276,122 +1645,149 @@ function renderGuest(block, config) {
  * Render loading state.
  * @param {HTMLElement} block
  * @param {string} title
+ * @param {string} message
  */
-function renderLoading(block, title) {
+function renderLoading(block, title, message) {
   const wrapper = document.createElement('section');
   wrapper.className = 'live-block-shell live-block-shell-loading';
   wrapper.innerHTML = `
     <header class="live-block-header">
-      <h2 class="live-block-title">${title}</h2>
+      <h2 class="live-block-title">${escapeHtml(title)}</h2>
       <span class="live-block-pill">Live</span>
     </header>
-    <p class="live-block-description" role="status">Loading commerce data...</p>
+    <p class="live-block-description" role="status" aria-live="polite">${escapeHtml(message)}</p>
   `;
+
   block.replaceChildren(wrapper);
 }
 
 /**
- * Render authenticated data state.
+ * Render authenticated dashboard state.
  * @param {HTMLElement} block
  * @param {object} config
- * @param {Array<{label: string, value: string, isFallback?: boolean}>} metrics
- * @param {Array<{id: string, label: string, sub: string, amount: string}>} activities
- * @param {number[]} sparklinePoints
+ * @param {object} viewModel
+ * @param {Function} onRefresh
  */
-function renderAuthenticated(block, config, metrics, activities, sparklinePoints) {
+function renderAuthenticated(block, config, viewModel, onRefresh) {
+  const financeMetrics = metricsByGroup(viewModel.metrics, 'finance');
+  const operationsMetrics = metricsByGroup(viewModel.metrics, 'operations');
+  const sourcingMetrics = metricsByGroup(viewModel.metrics, 'sourcing');
+
+  const visibleCharts = config.showCharts
+    ? viewModel.charts
+    : [];
+
   const wrapper = document.createElement('section');
   wrapper.className = 'live-block-shell live-block-shell-auth';
 
-  const metricsMarkup = metrics.map((metric) => `
-    <article class="live-block-metric${metric.isFallback ? ' is-fallback' : ''}">
-      <div class="live-block-metric-value">${metric.value}</div>
-      <div class="live-block-metric-label">${metric.label}</div>
-    </article>
-  `).join('');
-
-  const activityMarkup = activities.length > 0
-    ? `<ul class="live-block-activity-list">
-        ${activities.map((activity) => `
-          <li class="live-block-activity-item">
-            <div class="live-block-activity-main">
-              <div class="live-block-activity-label">${activity.label}</div>
-              <div class="live-block-activity-sub">${activity.sub}</div>
-            </div>
-            <div class="live-block-activity-amount">${activity.amount}</div>
-          </li>
-        `).join('')}
-      </ul>`
-    : `<p class="live-block-empty">${EMPTY_ACTIVITY_TEXT}</p>`;
+  const hasSectionEnabled = config.showFinanceSection
+    || config.showOperationsSection
+    || config.showSourcingSection;
 
   wrapper.innerHTML = `
     <header class="live-block-header">
-      <h2 class="live-block-title">${config.title}</h2>
-      <span class="live-block-pill">Live</span>
+      <div class="live-block-header-main">
+        <h2 class="live-block-title">${escapeHtml(config.title)}</h2>
+        <p class="live-block-status" role="status" aria-live="polite">${escapeHtml(
+    config.showLastUpdated
+      ? `Last updated ${formatDateTime(viewModel.lastUpdatedAt)}`
+      : 'Live commerce data loaded',
+  )}</p>
+      </div>
+      <div class="live-block-header-actions">
+        <span class="live-block-pill">Live</span>
+        <button type="button" class="live-block-refresh" data-live-block-refresh>
+          ${escapeHtml(config.refreshLabel)}
+        </button>
+      </div>
     </header>
-    <div class="live-block-metrics">${metricsMarkup}</div>
-    <div class="live-block-sparkline" aria-hidden="true"></div>
-    <section class="live-block-activity" aria-label="Recent purchase orders">
-      <h3 class="live-block-activity-title">Recent Purchase Orders</h3>
-      ${activityMarkup}
-    </section>
+
+    ${hasSectionEnabled ? '' : `<p class="live-block-empty">No dashboard sections are currently enabled.</p>`}
+
+    ${config.showFinanceSection
+    ? renderMetricSection('Finance', financeMetrics, 'Credit and cash exposure')
+    : ''}
+
+    ${config.showOperationsSection
+    ? renderMetricSection(
+      'Operations',
+      operationsMetrics,
+      `${viewModel.windows.orderWindowDays}-day windowed metrics within fetched records`,
+    )
+    : ''}
+
+    ${config.showSparkline && viewModel.sparklinePoints.length >= 2
+    ? '<section class="live-block-sparkline" aria-hidden="true"></section>'
+    : ''}
+
+    ${config.showSourcingSection
+    ? renderMetricSection('Sourcing', sourcingMetrics, 'Buyer intent and pipeline surfaces')
+    : ''}
+
+    ${(config.showOperationsSection || config.showFinanceSection || config.showSourcingSection)
+    ? `<section class="live-block-activity-grid" aria-label="Recent activity">
+        ${config.showOperationsSection ? renderActivityCard('Recent Purchase Orders', viewModel.activity.purchaseOrders) : ''}
+        ${config.showFinanceSection ? renderActivityCard('Recent Credit Transactions', viewModel.activity.creditHistory) : ''}
+        ${config.showSourcingSection ? renderActivityCard('Recent Quotes', viewModel.activity.quotes) : ''}
+      </section>`
+    : ''}
+
+    ${visibleCharts.length > 0
+    ? `<section class="live-block-charts" aria-label="Dashboard charts">
+        <header class="live-block-section-header">
+          <h3 class="live-block-section-title">Detailed Graphs</h3>
+          <p class="live-block-section-subtitle">Labeled trends and distributions</p>
+        </header>
+        <div class="live-block-chart-grid">
+          ${visibleCharts.map((chart) => `
+            <article class="live-block-chart-card" aria-label="${escapeHtml(chart.title)}">
+              <header class="live-block-chart-header">
+                <h4 class="live-block-chart-title">${escapeHtml(chart.title)}</h4>
+                <p class="live-block-chart-description">${escapeHtml(chart.description)}</p>
+              </header>
+              ${renderChartMarkup(chart)}
+            </article>
+          `).join('')}
+        </div>
+      </section>`
+    : ''}
+
+    ${renderSourceHealth(viewModel.sources)}
   `;
 
   const sparklineContainer = wrapper.querySelector('.live-block-sparkline');
-  if (config.showSparkline) {
-    const sparkline = buildSparkline(sparklinePoints);
-    if (sparkline && sparklineContainer) {
+  if (sparklineContainer) {
+    const sparkline = buildSparkline(viewModel.sparklinePoints);
+    if (sparkline) {
       sparklineContainer.append(sparkline);
-    } else if (sparklineContainer) {
+    } else {
       sparklineContainer.remove();
     }
-  } else {
-    sparklineContainer?.remove();
   }
+
+  const refreshButton = wrapper.querySelector('[data-live-block-refresh]');
+  refreshButton?.addEventListener('click', () => {
+    onRefresh();
+  });
 
   block.replaceChildren(wrapper);
 }
 
 /**
- * Render fetch error state.
- * @param {HTMLElement} block
- * @param {string} title
- */
-function renderError(block, title) {
-  const wrapper = document.createElement('section');
-  wrapper.className = 'live-block-shell live-block-shell-error';
-  wrapper.innerHTML = `
-    <header class="live-block-header">
-      <h2 class="live-block-title">${title}</h2>
-      <span class="live-block-pill">Live</span>
-    </header>
-    <p class="live-block-empty" role="status">Unable to load live commerce data right now.</p>
-  `;
-  block.replaceChildren(wrapper);
-}
-
-/**
- * Execute a request and safely swallow failures.
- * @param {Function} requestFn
- * @returns {Promise<any | null>}
- */
-async function safeRequest(requestFn) {
-  try {
-    return await requestFn();
-  } catch (error) {
-    console.warn('live-block: request failed', error);
-    return null;
-  }
-}
-
-/**
- * Initialize block and bind event refresh hooks.
+ * Decorate block.
  * @param {HTMLElement} block
  */
 export default async function decorate(block) {
   const config = getConfig(block);
-  let refreshToken = 0;
+  const requirements = getRequirements(config);
 
-  const refresh = async () => {
+  let refreshToken = 0;
+  let refreshTimeout = null;
+  let isDisposed = false;
+
+  const subscriptions = [];
+
+  const refresh = async (reason = 'event') => {
     const currentToken = refreshToken + 1;
     refreshToken = currentToken;
 
@@ -400,82 +1796,110 @@ export default async function decorate(block) {
       return;
     }
 
-    renderLoading(block, config.title);
+    renderLoading(block, config.title, reason === 'manual' ? 'Refreshing live commerce data...' : 'Loading live commerce data...');
 
-    try {
-      await Promise.all([
-        import('../../scripts/initializers/account.js'),
-        import('../../scripts/initializers/company.js'),
-        import('../../scripts/initializers/purchase-order.js'),
-      ]);
+    const sources = {};
 
-      const [
-        accountApi,
-        companyApi,
-        purchaseOrderApi,
-      ] = await Promise.all([
-        import('@dropins/storefront-account/api.js'),
-        import('@dropins/storefront-company-management/api.js'),
-        import('@dropins/storefront-purchase-order/api.js'),
-      ]);
-
-      if (refreshToken !== currentToken) return;
-      if (!checkIsAuthenticated()) {
-        renderGuest(block, config);
-        return;
-      }
-
-      const [
-        orderHistory,
-        companyCredit,
-        allPurchaseOrders,
-        myApprovals,
-        companyPurchaseOrders,
-      ] = await Promise.all([
-        safeRequest(() => accountApi.getOrderHistoryList(20, 'viewAll', 1)),
-        safeRequest(() => companyApi.getCompanyCredit()),
-        safeRequest(() => purchaseOrderApi.getPurchaseOrders({}, 20, 1)),
-        safeRequest(() => purchaseOrderApi.getPurchaseOrders({ myApprovals: true }, 20, 1)),
-        safeRequest(
-          () => purchaseOrderApi.getPurchaseOrders(
-            { companyPurchaseOrders: true },
-            config.rowsLimit,
-            1,
-          ),
-        ),
-      ]);
-
-      if (refreshToken !== currentToken) return;
-
-      const metrics = buildMetrics(orderHistory, companyCredit, myApprovals);
-      const activities = buildActivities(
-        companyPurchaseOrders || allPurchaseOrders,
-        config.rowsLimit,
-      );
-      const sparklinePoints = buildSparklinePoints(orderHistory);
-
-      renderAuthenticated(block, config, metrics, activities, sparklinePoints);
-    } catch (error) {
-      console.error('live-block: failed to load', error);
-      if (refreshToken !== currentToken) return;
-      renderError(block, config.title);
+    if (!requirements.hasActiveSection) {
+      renderAuthenticated(block, config, {
+        metrics: {},
+        charts: [],
+        activity: {
+          purchaseOrders: [],
+          creditHistory: [],
+          quotes: [],
+        },
+        sources,
+        lastUpdatedAt: new Date().toISOString(),
+        windows: {
+          orderWindowDays: config.orderWindowDays,
+          trendPoints: config.trendPoints,
+        },
+        sparklinePoints: [],
+      }, () => scheduleRefresh('manual'));
+      return;
     }
+
+    await initializeRequiredDropins(requirements);
+    const apis = await loadRequiredApis(requirements);
+
+    if (refreshToken !== currentToken || isDisposed) return;
+    if (!checkIsAuthenticated()) {
+      renderGuest(block, config);
+      return;
+    }
+
+    const data = await fetchDashboardData(requirements, apis, config, sources);
+
+    if (refreshToken !== currentToken || isDisposed) return;
+
+    const viewModel = buildViewModel(config, requirements, data, sources);
+    renderAuthenticated(block, config, viewModel, () => scheduleRefresh('manual'));
   };
 
-  await refresh();
-
-  const authSubscription = events.on('authenticated', () => {
-    refresh();
-  });
-
-  const purchaseOrderRefreshSubscription = events.on('purchase-order/refresh', () => {
-    if (checkIsAuthenticated()) {
-      refresh();
+  const scheduleRefresh = (reason = 'event') => {
+    if (refreshTimeout) {
+      window.clearTimeout(refreshTimeout);
     }
-  });
+
+    const delay = reason === 'manual' ? 0 : 120;
+    refreshTimeout = window.setTimeout(() => {
+      refresh(reason);
+    }, delay);
+  };
+
+  await refresh('load');
+
+  subscriptions.push(events.on('authenticated', () => {
+    scheduleRefresh('authenticated');
+  }));
+
+  subscriptions.push(events.on('purchase-order/refresh', () => {
+    if (checkIsAuthenticated()) {
+      scheduleRefresh('purchase-order/refresh');
+    }
+  }));
+
+  if (config.showSourcingSection) {
+    subscriptions.push(events.on('cart/data', () => {
+      if (checkIsAuthenticated()) {
+        scheduleRefresh('cart/data');
+      }
+    }));
+
+    subscriptions.push(events.on('quote-management/negotiable-quote-requested', () => {
+      if (checkIsAuthenticated()) {
+        scheduleRefresh('quote-management/negotiable-quote-requested');
+      }
+    }));
+
+    subscriptions.push(events.on('quote-management/quote-duplicated', () => {
+      if (checkIsAuthenticated()) {
+        scheduleRefresh('quote-management/quote-duplicated');
+      }
+    }));
+
+    subscriptions.push(events.on('quote-management/quote-template-generated', () => {
+      if (checkIsAuthenticated()) {
+        scheduleRefresh('quote-management/quote-template-generated');
+      }
+    }));
+
+    subscriptions.push(events.on('wishlist/alert', () => {
+      if (checkIsAuthenticated()) {
+        scheduleRefresh('wishlist/alert');
+      }
+    }));
+  }
 
   block.addEventListener('DOMNodeRemoved', () => {
-    authSubscription?.off?.();
-    purchaseOrderRefreshSubscription?.off?.();
+    isDisposed = true;
+    if (refreshTimeout) {
+      window.clearTimeout(refreshTimeout);
+    }
+
+    subscriptions.forEach((subscription) => {
+      subscription?.off?.();
+    });
   }, { once: true });
 }
