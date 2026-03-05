@@ -378,7 +378,10 @@ main > .section.appear > div > .hero-5-wrapper {
 }
 
 .hero-5 .hfb-icon {
-  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-green-200, #2ebe7a);
 }
 
 .hero-5 .hfb-val {

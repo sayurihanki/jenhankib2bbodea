@@ -185,8 +185,13 @@ export default function decorate(block) {
   const trustRow = el('div', 'hero-trust', {}, [trustAvatars, trustTextWrap]);
   const heroLeft = el('div', 'hero-left', {}, [tag, titleEl, subtitleEl, heroActions, trustRow]);
 
+  const hfbIcon = document.createElement('div');
+  hfbIcon.className = 'hfb-icon';
+  hfbIcon.setAttribute('aria-hidden', 'true');
+  hfbIcon.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>';
+
   const floatBadge = el('div', 'hero-float-badge', { 'aria-label': `${badgeValue} ${badgeLabel}` }, [
-    el('div', 'hfb-icon', { 'aria-hidden': 'true' }, [document.createTextNode('📈')]),
+    hfbIcon,
     el('div', 'hfb-text', {}, [
       el('div', 'hfb-val', {}, [document.createTextNode(badgeValue)]),
       el('div', 'hfb-label', {}, [document.createTextNode(badgeLabel)]),
