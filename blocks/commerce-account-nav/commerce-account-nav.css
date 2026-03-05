@@ -1,9 +1,6 @@
 .commerce-account-nav-container:has(> .commerce-account-nav-wrapper) {
-    border: 1px solid var(--glass-border-subtle);
-    border-radius: calc(var(--shape-border-radius-2) + 4px);
-    background: var(--glass-bg-strong);
-    backdrop-filter: var(--glass-blur-sm) var(--glass-saturate);
-    box-shadow: var(--shadow-glass);
+    border: var(--shape-border-width-2) solid var(--color-neutral-400);
+    border-radius: var(--shape-border-radius-2);
     overflow: hidden;
 }
 
@@ -13,108 +10,50 @@
 }
 
 .commerce-account-nav-wrapper:not(:last-of-type) {
-    border-bottom: 1px solid rgb(0 0 0 / 7%);
+    border-bottom: var(--shape-border-width-2) solid var(--color-neutral-300);
 }
 
 .commerce-account-nav__item {
-    align-items: center;
-    color: inherit;
     display: grid;
-    gap: 0 var(--spacing-small);
     grid-template-areas:
-        'title chevron'
-        'description chevron';
-    grid-template-columns: 1fr auto;
-    padding: var(--spacing-small) var(--spacing-medium);
-    position: relative;
-    text-decoration: none;
-    transition: background-color var(--transition-fast) var(--ease-out),
-        transform var(--transition-fast) var(--ease-out);
+        'title'
+        'description';
+    grid-template-columns: 1fr;
+    gap: 0 var(--spacing-small);
+    align-items: center;
+    padding: var(--spacing-xsmall) var(--spacing-small);
 }
 
 .commerce-account-nav__item--has-icon {
     grid-template-areas:
-        'icon title chevron'
-        'icon description chevron';
-    grid-template-columns: auto 1fr auto;
+        'icon title'
+        'icon description';
+    grid-template-columns: auto 1fr;
 }
 
-.commerce-account-nav__item:hover,
-.commerce-account-nav__item:focus-visible {
-    background: var(--glass-bg);
-    text-decoration: none !important;
-    transform: translateX(2px);
-}
-
-.commerce-account-nav__item::before {
-    content: '';
-    inset: 0 auto 0 0;
-    position: absolute;
-    width: 0;
-}
-
-.commerce-account-nav__item--active {
-    background: linear-gradient(90deg, rgb(46 190 122 / 12%) 0%, rgb(46 190 122 / 3%) 100%);
-}
-
-.commerce-account-nav__item--active::before {
-    width: 3px;
-    background: var(--main-color-accent);
-}
-
-.commerce-account-nav__item__icon {
-    align-items: center;
-    color: var(--main-color-accent);
-    display: inline-flex;
-    grid-area: icon;
-    justify-content: center;
+.commerce-account-nav__item:hover {
+    text-decoration: none ! important;
 }
 
 .commerce-account-nav__item__title {
-    color: var(--color-neutral-900);
-    font: var(--type-body-1-strong-font);
     grid-area: title;
-    line-height: 1.2;
+    font: var(--type-button-3-font);
+}
+
+.commerce-account-nav__item__icon {
+    grid-area: icon;
 }
 
 .commerce-account-nav__item__description {
-    color: var(--color-neutral-700);
-    font: var(--type-body-2-default-font);
     grid-area: description;
-    line-height: 1.25;
+    font: var(--type-body-2-default-font);
     text-decoration: none;
 }
 
-.commerce-account-nav__item__chevron {
-    color: var(--color-neutral-600);
-    font-size: 2rem;
-    grid-area: chevron;
-    line-height: 1;
-    padding-left: var(--spacing-xsmall);
-    transition: transform var(--transition-fast) var(--ease-out);
+.commerce-account-nav__item:hover:not(.commerce-account-nav__item--active) {
+    background-color: var(--color-neutral-100);
 }
 
-.commerce-account-nav__item__chevron::before {
-    content: '\203A';
-}
-
-.commerce-account-nav__item--active .commerce-account-nav__item__chevron,
-.commerce-account-nav__item:hover .commerce-account-nav__item__chevron,
-.commerce-account-nav__item:focus-visible .commerce-account-nav__item__chevron {
-    color: var(--main-color-accent);
-    transform: translateX(2px);
-}
-
-@media (max-width: 899px) {
-    .commerce-account-nav__item {
-        padding: var(--spacing-small);
-    }
-
-    .commerce-account-nav__item__title {
-        font: var(--type-body-2-strong-font);
-    }
-
-    .commerce-account-nav__item__description {
-        font: var(--type-details-caption-2-font);
-    }
+.commerce-account-nav__item--active {
+    background-color: var(--color-neutral-200);
 }
