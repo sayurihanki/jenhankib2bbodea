@@ -1292,6 +1292,70 @@
         "name": "show-sparkline",
         "label": "Show Sparkline",
         "value": true
+      },
+      {
+        "component": "number",
+        "valueType": "number",
+        "name": "order-window-days",
+        "label": "Order Window Days",
+        "value": 90,
+        "validation": {
+          "numberMin": 30,
+          "numberMax": 365
+        }
+      },
+      {
+        "component": "number",
+        "valueType": "number",
+        "name": "trend-points",
+        "label": "Trend Points",
+        "value": 12,
+        "validation": {
+          "numberMin": 6,
+          "numberMax": 24
+        }
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "show-finance-section",
+        "label": "Show Finance Section",
+        "value": true
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "show-operations-section",
+        "label": "Show Operations Section",
+        "value": true
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "show-sourcing-section",
+        "label": "Show Sourcing Section",
+        "value": true
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "show-charts",
+        "label": "Show Charts",
+        "value": true
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "show-last-updated",
+        "label": "Show Last Updated",
+        "value": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "refresh-label",
+        "label": "Refresh Label",
+        "value": "Refresh data"
       }
     ]
   },

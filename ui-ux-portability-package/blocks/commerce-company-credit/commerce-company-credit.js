@@ -47,11 +47,44 @@ const GET_ACTIVE_COMPANY_CONTEXT = `
   }
 `;
 
+const GET_COMPANY_CREDIT_PROBE = `
+  query GET_COMPANY_CREDIT_PROBE {
+    company {
+      id
+      credit {
+        available_credit {
+          currency
+          value
+        }
+        credit_limit {
+          currency
+          value
+        }
+        outstanding_balance {
+          currency
+          value
+        }
+      }
+    }
+  }
+`;
+
+const hasGraphQlErrors = (response) => Array.isArray(response?.errors) && response.errors.length > 0;
+
 async function ensureCompanyContext() {
   let companyContext = sessionStorage.getItem(COMPANY_CONTEXT_SESSION_KEY);
+  if (companyContext) {
+    CORE_FETCH_GRAPHQL.setFetchGraphQlHeader('X-Adobe-Company', companyContext);
+  }
 
   try {
     const response = await fetchGraphQl(GET_ACTIVE_COMPANY_CONTEXT, { method: 'GET', cache: 'no-cache' });
+    if (hasGraphQlErrors(response) && companyContext) {
+      companyContext = null;
+      sessionStorage.removeItem(COMPANY_CONTEXT_SESSION_KEY);
+      CORE_FETCH_GRAPHQL.removeFetchGraphQlHeader('X-Adobe-Company');
+    }
+
     const detectedCompanyContext = response?.data?.company?.id
       || response?.data?.customer?.companies?.items?.[0]?.id
       || null;
@@ -64,9 +97,31 @@ async function ensureCompanyContext() {
     // Ignore probe failures and fall back to current drop-in behavior.
   }
 
+  // If credit probe errors under a stored context, clear it and retry without header.
+  try {
+    let creditProbe = await fetchGraphQl(GET_COMPANY_CREDIT_PROBE, { method: 'GET', cache: 'no-cache' });
+    if (hasGraphQlErrors(creditProbe) && companyContext) {
+      companyContext = null;
+      sessionStorage.removeItem(COMPANY_CONTEXT_SESSION_KEY);
+      CORE_FETCH_GRAPHQL.removeFetchGraphQlHeader('X-Adobe-Company');
+      events.emit('companyContext/changed', null);
+
+      creditProbe = await fetchGraphQl(GET_COMPANY_CREDIT_PROBE, { method: 'GET', cache: 'no-cache' });
+      const recoveredCompanyContext = creditProbe?.data?.company?.id || null;
+      if (!hasGraphQlErrors(creditProbe) && recoveredCompanyContext) {
+        companyContext = recoveredCompanyContext;
+        sessionStorage.setItem(COMPANY_CONTEXT_SESSION_KEY, companyContext);
+      }
+    }
+  } catch {
+    // Ignore probe failures and fall back to current drop-in behavior.
+  }
+
   if (companyContext) {
     CORE_FETCH_GRAPHQL.setFetchGraphQlHeader('X-Adobe-Company', companyContext);
     events.emit('companyContext/changed', companyContext);
+  } else {
+    CORE_FETCH_GRAPHQL.removeFetchGraphQlHeader('X-Adobe-Company');
   }
 }
 

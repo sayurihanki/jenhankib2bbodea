@@ -323,7 +323,10 @@ function getRequirements(config) {
 
   return {
     hasActiveSection,
-    orders: config.showFinanceSection || config.showOperationsSection || config.showCharts || config.showSparkline,
+    orders: config.showFinanceSection
+      || config.showOperationsSection
+      || config.showCharts
+      || config.showSparkline,
     purchaseOrders: config.showOperationsSection || config.showCharts,
     myApprovals: config.showOperationsSection,
     companyPurchaseOrders: config.showOperationsSection || config.showCharts,
@@ -349,11 +352,19 @@ async function initializeRequiredDropins(requirements) {
     initializers.push(import('../../scripts/initializers/account.js'));
   }
 
-  if (requirements.companyCredit || requirements.companyCreditHistory || requirements.companyUsers) {
+  if (
+    requirements.companyCredit
+    || requirements.companyCreditHistory
+    || requirements.companyUsers
+  ) {
     initializers.push(import('../../scripts/initializers/company.js'));
   }
 
-  if (requirements.purchaseOrders || requirements.myApprovals || requirements.companyPurchaseOrders) {
+  if (
+    requirements.purchaseOrders
+    || requirements.myApprovals
+    || requirements.companyPurchaseOrders
+  ) {
     initializers.push(import('../../scripts/initializers/purchase-order.js'));
   }
 
@@ -511,7 +522,9 @@ async function fetchDashboardData(requirements, apis, config, sources) {
     ? safeRequest(
       sources,
       'companyUsers',
-      apis.companyApi ? () => apis.companyApi.getCompanyUsers({ pageSize: 100, currentPage: 1 }) : null,
+      apis.companyApi
+        ? () => apis.companyApi.getCompanyUsers({ pageSize: 100, currentPage: 1 })
+        : null,
       'Company API unavailable',
     )
     : Promise.resolve(markSkippedSource(sources, 'companyUsers', 'Operations/charts section disabled'));
@@ -529,7 +542,9 @@ async function fetchDashboardData(requirements, apis, config, sources) {
     ? safeRequest(
       sources,
       'quoteTemplates',
-      apis.quoteApi ? () => apis.quoteApi.getQuoteTemplates({ pageSize: 50, currentPage: 1 }) : null,
+      apis.quoteApi
+        ? () => apis.quoteApi.getQuoteTemplates({ pageSize: 50, currentPage: 1 })
+        : null,
       'Quote API unavailable',
     )
     : Promise.resolve(markSkippedSource(sources, 'quoteTemplates', 'Sourcing section disabled'));
@@ -600,7 +615,13 @@ async function fetchDashboardData(requirements, apis, config, sources) {
  * Get latest money object list and determine whether aggregate is safe.
  * @param {Array<any>} collection
  * @param {Function} moneyGetter
- * @returns {{ state: 'none'|'mixed'|'single', values: number[], total: number, average: number, currency?: string }}
+ * @returns {{
+ *  state: 'none'|'mixed'|'single',
+ *  values: number[],
+ *  total: number,
+ *  average: number,
+ *  currency?: string
+ * }}
  */
 function aggregateMoney(collection, moneyGetter) {
   const entries = Array.isArray(collection) ? collection : [];
@@ -989,8 +1010,8 @@ function renderLineChartMarkup(chart) {
         <title id="${chart.id}-title">${escapeHtml(chart.title)}</title>
         <desc id="${chart.id}-desc">${escapeHtml(chart.description)}</desc>
 
-        <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + graphHeight}" class="live-block-chart-grid" />
-        <line x1="${padLeft}" y1="${padTop + graphHeight}" x2="${padLeft + graphWidth}" y2="${padTop + graphHeight}" class="live-block-chart-grid" />
+        <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + graphHeight}" class="live-block-chart-grid-line" />
+        <line x1="${padLeft}" y1="${padTop + graphHeight}" x2="${padLeft + graphWidth}" y2="${padTop + graphHeight}" class="live-block-chart-grid-line" />
 
         <text x="8" y="${(padTop + 8).toFixed(2)}" class="live-block-chart-axis">${escapeHtml(formatMoney(max, chart.currency))}</text>
         <text x="8" y="${(padTop + graphHeight).toFixed(2)}" class="live-block-chart-axis">${escapeHtml(formatMoney(min, chart.currency))}</text>
@@ -1067,8 +1088,8 @@ function renderBarChartMarkup(chart) {
         <title id="${chart.id}-title">${escapeHtml(chart.title)}</title>
         <desc id="${chart.id}-desc">${escapeHtml(chart.description)}</desc>
 
-        <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + graphHeight}" class="live-block-chart-grid" />
-        <line x1="${padLeft}" y1="${padTop + graphHeight}" x2="${padLeft + graphWidth}" y2="${padTop + graphHeight}" class="live-block-chart-grid" />
+        <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + graphHeight}" class="live-block-chart-grid-line" />
+        <line x1="${padLeft}" y1="${padTop + graphHeight}" x2="${padLeft + graphWidth}" y2="${padTop + graphHeight}" class="live-block-chart-grid-line" />
 
         <text x="8" y="${(padTop + 8).toFixed(2)}" class="live-block-chart-axis">${escapeHtml(formatCount(max))}</text>
         <text x="8" y="${(padTop + graphHeight).toFixed(2)}" class="live-block-chart-axis">0</text>
@@ -1702,7 +1723,9 @@ function renderAuthenticated(block, config, viewModel, onRefresh) {
       </div>
     </header>
 
-    ${hasSectionEnabled ? '' : `<p class="live-block-empty">No dashboard sections are currently enabled.</p>`}
+    ${hasSectionEnabled
+    ? ''
+    : '<p class="live-block-empty">No dashboard sections are currently enabled.</p>'}
 
     ${config.showFinanceSection
     ? renderMetricSection('Finance', financeMetrics, 'Credit and cash exposure')
@@ -1796,7 +1819,13 @@ export default async function decorate(block) {
       return;
     }
 
-    renderLoading(block, config.title, reason === 'manual' ? 'Refreshing live commerce data...' : 'Loading live commerce data...');
+    renderLoading(
+      block,
+      config.title,
+      reason === 'manual'
+        ? 'Refreshing live commerce data...'
+        : 'Loading live commerce data...',
+    );
 
     const sources = {};
 
@@ -1837,7 +1866,7 @@ export default async function decorate(block) {
     renderAuthenticated(block, config, viewModel, () => scheduleRefresh('manual'));
   };
 
-  const scheduleRefresh = (reason = 'event') => {
+  function scheduleRefresh(reason = 'event') {
     if (refreshTimeout) {
       window.clearTimeout(refreshTimeout);
     }
@@ -1846,7 +1875,7 @@ export default async function decorate(block) {
     refreshTimeout = window.setTimeout(() => {
       refresh(reason);
     }, delay);
-  };
+  }
 
   await refresh('load');
 

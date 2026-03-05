@@ -2,37 +2,85 @@
 
 ## Overview
 
-`live-block` renders a portable, authenticated dashboard card backed by Adobe Commerce account-level data.
-It combines customer orders, purchase orders, and company credit into a mixed KPI view.
+`live-block` renders a portable authenticated commerce dashboard with account-scoped KPIs, labeled charts, and activity panels.
+
+The block remains storefront-safe:
+
+1. Guests see a sign-in CTA only.
+2. Authenticated users get real commerce data from drop-in storefront APIs.
+3. Source failures are isolated so one API failure does not blank the full block.
 
 ## Configuration
 
-Configured as a key-value block.
+Configured as a DA key-value block.
 
 | Key | Type | Default | Description |
 |---|---|---|---|
-| `title` | string | `Live Commerce Dashboard` | Card heading text |
-| `guest-cta-label` | string | `Sign in` | CTA label for guest mode |
-| `guest-cta-href` | string | `/customer/login` | CTA href for guest mode |
-| `rows-limit` | number | `3` | Max recent PO rows (`1..5`) |
-| `show-sparkline` | boolean | `true` | Shows sparkline when order totals are available |
+| `title` | string | `Live Commerce Dashboard` | Dashboard heading |
+| `guest-cta-label` | string | `Sign in` | Guest state CTA label |
+| `guest-cta-href` | string | `/customer/login` | Guest state CTA href |
+| `rows-limit` | number | `3` | Activity rows per panel (`1..5`) |
+| `show-sparkline` | boolean | `true` | Shows compact order sparkline |
+| `order-window-days` | number | `90` | Window for windowed order KPIs (`30..365`) |
+| `trend-points` | number | `12` | Max points per trend chart (`6..24`) |
+| `show-finance-section` | boolean | `true` | Enables finance KPI/activity section |
+| `show-operations-section` | boolean | `true` | Enables operations KPI/activity section |
+| `show-sourcing-section` | boolean | `true` | Enables sourcing KPI/activity section |
+| `show-charts` | boolean | `true` | Enables detailed chart section |
+| `show-last-updated` | boolean | `true` | Shows last updated timestamp in header |
+| `refresh-label` | string | `Refresh data` | Label for manual refresh button |
 
 ## Data Sources
 
-When authenticated, the block initializes and requests:
+The block lazy-initializes only the drop-ins required by enabled sections.
 
-1. `getOrderHistoryList(20, 'viewAll', 1)` from `@dropins/storefront-account/api.js`
-2. `getCompanyCredit()` from `@dropins/storefront-company-management/api.js`
-3. `getPurchaseOrders({}, 20, 1)` from `@dropins/storefront-purchase-order/api.js`
-4. `getPurchaseOrders({ myApprovals: true }, 20, 1)` from `@dropins/storefront-purchase-order/api.js`
-5. `getPurchaseOrders({ companyPurchaseOrders: true }, rowsLimit, 1)` from `@dropins/storefront-purchase-order/api.js`
+Core account/B2B requests:
 
-Each request is independently guarded so partial failures do not blank the block.
+1. `getOrderHistoryList(50, 'viewAll', 1)`
+2. `getCompanyCredit()`
+3. `getCompanyCreditHistory({ pageSize, currentPage: 1 })`
+4. `getPurchaseOrders({}, 50, 1)`
+5. `getPurchaseOrders({ myApprovals: true }, 50, 1)`
+6. `getPurchaseOrders({ companyPurchaseOrders: true }, 50, 1)`
 
-## Behavior
+Extended requests (enabled by section flags):
 
-1. **Guest mode**: No private commerce requests are made. A sign-in CTA is shown.
-2. **Authenticated mode**: Live metrics are shown for credit, orders, and pending approvals.
-3. **B2B unavailable**: B2B-derived values show `Not available` while order metrics remain.
-4. **No activity data**: Shows `No recent commerce activity`.
-5. **Refresh hooks**: Re-fetches on `authenticated` and `purchase-order/refresh` events.
+1. `getCartData()`
+2. `getCompanyUsers({ pageSize: 100, currentPage: 1 })`
+3. `negotiableQuotes({ pageSize: 50, currentPage: 1 })`
+4. `getQuoteTemplates({ pageSize: 50, currentPage: 1 })`
+5. `getRequisitionLists(1, 50)`
+6. `getWishlists()`
+
+## KPI + Charts
+
+KPIs include credit, orders, approvals/PO, cart, team, quotes, requisition lists, and wishlist volumes.
+
+Charts include:
+
+1. Order value trend (line)
+2. PO status breakdown (bar)
+3. Credit timeline (line)
+4. Team status split (donut)
+5. Quote pipeline (stacked status bar)
+
+Currency-sensitive aggregates (window spend, AOV, PO pipeline) only render totals when source currency is consistent; mixed currencies render `Mixed currency`.
+
+## Refresh Behavior
+
+Refresh happens on:
+
+1. Initial block load
+2. `authenticated`
+3. `purchase-order/refresh`
+4. Manual refresh button
+
+When sourcing is enabled, it also refreshes on:
+
+1. `cart/data`
+2. `quote-management/negotiable-quote-requested`
+3. `quote-management/quote-duplicated`
+4. `quote-management/quote-template-generated`
+5. `wishlist/alert`
+
+No polling is used.
