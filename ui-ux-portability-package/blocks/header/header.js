@@ -133,9 +133,9 @@ const CATALOG_CATEGORY_ITEMS = [
   { label: 'Cable Management' },
   { label: 'Accessories' },
   {
-    label: 'VIP Category',
+    label: 'VIPs Only Category',
     fallbackPath: '/vip-category',
-    aliases: ['VIPs Only Category'],
+    aliases: ['VIP Category'],
     requiresVipGroup: true,
   },
 ];
