@@ -134,8 +134,8 @@ const CATALOG_CATEGORY_ITEMS = [
   { label: 'Accessories' },
   {
     label: 'VIPs Only Category',
-    fallbackPath: '/vip-category',
-    aliases: ['VIP Category'],
+    fallbackPath: '/vips-only-category',
+    aliases: ['VIP Category', 'VIPs Only Category.'],
   },
 ];
 
