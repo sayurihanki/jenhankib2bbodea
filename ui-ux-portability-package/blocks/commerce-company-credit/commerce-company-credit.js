@@ -16,11 +16,9 @@
  ****************************************************************** */
 import { CompanyCredit } from '@dropins/storefront-company-management/containers/CompanyCredit.js';
 import { render as companyRenderer } from '@dropins/storefront-company-management/render.js';
-import { companyEnabled, checkCompanyCreditEnabled } from '@dropins/storefront-company-management/api.js';
 import { events } from '@dropins/tools/event-bus.js';
 import {
   CUSTOMER_LOGIN_PATH,
-  CUSTOMER_ACCOUNT_PATH,
   checkIsAuthenticated,
   rootLink,
 } from '../../scripts/commerce.js';
@@ -35,23 +33,8 @@ export default async function decorate(block) {
     window.location.href = rootLink(CUSTOMER_LOGIN_PATH);
     return;
   }
-  // Check if company functionality is enabled
-  const companyCheck = await companyEnabled();
-  if (!companyCheck) {
-    window.location.href = rootLink(CUSTOMER_ACCOUNT_PATH);
-    return;
-  }
 
-  // Check if company credit is enabled
-  const companyCreditCheck = await checkCompanyCreditEnabled();
-  const isCompanyCreditDisabledInConfig = companyCreditCheck?.creditEnabled === false
-    && companyCreditCheck?.error === 'Company credit is not enabled in store configuration';
-  if (isCompanyCreditDisabledInConfig) {
-    window.location.href = rootLink(CUSTOMER_ACCOUNT_PATH);
-    return;
-  }
-
-  // All checks passed, render company credit container
+  // Render company credit container. Let the drop-in handle empty/disabled states.
   const { 'show-history': showHistory = 'true' } = readBlockConfig(block);
   const shouldShowHistory = showHistory === 'true';
 
