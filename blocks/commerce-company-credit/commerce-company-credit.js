@@ -17,6 +17,7 @@
 import { CompanyCredit } from '@dropins/storefront-company-management/containers/CompanyCredit.js';
 import { render as companyRenderer } from '@dropins/storefront-company-management/render.js';
 import { companyEnabled, checkCompanyCreditEnabled } from '@dropins/storefront-company-management/api.js';
+import { events } from '@dropins/tools/event-bus.js';
 import {
   CUSTOMER_LOGIN_PATH,
   CUSTOMER_ACCOUNT_PATH,
@@ -27,6 +28,7 @@ import { readBlockConfig } from '../../scripts/aem.js';
 
 // Initialize
 import '../../scripts/initializers/company.js';
+import '../../scripts/initializers/company-switcher.js';
 
 export default async function decorate(block) {
   if (!checkIsAuthenticated()) {
@@ -42,7 +44,7 @@ export default async function decorate(block) {
 
   // Check if company credit is enabled
   const companyCreditCheck = await checkCompanyCreditEnabled();
-  if (!companyCreditCheck) {
+  if (!companyCreditCheck.creditEnabled) {
     window.location.href = rootLink(CUSTOMER_ACCOUNT_PATH);
     return;
   }
@@ -58,4 +60,10 @@ export default async function decorate(block) {
       currentPage: 1,
     } : undefined,
   })(block);
+
+  // Ensure credit data is refreshed with the active company context after mount.
+  const companyContext = sessionStorage.getItem('DROPIN__COMPANYSWITCHER__COMPANY__CONTEXT');
+  if (companyContext) {
+    events.emit('companyContext/changed', companyContext);
+  }
 }
