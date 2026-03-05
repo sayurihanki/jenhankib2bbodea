@@ -327,7 +327,7 @@ header nav .nav-sections ul > li:empty {
     width: min(92vw, 540px);
     min-width: 24rem;
     max-width: 560px;
-    max-height: min(420px, calc(100vh - var(--nav-height) - 2rem));
+    max-height: min(560px, calc(100vh - var(--nav-height) - 2rem));
     box-sizing: border-box;
     left: 0;
     padding: var(--spacing-xsmall) 0;
@@ -339,7 +339,7 @@ header nav .nav-sections ul > li:empty {
     border: 1px solid var(--glass-border);
     border-radius: var(--nav-dropdown-radius);
     box-shadow: var(--shadow-glass);
-    overflow: hidden;
+    overflow: auto;
     animation: nav-dropdown-open 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
