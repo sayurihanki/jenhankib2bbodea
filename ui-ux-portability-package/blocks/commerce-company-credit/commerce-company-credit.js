@@ -44,7 +44,9 @@ export default async function decorate(block) {
 
   // Check if company credit is enabled
   const companyCreditCheck = await checkCompanyCreditEnabled();
-  if (!companyCreditCheck.creditEnabled) {
+  const isCompanyCreditDisabledInConfig = companyCreditCheck?.creditEnabled === false
+    && companyCreditCheck?.error === 'Company credit is not enabled in store configuration';
+  if (isCompanyCreditDisabledInConfig) {
     window.location.href = rootLink(CUSTOMER_ACCOUNT_PATH);
     return;
   }

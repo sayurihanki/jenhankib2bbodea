@@ -253,6 +253,124 @@
           }
         },
         {
+          "title": "VIP Hero Block",
+          "id": "vip-hero-block",
+          "model": "vip-hero-block",
+          "plugins": {
+            "da": {
+              "type": "key-value-block",
+              "rows": 26,
+              "columns": 1,
+              "fields": [
+                {
+                  "name": "memberName",
+                  "selector": "div:nth-child(1)>div:nth-child(1)"
+                },
+                {
+                  "name": "memberTagline",
+                  "selector": "div:nth-child(2)>div:nth-child(1)"
+                },
+                {
+                  "name": "heroNumber",
+                  "selector": "div:nth-child(3)>div:nth-child(1)"
+                },
+                {
+                  "name": "headlineLine1",
+                  "selector": "div:nth-child(4)>div:nth-child(1)"
+                },
+                {
+                  "name": "headlineLine2",
+                  "selector": "div:nth-child(5)>div:nth-child(1)"
+                },
+                {
+                  "name": "headlineLine3",
+                  "selector": "div:nth-child(6)>div:nth-child(1)"
+                },
+                {
+                  "name": "postscript",
+                  "selector": "div:nth-child(7)>div:nth-child(1)"
+                },
+                {
+                  "name": "description",
+                  "selector": "div:nth-child(8)>div:nth-child(1)"
+                },
+                {
+                  "name": "ctaPrimary",
+                  "selector": "div:nth-child(9)>div:nth-child(1)>a"
+                },
+                {
+                  "name": "ctaSecondary",
+                  "selector": "div:nth-child(10)>div:nth-child(1)>a"
+                },
+                {
+                  "name": "perk1",
+                  "selector": "div:nth-child(11)>div:nth-child(1)"
+                },
+                {
+                  "name": "perk2",
+                  "selector": "div:nth-child(12)>div:nth-child(1)"
+                },
+                {
+                  "name": "perk3",
+                  "selector": "div:nth-child(13)>div:nth-child(1)"
+                },
+                {
+                  "name": "perk4",
+                  "selector": "div:nth-child(14)>div:nth-child(1)"
+                },
+                {
+                  "name": "dashboardEyebrow",
+                  "selector": "div:nth-child(15)>div:nth-child(1)"
+                },
+                {
+                  "name": "dashboardSubline",
+                  "selector": "div:nth-child(16)>div:nth-child(1)"
+                },
+                {
+                  "name": "metric1",
+                  "selector": "div:nth-child(17)>div:nth-child(1)"
+                },
+                {
+                  "name": "metric2",
+                  "selector": "div:nth-child(18)>div:nth-child(1)"
+                },
+                {
+                  "name": "metric3",
+                  "selector": "div:nth-child(19)>div:nth-child(1)"
+                },
+                {
+                  "name": "order1",
+                  "selector": "div:nth-child(20)>div:nth-child(1)"
+                },
+                {
+                  "name": "order2",
+                  "selector": "div:nth-child(21)>div:nth-child(1)"
+                },
+                {
+                  "name": "order3",
+                  "selector": "div:nth-child(22)>div:nth-child(1)"
+                },
+                {
+                  "name": "footerItem1",
+                  "selector": "div:nth-child(23)>div:nth-child(1)"
+                },
+                {
+                  "name": "footerItem2",
+                  "selector": "div:nth-child(24)>div:nth-child(1)"
+                },
+                {
+                  "name": "footerItem3",
+                  "selector": "div:nth-child(25)>div:nth-child(1)"
+                },
+                {
+                  "name": "footerRightText",
+                  "selector": "div:nth-child(26)>div:nth-child(1)"
+                }
+              ]
+            }
+          }
+        },
+        {
           "title": "How It Works + Stats",
           "id": "how-it-works-stats",
           "model": "how-it-works-stats",

@@ -141,6 +141,7 @@
       "id": "section",
       "components": [
         "hero",
+        "vip-hero-block",
         "how-it-works-stats",
         "how-it-works-stats-2",
         "accordion",
