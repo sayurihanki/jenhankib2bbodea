@@ -57,7 +57,7 @@
           "valueType": "string",
           "name": "memberTagline",
           "label": "Member Tagline",
-          "value": "Private Member Access · Est. 1994"
+          "value": "Private Member Access · Strategic Reserve Program"
         },
         {
           "component": "text",
@@ -92,7 +92,7 @@
           "valueType": "string",
           "name": "postscript",
           "label": "Postscript",
-          "value": "Yours, exclusively."
+          "value": "Yours, on private allocation."
         },
         {
           "component": "richtext",
@@ -145,14 +145,14 @@
           "valueType": "string",
           "name": "dashboardEyebrow",
           "label": "Dashboard Eyebrow",
-          "value": "ServerSavvy Inc. — Member Dashboard"
+          "value": "ServerSavvy Inc. — Private Member Command Center"
         },
         {
           "component": "text",
           "valueType": "string",
           "name": "dashboardSubline",
           "label": "Dashboard Subline",
-          "value": "Server Savvy Solutions · West Region Account"
+          "value": "Priority Infrastructure Concierge Desk · West Region"
         },
         {
           "component": "text",
@@ -180,49 +180,49 @@
           "valueType": "string",
           "name": "order1",
           "label": "Order 1 (po | meta | status | amount | tone)",
-          "value": "PO# 278457 | Dec 5 · 3 items · Server Racks | Processing | $12,840 | green"
+          "value": "PO# 278457 | Dec 5 · 3 items · Server Racks · Priority lane | Processing | $12,840 | green"
         },
         {
           "component": "text",
           "valueType": "string",
           "name": "order2",
           "label": "Order 2 (po | meta | status | amount | tone)",
-          "value": "PO# 278456 | Nov 23 · 6 items · Network Enclosures | In Transit | $7,200 | amber"
+          "value": "PO# 278456 | Nov 23 · 6 items · Network Enclosures · White-glove transit | In Transit | $7,200 | amber"
         },
         {
           "component": "text",
           "valueType": "string",
           "name": "order3",
           "label": "Order 3 (po | meta | status | amount | tone)",
-          "value": "PO# 278455 | Nov 7 · 14 items · Cat6 Cabling | Arriving Today | $29,500 | blue"
+          "value": "PO# 278455 | Nov 7 · 14 items · Cat6 Cabling · Reserved inventory | Arriving Today | $29,500 | blue"
         },
         {
           "component": "text",
           "valueType": "string",
           "name": "footerItem1",
           "label": "Footer Item 1 (icon | text)",
-          "value": "◆ | First-access inventory"
+          "value": "◆ | Reserved allocation access"
         },
         {
           "component": "text",
           "valueType": "string",
           "name": "footerItem2",
           "label": "Footer Item 2 (icon | text)",
-          "value": "◈ | White-glove delivery"
+          "value": "◈ | White-glove logistics concierge"
         },
         {
           "component": "text",
           "valueType": "string",
           "name": "footerItem3",
           "label": "Footer Item 3 (icon | text)",
-          "value": "◎ | Named account manager"
+          "value": "◎ | Named strategic account desk"
         },
         {
           "component": "text",
           "valueType": "string",
           "name": "footerRightText",
           "label": "Footer Right Text",
-          "value": "Member since 1994 · Enterprise Infrastructure"
+          "value": "Member since 1994 · Enterprise Infrastructure Program · Dedicated concierge · Priority inventory access"
         }
       ]
     }

@@ -250,12 +250,12 @@ function buildEditorialSvg() {
  */
 export default function decorate(block) {
   const memberName = rowText(block, 0) || 'Member';
-  const memberTagline = rowText(block, 1) || 'Private Member Access';
+  const memberTagline = rowText(block, 1) || 'Private Member Access · Strategic Reserve Program';
   const heroNumber = rowText(block, 2) || '';
   const headlineLine1 = rowText(block, 3) || 'Infrastructure';
   const headlineLine2 = rowText(block, 4) || 'reserved';
   const headlineLine3 = rowText(block, 5) || 'for few.';
-  const postscript = rowText(block, 6) || 'Yours, exclusively.';
+  const postscript = rowText(block, 6) || 'Yours, on private allocation.';
   const descriptionHTML = rowHTML(block, 7);
 
   const ctaPrimary = decorateCta(rowAnchor(block, 8), 'vip-cta vip-cta-primary', '→');
@@ -265,8 +265,8 @@ export default function decorate(block) {
     .map((rowIndex) => buildPerk(rowText(block, rowIndex)))
     .filter(Boolean);
 
-  const dashboardEyebrow = rowText(block, 14) || 'Member Dashboard';
-  const dashboardSubline = rowText(block, 15) || 'Private Account';
+  const dashboardEyebrow = rowText(block, 14) || 'Private Member Command Center';
+  const dashboardSubline = rowText(block, 15) || 'Priority Infrastructure Concierge Desk';
 
   const metrics = [16, 17, 18]
     .map((rowIndex) => buildMetric(rowText(block, rowIndex)))
@@ -280,7 +280,7 @@ export default function decorate(block) {
     .map((rowIndex) => buildFooterItem(rowText(block, rowIndex)))
     .filter(Boolean);
 
-  const footerRight = rowText(block, 25) || 'Member since · Enterprise Infrastructure';
+  const footerRight = rowText(block, 25) || 'Member since 1994 · Enterprise Infrastructure Program · Dedicated concierge · Priority inventory access';
 
   const tagline = el('div', 'vip-tagline', {}, [
     el('div', 'vip-tagline-rule', { 'aria-hidden': 'true' }),
@@ -342,8 +342,8 @@ export default function decorate(block) {
 
   const orderPanel = el('div', 'vip-order-panel', {}, [
     el('div', 'vip-order-panel-header', {}, [
-      el('span', 'vip-order-panel-title', {}, [document.createTextNode('Recent Orders')]),
-      el('span', 'vip-order-panel-meta', {}, [document.createTextNode('Member Feed')]),
+      el('span', 'vip-order-panel-title', {}, [document.createTextNode('VIP Fulfillment Ledger')]),
+      el('span', 'vip-order-panel-meta', {}, [document.createTextNode('Private Operations Feed')]),
     ]),
     ...orders,
   ]);

@@ -41,7 +41,7 @@ Author with a one-column table named `vip-hero-block` and 26 rows.
 | 22 | Footer Item 1 | `icon | text` |
 | 23 | Footer Item 2 | `icon | text` |
 | 24 | Footer Item 3 | `icon | text` |
-| 25 | Footer Right Text | Text |
+| 25 | Footer Right Text | `Member since 1994 · Enterprise Infrastructure Program · Dedicated concierge · Priority inventory access` |
 
 `tone` values: `green`, `amber`, `blue` (falls back by row order if missing).
 
@@ -61,4 +61,4 @@ Use this table in DA content for the block variant:
 |---|---|
 | name | vip hero block |
 | description | Members-only enterprise hero with concierge perks, dashboard metrics, recent orders, and VIP footer highlights. |
-| searchtags | vip, hero, b2b, private member, dashboard, concierge, enterprise |
+| searchtags | vip, hero, b2b, private member, member dashboard, enterprise procurement, concierge service, priority inventory, account portal, premium access, key account, reserved sku |
