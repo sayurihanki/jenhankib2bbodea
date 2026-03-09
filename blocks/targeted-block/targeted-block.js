@@ -174,13 +174,14 @@ export default async function decorate(block) {
 
   const {
     fragment,
+    fragments,
     type,
     'customer-segments': customerSegments,
     'customer-groups': customerGroups,
     'cart-rules': rules,
   } = blockConfig;
 
-  const fragmentPath = normalizeFragmentPath(fragment);
+  const fragmentPath = normalizeFragmentPath(fragment || fragments);
   const fragmentContent = fragmentPath ? await loadFragment(fragmentPath) : null;
   const content = fragmentContent || getInlineContent(block);
 
