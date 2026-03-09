@@ -6,6 +6,16 @@ import { loadFragment } from '../fragment/fragment.js';
 const targetedBlocks = [];
 let listenersBound = false;
 
+function toClassName(name) {
+  return typeof name === 'string'
+    ? name
+      .toLowerCase()
+      .replace(/[^0-9a-z]/gi, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
+    : '';
+}
+
 function prepareIds(providedIds) {
   return providedIds
     .split(',')
@@ -26,6 +36,43 @@ function normalizeGroupHash(value) {
 
 function includesAny(actual, expected) {
   return expected.some((value) => actual.includes(value));
+}
+
+function normalizeFragmentPath(path) {
+  if (typeof path !== 'string') {
+    return '';
+  }
+
+  const trimmedPath = path.trim();
+  if (!trimmedPath) {
+    return '';
+  }
+
+  if (trimmedPath.startsWith('/')) {
+    return trimmedPath;
+  }
+
+  try {
+    return new URL(trimmedPath, window.location.href).pathname;
+  } catch (error) {
+    return trimmedPath;
+  }
+}
+
+function getInlineContent(block) {
+  const contentRow = [...block.querySelectorAll(':scope > div')].find((row) => {
+    const [labelCell] = row.children;
+    return toClassName(labelCell?.textContent) === 'content';
+  });
+
+  const contentCell = contentRow?.children?.[1];
+  if (!contentCell) {
+    return null;
+  }
+
+  const container = document.createElement('div');
+  container.append(...contentCell.childNodes);
+  return container;
 }
 
 async function hashBase64Value(base64Value) {
@@ -133,9 +180,9 @@ export default async function decorate(block) {
     'cart-rules': rules,
   } = blockConfig;
 
-  const content = (fragment !== undefined)
-    ? await loadFragment(fragment)
-    : block.children[block.children.length - 1];
+  const fragmentPath = normalizeFragmentPath(fragment);
+  const fragmentContent = fragmentPath ? await loadFragment(fragmentPath) : null;
+  const content = fragmentContent || getInlineContent(block);
 
   const groups = customerGroups !== undefined ? prepareIds(customerGroups) : [];
   const segments = customerSegments !== undefined ? prepareIds(customerSegments) : [];
@@ -144,7 +191,11 @@ export default async function decorate(block) {
 
   const contentContainer = document.createElement('div');
   if (content) {
-    contentContainer.append(content);
+    if (content.matches?.('main')) {
+      contentContainer.append(...content.childNodes);
+    } else {
+      contentContainer.append(content);
+    }
   }
 
   block.replaceChildren(contentContainer);
