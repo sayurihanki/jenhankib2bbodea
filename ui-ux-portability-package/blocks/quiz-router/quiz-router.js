@@ -20,6 +20,7 @@ const KEY_ARROW_DOWN = 'ArrowDown';
 const KEY_ARROW_UP = 'ArrowUp';
 const KEY_HOME = 'Home';
 const KEY_END = 'End';
+const SVG_NS = 'http://www.w3.org/2000/svg';
 
 const SAFE_TEXT_TAGS = new Set([
   'p',
@@ -576,6 +577,28 @@ function makeOptionAriaLabel(option) {
   return option.presentation.title;
 }
 
+function createArrowIcon(action) {
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width', '2.25');
+  svg.setAttribute('stroke-linecap', 'round');
+  svg.setAttribute('stroke-linejoin', 'round');
+  svg.setAttribute('focusable', 'false');
+  svg.setAttribute('aria-hidden', 'true');
+
+  const path = document.createElementNS(SVG_NS, 'path');
+  path.setAttribute(
+    'd',
+    action === 'next'
+      ? 'M4 12h16m0 0-6-6m6 6-6 6'
+      : 'M7 17 17 7m-8 0h8v8',
+  );
+  svg.append(path);
+  return svg;
+}
+
 function createOptionElement(step, option, state, onSelect) {
   const el = document.createElement('button');
   const selected = getAnswerForStep(state, step.stepId)?.optionId === option.optionId;
@@ -636,7 +659,7 @@ function createOptionElement(step, option, state, onSelect) {
   const arrow = document.createElement('span');
   arrow.className = 'quiz-router-option-arrow';
   arrow.setAttribute('aria-hidden', 'true');
-  arrow.textContent = option.action === 'next' ? '→' : '↗';
+  arrow.append(createArrowIcon(option.action));
   el.append(arrow);
 
   if (option.action === 'disabled') {
