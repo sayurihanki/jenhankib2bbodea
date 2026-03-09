@@ -1,7 +1,7 @@
 /**
  * VIP Member Block
  *
- * Authoring contract (1 column, 30 rows after block name):
+ * Authoring contract (1 column, 39 rows after block name):
  *  0  eyebrowText
  *  1  title (rich text — use <em> for accent)
  *  2  subtitle
