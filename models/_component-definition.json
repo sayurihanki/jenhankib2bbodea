@@ -62,6 +62,9 @@
           "...": "../blocks/live-block/_*.json#/definitions"
         },
         {
+          "...": "../blocks/live-block-premium/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/commerce-account-hub/_*.json#/definitions"
         },
         {

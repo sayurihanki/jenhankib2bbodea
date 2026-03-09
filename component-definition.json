@@ -513,6 +513,16 @@
           }
         },
         {
+          "title": "Live Block Premium",
+          "id": "live-block-premium",
+          "model": "live-block-premium",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
           "title": "Commerce Account Hub",
           "id": "commerce-account-hub",
           "model": "commerce-account-hub",
