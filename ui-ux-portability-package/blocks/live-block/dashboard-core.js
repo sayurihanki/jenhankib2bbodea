@@ -886,7 +886,7 @@ function createTeamChart(active, inactive) {
  * @param {Array<{value:number}>} points
  * @returns {SVGElement | null}
  */
-function buildSparkline(points) {
+function _buildSparkline(points) {
   if (!Array.isArray(points) || points.length < 2) return null;
 
   const width = 320;
@@ -1234,7 +1234,7 @@ function renderStackedBarChartMarkup(chart) {
  * @param {object} chart
  * @returns {string}
  */
-function renderChartMarkup(chart) {
+function _renderChartMarkup(chart) {
   if (chart.state !== 'ready') {
     return `<p class="live-block-chart-empty" role="status">${escapeHtml(chart.emptyText || FALLBACK_TEXT)}</p>`;
   }
