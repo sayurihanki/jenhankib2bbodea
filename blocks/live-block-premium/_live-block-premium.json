@@ -157,6 +157,23 @@
           ]
         },
         {
+          "component": "select",
+          "valueType": "string",
+          "name": "premium-style",
+          "label": "Premium Style",
+          "value": "classic",
+          "options": [
+            {
+              "name": "Classic",
+              "value": "classic"
+            },
+            {
+              "name": "Editorial Luxe",
+              "value": "editorial-luxe"
+            }
+          ]
+        },
+        {
           "component": "boolean",
           "valueType": "boolean",
           "name": "premium-motion",

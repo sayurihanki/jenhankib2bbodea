@@ -17,11 +17,13 @@ import {
 const PREMIUM_DEFAULTS = {
   premiumAccent: 'emerald',
   premiumSurface: 'glass',
+  premiumStyle: 'classic',
   premiumMotion: true,
 };
 
 const PREMIUM_ACCENTS = new Set(['emerald', 'cyan', 'gold']);
 const PREMIUM_SURFACES = new Set(['glass', 'solid']);
+const PREMIUM_STYLES = new Set(['classic', 'editorial-luxe']);
 
 /**
  * Resolve premium-specific config merged with common dashboard config.
@@ -38,6 +40,9 @@ function getPremiumConfig(block) {
   const surface = String(config['premium-surface'] || '')
     .trim()
     .toLowerCase();
+  const style = String(config['premium-style'] || '')
+    .trim()
+    .toLowerCase();
 
   return {
     ...common,
@@ -47,11 +52,31 @@ function getPremiumConfig(block) {
     premiumSurface: PREMIUM_SURFACES.has(surface)
       ? surface
       : PREMIUM_DEFAULTS.premiumSurface,
+    premiumStyle: PREMIUM_STYLES.has(style)
+      ? style
+      : PREMIUM_DEFAULTS.premiumStyle,
     premiumMotion: parseBoolean(
       config['premium-motion'],
       PREMIUM_DEFAULTS.premiumMotion,
     ),
   };
+}
+
+/**
+ * Build the shell class list for a premium block state.
+ * @param {object} config
+ * @param {string} stateClass
+ * @returns {string}
+ */
+function getPremiumShellClassName(config, stateClass) {
+  return [
+    'live-block-premium-shell',
+    stateClass,
+    `accent-${config.premiumAccent}`,
+    `surface-${config.premiumSurface}`,
+    `style-${config.premiumStyle}`,
+    config.premiumMotion ? 'motion-on' : 'motion-off',
+  ].join(' ');
 }
 
 /**
@@ -310,7 +335,7 @@ function renderPremiumChart(chart) {
  */
 function renderGuest(block, config) {
   const wrapper = document.createElement('section');
-  wrapper.className = 'live-block-premium-shell live-block-premium-shell-guest';
+  wrapper.className = getPremiumShellClassName(config, 'live-block-premium-shell-guest');
   wrapper.innerHTML = `
     <header class="live-block-premium-header">
       <h2>${escapeHtml(config.title)}</h2>
@@ -325,12 +350,13 @@ function renderGuest(block, config) {
 /**
  * Render loading state.
  * @param {HTMLElement} block
+ * @param {object} config
  * @param {string} title
  * @param {string} message
  */
-function renderLoading(block, title, message) {
+function renderLoading(block, config, title, message) {
   const wrapper = document.createElement('section');
-  wrapper.className = 'live-block-premium-shell live-block-premium-shell-loading';
+  wrapper.className = getPremiumShellClassName(config, 'live-block-premium-shell-loading');
   wrapper.innerHTML = `
     <header class="live-block-premium-header">
       <h2>${escapeHtml(title)}</h2>
@@ -354,12 +380,8 @@ function renderAuthenticated(block, config, viewModel, onRefresh) {
   const operationsMetrics = metricsByGroup(viewModel.metrics, 'operations');
   const sourcingMetrics = metricsByGroup(viewModel.metrics, 'sourcing');
 
-  const accentClass = `accent-${config.premiumAccent}`;
-  const surfaceClass = `surface-${config.premiumSurface}`;
-  const motionClass = config.premiumMotion ? 'motion-on' : 'motion-off';
-
   const wrapper = document.createElement('section');
-  wrapper.className = `live-block-premium-shell live-block-premium-shell-auth ${accentClass} ${surfaceClass} ${motionClass}`;
+  wrapper.className = getPremiumShellClassName(config, 'live-block-premium-shell-auth');
 
   const heroMetricIds = ['creditAvailable', 'ordersTotal', 'openQuotes'];
   const heroMetrics = heroMetricIds
@@ -470,7 +492,12 @@ export default async function decorate(block) {
     block,
     config,
     renderGuest,
-    renderLoading,
+    renderLoading: (targetBlock, title, message) => renderLoading(
+      targetBlock,
+      config,
+      title,
+      message,
+    ),
     renderAuthenticated,
   });
 }

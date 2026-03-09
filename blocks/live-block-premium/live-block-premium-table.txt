@@ -14,4 +14,5 @@ show-last-updated	true
 refresh-label	Refresh data
 premium-accent	emerald
 premium-surface	glass
+premium-style	editorial-luxe
 premium-motion	true

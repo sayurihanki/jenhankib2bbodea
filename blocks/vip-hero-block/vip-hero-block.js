@@ -195,6 +195,52 @@ function buildFooterItem(raw) {
 }
 
 /**
+ * @param {string} raw
+ * @returns {HTMLElement}
+ */
+function buildFooterRightSegment(raw) {
+  const segment = el('span', 'vip-footer-right-segment');
+  const parts = raw.split(/(\b\d{4}\b|\b\d[\d,+-]*\b)/).filter(Boolean);
+
+  parts.forEach((part) => {
+    const className = /^\d[\d,+-]*$/.test(part)
+      ? 'vip-footer-right-segment-emphasis'
+      : 'vip-footer-right-segment-text';
+    segment.append(el('span', className, {}, [document.createTextNode(part)]));
+  });
+
+  return segment;
+}
+
+/**
+ * @param {string} raw
+ * @returns {HTMLElement | null}
+ */
+function buildFooterRight(raw) {
+  const normalized = raw.trim();
+  if (!normalized) return null;
+
+  const segments = normalized.split(/\s*[·•|]\s*/).filter(Boolean);
+  if (!segments.length) return null;
+
+  const children = [];
+
+  segments.forEach((segment, index) => {
+    if (index > 0) {
+      children.push(
+        el('span', 'vip-footer-right-separator', { 'aria-hidden': 'true' }, [
+          document.createTextNode('·'),
+        ]),
+      );
+    }
+
+    children.push(buildFooterRightSegment(segment));
+  });
+
+  return el('div', 'vip-footer-right-copy', {}, children);
+}
+
+/**
  * @returns {SVGElement}
  */
 function buildEditorialSvg() {
@@ -359,7 +405,10 @@ export default function decorate(block) {
   }
 
   if (footerRight) {
-    footerChildren.push(el('div', 'vip-footer-right', {}, [document.createTextNode(footerRight)]));
+    const footerRightNode = buildFooterRight(footerRight);
+    if (footerRightNode) {
+      footerChildren.push(el('div', 'vip-footer-right', {}, [footerRightNode]));
+    }
   }
 
   const shellChildren = [body];

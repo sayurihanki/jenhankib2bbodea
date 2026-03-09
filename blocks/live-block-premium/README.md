@@ -4,6 +4,11 @@
 
 `live-block-premium` is a standalone premium dashboard block with a distinct visual language while keeping the same commerce data contract as `live-block`.
 
+It now supports two visual modes:
+
+1. `classic` keeps the current compact premium dashboard styling.
+2. `editorial-luxe` is an oversized, cinematic presentation with larger type, roomier panels, and stronger visual drama.
+
 It is account-scoped and storefront-safe:
 
 1. Guests only see a sign-in CTA.
@@ -42,7 +47,10 @@ The file uses tabs between columns and newlines between rows.
 | `refresh-label` | string | `Refresh data` | Refresh button text |
 | `premium-accent` | string | `emerald` | Accent palette (`emerald`, `cyan`, `gold`) |
 | `premium-surface` | string | `glass` | Surface style (`glass`, `solid`) |
+| `premium-style` | string | `classic` | Visual mode (`classic`, `editorial-luxe`) |
 | `premium-motion` | boolean | `true` | Enable premium reveal motion |
+
+For showcase usage, Adobe recommends `premium-style=editorial-luxe`.
 
 ## Data Scope and Behavior
 
