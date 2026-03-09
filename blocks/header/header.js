@@ -280,10 +280,23 @@ function enforceCatalogCategories(navList, { showVipCategory = false } = {}) {
   );
   if (!catalogLi) return;
 
-  let catalogList = catalogLi.querySelector(':scope > ul');
+  const submenuWrapper = catalogLi.querySelector(':scope > .submenu-wrapper');
+  if (submenuWrapper) {
+    // Cleanup any stale direct lists created before submenu wrapping.
+    catalogLi.querySelectorAll(':scope > ul').forEach((list) => list.remove());
+  }
+
+  let catalogList = submenuWrapper
+    ? submenuWrapper.querySelector(':scope > ul')
+    : catalogLi.querySelector(':scope > ul');
+
   if (!catalogList) {
     catalogList = document.createElement('ul');
-    catalogLi.appendChild(catalogList);
+    if (submenuWrapper) {
+      submenuWrapper.appendChild(catalogList);
+    } else {
+      catalogLi.appendChild(catalogList);
+    }
   }
 
   const existingLinks = new Map(
@@ -317,7 +330,11 @@ function enforceCatalogCategories(navList, { showVipCategory = false } = {}) {
       nextCatalogList.appendChild(li);
     });
 
-  catalogLi.replaceChild(nextCatalogList, catalogList);
+  if (submenuWrapper && catalogList.parentElement === submenuWrapper) {
+    submenuWrapper.replaceChild(nextCatalogList, catalogList);
+  } else {
+    catalogLi.replaceChild(nextCatalogList, catalogList);
+  }
 }
 
 /**
