@@ -1,10 +1,125 @@
-import { TargetedBlock } from '@dropins/storefront-personalization/containers/TargetedBlock.js';
-import { render } from '@dropins/storefront-personalization/render.js';
+import { events } from '@dropins/tools/event-bus.js';
+import { getPersonalizationData } from '@dropins/storefront-personalization/api.js';
 import { readBlockConfig } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
+const targetedBlocks = [];
+let listenersBound = false;
+
 function prepareIds(providedIds) {
-  return providedIds.split(',').map((num) => btoa(num.trim()));
+  return providedIds
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .map((value) => btoa(value));
+}
+
+function normalizeList(values) {
+  return Array.isArray(values)
+    ? values.map((value) => `${value}`.trim()).filter(Boolean)
+    : [];
+}
+
+function normalizeGroupHash(value) {
+  return typeof value === 'string' ? value.trim().toLowerCase() : '';
+}
+
+function includesAny(actual, expected) {
+  return expected.some((value) => actual.includes(value));
+}
+
+async function hashBase64Value(base64Value) {
+  const decoded = atob(base64Value);
+  const bytes = Uint8Array.from(decoded, (character) => character.charCodeAt(0));
+  const digest = await crypto.subtle.digest('SHA-1', bytes);
+  return Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+function getRuntimeState() {
+  const personalizationData = getPersonalizationData();
+
+  return {
+    groupHash: normalizeGroupHash(events.lastPayload('auth/group-uid')),
+    personalization: {
+      groups: normalizeList(personalizationData.groups),
+      segments: normalizeList(personalizationData.segments),
+      cartRules: normalizeList(personalizationData.cartRules),
+    },
+  };
+}
+
+function matchesCustomerGroups(instance, runtimeState) {
+  if (!instance.groups.length) {
+    return true;
+  }
+
+  if (runtimeState.groupHash && instance.groupHashes.includes(runtimeState.groupHash)) {
+    return true;
+  }
+
+  return includesAny(runtimeState.personalization.groups, instance.groups);
+}
+
+function matchesPersonalization(actualValues, expectedValues) {
+  if (!expectedValues.length) {
+    return true;
+  }
+
+  return includesAny(actualValues, expectedValues);
+}
+
+function isEligible(instance, runtimeState) {
+  return matchesCustomerGroups(instance, runtimeState)
+    && matchesPersonalization(runtimeState.personalization.segments, instance.segments)
+    && matchesPersonalization(runtimeState.personalization.cartRules, instance.cartRules);
+}
+
+function getBlockOrder() {
+  return new Map(
+    [...document.querySelectorAll('.targeted-block')].map((element, index) => [element, index]),
+  );
+}
+
+function setBlockVisibility(instance, visible) {
+  instance.block.hidden = !visible;
+  instance.block.setAttribute('aria-hidden', `${!visible}`);
+}
+
+function updateTargetedBlocks() {
+  const visibleTypes = new Set();
+  const runtimeState = getRuntimeState();
+  const blockOrder = getBlockOrder();
+
+  targetedBlocks
+    .filter((instance) => instance.block.isConnected)
+    .sort((left, right) => (blockOrder.get(left.block) ?? 0) - (blockOrder.get(right.block) ?? 0))
+    .forEach((instance) => {
+      const matches = isEligible(instance, runtimeState);
+      const typeKey = instance.type || '';
+      const visible = matches && (!typeKey || !visibleTypes.has(typeKey));
+
+      if (visible && typeKey) {
+        visibleTypes.add(typeKey);
+      }
+
+      setBlockVisibility(instance, visible);
+    });
+}
+
+function bindListeners() {
+  if (listenersBound) {
+    return;
+  }
+
+  listenersBound = true;
+
+  const refresh = () => updateTargetedBlocks();
+
+  events.on('authenticated', refresh, { eager: true });
+  events.on('auth/group-uid', refresh, { eager: true });
+  events.on('personalization/updated', refresh, { eager: true });
 }
 
 export default async function decorate(block) {
@@ -18,27 +133,31 @@ export default async function decorate(block) {
     'cart-rules': rules,
   } = blockConfig;
 
-  const content = (blockConfig.fragment !== undefined)
+  const content = (fragment !== undefined)
     ? await loadFragment(fragment)
     : block.children[block.children.length - 1];
 
-  const segments = customerSegments !== undefined ? prepareIds(customerSegments) : [];
   const groups = customerGroups !== undefined ? prepareIds(customerGroups) : [];
+  const segments = customerSegments !== undefined ? prepareIds(customerSegments) : [];
   const cartRules = rules !== undefined ? prepareIds(rules) : [];
+  const groupHashes = await Promise.all(groups.map(hashBase64Value));
 
-  render.render(TargetedBlock, {
-    type,
-    personalizationData: {
-      segments,
-      groups,
-      cartRules,
-    },
-    slots: {
-      Content: (ctx) => {
-        const container = document.createElement('div');
-        container.append(content);
-        ctx.replaceWith(container);
-      },
-    },
-  })(block);
+  const contentContainer = document.createElement('div');
+  if (content) {
+    contentContainer.append(content);
+  }
+
+  block.replaceChildren(contentContainer);
+
+  targetedBlocks.push({
+    block,
+    type: type?.trim(),
+    groups,
+    groupHashes,
+    segments,
+    cartRules,
+  });
+
+  bindListeners();
+  updateTargetedBlocks();
 }
