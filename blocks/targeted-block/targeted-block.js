@@ -5,6 +5,8 @@ import { loadFragment } from '../fragment/fragment.js';
 
 const targetedBlocks = [];
 let listenersBound = false;
+const LOGGED_IN_GROUP_KEYWORDS = new Set(['logged-in', 'loggedin', 'authenticated', 'signed-in', 'signedin']);
+const GUEST_GROUP_KEYWORDS = new Set(['guest', 'not-logged-in', 'not-loggedin', 'anonymous']);
 
 function toClassName(name) {
   return typeof name === 'string'
@@ -22,6 +24,24 @@ function prepareIds(providedIds) {
     .map((value) => value.trim())
     .filter(Boolean)
     .map((value) => btoa(value));
+}
+
+function parseCustomerGroups(providedGroups) {
+  return providedGroups
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .reduce((accumulator, value) => {
+      const keyword = toClassName(value);
+
+      if (LOGGED_IN_GROUP_KEYWORDS.has(keyword) || GUEST_GROUP_KEYWORDS.has(keyword)) {
+        accumulator.keywords.push(keyword);
+      } else {
+        accumulator.ids.push(btoa(value));
+      }
+
+      return accumulator;
+    }, { ids: [], keywords: [] });
 }
 
 function normalizeList(values) {
@@ -88,6 +108,7 @@ function getRuntimeState() {
   const personalizationData = getPersonalizationData();
 
   return {
+    authenticated: events.lastPayload('authenticated') === true,
     groupHash: normalizeGroupHash(events.lastPayload('auth/group-uid')),
     personalization: {
       groups: normalizeList(personalizationData.groups),
@@ -98,7 +119,21 @@ function getRuntimeState() {
 }
 
 function matchesCustomerGroups(instance, runtimeState) {
-  if (!instance.groups.length) {
+  if (!instance.groups.length && !instance.groupKeywords.length) {
+    return true;
+  }
+
+  if (
+    runtimeState.authenticated
+    && instance.groupKeywords.some((keyword) => LOGGED_IN_GROUP_KEYWORDS.has(keyword))
+  ) {
+    return true;
+  }
+
+  if (
+    !runtimeState.authenticated
+    && instance.groupKeywords.some((keyword) => GUEST_GROUP_KEYWORDS.has(keyword))
+  ) {
     return true;
   }
 
@@ -185,7 +220,10 @@ export default async function decorate(block) {
   const fragmentContent = fragmentPath ? await loadFragment(fragmentPath) : null;
   const content = fragmentContent || getInlineContent(block);
 
-  const groups = customerGroups !== undefined ? prepareIds(customerGroups) : [];
+  const groupCriteria = customerGroups !== undefined
+    ? parseCustomerGroups(customerGroups)
+    : { ids: [], keywords: [] };
+  const groups = groupCriteria.ids;
   const segments = customerSegments !== undefined ? prepareIds(customerSegments) : [];
   const cartRules = rules !== undefined ? prepareIds(rules) : [];
   const groupHashes = await Promise.all(groups.map(hashBase64Value));
@@ -205,6 +243,7 @@ export default async function decorate(block) {
     block,
     type: type?.trim(),
     groups,
+    groupKeywords: groupCriteria.keywords,
     groupHashes,
     segments,
     cartRules,
