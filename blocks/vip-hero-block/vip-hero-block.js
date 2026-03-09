@@ -352,12 +352,24 @@ export default function decorate(block) {
 
   const body = el('div', 'vip-body', {}, [left, right]);
 
-  const footer = el('div', 'vip-footer', {}, [
-    el('div', 'vip-footer-left', {}, footerItems),
-    el('div', 'vip-footer-right', {}, [document.createTextNode(footerRight)]),
-  ]);
+  const footerChildren = [];
 
-  const shell = el('div', 'vip-shell', {}, [body, footer]);
+  if (footerItems.length) {
+    footerChildren.push(el('div', 'vip-footer-left', {}, footerItems));
+  }
+
+  if (footerRight) {
+    footerChildren.push(el('div', 'vip-footer-right', {}, [document.createTextNode(footerRight)]));
+  }
+
+  const shellChildren = [body];
+
+  if (footerChildren.length) {
+    const footerClassName = footerChildren.length === 1 ? 'vip-footer vip-footer-single' : 'vip-footer';
+    shellChildren.push(el('div', footerClassName, {}, footerChildren));
+  }
+
+  const shell = el('div', 'vip-shell', {}, shellChildren);
 
   block.textContent = '';
   block.append(shell);

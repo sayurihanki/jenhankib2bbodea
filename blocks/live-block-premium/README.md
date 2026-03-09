@@ -10,6 +10,17 @@ It is account-scoped and storefront-safe:
 2. Authenticated users get live account/B2B metrics and charts.
 3. Source-level failures are isolated so one API issue does not blank the full block.
 
+## DA.live Block Table
+
+### Copy-paste
+
+1. Open [`live-block-premium-table.txt`](live-block-premium-table.txt)
+2. Select all and copy it
+3. In DA.live or Google Docs, create a new table with 2 columns, or paste into the first cell so tabs become columns and newlines become rows
+4. Make sure the first row contains only `live-block-premium`
+
+The file uses tabs between columns and newlines between rows.
+
 ## Configuration
 
 `live-block-premium` keeps all `live-block` keys for portability and adds optional premium visual settings.
@@ -43,3 +54,14 @@ Data scope matches `live-block` exactly:
 4. No polling and no backend/admin API usage.
 
 This block is opt-in and does not replace existing `live-block` instances.
+
+## Files
+
+```text
+blocks/live-block-premium/
+├── live-block-premium.js
+├── live-block-premium.css
+├── _live-block-premium.json
+├── live-block-premium-table.txt
+└── README.md
+```
