@@ -693,6 +693,16 @@
           }
         },
         {
+          "title": "VIP Member Block Real V2",
+          "id": "vip-member-block-real-v2",
+          "model": "vip-member-block-real-v2",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
           "title": "Commerce Account Hub",
           "id": "commerce-account-hub",
           "model": "commerce-account-hub",
