@@ -18,9 +18,13 @@
   --vmb-shadow-hover: var(--shape-shadow-2);
   --vmb-shadow-focus: 0 0 0 3px var(--color-neutral-50), 0 0 0 5px rgb(46 190 122 / 45%);
 
-  max-width: 1280px;
+  width: 100%;
+  max-width: 1480px;
   margin: 0 auto;
-  padding: clamp(var(--spacing-big), 6vw, var(--spacing-large)) clamp(var(--spacing-small), 4vw, var(--spacing-xxbig)) clamp(var(--spacing-xbig), 7vw, 80px);
+  padding:
+    clamp(var(--spacing-big), 6vw, var(--spacing-large))
+    clamp(20px, 3.6vw, 40px)
+    clamp(var(--spacing-xbig), 7vw, 80px);
 }
 
 /* ── SECTION HEADER ── */
