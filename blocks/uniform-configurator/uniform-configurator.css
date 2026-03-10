@@ -391,15 +391,39 @@ body.columns main > .section > div.uniform-configurator-wrapper {
   display: none;
 }
 
+.uniform-configurator .cfg-panel:not([hidden]) {
+  display: block;
+}
+
 .uniform-configurator .cfg-panel.active {
   display: block;
   animation: panel-in 0.45s var(--ease-out) both;
 }
 
 .uniform-configurator .cfg-form-area {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
   min-width: 0;
   position: relative;
   z-index: 1;
+}
+
+body.columns .uniform-configurator .cfg-form-area {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+.uniform-configurator .cfg-form-area > .cfg-panel {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
 }
 
 .uniform-configurator .cfg-section {

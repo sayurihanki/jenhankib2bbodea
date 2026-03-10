@@ -76,16 +76,18 @@ function showBlockMessage(block, type, message) {
 
 function getConfig(block) {
   const config = readBlockConfig(block);
+  const normalizeMultiline = (value, fallback) => (value || fallback || '').trim().replace(/\\n/g, '\n');
+  const normalizeSingleLine = (value, fallback) => (value || fallback || '').trim();
 
   return {
-    eyebrow: (config.eyebrow || DEFAULT_CONFIG.eyebrow).trim(),
-    title: (config.title || DEFAULT_CONFIG.title).trim(),
-    subtitle: (config.subtitle || DEFAULT_CONFIG.subtitle).trim(),
-    dataSource: (config['data-source'] || DEFAULT_CONFIG.dataSource).trim(),
-    submitUrl: (config['submit-url'] || DEFAULT_CONFIG.submitUrl).trim(),
-    successTitle: (config['success-title'] || DEFAULT_CONFIG.successTitle).trim(),
-    successMessage: (config['success-message'] || DEFAULT_CONFIG.successMessage).trim(),
-    analyticsId: (config['analytics-id'] || DEFAULT_CONFIG.analyticsId).trim(),
+    eyebrow: normalizeSingleLine(config.eyebrow, DEFAULT_CONFIG.eyebrow),
+    title: normalizeMultiline(config.title, DEFAULT_CONFIG.title),
+    subtitle: normalizeMultiline(config.subtitle, DEFAULT_CONFIG.subtitle),
+    dataSource: normalizeSingleLine(config['data-source'], DEFAULT_CONFIG.dataSource),
+    submitUrl: normalizeSingleLine(config['submit-url'], DEFAULT_CONFIG.submitUrl),
+    successTitle: normalizeSingleLine(config['success-title'], DEFAULT_CONFIG.successTitle),
+    successMessage: normalizeMultiline(config['success-message'], DEFAULT_CONFIG.successMessage),
+    analyticsId: normalizeSingleLine(config['analytics-id'], DEFAULT_CONFIG.analyticsId),
   };
 }
 
@@ -526,8 +528,8 @@ function createShell(runtime) {
           </div>
         </aside>
 
-        <main class="cfg-form-area">
-          <section class="cfg-panel" data-panel="1" role="tabpanel">
+        <div class="cfg-form-area" role="region" aria-label="Uniform configurator form">
+          <section class="cfg-panel active" data-panel="1" role="tabpanel">
             <h2 class="cfg-panel__title">${escapeHtml(STEP_META[0].title)}</h2>
             <p class="cfg-panel__sub">${escapeHtml(STEP_META[0].subtitle)}</p>
 
@@ -881,7 +883,7 @@ function createShell(runtime) {
             <p class="success-sub">${escapeHtml(config.successMessage)}</p>
             <button class="btn btn-primary" type="button" data-reset-configurator>Build Another Package</button>
           </div>
-        </main>
+        </div>
       </div>
     </div>
   `;
@@ -1074,17 +1076,88 @@ function updateSubmitState(runtime) {
   submitError.textContent = runtime.state.submitErrorMessage;
 }
 
-function refresh(runtime) {
-  const lineItems = buildLineItems(runtime.data, runtime.state);
-  const total = computeTotal(lineItems);
+function applyRuntimeLayout(runtime) {
+  const root = runtime.block.querySelector('.uniform-configurator__shell');
+  if (!root) return;
 
-  updateStepUi(runtime);
-  updateSelectableCards(runtime);
-  updateErrors(runtime);
-  updatePreview(runtime, lineItems, total);
-  updateReview(runtime, lineItems, total);
-  updateShippingSection(runtime);
-  updateSubmitState(runtime);
+  const layout = root.querySelector('.cfg-layout');
+  const preview = root.querySelector('.cfg-preview');
+  const previewFigure = root.querySelector('.cfg-preview__figure');
+  const formArea = root.querySelector('.cfg-form-area');
+
+  if (!layout || !preview || !previewFigure || !formArea) return;
+
+  const measuredWidth = Math.max(
+    root.getBoundingClientRect().width || 0,
+    runtime.block.getBoundingClientRect().width || 0,
+    0,
+  );
+  const effectiveWidth = measuredWidth || window.innerWidth || 0;
+  const isWideLayout = effectiveWidth >= 1040;
+
+  layout.style.display = 'flex';
+  layout.style.flexDirection = isWideLayout ? 'row' : 'column';
+  layout.style.flexWrap = 'nowrap';
+  layout.style.alignItems = 'flex-start';
+  layout.style.gap = isWideLayout ? 'var(--spacing-big)' : 'var(--spacing-medium)';
+
+  preview.style.order = '0';
+  preview.style.position = isWideLayout ? 'sticky' : 'static';
+  preview.style.top = isWideLayout ? '2.4rem' : '';
+  preview.style.flex = isWideLayout ? '0 0 340px' : '1 1 auto';
+  preview.style.width = isWideLayout ? '340px' : '100%';
+  preview.style.maxWidth = isWideLayout ? '340px' : '100%';
+  preview.style.alignSelf = isWideLayout ? 'flex-start' : 'stretch';
+
+  previewFigure.style.minHeight = isWideLayout ? '32rem' : '24rem';
+
+  formArea.style.order = '1';
+  formArea.style.display = 'block';
+  formArea.style.flex = isWideLayout ? '1 1 0' : '1 1 auto';
+  formArea.style.width = isWideLayout ? 'auto' : '100%';
+  formArea.style.maxWidth = 'none';
+  formArea.style.minWidth = '0';
+  formArea.style.margin = '0';
+  formArea.style.padding = '0';
+
+  formArea.querySelectorAll('.cfg-panel').forEach((panel) => {
+    panel.style.width = '100%';
+    panel.style.maxWidth = 'none';
+    panel.style.minWidth = '0';
+  });
+}
+
+function refresh(runtime) {
+  let lineItems = [];
+  let total = 0;
+
+  try {
+    lineItems = buildLineItems(runtime.data, runtime.state);
+    total = computeTotal(lineItems);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn('uniform-configurator: failed to build line items', error);
+  }
+
+  try {
+    updateStepUi(runtime);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn('uniform-configurator: failed to update step UI', error);
+  }
+
+  try {
+    applyRuntimeLayout(runtime);
+    updateSelectableCards(runtime);
+    updateErrors(runtime);
+    updatePreview(runtime, lineItems, total);
+    updateReview(runtime, lineItems, total);
+    updateShippingSection(runtime);
+    updateSubmitState(runtime);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn('uniform-configurator: refresh failed', error);
+  }
 }
 
 function scrollToCurrentStep(runtime) {
@@ -1362,6 +1435,12 @@ function bindEvents(runtime) {
       refresh(runtime);
     }
   });
+
+  if (runtime.block.dataset.uniformConfiguratorResizeBound !== 'true') {
+    const handleResize = () => applyRuntimeLayout(runtime);
+    window.addEventListener('resize', handleResize, { passive: true });
+    runtime.block.dataset.uniformConfiguratorResizeBound = 'true';
+  }
 
   runtime.block.dataset.uniformConfiguratorBound = 'true';
 }
