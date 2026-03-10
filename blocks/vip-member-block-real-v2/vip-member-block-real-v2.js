@@ -1349,7 +1349,7 @@ function renderInsightTile(tile) {
     ]),
     el(
       'div',
-      'vmb-analytics-insight-grid',
+      `vmb-analytics-insight-grid vmb-analytics-insight-grid--${tile.items.length}`,
       {},
       tile.items.map((item) => el('div', 'vmb-analytics-insight-item', {}, [
         el('div', 'vmb-analytics-insight-value', {}, [text(item.value)]),

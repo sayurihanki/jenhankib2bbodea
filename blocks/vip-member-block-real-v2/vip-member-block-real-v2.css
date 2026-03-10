@@ -294,8 +294,8 @@
     inset 0 1px 0 rgb(255 255 255 / 46%),
     0 18px 34px rgb(1 12 7 / 10%);
   display: grid;
-  gap: 12px;
-  padding: var(--spacing-medium);
+  gap: 16px;
+  padding: calc(var(--spacing-medium) + 2px);
 }
 
 .vip-member-block-real-v2.vip-member-block .vmb-analytics-card:hover,
@@ -314,7 +314,7 @@
 .vip-member-block-real-v2.vip-member-block .vmb-analytics-card-top,
 .vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-top,
 .vip-member-block-real-v2.vip-member-block .vmb-analytics-insights-head {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   gap: 12px;
   justify-content: space-between;
@@ -333,7 +333,7 @@
 .vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-title {
   color: var(--ink-900);
   font-family: var(--font-display);
-  font-size: 1.18rem;
+  font-size: clamp(1.2rem, 0.35vw + 1.12rem, 1.38rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.15;
@@ -401,7 +401,7 @@
   border-radius: calc(var(--shape-border-radius-1) + 2px);
   display: grid;
   gap: var(--spacing-small);
-  padding: var(--spacing-medium);
+  padding: calc(var(--spacing-medium) + 2px);
 }
 
 .vip-member-block-real-v2.vip-member-block .vmb-analytics-insights-grid {
@@ -412,7 +412,16 @@
 
 .vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-grid {
   display: grid;
-  gap: 10px;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-grid--1,
+.vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-grid--2 {
+  grid-template-columns: 1fr;
+}
+
+.vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-grid--4 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
@@ -421,23 +430,45 @@
   border: 1px solid rgb(125 157 136 / 10%);
   border-radius: 12px;
   display: grid;
-  gap: 3px;
-  padding: 12px;
+  gap: 8px;
+  padding: 18px 18px 16px;
+}
+
+.vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-grid--1 .vmb-analytics-insight-item,
+.vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-grid--2 .vmb-analytics-insight-item {
+  min-height: 112px;
+}
+
+.vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-grid--4 .vmb-analytics-insight-item {
+  min-height: 96px;
+  padding: 16px;
 }
 
 .vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-value {
   color: var(--ink-900);
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: clamp(1.5rem, 0.9vw + 1.15rem, 2rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-grid--4 .vmb-analytics-insight-value {
+  font-size: clamp(1.2rem, 0.45vw + 1.02rem, 1.55rem);
+  line-height: 1.1;
 }
 
 .vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-label {
   color: var(--ink-400);
-  font: var(--type-details-caption-1-font);
-  line-height: 1.45;
+  font-size: clamp(1rem, 0.3vw + 0.92rem, 1.15rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.vip-member-block-real-v2.vip-member-block .vmb-analytics-insight-grid--4 .vmb-analytics-insight-label {
+  font-size: 0.98rem;
+  line-height: 1.25;
 }
 
 .vip-member-block-real-v2.vip-member-block .vmb-proof-real-grid {
