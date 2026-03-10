@@ -1368,6 +1368,19 @@ function bindEvents(runtime) {
 
 export default async function decorate(block) {
   const config = getConfig(block);
+  const section = block.closest('.section');
+  const wrapper = block.parentElement;
+
+  if (section) {
+    section.style.setProperty('--column-width', '100%');
+    section.style.setProperty('flex-basis', '100%');
+    section.style.setProperty('max-width', '100%');
+  }
+
+  if (wrapper) {
+    wrapper.style.width = '100%';
+    wrapper.style.maxWidth = '100%';
+  }
 
   showBlockMessage(block, 'info', 'Loading uniform configurator…');
 

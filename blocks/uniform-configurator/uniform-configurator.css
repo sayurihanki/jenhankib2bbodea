@@ -6,6 +6,17 @@
   width: 100%;
 }
 
+.uniform-configurator-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+body.columns main > .section > div.uniform-configurator-wrapper {
+  width: 100%;
+  max-width: 100%;
+  flex: 1 1 100%;
+}
+
 .uniform-configurator > .uniform-configurator__shell,
 .uniform-configurator > .uniform-configurator__shell *,
 .uniform-configurator > .uniform-configurator__shell *::before,
