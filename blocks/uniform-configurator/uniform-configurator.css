@@ -939,31 +939,9 @@
   }
 }
 
-@media (min-width: 680px) {
-  .uniform-configurator .step-btn__label {
-    display: inline;
-  }
-}
-
 @container (min-width: 680px) {
   .uniform-configurator .step-btn__label {
     display: inline;
-  }
-}
-
-@media (min-width: 1100px) {
-  .uniform-configurator .cfg-layout {
-    grid-template-columns: 340px minmax(0, 1fr);
-    gap: var(--spacing-big);
-  }
-
-  .uniform-configurator .cfg-preview {
-    position: sticky;
-    top: 2.4rem;
-  }
-
-  .uniform-configurator .cfg-preview__figure {
-    min-height: 32rem;
   }
 }
 
@@ -980,31 +958,6 @@
 
   .uniform-configurator .cfg-preview__figure {
     min-height: 32rem;
-  }
-}
-
-@media (max-width: 699px) {
-  .uniform-configurator > .uniform-configurator__shell {
-    padding: var(--spacing-big) var(--spacing-small) var(--spacing-large);
-  }
-
-  .uniform-configurator .cfg-section {
-    padding: 2rem;
-  }
-
-  .uniform-configurator .field-grid--2,
-  .uniform-configurator .field-grid--3,
-  .uniform-configurator .card-selector--split {
-    grid-template-columns: 1fr;
-  }
-
-  .uniform-configurator .cfg-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .uniform-configurator .btn {
-    width: 100%;
   }
 }
 
@@ -1030,6 +983,55 @@
 
   .uniform-configurator .btn {
     width: 100%;
+  }
+}
+
+@supports not (container-type: inline-size) {
+  @media (min-width: 680px) {
+    .uniform-configurator .step-btn__label {
+      display: inline;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .uniform-configurator .cfg-layout {
+      grid-template-columns: 340px minmax(0, 1fr);
+      gap: var(--spacing-big);
+    }
+
+    .uniform-configurator .cfg-preview {
+      position: sticky;
+      top: 2.4rem;
+    }
+
+    .uniform-configurator .cfg-preview__figure {
+      min-height: 32rem;
+    }
+  }
+
+  @media (max-width: 699px) {
+    .uniform-configurator > .uniform-configurator__shell {
+      padding: var(--spacing-big) var(--spacing-small) var(--spacing-large);
+    }
+
+    .uniform-configurator .cfg-section {
+      padding: 2rem;
+    }
+
+    .uniform-configurator .field-grid--2,
+    .uniform-configurator .field-grid--3,
+    .uniform-configurator .card-selector--split {
+      grid-template-columns: 1fr;
+    }
+
+    .uniform-configurator .cfg-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .uniform-configurator .btn {
+      width: 100%;
+    }
   }
 }
 
