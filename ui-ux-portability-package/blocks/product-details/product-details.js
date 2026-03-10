@@ -416,6 +416,12 @@ export default async function decorate(block) {
     }
   }, { eager: true });
 
+  events.on('pdp/configurator-ready', (payload) => {
+    if (payload?.status === 'ready') {
+      block.classList.add('product-details--configurator-active');
+    }
+  }, { eager: true });
+
   return Promise.resolve();
 }
 

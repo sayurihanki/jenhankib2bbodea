@@ -3247,14 +3247,13 @@
         "valueType": "string",
         "name": "eyebrow-text",
         "label": "Eyebrow Text",
-        "value": "Private Member Offers - Q2 2026"
+        "value": "Private Member Offers - Q1 2025"
       },
       {
         "component": "richtext",
         "valueType": "string",
         "name": "title",
-        "label": "Title",
-        "value": "Your exclusive catalog access."
+        "label": "Title"
       },
       {
         "component": "text",

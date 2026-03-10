@@ -1,4 +1,5 @@
 import createField from './form-fields.js';
+import { submitJson } from '../../scripts/submit-json.js';
 
 const DEFAULT_MESSAGES = {
   loadingForm: 'Loading form...',
@@ -183,50 +184,11 @@ function generatePayload(form) {
   return payload;
 }
 
-async function postPayload(action, payload, strategy) {
-  const body = strategy === 'raw'
-    ? payload
-    : { data: payload };
-
-  return fetch(action, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-}
-
-function resolveSubmissionStrategies(actionUrl) {
-  const url = new URL(actionUrl, window.location.origin);
-  const format = (url.searchParams.get('payload') || '').toLowerCase();
-  if (format === 'raw') return ['raw'];
-  if (format === 'wrapped') return ['wrapped'];
-  return ['wrapped', 'raw'];
-}
-
-async function trySubmit(action, payload, strategies) {
-  let lastError;
-  const attempts = strategies.map((strategy) => () => postPayload(action, payload, strategy));
-
-  for (let i = 0; i < attempts.length; i += 1) {
-    // eslint-disable-next-line no-await-in-loop
-    const response = await attempts[i]();
-    if (response.ok || response.type === 'opaque') return true;
-    // eslint-disable-next-line no-await-in-loop
-    const text = await response.text();
-    lastError = new Error(text || `Submit failed: ${response.status}`);
-  }
-
-  throw lastError || new Error(DEFAULT_MESSAGES.submitError);
-}
-
 async function handleSubmit(form) {
   if (form.getAttribute('data-submitting') === 'true') return;
 
   const submit = form.querySelector('button[type="submit"]');
   const { action } = form.dataset;
-  const strategies = resolveSubmissionStrategies(action);
 
   try {
     form.setAttribute('data-submitting', 'true');
@@ -234,7 +196,7 @@ async function handleSubmit(form) {
     setFormMessage(form, 'info', DEFAULT_MESSAGES.submitting);
 
     const payload = generatePayload(form);
-    await trySubmit(action, payload, strategies);
+    await submitJson(action, payload);
 
     setFormMessage(form, 'success', DEFAULT_MESSAGES.success);
     form.reset();

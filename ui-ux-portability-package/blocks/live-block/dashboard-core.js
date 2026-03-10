@@ -327,7 +327,7 @@ async function safeImport(importer) {
  * @param {object} config
  * @returns {object}
  */
-function getRequirements(config) {
+export function getRequirements(config) {
   const hasActiveSection = config.showFinanceSection
     || config.showOperationsSection
     || config.showSourcingSection;
@@ -356,7 +356,7 @@ function getRequirements(config) {
  * Initialize only required drop-ins.
  * @param {object} requirements
  */
-async function initializeRequiredDropins(requirements) {
+export async function initializeRequiredDropins(requirements) {
   const initializers = [];
 
   if (requirements.orders) {
@@ -408,7 +408,7 @@ async function initializeRequiredDropins(requirements) {
  * @param {object} requirements
  * @returns {Promise<object>}
  */
-async function loadRequiredApis(requirements) {
+export async function loadRequiredApis(requirements) {
   const [
     accountApi,
     companyApi,
@@ -456,7 +456,7 @@ async function loadRequiredApis(requirements) {
  * @param {Record<string, any>} sources
  * @returns {Promise<object>}
  */
-async function fetchDashboardData(requirements, apis, config, sources) {
+export async function fetchDashboardData(requirements, apis, config, sources) {
   const orderHistoryPromise = requirements.orders
     ? safeRequest(
       sources,
@@ -886,7 +886,7 @@ function createTeamChart(active, inactive) {
  * @param {Array<{value:number}>} points
  * @returns {SVGElement | null}
  */
-function _buildSparkline(points) {
+export function buildSparkline(points) {
   if (!Array.isArray(points) || points.length < 2) return null;
 
   const width = 320;
@@ -1234,7 +1234,7 @@ function renderStackedBarChartMarkup(chart) {
  * @param {object} chart
  * @returns {string}
  */
-function _renderChartMarkup(chart) {
+export function renderChartMarkup(chart) {
   if (chart.state !== 'ready') {
     return `<p class="live-block-chart-empty" role="status">${escapeHtml(chart.emptyText || FALLBACK_TEXT)}</p>`;
   }

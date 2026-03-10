@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T07:00:26.733Z",
+  "generatedAt": "2026-03-10T15:52:55.459Z",
   "summary": {
     "totalPackages": 17,
     "undeclaredPackages": []
@@ -28,7 +28,7 @@
         "blocks/commerce-checkout/containers.js",
         "blocks/commerce-customer-information/commerce-customer-information.js",
         "blocks/commerce-orders-list/commerce-orders-list.js",
-        "blocks/live-block/live-block.js",
+        "blocks/live-block/dashboard-core.js",
         "scripts/initializers/account.js"
       ]
     },
@@ -68,7 +68,7 @@
       "package": "@dropins/storefront-cart",
       "version": "~3.0.0",
       "source": "declared",
-      "importCount": 33,
+      "importCount": 36,
       "importSpecifiers": [
         "@dropins/storefront-cart/api.js",
         "@dropins/storefront-cart/containers/CartSummaryList.js",
@@ -89,6 +89,9 @@
         "blocks/commerce-order-product-list/commerce-order-product-list.js",
         "blocks/commerce-wishlist/commerce-wishlist.js",
         "blocks/header/header.js",
+        "blocks/live-block/dashboard-core.js",
+        "blocks/luxury-configurator/luxury-configurator.js",
+        "blocks/product-configurator-luxe/product-configurator-luxe.js",
         "blocks/product-details/product-details.js",
         "blocks/product-list-page/product-list-page.js",
         "blocks/product-recommendations/product-recommendations.js",
@@ -158,7 +161,7 @@
         "blocks/commerce-company-structure/commerce-company-structure.js",
         "blocks/commerce-company-users/commerce-company-users.js",
         "blocks/commerce-customer-company/commerce-customer-company.js",
-        "blocks/live-block/live-block.js",
+        "blocks/live-block/dashboard-core.js",
         "scripts/initializers/company.js"
       ]
     },
@@ -232,7 +235,7 @@
       "package": "@dropins/storefront-pdp",
       "version": "~3.0.0",
       "source": "declared",
-      "importCount": 19,
+      "importCount": 26,
       "importSpecifiers": [
         "@dropins/storefront-pdp/api.js",
         "@dropins/storefront-pdp/containers/ProductAttributes.js",
@@ -248,6 +251,8 @@
       ],
       "importedBy": [
         "blocks/commerce-wishlist/commerce-wishlist.js",
+        "blocks/luxury-configurator/luxury-configurator.js",
+        "blocks/product-configurator-luxe/product-configurator-luxe.js",
         "blocks/product-details/product-details.js",
         "blocks/product-details/requisition-list.js",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.js",
@@ -258,11 +263,9 @@
       "package": "@dropins/storefront-personalization",
       "version": "~3.0.0",
       "source": "declared",
-      "importCount": 3,
+      "importCount": 2,
       "importSpecifiers": [
-        "@dropins/storefront-personalization/api.js",
-        "@dropins/storefront-personalization/containers/TargetedBlock.js",
-        "@dropins/storefront-personalization/render.js"
+        "@dropins/storefront-personalization/api.js"
       ],
       "importedBy": [
         "blocks/targeted-block/targeted-block.js",
@@ -325,7 +328,7 @@
         "blocks/commerce-b2b-po-status/commerce-b2b-po-status.js",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.js",
         "blocks/commerce-checkout/commerce-checkout.js",
-        "blocks/live-block/live-block.js",
+        "blocks/live-block/dashboard-core.js",
         "scripts/initializers/purchase-order.js"
       ]
     },
@@ -333,7 +336,7 @@
       "package": "@dropins/storefront-quote-management",
       "version": "~1.0.0",
       "source": "declared",
-      "importCount": 15,
+      "importCount": 16,
       "importSpecifiers": [
         "@dropins/storefront-quote-management/api.js",
         "@dropins/storefront-quote-management/containers/ManageNegotiableQuote.js",
@@ -351,6 +354,7 @@
         "blocks/commerce-b2b-negotiable-quote/commerce-b2b-negotiable-quote.js",
         "blocks/commerce-b2b-quote-checkout/containers.js",
         "blocks/commerce-cart/commerce-cart.js",
+        "blocks/live-block/dashboard-core.js",
         "scripts/initializers/quote-management.js"
       ]
     },
@@ -373,7 +377,7 @@
       "package": "@dropins/storefront-requisition-list",
       "version": "1.0.0",
       "source": "declared",
-      "importCount": 10,
+      "importCount": 11,
       "importSpecifiers": [
         "@dropins/storefront-requisition-list/api.js",
         "@dropins/storefront-requisition-list/containers/RequisitionListGrid.js",
@@ -385,6 +389,7 @@
         "blocks/commerce-account-hub/commerce-account-hub.js",
         "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.js",
         "blocks/commerce-b2b-requisition-list/commerce-b2b-requisition-list.js",
+        "blocks/live-block/dashboard-core.js",
         "blocks/product-details/requisition-list.js",
         "blocks/product-list-page/requisition-list.js",
         "scripts/initializers/requisition-list.js"
@@ -394,7 +399,7 @@
       "package": "@dropins/storefront-wishlist",
       "version": "~3.0.0",
       "source": "declared",
-      "importCount": 13,
+      "importCount": 14,
       "importSpecifiers": [
         "@dropins/storefront-wishlist/api.js",
         "@dropins/storefront-wishlist/containers/Wishlist.js",
@@ -405,6 +410,7 @@
       "importedBy": [
         "blocks/commerce-cart/commerce-cart.js",
         "blocks/commerce-wishlist/commerce-wishlist.js",
+        "blocks/live-block/dashboard-core.js",
         "blocks/product-details/product-details.js",
         "blocks/product-list-page/product-list-page.js",
         "blocks/product-recommendations/product-recommendations.js",
@@ -415,7 +421,7 @@
       "package": "@dropins/tools",
       "version": "~1.6.0",
       "source": "declared",
-      "importCount": 152,
+      "importCount": 158,
       "importSpecifiers": [
         "@dropins/tools/components.js",
         "@dropins/tools/event-bus.js",
@@ -456,6 +462,7 @@
         "blocks/commerce-checkout/containers.js",
         "blocks/commerce-checkout/utils.js",
         "blocks/commerce-company-create/commerce-company-create.js",
+        "blocks/commerce-company-credit/commerce-company-credit.js",
         "blocks/commerce-confirm-account/commerce-confirm-account.js",
         "blocks/commerce-create-password/commerce-create-password.js",
         "blocks/commerce-create-return/commerce-create-return.js",
@@ -475,14 +482,18 @@
         "blocks/header/header.js",
         "blocks/header/renderAuthCombine.js",
         "blocks/header/renderAuthDropdown.js",
-        "blocks/live-block/live-block.js",
+        "blocks/live-block/dashboard-core.js",
+        "blocks/luxury-configurator/luxury-configurator.js",
         "blocks/modal/modal.js",
+        "blocks/product-configurator-luxe/product-configurator-luxe.js",
         "blocks/product-details/product-details.js",
         "blocks/product-details/requisition-list.js",
         "blocks/product-list-page/product-list-page.js",
         "blocks/product-recommendations/product-recommendations.js",
         "blocks/product-teaser/product-teaser-utils.js",
         "blocks/search-bar/search-bar.js",
+        "blocks/targeted-block/targeted-block.js",
+        "blocks/vip-member-block-real-v2/vip-member-block-real-v2.js",
         "scripts/commerce.js",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.js",
         "scripts/delayed.js",

@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-03-04T07:00:26.638Z",
+  "generatedAt": "2026-03-10T15:52:55.317Z",
   "summary": {
-    "totalBlocks": 101,
-    "withStyles": 101,
-    "withRuntime": 101,
+    "totalBlocks": 110,
+    "withStyles": 110,
+    "withRuntime": 110,
     "byCategory": {
       "interactive-content": 9,
-      "content": 28,
+      "content": 37,
       "commerce": 55,
       "shell": 5,
       "forms": 4
@@ -1451,6 +1451,29 @@
       "fileCount": 3
     },
     {
+      "name": "experiment-slot",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Experiment Slot",
+      "overview": "`experiment-slot` marks a DA-authored surface as a replacement target for link-driven experiments.",
+      "sourcePath": "blocks/experiment-slot",
+      "files": {
+        "css": [
+          "blocks/experiment-slot/experiment-slot.css"
+        ],
+        "js": [
+          "blocks/experiment-slot/experiment-slot.js"
+        ],
+        "json": [
+          "blocks/experiment-slot/_experiment-slot.json"
+        ],
+        "readme": "blocks/experiment-slot/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
+    },
+    {
       "name": "features-grid",
       "category": "content",
       "subcategory": "general",
@@ -1702,6 +1725,29 @@
       "fileCount": 4
     },
     {
+      "name": "hero-6",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Hero 6 Block",
+      "overview": "The `hero-6` block (Chronicle Bento Hero) renders a bento-style hero with four cells: copy, platform metrics, feature highlights, and a decorative orbital SVG animation. It supports eyebrow labels, styled headlines (bold → accent green, italic → outline stroke), CTAs, stats with count-up animation, and feature rows.",
+      "sourcePath": "blocks/hero-6",
+      "files": {
+        "css": [
+          "blocks/hero-6/hero-6.css"
+        ],
+        "js": [
+          "blocks/hero-6/hero-6.js"
+        ],
+        "json": [
+          "blocks/hero-6/_hero-6.json"
+        ],
+        "readme": "blocks/hero-6/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
+    },
+    {
       "name": "hero-cta",
       "category": "content",
       "subcategory": "general",
@@ -1775,13 +1821,14 @@
       "category": "content",
       "subcategory": "general",
       "title": "Live Block",
-      "overview": "`live-block` renders a portable, authenticated dashboard card backed by Adobe Commerce account-level data.",
+      "overview": "`live-block` renders a portable authenticated commerce dashboard with account-scoped KPIs, labeled charts, and activity panels.",
       "sourcePath": "blocks/live-block",
       "files": {
         "css": [
           "blocks/live-block/live-block.css"
         ],
         "js": [
+          "blocks/live-block/dashboard-core.js",
           "blocks/live-block/live-block.js"
         ],
         "json": [
@@ -1791,7 +1838,53 @@
       },
       "hasStyles": true,
       "hasRuntime": true,
-      "fileCount": 4
+      "fileCount": 5
+    },
+    {
+      "name": "live-block-premium",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Live Block Premium",
+      "overview": "`live-block-premium` is a standalone premium dashboard block with a distinct visual language while keeping the same commerce data contract as `live-block`.",
+      "sourcePath": "blocks/live-block-premium",
+      "files": {
+        "css": [
+          "blocks/live-block-premium/live-block-premium.css"
+        ],
+        "js": [
+          "blocks/live-block-premium/live-block-premium.js"
+        ],
+        "json": [
+          "blocks/live-block-premium/_live-block-premium.json"
+        ],
+        "readme": "blocks/live-block-premium/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 5
+    },
+    {
+      "name": "luxury-configurator",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Luxury Configurator",
+      "overview": "`luxury-configurator` is a standalone premium configuration block for a single Adobe Commerce parent product.",
+      "sourcePath": "blocks/luxury-configurator",
+      "files": {
+        "css": [
+          "blocks/luxury-configurator/luxury-configurator.css"
+        ],
+        "js": [
+          "blocks/luxury-configurator/luxury-configurator.js"
+        ],
+        "json": [
+          "blocks/luxury-configurator/_luxury-configurator.json"
+        ],
+        "readme": "blocks/luxury-configurator/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 5
     },
     {
       "name": "modal",
@@ -1836,6 +1929,29 @@
       "hasStyles": true,
       "hasRuntime": true,
       "fileCount": 4
+    },
+    {
+      "name": "product-configurator-luxe",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Product Configurator Luxe",
+      "overview": "`product-configurator-luxe` is a product-scoped, PDP-aware luxury configurator for",
+      "sourcePath": "blocks/product-configurator-luxe",
+      "files": {
+        "css": [
+          "blocks/product-configurator-luxe/product-configurator-luxe.css"
+        ],
+        "js": [
+          "blocks/product-configurator-luxe/product-configurator-luxe.js"
+        ],
+        "json": [
+          "blocks/product-configurator-luxe/_product-configurator-luxe.json"
+        ],
+        "readme": "blocks/product-configurator-luxe/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 5
     },
     {
       "name": "product-details",
@@ -2162,8 +2278,8 @@
       "name": "targeted-block",
       "category": "content",
       "subcategory": "general",
-      "title": "targeted-block",
-      "overview": "",
+      "title": "Targeted Block",
+      "overview": "The `targeted-block` displays authored content only when the current shopper matches the block's targeting rules.",
       "sourcePath": "blocks/targeted-block",
       "files": {
         "css": [
@@ -2175,11 +2291,11 @@
         "json": [
           "blocks/targeted-block/_targeted-block.json"
         ],
-        "readme": ""
+        "readme": "blocks/targeted-block/README.md"
       },
       "hasStyles": true,
       "hasRuntime": true,
-      "fileCount": 3
+      "fileCount": 4
     },
     {
       "name": "top-banner",
@@ -2205,6 +2321,30 @@
       "fileCount": 4
     },
     {
+      "name": "uniform-configurator",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Uniform Configurator",
+      "overview": "Single-block DA.live configurator for a premium, multi-step uniform package flow with live pricing, SVG preview updates, structured lead capture, and a success state.",
+      "sourcePath": "blocks/uniform-configurator",
+      "files": {
+        "css": [
+          "blocks/uniform-configurator/uniform-configurator.css"
+        ],
+        "js": [
+          "blocks/uniform-configurator/uniform-configurator.js",
+          "blocks/uniform-configurator/uniform-configurator.lib.js"
+        ],
+        "json": [
+          "blocks/uniform-configurator/_uniform-configurator.json"
+        ],
+        "readme": "blocks/uniform-configurator/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 5
+    },
+    {
       "name": "video",
       "category": "interactive-content",
       "subcategory": "engagement",
@@ -2222,6 +2362,75 @@
           "blocks/video/_video.json"
         ],
         "readme": "blocks/video/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
+    },
+    {
+      "name": "vip-hero-block",
+      "category": "content",
+      "subcategory": "general",
+      "title": "VIP Hero Block",
+      "overview": "The `vip-hero-block` renders a premium members-only hero with two primary regions:",
+      "sourcePath": "blocks/vip-hero-block",
+      "files": {
+        "css": [
+          "blocks/vip-hero-block/vip-hero-block.css"
+        ],
+        "js": [
+          "blocks/vip-hero-block/vip-hero-block.js"
+        ],
+        "json": [
+          "blocks/vip-hero-block/_vip-hero-block.json"
+        ],
+        "readme": "blocks/vip-hero-block/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
+    },
+    {
+      "name": "vip-member-block",
+      "category": "content",
+      "subcategory": "general",
+      "title": "VIP Member Block",
+      "overview": "`vip-member-block` is a standalone promotional commerce block for VIP or elite member experiences.",
+      "sourcePath": "blocks/vip-member-block",
+      "files": {
+        "css": [
+          "blocks/vip-member-block/vip-member-block.css"
+        ],
+        "js": [
+          "blocks/vip-member-block/vip-member-block.js"
+        ],
+        "json": [
+          "blocks/vip-member-block/_vip-member-block.json"
+        ],
+        "readme": "blocks/vip-member-block/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 5
+    },
+    {
+      "name": "vip-member-block-real-v2",
+      "category": "content",
+      "subcategory": "general",
+      "title": "VIP Member Block Real V2",
+      "overview": "`vip-member-block-real-v2` is a live-data VIP account block that keeps the premium member layout while replacing authored demo commerce values with runtime Adobe Commerce drop-in data.",
+      "sourcePath": "blocks/vip-member-block-real-v2",
+      "files": {
+        "css": [
+          "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css"
+        ],
+        "js": [
+          "blocks/vip-member-block-real-v2/vip-member-block-real-v2.js"
+        ],
+        "json": [
+          "blocks/vip-member-block-real-v2/_vip-member-block-real-v2.json"
+        ],
+        "readme": "blocks/vip-member-block-real-v2/README.md"
       },
       "hasStyles": true,
       "hasRuntime": true,

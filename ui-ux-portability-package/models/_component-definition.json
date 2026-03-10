@@ -44,7 +44,13 @@
           "...": "../blocks/fragment/_*.json#/definitions"
         },
         {
+          "...": "../blocks/experiment-slot/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/hero/_*.json#/definitions"
+        },
+        {
+          "...": "../blocks/vip-hero-block/_*.json#/definitions"
         },
         {
           "...": "../blocks/how-it-works-stats/_*.json#/definitions"
@@ -59,7 +65,19 @@
           "...": "../blocks/live-block/_*.json#/definitions"
         },
         {
+          "...": "../blocks/live-block-premium/_*.json#/definitions"
+        },
+        {
+          "...": "../blocks/vip-member-block/_*.json#/definitions"
+        },
+        {
+          "...": "../blocks/vip-member-block-real-v2/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/commerce-account-hub/_*.json#/definitions"
+        },
+        {
+          "...": "../blocks/uniform-configurator/_*.json#/definitions"
         },
         {
           "...": "../blocks/quiz-router/_*.json#/definitions"

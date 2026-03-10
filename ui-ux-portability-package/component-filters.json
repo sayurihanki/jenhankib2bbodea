@@ -9,6 +9,7 @@
     "id": "section",
     "components": [
       "hero",
+      "vip-hero-block",
       "how-it-works-stats",
       "how-it-works-stats-2",
       "accordion",
@@ -21,6 +22,7 @@
       "text",
       "targeted-block",
       "live-block",
+      "live-block-premium",
       "product-recommendations",
       "product-highlights",
       "quiz-router"

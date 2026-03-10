@@ -206,6 +206,7 @@ function bindListeners() {
 
 export default async function decorate(block) {
   const blockConfig = readBlockConfig(block);
+  const hostSection = block.closest('.section');
 
   const {
     fragment,
@@ -219,6 +220,8 @@ export default async function decorate(block) {
   const fragmentPath = normalizeFragmentPath(fragment || fragments);
   const fragmentContent = fragmentPath ? await loadFragment(fragmentPath) : null;
   const content = fragmentContent || getInlineContent(block);
+
+  hostSection?.classList.toggle('targeted-block-container--fragment', Boolean(fragmentContent));
 
   const groupCriteria = customerGroups !== undefined
     ? parseCustomerGroups(customerGroups)

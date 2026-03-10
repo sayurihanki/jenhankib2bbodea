@@ -22,6 +22,7 @@ import {
   IS_UE,
   IS_DA,
 } from './commerce.js';
+import experimentationRuntime from '../plugins/experimentation/index.js';
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -64,12 +65,12 @@ function buildAutoBlocks(main) {
     const fragments = main.querySelectorAll('a[href*="/fragments/"]');
     if (fragments.length > 0) {
       // eslint-disable-next-line import/no-cycle
-      import('../blocks/fragment/fragment.js').then(({ loadFragment }) => {
+      import('../blocks/fragment/fragment.js').then(({ loadFragment, mountFragment }) => {
         fragments.forEach(async (fragment) => {
           try {
             const { pathname } = new URL(fragment.href);
             const frag = await loadFragment(pathname);
-            fragment.parentElement.replaceWith(frag.firstElementChild);
+            mountFragment(fragment.parentElement, frag);
           } catch (error) {
             // eslint-disable-next-line no-console
             console.error('Fragment loading failed', error);
@@ -111,6 +112,7 @@ async function loadEager(doc) {
       await initializeCommerce();
       decorateMain(main);
       applyTemplates(doc);
+      await experimentationRuntime(main);
       await loadCommerceEager();
     } catch (e) {
       console.error('Error initializing commerce configuration:', e);

@@ -4,7 +4,7 @@
  */
 
 import { getMetadata } from '../../scripts/aem.js';
-import { loadFragment } from '../fragment/fragment.js';
+import { loadFragment, mountFragment } from '../fragment/fragment.js';
 
 const NEXT_STEP = '#next';
 const STORAGE_NAMESPACE = 'quizrouter';
@@ -1030,14 +1030,7 @@ export default async function decorate(block) {
       try {
         const fragment = await loadFragment(href);
         if (fragment) {
-          const fragmentSection = fragment.querySelector(':scope .section');
-          if (fragmentSection) {
-            const section = block.closest('.section');
-            if (section) {
-              section.classList.add(...fragmentSection.classList);
-            }
-          }
-          block.replaceWith(...fragment.childNodes);
+          mountFragment(block, fragment);
           return true;
         }
       } catch (error) {

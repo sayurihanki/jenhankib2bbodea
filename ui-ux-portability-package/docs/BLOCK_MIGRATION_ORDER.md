@@ -82,6 +82,7 @@
 | `commerce-wishlist` | `commerce` | `core` | 1 | 1 |
 | `embed` | `interactive-content` | `engagement` | 1 | 1 |
 | `enrichment` | `content` | `general` | 1 | 1 |
+| `experiment-slot` | `content` | `general` | 1 | 1 |
 | `features-grid` | `content` | `general` | 1 | 1 |
 | `footer` | `shell` | `navigation-and-layout` | 1 | 1 |
 | `form` | `forms` | `authorable-forms` | 1 | 2 |
@@ -93,12 +94,16 @@
 | `hero` | `content` | `general` | 1 | 1 |
 | `hero-3` | `content` | `general` | 1 | 1 |
 | `hero-5` | `content` | `general` | 1 | 1 |
+| `hero-6` | `content` | `general` | 1 | 1 |
 | `hero-cta` | `content` | `general` | 1 | 1 |
 | `how-it-works-stats` | `content` | `general` | 1 | 1 |
 | `how-it-works-stats-2` | `content` | `general` | 1 | 1 |
-| `live-block` | `content` | `general` | 1 | 1 |
+| `live-block` | `content` | `general` | 1 | 2 |
+| `live-block-premium` | `content` | `general` | 1 | 1 |
+| `luxury-configurator` | `content` | `general` | 1 | 1 |
 | `modal` | `interactive-content` | `engagement` | 1 | 1 |
 | `newsletter` | `content` | `general` | 1 | 1 |
+| `product-configurator-luxe` | `content` | `general` | 1 | 1 |
 | `product-details` | `content` | `general` | 1 | 2 |
 | `product-highlights` | `content` | `general` | 1 | 1 |
 | `product-list-page` | `content` | `general` | 1 | 2 |
@@ -115,4 +120,8 @@
 | `tabs` | `interactive-content` | `engagement` | 1 | 1 |
 | `targeted-block` | `content` | `general` | 1 | 1 |
 | `top-banner` | `shell` | `navigation-and-layout` | 1 | 1 |
+| `uniform-configurator` | `content` | `general` | 1 | 2 |
 | `video` | `interactive-content` | `engagement` | 1 | 1 |
+| `vip-hero-block` | `content` | `general` | 1 | 1 |
+| `vip-member-block` | `content` | `general` | 1 | 1 |
+| `vip-member-block-real-v2` | `content` | `general` | 1 | 1 |
