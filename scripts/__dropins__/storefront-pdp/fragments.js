@@ -50,6 +50,24 @@ fragment PRODUCT_OPTION_FRAGMENT on ProductViewOption {
     }
   }
 `,t=`
+fragment PRODUCT_INPUT_OPTION_FRAGMENT on ProductViewInputOption {
+  id
+  title
+  required
+  type
+  suffix
+  sortOrder
+  range {
+    from
+    to
+  }
+  imageSize {
+    width
+    height
+  }
+  fileExtensions
+}
+`,r=`
   fragment PRICE_RANGE_FRAGMENT on ComplexProductView {
     priceRange {
       maximum {
@@ -84,7 +102,7 @@ fragment PRODUCT_OPTION_FRAGMENT on ProductViewOption {
       }
     }
   }
-`,r=`
+`,i=`
 fragment PRODUCT_FRAGMENT on ProductView {
   __typename
   id
@@ -112,6 +130,10 @@ fragment PRODUCT_FRAGMENT on ProductView {
     label
     value
     roles
+  }
+
+  inputOptions {
+    ...PRODUCT_INPUT_OPTION_FRAGMENT
   }
 
 ... on SimpleProductView {
@@ -159,5 +181,6 @@ fragment PRODUCT_FRAGMENT on ProductView {
 
 ${e}
 ${t}
-`;export{t as PRICE_RANGE_FRAGMENT,r as PRODUCT_FRAGMENT,e as PRODUCT_OPTION_FRAGMENT};
+${r}
+`;export{r as PRICE_RANGE_FRAGMENT,i as PRODUCT_FRAGMENT,t as PRODUCT_INPUT_OPTION_FRAGMENT,e as PRODUCT_OPTION_FRAGMENT};
 //# sourceMappingURL=fragments.js.map
