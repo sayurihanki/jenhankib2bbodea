@@ -13,6 +13,16 @@ import {
   getProductLink,
   rootLink,
 } from '../../scripts/commerce.js';
+import {
+  buildViewModel,
+  FALLBACK_TEXT,
+  fetchDashboardData,
+  formatDateTime,
+  getRequirements,
+  initializeRequiredDropins,
+  loadRequiredApis,
+  renderChartMarkup,
+} from '../live-block/dashboard-core.js';
 
 const CUSTOMER_COMPANY_PROFILE_PATH = '/customer/company';
 const CUSTOMER_COMPANY_CREDIT_PATH = '/customer/company/credit';
@@ -24,6 +34,18 @@ const DEFAULTS = {
   rowsLimit: 3,
   guestCtaLabel: 'Sign in',
   guestCtaHref: CUSTOMER_LOGIN_PATH,
+};
+
+const ANALYTICS_DEFAULTS = {
+  orderWindowDays: 90,
+  trendPoints: 12,
+  showFinanceSection: true,
+  showOperationsSection: true,
+  showSourcingSection: true,
+  showCharts: true,
+  showSparkline: false,
+  showLastUpdated: true,
+  refreshLabel: 'Refresh data',
 };
 
 const QUOTE_PERMISSION_KEYS = [
@@ -76,10 +98,23 @@ function text(value) {
   return document.createTextNode(String(value ?? ''));
 }
 
+function markup(markupString) {
+  const template = document.createElement('template');
+  template.innerHTML = markupString.trim();
+  return template.content;
+}
+
 function clampRowsLimit(value) {
   const parsed = Number.parseInt(value, 10);
   if (Number.isNaN(parsed)) return DEFAULTS.rowsLimit;
   return Math.max(1, Math.min(5, parsed));
+}
+
+function buildAnalyticsConfig(rowsLimit) {
+  return {
+    rowsLimit,
+    ...ANALYTICS_DEFAULTS,
+  };
 }
 
 function normalizeRichTextHTML(html) {
@@ -215,30 +250,12 @@ async function safeRequest(label, requestFn) {
   }
 }
 
-async function loadDependencies() {
+async function loadDependencies(requirements) {
   if (!dependenciesPromise) {
     dependenciesPromise = (async () => {
-      await Promise.all([
-        import('../../scripts/initializers/auth.js'),
-        import('../../scripts/initializers/account.js'),
-        import('../../scripts/initializers/company.js'),
-        import('../../scripts/initializers/purchase-order.js'),
-        import('../../scripts/initializers/quote-management.js'),
-      ]);
-
-      const [accountApi, companyApi, purchaseOrderApi, quoteApi] = await Promise.all([
-        import('@dropins/storefront-account/api.js'),
-        import('@dropins/storefront-company-management/api.js'),
-        import('@dropins/storefront-purchase-order/api.js'),
-        import('@dropins/storefront-quote-management/api.js'),
-      ]);
-
-      return {
-        accountApi,
-        companyApi,
-        purchaseOrderApi,
-        quoteApi,
-      };
+      await import('../../scripts/initializers/auth.js');
+      await initializeRequiredDropins(requirements);
+      return loadRequiredApis(requirements);
     })();
   }
 
@@ -508,14 +525,41 @@ function buildAccountMetrics(state) {
   return metrics.slice(0, 4);
 }
 
+function buildAnalyticsRequirements(
+  baseRequirements,
+  {
+    hasPurchaseOrderCompanyAccess,
+    hasPurchaseOrderCustomerAccess,
+    hasPurchaseOrderAccess,
+    hasCompanyProfileAccess,
+    companyCreditEnabled,
+    quoteEnabled,
+    requisitionEnabled,
+  },
+) {
+  return {
+    ...baseRequirements,
+    purchaseOrders: hasPurchaseOrderCustomerAccess,
+    companyPurchaseOrders: hasPurchaseOrderCompanyAccess,
+    myApprovals: hasPurchaseOrderAccess,
+    companyCredit: companyCreditEnabled,
+    companyCreditHistory: companyCreditEnabled,
+    companyUsers: hasCompanyProfileAccess,
+    negotiableQuotes: quoteEnabled,
+    quoteTemplates: quoteEnabled,
+    requisitionLists: requisitionEnabled,
+  };
+}
+
 async function fetchLiveState(rowsLimit) {
   const permissions = getPermissionsSnapshot();
+  const analyticsConfig = buildAnalyticsConfig(rowsLimit);
+  const baseRequirements = getRequirements(analyticsConfig);
+  const apis = await loadDependencies(baseRequirements);
   const {
     accountApi,
     companyApi,
-    purchaseOrderApi,
-    quoteApi,
-  } = await loadDependencies();
+  } = apis;
 
   const hasPurchaseOrderCompanyAccess = hasPermission(
     permissions,
@@ -535,9 +579,8 @@ async function fetchLiveState(rowsLimit) {
   const quoteEnabled = hasPermission(permissions, QUOTE_PERMISSION_KEYS);
   const requisitionEnabled = hasPermission(permissions, REQUISITION_PERMISSION_KEYS);
 
-  const [customer, orderHistory, companyEnabled] = await Promise.all([
-    safeRequest('getCustomer', () => accountApi.getCustomer()),
-    safeRequest('getOrderHistoryList', () => accountApi.getOrderHistoryList(10, 'viewAll', 1)),
+  const [customer, companyEnabled] = await Promise.all([
+    safeRequest('getCustomer', () => accountApi?.getCustomer()),
     safeRequest('companyEnabled', () => companyApi.companyEnabled()),
   ]);
 
@@ -553,29 +596,40 @@ async function fetchLiveState(rowsLimit) {
     ? await safeRequest('checkCompanyCreditEnabled', () => companyApi.checkCompanyCreditEnabled())
     : null;
   const companyCreditEnabled = companyCreditEnabledResponse?.creditEnabled === true;
-  const companyCredit = companyCreditEnabled
-    ? await safeRequest('getCompanyCredit', () => companyApi.getCompanyCredit())
-    : null;
-
-  const quotes = quoteEnabled
-    ? await safeRequest(
-      'negotiableQuotes',
-      () => quoteApi.negotiableQuotes({ pageSize: 10, currentPage: 1 }),
-    )
-    : null;
-
+  const analyticsRequirements = buildAnalyticsRequirements(
+    baseRequirements,
+    {
+      hasPurchaseOrderCompanyAccess,
+      hasPurchaseOrderCustomerAccess,
+      hasPurchaseOrderAccess,
+      hasCompanyProfileAccess,
+      companyCreditEnabled,
+      quoteEnabled,
+      requisitionEnabled,
+    },
+  );
+  const sources = {};
+  const data = await fetchDashboardData(
+    analyticsRequirements,
+    apis,
+    analyticsConfig,
+    sources,
+  );
+  const { orderHistory } = data;
+  const companyCredit = companyCreditEnabled ? data.companyCredit : null;
+  const quotes = quoteEnabled ? data.negotiableQuotes : null;
   let purchaseOrders = null;
   if (hasPurchaseOrderCompanyAccess) {
-    purchaseOrders = await safeRequest(
-      'getCompanyPurchaseOrders',
-      () => purchaseOrderApi.getPurchaseOrders({ companyPurchaseOrders: true }, 10, 1),
-    );
+    purchaseOrders = data.companyPurchaseOrders || data.allPurchaseOrders;
   } else if (hasPurchaseOrderCustomerAccess) {
-    purchaseOrders = await safeRequest(
-      'getPurchaseOrders',
-      () => purchaseOrderApi.getPurchaseOrders({}, 10, 1),
-    );
+    purchaseOrders = data.allPurchaseOrders;
   }
+  const viewModel = buildViewModel(
+    analyticsConfig,
+    analyticsRequirements,
+    data,
+    sources,
+  );
 
   const purchaseOrderItems = Array.isArray(purchaseOrders?.purchaseOrderItems)
     ? purchaseOrders.purchaseOrderItems
@@ -604,6 +658,12 @@ async function fetchLiveState(rowsLimit) {
     featuredEntry,
     spotlightItems,
     openQuotesCount,
+    analytics: {
+      config: analyticsConfig,
+      requirements: analyticsRequirements,
+      sources,
+      viewModel,
+    },
   };
 }
 
@@ -1050,6 +1110,303 @@ function renderProofStrip(state) {
   ]);
 }
 
+function createAnalyticsSurface(className, href, ariaLabel) {
+  const tag = href ? 'a' : 'article';
+  const attrs = href
+    ? { href, 'aria-label': ariaLabel }
+    : { 'aria-label': ariaLabel };
+  return el(tag, className, attrs);
+}
+
+function createEmptyChart(id, title, description, type = 'bar') {
+  return {
+    id,
+    title,
+    description,
+    type,
+    state: 'empty',
+    emptyText: FALLBACK_TEXT,
+  };
+}
+
+function getChartTypeLabel(type) {
+  const labels = {
+    line: 'Line Graph',
+    bar: 'Bar Chart',
+    donut: 'Donut Chart',
+    stacked: 'Stacked Flow',
+  };
+
+  return labels[type] || 'Live Chart';
+}
+
+function getMetricValue(viewModel, id) {
+  return viewModel?.metrics?.[id]?.value || FALLBACK_TEXT;
+}
+
+function buildAnalyticsCharts(state) {
+  const { viewModel } = state.analytics;
+  const byId = new Map(
+    (Array.isArray(viewModel?.charts) ? viewModel.charts : [])
+      .map((chart) => [chart.id, chart]),
+  );
+
+  return [
+    {
+      id: 'order-value-trend',
+      chart: byId.get('order-value-trend')
+        || createEmptyChart(
+          'order-value-trend',
+          'Order Value Trend',
+          'Recent order totals over time.',
+          'line',
+        ),
+      href: resolveHref(CUSTOMER_ORDERS_PATH),
+      cta: 'Open Orders',
+    },
+    {
+      id: 'po-status-breakdown',
+      chart: byId.get('po-status-breakdown')
+        || createEmptyChart(
+          'po-status-breakdown',
+          'PO Status Breakdown',
+          'Distribution of accessible purchase orders by status.',
+        ),
+      href: state.hasPurchaseOrderAccess ? resolveHref(CUSTOMER_PO_LIST_PATH) : '',
+      cta: 'View Purchase Orders',
+    },
+    {
+      id: 'team-status-split',
+      chart: byId.get('team-status-split')
+        || createEmptyChart(
+          'team-status-split',
+          'Team Status Split',
+          'Active vs inactive company users.',
+          'donut',
+        ),
+      href: state.hasCompanyProfileAccess ? resolveHref(CUSTOMER_COMPANY_PROFILE_PATH) : '',
+      cta: 'Open Company Profile',
+    },
+    {
+      id: 'quote-pipeline',
+      chart: byId.get('quote-pipeline')
+        || createEmptyChart(
+          'quote-pipeline',
+          'Quote Pipeline',
+          'Stacked distribution of negotiable quote statuses.',
+          'stacked',
+        ),
+      href: state.quoteEnabled ? resolveHref(CUSTOMER_NEGOTIABLE_QUOTE_PATH) : '',
+      cta: 'Open Quotes',
+    },
+  ];
+}
+
+function buildInsightTiles(state) {
+  const { config, viewModel } = state.analytics;
+  const orderWindowDays = viewModel?.windows?.orderWindowDays || config.orderWindowDays;
+  const creditHref = state.companyCreditEnabled
+    ? resolveHref(CUSTOMER_COMPANY_CREDIT_PATH)
+    : '';
+  const companyHref = state.hasCompanyProfileAccess
+    ? resolveHref(CUSTOMER_COMPANY_PROFILE_PATH)
+    : '';
+  const sourcingHref = state.requisitionEnabled
+    ? resolveHref(CUSTOMER_REQUISITION_LISTS_PATH)
+    : '';
+  const quoteHref = state.quoteEnabled
+    ? resolveHref(CUSTOMER_NEGOTIABLE_QUOTE_PATH)
+    : '';
+
+  return [
+    {
+      id: 'window-spend',
+      title: `${orderWindowDays}-Day Spend / AOV`,
+      href: resolveHref(CUSTOMER_ORDERS_PATH),
+      cta: 'Open Orders',
+      items: [
+        {
+          label: `Spend (${orderWindowDays}d)`,
+          value: getMetricValue(viewModel, 'windowSpend'),
+        },
+        {
+          label: 'AOV',
+          value: getMetricValue(viewModel, 'orderAov'),
+        },
+      ],
+    },
+    {
+      id: 'po-pipeline',
+      title: 'PO Pipeline / Pending Approvals',
+      href: state.hasPurchaseOrderAccess ? resolveHref(CUSTOMER_PO_LIST_PATH) : '',
+      cta: 'View Purchase Orders',
+      items: [
+        {
+          label: 'Pipeline Value',
+          value: getMetricValue(viewModel, 'poPipelineValue'),
+        },
+        {
+          label: 'Pending Approvals',
+          value: getMetricValue(viewModel, 'pendingApprovals'),
+        },
+      ],
+    },
+    {
+      id: 'credit-posture',
+      title: 'Available Credit / Utilization',
+      href: creditHref || companyHref,
+      cta: state.companyCreditEnabled ? 'View Company Credit' : 'Open Company Profile',
+      items: [
+        {
+          label: 'Available Credit',
+          value: getMetricValue(viewModel, 'creditAvailable'),
+        },
+        {
+          label: 'Utilization',
+          value: getMetricValue(viewModel, 'creditUtilization'),
+        },
+      ],
+    },
+    {
+      id: 'sourcing-queue',
+      title: 'Sourcing Queue',
+      href: sourcingHref || quoteHref,
+      cta: state.requisitionEnabled ? 'Open Requisition Lists' : 'Open Quotes',
+      items: [
+        {
+          label: 'Open Quotes',
+          value: getMetricValue(viewModel, 'openQuotes'),
+        },
+        {
+          label: 'Req. Lists',
+          value: getMetricValue(viewModel, 'requisitionListCount'),
+        },
+        {
+          label: 'Wishlist Items',
+          value: getMetricValue(viewModel, 'wishlistItems'),
+        },
+        {
+          label: 'Cart Qty',
+          value: getMetricValue(viewModel, 'cartQuantity'),
+        },
+      ],
+    },
+  ];
+}
+
+function renderAnalyticsChartCard(card) {
+  const title = card.chart?.title || 'Live Commerce Chart';
+  const description = card.chart?.description || 'Real commerce analytics.';
+  let stateText = 'Watching';
+  if (card.href) {
+    stateText = card.cta;
+  } else if (card.chart.state === 'ready') {
+    stateText = 'Live data';
+  }
+  const surface = createAnalyticsSurface(
+    'vmb-analytics-card vmb-analytics-card--chart',
+    card.href,
+    title,
+  );
+  const visual = el('div', 'vmb-analytics-card-visual', {});
+  visual.append(markup(renderChartMarkup(card.chart)));
+
+  surface.append(
+    el('div', 'vmb-analytics-card-top', {}, [
+      el('span', 'vmb-analytics-card-kicker', {}, [text(getChartTypeLabel(card.chart.type))]),
+      el('span', 'vmb-analytics-card-state', {}, [text(stateText)]),
+    ]),
+    el('h3', 'vmb-analytics-card-title', {}, [text(title)]),
+    el('p', 'vmb-analytics-card-desc', {}, [text(description)]),
+    visual,
+    card.href
+      ? el('div', 'vmb-analytics-card-footer', {}, [
+        text(card.cta),
+        el('span', '', { 'aria-hidden': 'true' }, [text(' →')]),
+      ])
+      : null,
+  );
+
+  return surface;
+}
+
+function renderInsightTile(tile) {
+  const surface = createAnalyticsSurface(
+    'vmb-analytics-insight',
+    tile.href,
+    tile.title,
+  );
+
+  surface.append(
+    el('div', 'vmb-analytics-insight-top', {}, [
+      el('div', 'vmb-analytics-insight-title', {}, [text(tile.title)]),
+      tile.href
+        ? el('div', 'vmb-analytics-insight-cta', {}, [
+          text(tile.cta),
+          el('span', '', { 'aria-hidden': 'true' }, [text(' →')]),
+        ])
+        : null,
+    ]),
+    el(
+      'div',
+      'vmb-analytics-insight-grid',
+      {},
+      tile.items.map((item) => el('div', 'vmb-analytics-insight-item', {}, [
+        el('div', 'vmb-analytics-insight-value', {}, [text(item.value)]),
+        el('div', 'vmb-analytics-insight-label', {}, [text(item.label)]),
+      ])),
+    ),
+  );
+
+  return surface;
+}
+
+function renderAnalyticsSection(state) {
+  const { sources, viewModel } = state.analytics;
+  const sourceEntries = Object.values(sources || {});
+  const liveCount = sourceEntries.filter((source) => source?.status === 'ok').length;
+  const chartCards = buildAnalyticsCharts(state);
+  const insightTiles = buildInsightTiles(state);
+
+  return el('section', 'vmb-card vmb-analytics live-block', {
+    'aria-label': 'Member Intelligence Dashboard',
+  }, [
+    el('div', 'vmb-analytics-header', {}, [
+      el('div', 'vmb-analytics-header-copy', {}, [
+        el('div', 'vmb-analytics-kicker', {}, [text('Member Intelligence Dashboard')]),
+        el('h3', 'vmb-analytics-heading', {}, [text('Real procurement and commerce telemetry.')]),
+        el('p', 'vmb-analytics-sub', {}, [
+          text(
+            `Updated ${formatDateTime(viewModel?.lastUpdatedAt)} across `
+            + `${liveCount}/${sourceEntries.length || 0} live sources.`,
+          ),
+        ]),
+      ]),
+      el('div', 'vmb-analytics-header-meta', {}, [
+        el('span', 'live-block-pill vmb-analytics-pill', {}, [text('Live')]),
+      ]),
+    ]),
+    el(
+      'div',
+      'vmb-analytics-chart-grid',
+      {},
+      chartCards.map((card) => renderAnalyticsChartCard(card)),
+    ),
+    el('section', 'vmb-analytics-insights-strip', { 'aria-label': 'Commerce insights' }, [
+      el('div', 'vmb-analytics-insights-head', {}, [
+        el('span', 'vmb-analytics-insights-label', {}, [text('Cool Insights')]),
+        el('span', 'vmb-analytics-insights-meta', {}, [text('Real commerce data only')]),
+      ]),
+      el(
+        'div',
+        'vmb-analytics-insights-grid',
+        {},
+        insightTiles.map((tile) => renderInsightTile(tile)),
+      ),
+    ]),
+  ]);
+}
+
 function renderGuest(block, config) {
   const header = renderHeader(config, []);
   const stateCard = renderStateCard({
@@ -1138,7 +1495,12 @@ function renderAuthenticated(block, config, state) {
     renderAccountCard(state),
   ]);
 
-  block.replaceChildren(header, grid, renderProofStrip(state));
+  block.replaceChildren(
+    header,
+    grid,
+    renderProofStrip(state),
+    renderAnalyticsSection(state),
+  );
 }
 
 export default async function decorate(block) {
@@ -1203,12 +1565,24 @@ export default async function decorate(block) {
     if (checkIsAuthenticated()) scheduleRefresh('purchase-order/refresh');
   }));
 
+  subscriptions.push(events.on('cart/data', () => {
+    if (checkIsAuthenticated()) scheduleRefresh('cart/data');
+  }));
+
   subscriptions.push(events.on('quote-management/negotiable-quote-requested', () => {
     if (checkIsAuthenticated()) scheduleRefresh('quote-management/negotiable-quote-requested');
   }));
 
   subscriptions.push(events.on('quote-management/quote-duplicated', () => {
     if (checkIsAuthenticated()) scheduleRefresh('quote-management/quote-duplicated');
+  }));
+
+  subscriptions.push(events.on('quote-management/quote-template-generated', () => {
+    if (checkIsAuthenticated()) scheduleRefresh('quote-management/quote-template-generated');
+  }));
+
+  subscriptions.push(events.on('wishlist/alert', () => {
+    if (checkIsAuthenticated()) scheduleRefresh('wishlist/alert');
   }));
 
   const observer = new MutationObserver(() => {

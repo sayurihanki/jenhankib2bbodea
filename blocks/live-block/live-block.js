@@ -1,12 +1,9 @@
 import {
   EMPTY_ACTIVITY_TEXT,
-  FALLBACK_TEXT,
   SOURCE_STATUS,
   buildSparkline,
   escapeHtml,
-  formatCount,
   formatDateTime,
-  formatMoney,
   getCommonConfig,
   metricsByGroup,
   renderChartMarkup,

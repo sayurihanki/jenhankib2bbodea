@@ -22,6 +22,7 @@ import {
   IS_UE,
   IS_DA,
 } from './commerce.js';
+import experimentationRuntime from '../plugins/experimentation/index.js';
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -111,6 +112,7 @@ async function loadEager(doc) {
       await initializeCommerce();
       decorateMain(main);
       applyTemplates(doc);
+      await experimentationRuntime(main);
       await loadCommerceEager();
     } catch (e) {
       console.error('Error initializing commerce configuration:', e);
