@@ -642,7 +642,7 @@ function setMessage(target, message, tone = 'neutral') {
  * @param {object} state
  */
 function renderState(refs, config, state) {
-  const product = state.product;
+  const { product } = state;
   const selectedOptions = getSelectedOptions(product?.options);
   const selectedCount = getSatisfiedSelectionCount(product?.options);
   const requiredCount = getRequiredSelectionCount(product?.options);
@@ -660,7 +660,9 @@ function renderState(refs, config, state) {
 
   refs.eyebrow.textContent = config.eyebrow;
   refs.title.textContent = config.title;
-  refs.body.textContent = config.description || toPlainText(product?.shortDescription) || DEFAULTS.description;
+  refs.body.textContent = config.description
+    || toPlainText(product?.shortDescription)
+    || DEFAULTS.description;
   refs.completion.textContent = requiredCount
     ? `${selectedCount} of ${requiredCount} required attributes selected`
     : 'Live variant data is ready to refine.';
@@ -708,20 +710,20 @@ function renderState(refs, config, state) {
     renderHighlightsList(refs.highlightsList, product?.attributes);
   }
 
-  refs.stockPill.textContent = state.loading
-    ? 'Refining'
-    : product?.inStock === false
-      ? 'Unavailable'
-      : state.valid
-        ? 'Ready'
-        : 'Select';
-  refs.stockPill.dataset.tone = state.loading
-    ? 'loading'
-    : product?.inStock === false
-      ? 'warning'
-      : state.valid
-        ? 'success'
-        : 'neutral';
+  let stockPillText = 'Select';
+  let stockPillTone = 'neutral';
+  if (state.loading) {
+    stockPillText = 'Refining';
+    stockPillTone = 'loading';
+  } else if (product?.inStock === false) {
+    stockPillText = 'Unavailable';
+    stockPillTone = 'warning';
+  } else if (state.valid) {
+    stockPillText = 'Ready';
+    stockPillTone = 'success';
+  }
+  refs.stockPill.textContent = stockPillText;
+  refs.stockPill.dataset.tone = stockPillTone;
 
   if (state.loading) {
     refs.statusText.textContent = 'Refreshing the live product configuration...';
@@ -775,13 +777,15 @@ function clampQuantity(value) {
 }
 
 /**
- * @param {Array<object>} options
  * @param {string} optionId
  * @param {string} valueId
+ * @param {Array<object>} [options]
  * @returns {string[]}
  */
-function buildSelectedOptionIds(options = [], optionId, valueId) {
-  return options
+function buildSelectedOptionIds(optionId, valueId, options) {
+  const normalizedOptions = Array.isArray(options) ? options : [];
+
+  return normalizedOptions
     .map((option) => {
       if (option.id === optionId) {
         return valueId;
@@ -896,7 +900,11 @@ export default async function decorate(block) {
     addingToCart: false,
     onSelect: (option, valueId) => {
       state.loading = true;
-      const nextOptionIds = buildSelectedOptionIds(state.product?.options, option.id, valueId);
+      const nextOptionIds = buildSelectedOptionIds(
+        option.id,
+        valueId,
+        state.product?.options,
+      );
       setProductConfigurationValues((previous) => ({
         ...previous,
         quantity: clampQuantity(previous?.quantity || state.quantity),

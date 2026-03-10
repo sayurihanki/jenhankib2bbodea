@@ -85,7 +85,10 @@ body.columns main > .section > div.uniform-configurator-wrapper {
 }
 
 .uniform-configurator .cfg-hero {
-  margin-bottom: var(--spacing-large);
+  display: grid;
+  justify-items: center;
+  gap: 1.2rem;
+  margin-bottom: 4rem;
   text-align: center;
 }
 
@@ -93,7 +96,7 @@ body.columns main > .section > div.uniform-configurator-wrapper {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xsmall);
-  margin-bottom: var(--spacing-small);
+  margin-bottom: 0;
   font: var(--type-details-overline-font);
   text-transform: uppercase;
   letter-spacing: 0.2em;
@@ -114,24 +117,28 @@ body.columns main > .section > div.uniform-configurator-wrapper {
 }
 
 .uniform-configurator .cfg-hero__title {
-  margin: 0 0 var(--spacing-small);
-  font: var(--type-display-1-font);
+  max-width: 12ch;
+  margin: 0;
+  padding-bottom: 0.18em;
+  font: normal normal 700 clamp(4.8rem, 7vw, 8.4rem)/1.08 var(--type-display-font-family);
   letter-spacing: var(--type-display-1-letter-spacing);
-  line-height: 1.04;
   background: linear-gradient(135deg, var(--accent-1) 0%, var(--green-600) 40%, var(--gold) 100%);
   background-clip: text;
   color: transparent;
+  text-wrap: balance;
 }
 
 .uniform-configurator .cfg-hero__sub {
-  max-width: 58rem;
+  max-width: 68rem;
   margin: 0 auto;
   font: var(--type-body-1-default-font);
+  line-height: 1.55;
   color: var(--ink-500);
+  text-wrap: balance;
 }
 
 .uniform-configurator .cfg-steps-nav {
-  margin-bottom: var(--spacing-medium);
+  margin-bottom: 4rem;
 }
 
 .uniform-configurator .cfg-steps-nav--muted {
@@ -368,7 +375,7 @@ body.columns main > .section > div.uniform-configurator-wrapper {
 }
 
 .uniform-configurator .cfg-panel__title {
-  margin: 0 0 0.6rem;
+  margin: 0 0 1.2rem;
   font: var(--type-display-3-font);
   color: var(--ink-900);
 }
@@ -381,6 +388,10 @@ body.columns main > .section > div.uniform-configurator-wrapper {
   margin: 0;
   font: var(--type-body-2-default-font);
   color: var(--ink-400);
+}
+
+.uniform-configurator .cfg-panel__sub {
+  margin-bottom: 3.2rem;
 }
 
 .uniform-configurator .cfg-inline-copy {
@@ -1001,6 +1012,24 @@ body.columns .uniform-configurator .cfg-form-area {
     padding: var(--spacing-big) var(--spacing-small) var(--spacing-large);
   }
 
+  .uniform-configurator .cfg-hero {
+    gap: 0.8rem;
+    margin-bottom: 2.4rem;
+  }
+
+  .uniform-configurator .cfg-hero__title {
+    max-width: 100%;
+    padding-bottom: 0.1em;
+  }
+
+  .uniform-configurator .cfg-hero__sub {
+    max-width: 34rem;
+  }
+
+  .uniform-configurator .cfg-steps-nav {
+    margin-bottom: 2.4rem;
+  }
+
   .uniform-configurator .cfg-section {
     padding: 2rem;
   }
@@ -1047,6 +1076,24 @@ body.columns .uniform-configurator .cfg-form-area {
   @media (max-width: 699px) {
     .uniform-configurator > .uniform-configurator__shell {
       padding: var(--spacing-big) var(--spacing-small) var(--spacing-large);
+    }
+
+    .uniform-configurator .cfg-hero {
+      gap: 0.8rem;
+      margin-bottom: 2.4rem;
+    }
+
+    .uniform-configurator .cfg-hero__title {
+      max-width: 100%;
+      padding-bottom: 0.1em;
+    }
+
+    .uniform-configurator .cfg-hero__sub {
+      max-width: 34rem;
+    }
+
+    .uniform-configurator .cfg-steps-nav {
+      margin-bottom: 2.4rem;
     }
 
     .uniform-configurator .cfg-section {

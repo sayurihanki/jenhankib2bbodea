@@ -50,6 +50,7 @@
 }
 
 .luxury-configurator .luxury-configurator__shell > * {
+  animation: luxury-configurator-rise 420ms cubic-bezier(0.18, 0.88, 0.25, 1) both;
   position: relative;
   z-index: 1;
 }
@@ -403,23 +404,6 @@
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
-.luxury-configurator .luxury-configurator__swatch:hover,
-.luxury-configurator .luxury-configurator__swatch:focus-visible,
-.luxury-configurator .luxury-configurator__select:hover,
-.luxury-configurator .luxury-configurator__select:focus-visible,
-.luxury-configurator .luxury-configurator__primary-action:hover,
-.luxury-configurator .luxury-configurator__primary-action:focus-visible,
-.luxury-configurator .luxury-configurator__secondary-action:hover,
-.luxury-configurator .luxury-configurator__secondary-action:focus-visible,
-.luxury-configurator .luxury-configurator__quantity-button:hover,
-.luxury-configurator .luxury-configurator__quantity-button:focus-visible,
-.luxury-configurator .luxury-configurator__quantity-input:focus-visible {
-  border-color: color-mix(in srgb, var(--luxury-accent), white 24%);
-  box-shadow: 0 18px 28px color-mix(in srgb, var(--luxury-accent), transparent 82%);
-  outline: none;
-  transform: translateY(-1px);
-}
-
 .luxury-configurator .luxury-configurator__swatch[aria-pressed="true"] {
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--luxury-accent), transparent 84%) 0%, transparent 100%),
@@ -616,16 +600,29 @@
   }
 }
 
-.luxury-configurator .luxury-configurator__shell > * {
-  animation: luxury-configurator-rise 420ms cubic-bezier(0.18, 0.88, 0.25, 1) both;
-}
-
 .luxury-configurator .luxury-configurator__shell > *:nth-child(2) {
   animation-delay: 70ms;
 }
 
 .luxury-configurator .luxury-configurator__shell > *:nth-child(3) {
   animation-delay: 120ms;
+}
+
+.luxury-configurator .luxury-configurator__swatch:hover,
+.luxury-configurator .luxury-configurator__swatch:focus-visible,
+.luxury-configurator .luxury-configurator__select:hover,
+.luxury-configurator .luxury-configurator__select:focus-visible,
+.luxury-configurator .luxury-configurator__primary-action:hover,
+.luxury-configurator .luxury-configurator__primary-action:focus-visible,
+.luxury-configurator .luxury-configurator__secondary-action:hover,
+.luxury-configurator .luxury-configurator__secondary-action:focus-visible,
+.luxury-configurator .luxury-configurator__quantity-button:hover,
+.luxury-configurator .luxury-configurator__quantity-button:focus-visible,
+.luxury-configurator .luxury-configurator__quantity-input:focus-visible {
+  border-color: color-mix(in srgb, var(--luxury-accent), white 24%);
+  box-shadow: 0 18px 28px color-mix(in srgb, var(--luxury-accent), transparent 82%);
+  outline: none;
+  transform: translateY(-1px);
 }
 
 @media (max-width: 1240px) {
