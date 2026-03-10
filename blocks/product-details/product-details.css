@@ -83,6 +83,10 @@
   margin-top: var(--spacing-big);
 }
 
+.product-details.product-details--configurator-active .product-details__configuration {
+  display: none;
+}
+
 .product-details__buttons {
   display: grid;
   grid-template-columns: 1fr auto auto;

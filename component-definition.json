@@ -723,6 +723,16 @@
           }
         },
         {
+          "title": "Uniform Configurator",
+          "id": "uniform-configurator",
+          "model": "uniform-configurator",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
           "title": "Quiz Router",
           "id": "quiz-router",
           "model": "quiz-router",
@@ -741,6 +751,16 @@
       "title": "Product",
       "id": "product",
       "components": [
+        {
+          "title": "Product Configurator Luxe",
+          "id": "product-configurator-luxe",
+          "model": "product-configurator-luxe",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
         {
           "title": "Product Highlights",
           "id": "product-highlights",

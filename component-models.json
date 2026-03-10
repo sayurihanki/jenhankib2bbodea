@@ -2085,6 +2085,78 @@
     ]
   },
   {
+    "id": "product-configurator-luxe",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "schema-url",
+        "label": "Schema URL",
+        "required": true,
+        "value": "/data/configurators/bodea-network-enclosure-luxe.json"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "eyebrow-text",
+        "label": "Eyebrow Text",
+        "value": "Bodea Configurator"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Title",
+        "value": "Build your enclosure in guided steps."
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "subtitle",
+        "label": "Subtitle",
+        "value": "Select footprint, access, airflow, and operations choices with a real-time Bodea luxury summary."
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "primary-cta-label",
+        "label": "Primary CTA Label",
+        "value": "Add configured build"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "secondary-cta-label",
+        "label": "Secondary CTA Label",
+        "value": "Talk to a Bodea specialist"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "secondary-cta-href",
+        "label": "Secondary CTA Href",
+        "value": "/contact"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "theme",
+        "label": "Theme",
+        "value": "emerald",
+        "options": [
+          {
+            "name": "Emerald",
+            "value": "emerald"
+          },
+          {
+            "name": "Gold",
+            "value": "gold"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "product-highlights",
     "fields": []
   },
@@ -2756,6 +2828,67 @@
   {
     "id": "top-banner",
     "fields": []
+  },
+  {
+    "id": "uniform-configurator",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "eyebrow",
+        "label": "Eyebrow",
+        "value": "Marine Corps Uniform Division"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Title",
+        "value": "Officer Dress Blues\nPackage Builder"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "subtitle",
+        "label": "Subtitle",
+        "value": "Configure your complete male officer blue dress uniform to USMC regulation standards with real-time pricing and a live visual preview."
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "data-source",
+        "label": "Data Source",
+        "value": "/data/configurators/marine-officer-dress-blues.json"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "submit-url",
+        "label": "Submit URL",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "success-title",
+        "label": "Success Title",
+        "value": "Order Submitted"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "success-message",
+        "label": "Success Message",
+        "value": "Your Blue Dress Package is now in production. Our veteran uniform team will review your specifications and reach out within 24 hours to confirm details."
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "analytics-id",
+        "label": "Analytics ID",
+        "value": "marine-officer-dress-blues"
+      }
+    ]
   },
   {
     "id": "video",
