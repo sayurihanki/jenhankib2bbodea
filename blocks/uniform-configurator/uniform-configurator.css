@@ -2,6 +2,8 @@
 
 .uniform-configurator {
   position: relative;
+  display: block;
+  width: 100%;
 }
 
 .uniform-configurator > .uniform-configurator__shell,
@@ -31,6 +33,8 @@
 .uniform-configurator > .uniform-configurator__shell {
   --uc-shell-max: 1240px;
 
+  container-type: inline-size;
+  isolation: isolate;
   position: relative;
   z-index: 1;
   width: 100%;
@@ -38,6 +42,7 @@
   margin: 0 auto;
   padding: var(--spacing-large) var(--spacing-medium) var(--spacing-xlarge);
   color: var(--ink-800);
+  overflow-x: clip;
 }
 
 .uniform-configurator > .uniform-configurator__shell::before,
@@ -200,6 +205,10 @@
   align-items: start;
 }
 
+.uniform-configurator .cfg-layout > * {
+  min-width: 0;
+}
+
 .uniform-configurator .cfg-preview,
 .uniform-configurator .cfg-section,
 .uniform-configurator .order-summary {
@@ -211,8 +220,7 @@
 }
 
 .uniform-configurator .cfg-preview {
-  position: sticky;
-  top: 2.4rem;
+  position: static;
   overflow: hidden;
 }
 
@@ -254,7 +262,7 @@
 .uniform-configurator .cfg-preview__figure {
   position: relative;
   display: flex;
-  min-height: 32rem;
+  min-height: 24rem;
   align-items: center;
   justify-content: center;
   padding: 2.4rem;
@@ -375,6 +383,12 @@
 .uniform-configurator .cfg-panel.active {
   display: block;
   animation: panel-in 0.45s var(--ease-out) both;
+}
+
+.uniform-configurator .cfg-form-area {
+  min-width: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .uniform-configurator .cfg-section {
@@ -931,24 +945,70 @@
   }
 }
 
-@media (min-width: 960px) {
-  .uniform-configurator .cfg-layout {
-    grid-template-columns: 340px 1fr;
-    gap: var(--spacing-big);
+@container (min-width: 680px) {
+  .uniform-configurator .step-btn__label {
+    display: inline;
   }
 }
 
-@media (max-width: 959px) {
+@media (min-width: 1100px) {
+  .uniform-configurator .cfg-layout {
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: var(--spacing-big);
+  }
+
   .uniform-configurator .cfg-preview {
-    position: static;
+    position: sticky;
+    top: 2.4rem;
   }
 
   .uniform-configurator .cfg-preview__figure {
-    min-height: 24rem;
+    min-height: 32rem;
+  }
+}
+
+@container (min-width: 1100px) {
+  .uniform-configurator .cfg-layout {
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: var(--spacing-big);
+  }
+
+  .uniform-configurator .cfg-preview {
+    position: sticky;
+    top: 2.4rem;
+  }
+
+  .uniform-configurator .cfg-preview__figure {
+    min-height: 32rem;
   }
 }
 
 @media (max-width: 699px) {
+  .uniform-configurator > .uniform-configurator__shell {
+    padding: var(--spacing-big) var(--spacing-small) var(--spacing-large);
+  }
+
+  .uniform-configurator .cfg-section {
+    padding: 2rem;
+  }
+
+  .uniform-configurator .field-grid--2,
+  .uniform-configurator .field-grid--3,
+  .uniform-configurator .card-selector--split {
+    grid-template-columns: 1fr;
+  }
+
+  .uniform-configurator .cfg-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .uniform-configurator .btn {
+    width: 100%;
+  }
+}
+
+@container (max-width: 699px) {
   .uniform-configurator > .uniform-configurator__shell {
     padding: var(--spacing-big) var(--spacing-small) var(--spacing-large);
   }
