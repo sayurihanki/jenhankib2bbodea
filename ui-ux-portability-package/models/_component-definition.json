@@ -44,9 +44,6 @@
           "...": "../blocks/fragment/_*.json#/definitions"
         },
         {
-          "...": "../blocks/experiment-slot/_*.json#/definitions"
-        },
-        {
           "...": "../blocks/hero/_*.json#/definitions"
         },
         {

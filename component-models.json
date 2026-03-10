@@ -639,60 +639,6 @@
     ]
   },
   {
-    "id": "experiment-slot",
-    "fields": [
-      {
-        "component": "text",
-        "name": "slotId",
-        "label": "Slot ID",
-        "valueType": "string",
-        "required": true
-      },
-      {
-        "component": "select",
-        "name": "surfaceHint",
-        "label": "Surface Hint",
-        "valueType": "string",
-        "value": "block",
-        "options": [
-          {
-            "name": "Page",
-            "value": "page"
-          },
-          {
-            "name": "Section",
-            "value": "section"
-          },
-          {
-            "name": "Block",
-            "value": "block"
-          },
-          {
-            "name": "Fragment",
-            "value": "fragment"
-          }
-        ]
-      },
-      {
-        "component": "richtext",
-        "name": "content",
-        "label": "Fallback Content"
-      },
-      {
-        "component": "text",
-        "name": "fallbackFragment",
-        "label": "Fallback Fragment",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "name": "notes",
-        "label": "Notes",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
     "id": "form-2",
     "fields": [
       {

@@ -7,6 +7,7 @@ import {
   decorateBlocks,
   decorateTemplateAndTheme,
   waitForFirstImage,
+  loadBlock,
   loadSection,
   loadSections,
   loadCSS,
@@ -22,7 +23,7 @@ import {
   IS_UE,
   IS_DA,
 } from './commerce.js';
-import experimentationRuntime from '../plugins/experimentation/index.js';
+import { runExperimentation } from './experiment-loader.js';
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -98,6 +99,30 @@ export function decorateMain(main) {
   decorateBlocks(main);
 }
 
+const experimentationConfig = {
+  audiences: {},
+  decorateFunction: async (el) => {
+    if (el.matches('main')) {
+      decorateMain(el);
+      await loadSections(el);
+      return;
+    }
+
+    if (el.matches('.section')) {
+      el.dataset.sectionStatus = 'initialized';
+      decorateBlocks(el);
+      await loadSection(el);
+      return;
+    }
+
+    const block = el.matches('.block') ? el : el.closest('.block');
+    if (block) {
+      block.dataset.blockStatus = 'initialized';
+      await loadBlock(block);
+    }
+  },
+};
+
 /**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
@@ -105,6 +130,7 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  await runExperimentation(doc, experimentationConfig);
 
   const main = doc.querySelector('main');
   if (main) {
@@ -112,7 +138,6 @@ async function loadEager(doc) {
       await initializeCommerce();
       decorateMain(main);
       applyTemplates(doc);
-      await experimentationRuntime(main);
       await loadCommerceEager();
     } catch (e) {
       console.error('Error initializing commerce configuration:', e);

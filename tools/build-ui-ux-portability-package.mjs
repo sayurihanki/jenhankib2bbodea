@@ -45,6 +45,7 @@ const coreCopyEntries = [
 const runtimeScriptFiles = [
   'aem.js',
   'scripts.js',
+  'experiment-loader.js',
   'commerce.js',
   'delayed.js',
   'ue.js',
@@ -96,6 +97,14 @@ function copyRuntimeScripts() {
   runtimeScriptDirs.forEach((dirName) => {
     cpSync(join(scriptsSourceDir, dirName), join(scriptsTargetDir, dirName), { recursive: true });
   });
+}
+
+function copyExperimentationPluginSource() {
+  const experimentationSourceDir = join(repoRoot, 'plugins', 'experimentation', 'src');
+  const experimentationTargetDir = join(outputDir, 'plugins', 'experimentation', 'src');
+
+  ensureDir(dirname(experimentationTargetDir));
+  cpSync(experimentationSourceDir, experimentationTargetDir, { recursive: true });
 }
 
 function walkFiles(absDir, matcher) {
@@ -928,6 +937,7 @@ function run() {
   resetOutput();
   copyCoreFiles();
   copyRuntimeScripts();
+  copyExperimentationPluginSource();
 
   const manifests = {
     blockInventory: buildBlockInventory(),

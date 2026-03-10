@@ -82,7 +82,6 @@
 | `commerce-wishlist` | `commerce` | `core` | 1 | 1 |
 | `embed` | `interactive-content` | `engagement` | 1 | 1 |
 | `enrichment` | `content` | `general` | 1 | 1 |
-| `experiment-slot` | `content` | `general` | 1 | 1 |
 | `features-grid` | `content` | `general` | 1 | 1 |
 | `footer` | `shell` | `navigation-and-layout` | 1 | 1 |
 | `form` | `forms` | `authorable-forms` | 1 | 2 |

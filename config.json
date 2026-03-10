@@ -39,14 +39,6 @@
         "website-id": "base",
         "website-name": "Main Website"
       },
-      "experimentation": {
-        "registry-path": "/data/experiments/registry.json",
-        "site-id": "bodea-b2b",
-        "debug-enabled": true,
-        "assignment-ttl-seconds": 2592000,
-        "slot-hide-timeout-ms": 160,
-        "metrics-adapter": "mock/local"
-      },
       "plugins": {
         "picker": {
           "rootCategory": "5"

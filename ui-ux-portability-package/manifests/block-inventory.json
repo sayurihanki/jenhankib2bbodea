@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-03-10T15:52:55.317Z",
+  "generatedAt": "2026-03-10T19:32:30.760Z",
   "summary": {
-    "totalBlocks": 110,
-    "withStyles": 110,
-    "withRuntime": 110,
+    "totalBlocks": 109,
+    "withStyles": 109,
+    "withRuntime": 109,
     "byCategory": {
       "interactive-content": 9,
-      "content": 37,
+      "content": 36,
       "commerce": 55,
       "shell": 5,
       "forms": 4
@@ -1449,29 +1449,6 @@
       "hasStyles": true,
       "hasRuntime": true,
       "fileCount": 3
-    },
-    {
-      "name": "experiment-slot",
-      "category": "content",
-      "subcategory": "general",
-      "title": "Experiment Slot",
-      "overview": "`experiment-slot` marks a DA-authored surface as a replacement target for link-driven experiments.",
-      "sourcePath": "blocks/experiment-slot",
-      "files": {
-        "css": [
-          "blocks/experiment-slot/experiment-slot.css"
-        ],
-        "js": [
-          "blocks/experiment-slot/experiment-slot.js"
-        ],
-        "json": [
-          "blocks/experiment-slot/_experiment-slot.json"
-        ],
-        "readme": "blocks/experiment-slot/README.md"
-      },
-      "hasStyles": true,
-      "hasRuntime": true,
-      "fileCount": 4
     },
     {
       "name": "features-grid",

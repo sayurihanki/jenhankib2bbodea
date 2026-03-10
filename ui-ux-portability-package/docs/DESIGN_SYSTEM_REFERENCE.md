@@ -41,13 +41,13 @@
 
 ## Component Inventory Summary
 
-- Total blocks: `110`
-- Blocks with CSS: `110`
-- Blocks with JS runtime: `110`
+- Total blocks: `109`
+- Blocks with CSS: `109`
+- Blocks with JS runtime: `109`
 
 Category distribution:
 - `interactive-content`: 9
-- `content`: 37
+- `content`: 36
 - `commerce`: 55
 - `shell`: 5
 - `forms`: 4

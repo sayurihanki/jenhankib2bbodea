@@ -228,16 +228,6 @@
           }
         },
         {
-          "title": "Experiment Slot",
-          "id": "experiment-slot",
-          "model": "experiment-slot",
-          "plugins": {
-            "da": {
-              "type": "key-value-block"
-            }
-          }
-        },
-        {
           "title": "Hero",
           "id": "hero",
           "model": "hero",
