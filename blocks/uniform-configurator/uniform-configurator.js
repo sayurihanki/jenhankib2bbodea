@@ -25,7 +25,6 @@ import {
 import {
   buildCommerceContractIndex,
   createUniformCommerceCartItem,
-  describeCommerceContractIssue,
   mergeCommerceContractProduct,
   shouldAttemptCoreCustomizableFallback,
   validateCommerceProductContract,
@@ -1113,31 +1112,13 @@ function updateShippingSection(runtime) {
 
 function updateContractState(runtime) {
   const contractError = runtime.block.querySelector('#uc-contract-error');
-  const { contractValidation } = runtime;
 
   if (!contractError) {
     return;
   }
 
-  if (!runtime.commerceMode || !contractValidation || contractValidation.valid) {
-    contractError.hidden = true;
-    contractError.replaceChildren();
-    return;
-  }
-
-  const issuesMarkup = contractValidation.missing
-    .map((issue) => `<li>${escapeHtml(describeCommerceContractIssue(issue))}</li>`)
-    .join('');
-  const blockerCopy = contractValidation.blockerMessage
-    ? `<p>${escapeHtml(contractValidation.blockerMessage)}</p>`
-    : '<p>The authored SKU is missing required Commerce options for this configurator:</p>';
-
-  contractError.innerHTML = `
-    <strong>Commerce contract mismatch</strong>
-    ${blockerCopy}
-    <ul>${issuesMarkup}</ul>
-  `;
-  contractError.hidden = false;
+  contractError.hidden = true;
+  contractError.replaceChildren();
 }
 
 function updateSubmitState(runtime) {
@@ -1641,7 +1622,10 @@ export default async function decorate(block) {
       if (shouldAttemptCoreCustomizableFallback(contractProduct)) {
         const coreProductResult = await ensureCoreFallback();
         if (coreProductResult.product?.sku) {
-          contractProduct = mergeCommerceContractProduct(contractProduct, coreProductResult.product);
+          contractProduct = mergeCommerceContractProduct(
+            contractProduct,
+            coreProductResult.product,
+          );
         } else if (coreProductResult.error) {
           blockerMessage = coreProductResult.error.message;
         }
@@ -1658,7 +1642,10 @@ export default async function decorate(block) {
       if (shouldAttemptCoreCustomizableFallback(contractProduct, contractValidation)) {
         const coreProductResult = await ensureCoreFallback();
         if (coreProductResult.product?.sku) {
-          contractProduct = mergeCommerceContractProduct(contractProduct, coreProductResult.product);
+          contractProduct = mergeCommerceContractProduct(
+            contractProduct,
+            coreProductResult.product,
+          );
           contractValidation = validateCommerceProductContract(data, contractProduct);
         } else if (coreProductResult.error) {
           blockerMessage = coreProductResult.error.message;
