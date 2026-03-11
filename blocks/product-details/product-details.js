@@ -132,6 +132,17 @@ async function mountConfiguratorFallback(container, block, product) {
   block.classList.add('product-details--configurator-active');
   await loadBlock(fallbackBlock);
 
+  const didRenderConfigurator = Boolean(
+    fallbackBlock.querySelector('.uniform-configurator__shell')
+    || fallbackBlock.querySelector('.uniform-configurator-block-message'),
+  );
+
+  if (!didRenderConfigurator) {
+    block.classList.remove('product-details--configurator-active');
+    container.replaceChildren();
+    return false;
+  }
+
   return true;
 }
 
