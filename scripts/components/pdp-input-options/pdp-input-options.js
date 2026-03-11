@@ -301,15 +301,24 @@ export async function mountProductInputOptions(
   let currentEnteredOptions = [];
   let initialSeed = normalizeEnteredOptions(initialEnteredOptions);
   const errors = new Map();
+  let lastExternalValid = true;
+  let isSyncingValid = false;
+
+  function computeCombinedValidity(enteredOptions = currentEnteredOptions) {
+    const values = pdpApi.getProductConfigurationValues({ scope }) || {};
+    const productIsValid = validateRequiredProductConfiguration(product, {
+      ...values,
+      enteredOptions,
+    });
+
+    return Boolean(lastExternalValid) && productIsValid;
+  }
 
   function syncValidation(enteredOptions = currentEnteredOptions) {
-    const values = pdpApi.getProductConfigurationValues({ scope }) || {};
-
+    const nextValid = computeCombinedValidity(enteredOptions);
+    isSyncingValid = true;
     pdpApi.setProductConfigurationValid(
-      () => validateRequiredProductConfiguration(product, {
-        ...values,
-        enteredOptions,
-      }),
+      () => nextValid,
       { scope },
     );
   }
@@ -494,10 +503,25 @@ export async function mountProductInputOptions(
     render();
   }, { scope, eager: true });
 
+  const validListener = events.on('pdp/valid', (nextValid) => {
+    if (isSyncingValid) {
+      isSyncingValid = false;
+      return;
+    }
+
+    lastExternalValid = nextValid !== false;
+    const combinedValid = computeCombinedValidity();
+
+    if (combinedValid !== nextValid) {
+      syncValidation();
+    }
+  }, { scope, eager: true });
+
   return {
     destroy() {
       valuesListener?.off?.();
       productListener?.off?.();
+      validListener?.off?.();
     },
   };
 }

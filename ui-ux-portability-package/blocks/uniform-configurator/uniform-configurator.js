@@ -1093,13 +1093,13 @@ function applyRuntimeLayout(runtime) {
     0,
   );
   const effectiveWidth = measuredWidth || window.innerWidth || 0;
-  const isWideLayout = effectiveWidth >= 1040;
+  const isWideLayout = effectiveWidth >= 1100;
 
   layout.style.display = 'flex';
   layout.style.flexDirection = isWideLayout ? 'row' : 'column';
   layout.style.flexWrap = 'nowrap';
   layout.style.alignItems = 'flex-start';
-  layout.style.gap = isWideLayout ? 'var(--spacing-big)' : 'var(--spacing-medium)';
+  layout.style.gap = isWideLayout ? 'var(--uc-layout-gap-desktop)' : 'var(--uc-layout-gap-mobile)';
 
   preview.style.order = '0';
   preview.style.position = isWideLayout ? 'sticky' : 'static';
@@ -1109,7 +1109,7 @@ function applyRuntimeLayout(runtime) {
   preview.style.maxWidth = isWideLayout ? '340px' : '100%';
   preview.style.alignSelf = isWideLayout ? 'flex-start' : 'stretch';
 
-  previewFigure.style.minHeight = isWideLayout ? '32rem' : '24rem';
+  previewFigure.style.minHeight = isWideLayout ? '29rem' : '22rem';
 
   formArea.style.order = '1';
   formArea.style.display = 'block';

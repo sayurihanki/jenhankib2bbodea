@@ -160,7 +160,7 @@ body.columns main > .section > div.uniform-configurator-wrapper {
   margin: 0;
   font: normal normal 700 clamp(3.8rem, 6vw, 6.4rem)/0.94 var(--type-display-font-family);
   letter-spacing: -0.05em;
-  color: var(--green-600);
+  color: var(--green-600) !important;
   text-shadow: 0 10px 28px rgb(15 61 36 / 10%);
   text-wrap: pretty;
 }
@@ -170,7 +170,7 @@ body.columns main > .section > div.uniform-configurator-wrapper {
   margin: 0 auto;
   font: var(--type-body-1-default-font);
   line-height: 1.55;
-  color: var(--ink-600);
+  color: var(--ink-600) !important;
   text-wrap: pretty;
 }
 
