@@ -1698,13 +1698,6 @@
       {
         "component": "text",
         "valueType": "string",
-        "name": "product-url",
-        "label": "Linked Product URL",
-        "value": "/products/medal-rack-direct-order/medalrackconfigurator"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
         "name": "eyebrow",
         "label": "Eyebrow",
         "value": "Service and Honor Collection"

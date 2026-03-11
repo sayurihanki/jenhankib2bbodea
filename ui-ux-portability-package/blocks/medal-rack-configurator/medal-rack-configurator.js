@@ -1,43 +1,17 @@
-import { events } from '@dropins/tools/event-bus.js';
-import {
-  fetchProductData,
-  getProductConfigurationValues,
-  isProductConfigurationValid,
-  setEndpoint,
-  setProductConfigurationValid,
-  setProductConfigurationValues,
-} from '@dropins/storefront-pdp/api.js';
-import { addProductsToCart } from '@dropins/storefront-cart/api.js';
-
 import { readBlockConfig } from '../../scripts/aem.js';
-import {
-  CS_FETCH_GRAPHQL,
-  rootLink,
-} from '../../scripts/commerce.js';
-import { transformProductInputOptions } from '../../scripts/components/pdp-input-options/pdp-input-options.js';
-import '../../scripts/initializers/cart.js';
 import {
   DEFAULT_BLOCK_CONTENT,
   DEFAULT_DATA_SOURCE,
   MAX_INSCRIPTION_LENGTH,
-  MEDAL_RACK_PAGE_FLAG,
-  buildBaseCartPayload,
-  buildEnteredOptionsPayload,
-  computePricing,
   createInitialState,
+  createPrototypeActionState,
+  computePricing,
   formatCurrency,
-  getAwardSelectionState,
-  getAwardsForBranch,
-  getConfigurationValidation,
-  getConfiguredSku,
   getPreviewState,
   getSummaryChips,
-  mapSelectionsToOptionsUIDs,
   normalizeDataset,
-  normalizeKey,
-  resolveCommerceOptionMappings,
   sanitizeInscriptionValue,
-  syncAwardsForBranch,
+  toggleAddonId,
 } from './medal-rack-configurator.lib.js';
 
 const SOURCE_HOSTS = new Set(['da.live', 'www.da.live', 'content.da.live']);
@@ -76,14 +50,16 @@ function getConfig(block) {
 
   return {
     dataSource: normalizeSingleLine(config['data-source'], DEFAULT_DATA_SOURCE),
-    productSku: normalizeSingleLine(config['product-sku'], ''),
-    productUrl: normalizeSingleLine(config['product-url'], ''),
     eyebrow: normalizeSingleLine(config.eyebrow, DEFAULT_BLOCK_CONTENT.eyebrow),
     title: normalizeMultiline(config.title, DEFAULT_BLOCK_CONTENT.title),
     subtitle: normalizeMultiline(config.subtitle, DEFAULT_BLOCK_CONTENT.subtitle),
     primaryCtaLabel: normalizeSingleLine(
       config['primary-cta-label'],
       DEFAULT_BLOCK_CONTENT.primaryCtaLabel,
+    ),
+    prototypeNote: normalizeMultiline(
+      config['prototype-note'],
+      DEFAULT_BLOCK_CONTENT.prototypeNote,
     ),
   };
 }
@@ -101,9 +77,7 @@ function resolveDataSourceUrl(rawSource) {
   }
 
   if (!SOURCE_HOSTS.has(url.hostname)) {
-    throw new Error(
-      'Medal rack configurator data source must be repo-relative or hosted on da.live.',
-    );
+    throw new Error('Medal rack configurator data source must be repo-relative or hosted on da.live.');
   }
 
   return url.toString();
@@ -125,107 +99,6 @@ function showBlockMessage(block, type, message) {
   element.dataset.type = type;
   element.textContent = message;
   block.replaceChildren(element);
-}
-
-function extractSkuFromProductUrl(rawUrl = '') {
-  if (!rawUrl) {
-    return '';
-  }
-
-  try {
-    const url = new URL(rawUrl, window.location.origin);
-    const match = url.pathname.match(/\/products\/[^/]+\/([^/?#]+)/);
-    if (match?.[1]) {
-      return decodeURIComponent(match[1]);
-    }
-
-    const segments = url.pathname.split('/').filter(Boolean);
-    return decodeURIComponent(segments[segments.length - 1] || '');
-  } catch (error) {
-    return '';
-  }
-}
-
-function resolveLinkedSku(config, data) {
-  return config.productSku
-    || extractSkuFromProductUrl(config.productUrl)
-    || data.commerce.baseSku;
-}
-
-async function waitForProductData(expectedSku, timeout = 1500) {
-  const current = events.lastPayload('pdp/data');
-  if (!expectedSku && current) {
-    return current;
-  }
-
-  if (current && normalizeKey(current.sku) === normalizeKey(expectedSku)) {
-    return current;
-  }
-
-  if (timeout <= 0) {
-    return null;
-  }
-
-  return new Promise((resolve) => {
-    let subscription;
-    const timer = window.setTimeout(() => {
-      subscription?.off?.();
-      resolve(null);
-    }, timeout);
-
-    subscription = events.on('pdp/data', (payload) => {
-      if (expectedSku && normalizeKey(payload?.sku) !== normalizeKey(expectedSku)) {
-        return;
-      }
-
-      window.clearTimeout(timer);
-      subscription?.off?.();
-      resolve(payload);
-    });
-  });
-}
-
-async function fetchStandaloneProduct(sku) {
-  if (!sku) {
-    throw new Error('A linked product SKU is required for standalone medal rack previews.');
-  }
-
-  setEndpoint(CS_FETCH_GRAPHQL);
-
-  const [product, rawProduct] = await Promise.all([
-    fetchProductData(sku),
-    fetchProductData(sku, { skipTransform: true }),
-  ]);
-
-  if (!product?.sku && !rawProduct?.sku) {
-    throw new Error(`Unable to load Commerce product "${sku}".`);
-  }
-
-  return {
-    ...product,
-    sku: product?.sku || rawProduct?.sku || sku,
-    inputOptions: transformProductInputOptions(rawProduct),
-  };
-}
-
-async function resolveInitialProduct(config, data) {
-  const linkedSku = resolveLinkedSku(config, data);
-  const hasPdpShell = Boolean(document.querySelector('main .product-details'));
-  const liveProduct = await waitForProductData(linkedSku, hasPdpShell ? 1500 : 0);
-
-  if (liveProduct) {
-    return {
-      product: liveProduct,
-      linkedSku,
-      detached: false,
-    };
-  }
-
-  return {
-    product: await fetchStandaloneProduct(linkedSku),
-    linkedSku,
-    detached: true,
-  };
 }
 
 function getUid() {
@@ -376,7 +249,7 @@ function buildShell(block, runtime) {
             ${getPreviewSvgMarkup(runtime.uid)}
           </div>
           <div class="medal-rack-configurator__preview-readout">
-            <span class="medal-rack-configurator__label">Live rack preview</span>
+            <span class="medal-rack-configurator__label">Live prototype preview</span>
             <strong class="medal-rack-configurator__preview-detail-title"></strong>
             <p class="medal-rack-configurator__preview-detail-text"></p>
             <div class="medal-rack-configurator__summary-chips"></div>
@@ -407,17 +280,18 @@ function buildShell(block, runtime) {
           <div class="medal-rack-configurator__groups"></div>
           <div class="medal-rack-configurator__action-rail">
             <div class="medal-rack-configurator__action-pills">
-              <span>Commerce-backed pricing</span>
-              <span>Custom award manifest</span>
-              <span>Add-ons available soon</span>
+              <span>Regulation-aware preview</span>
+              <span>Hardwood finishes</span>
+              <span>Prototype only</span>
             </div>
+            <button type="button" class="medal-rack-configurator__cta"></button>
             <p
-              class="medal-rack-configurator__status"
+              class="medal-rack-configurator__prototype-note"
+              tabindex="-1"
               role="status"
               aria-live="polite"
               hidden
             ></p>
-            <button type="button" class="medal-rack-configurator__cta"></button>
           </div>
         </div>
       </div>
@@ -448,13 +322,9 @@ function buildShell(block, runtime) {
     breakdown: fragment.querySelector('.medal-rack-configurator__breakdown'),
     breakdownRows: fragment.querySelector('.medal-rack-configurator__breakdown-rows'),
     groups: fragment.querySelector('.medal-rack-configurator__groups'),
-    status: fragment.querySelector('.medal-rack-configurator__status'),
     cta: fragment.querySelector('.medal-rack-configurator__cta'),
+    prototypeNote: fragment.querySelector('.medal-rack-configurator__prototype-note'),
     inscriptionPreview: null,
-    awardsMeta: null,
-    awardsValidation: null,
-    awardsList: null,
-    awardsSummary: null,
   };
 
   renderMultilineText(refs.title, runtime.config.title);
@@ -464,12 +334,6 @@ function buildShell(block, runtime) {
   block.replaceChildren(fragment);
 
   return refs;
-}
-
-function setStatus(refs, message = '', type = 'info') {
-  refs.status.dataset.type = type;
-  refs.status.textContent = message;
-  refs.status.hidden = !message;
 }
 
 function appendGroupHeader(fieldset, stepLabel, title, helpText) {
@@ -504,7 +368,7 @@ function buildSizeGroup(runtime) {
     const dimensions = createElement(
       'span',
       'medal-rack-configurator__size-dimensions',
-      `${size.dimensions} · Up to ${size.maxAwards} awards`,
+      size.dimensions,
     );
     const price = createElement(
       'span',
@@ -615,7 +479,7 @@ function buildBranchGroup(runtime) {
     fieldset,
     '04',
     'Branch of Service',
-    'The watermark and available awards change with the selected branch.',
+    'The watermark and regulation context change with the selected branch.',
   );
 
   runtime.data.branches.forEach((branch) => {
@@ -649,7 +513,7 @@ function buildInscriptionGroup(runtime, refs) {
     fieldset,
     '05',
     'Inscription',
-    `Required engraving text. Maximum ${MAX_INSCRIPTION_LENGTH} characters.`,
+    `Engraved nameplate text. Maximum ${MAX_INSCRIPTION_LENGTH} characters.`,
   );
 
   input.type = 'text';
@@ -664,44 +528,21 @@ function buildInscriptionGroup(runtime, refs) {
   return fieldset;
 }
 
-function buildAwardsGroup(runtime, refs) {
-  const fieldset = createElement('fieldset', 'medal-rack-configurator__group');
-  const meta = createElement('div', 'medal-rack-configurator__awards-meta');
-  const validation = createElement('p', 'medal-rack-configurator__awards-validation');
-  const list = createElement('div', 'medal-rack-configurator__awards-list');
-  const summary = createElement('div', 'medal-rack-configurator__awards-summary');
-
-  appendGroupHeader(
-    fieldset,
-    '06',
-    'Awards',
-    'Select each mounted award and quantity. The manifest is generated automatically in precedence order.',
-  );
-
-  validation.hidden = true;
-  fieldset.append(meta, validation, list, summary);
-
-  refs.awardsMeta = meta;
-  refs.awardsValidation = validation;
-  refs.awardsList = list;
-  refs.awardsSummary = summary;
-
-  return fieldset;
-}
-
 function buildAddonsGroup(runtime) {
   const fieldset = createElement('fieldset', 'medal-rack-configurator__group');
   const list = createElement('div', 'medal-rack-configurator__addon-list');
 
   appendGroupHeader(
     fieldset,
-    '07',
+    '06',
     'Add-ons',
-    'These presentation extras stay visible for planning, but they are not yet available for online ordering.',
+    'Layer in presentation and archival accessories to complete the display package.',
   );
 
   runtime.data.addons.forEach((addon) => {
-    const card = createElement('article', 'medal-rack-configurator__addon-card is-disabled');
+    const label = createElement('label', 'medal-rack-configurator__addon-option');
+    const input = createElement('input');
+    const card = createElement('span', 'medal-rack-configurator__addon-card');
     const icon = createElement('span', 'medal-rack-configurator__addon-icon', addon.icon);
     const copy = createElement('span', 'medal-rack-configurator__addon-copy');
     const name = createElement('span', 'medal-rack-configurator__addon-name', addon.label);
@@ -710,18 +551,22 @@ function buildAddonsGroup(runtime) {
       'medal-rack-configurator__addon-description',
       addon.description,
     );
-    const footer = createElement('span', 'medal-rack-configurator__addon-footer');
     const price = createElement(
       'span',
       'medal-rack-configurator__addon-price',
       formatCurrency(addon.price, runtime.data.currency),
     );
-    const pill = createElement('span', 'medal-rack-configurator__addon-pill', 'Available soon');
+
+    input.type = 'checkbox';
+    input.name = `${runtime.uid}-addon-${addon.id}`;
+    input.value = addon.id;
+    input.checked = runtime.state.addonIds.includes(addon.id);
+    input.dataset.control = 'addon';
 
     copy.append(name, description);
-    footer.append(price, pill);
-    card.append(icon, copy, footer);
-    list.append(card);
+    card.append(icon, copy, price);
+    label.append(input, card);
+    list.append(label);
   });
 
   fieldset.append(list);
@@ -735,7 +580,6 @@ function buildGroups(runtime, refs) {
     buildHardwareGroup(runtime),
     buildBranchGroup(runtime),
     buildInscriptionGroup(runtime, refs),
-    buildAwardsGroup(runtime, refs),
     buildAddonsGroup(runtime),
   );
 }
@@ -753,7 +597,7 @@ function renderSummaryChips(container, chips) {
   container.replaceChildren(...nodes);
 }
 
-function renderBreakdown(refs, pricing, displayTotal) {
+function renderBreakdown(refs, pricing) {
   const rows = pricing.lines.map((line) => {
     const row = createElement('div', 'medal-rack-configurator__breakdown-row');
     row.append(
@@ -776,124 +620,11 @@ function renderBreakdown(refs, pricing, displayTotal) {
     createElement(
       'strong',
       'medal-rack-configurator__breakdown-value',
-      formatCurrency(displayTotal, pricing.currency),
+      formatCurrency(pricing.total, pricing.currency),
     ),
   );
 
   refs.breakdownRows.replaceChildren(...rows, totalRow);
-}
-
-function getDisplayTotal(runtime) {
-  const liveAmount = Number(runtime.product?.prices?.final?.amount);
-  if (Number.isFinite(liveAmount)) {
-    return liveAmount;
-  }
-
-  return computePricing(runtime.data, runtime.state).total;
-}
-
-function getDisplayCurrency(runtime) {
-  return runtime.product?.prices?.final?.currency || runtime.data.currency;
-}
-
-function renderAwards(runtime, refs) {
-  const awardState = getAwardSelectionState(runtime.data, runtime.state);
-  const branchAwards = getAwardsForBranch(runtime.data, runtime.state.branchId);
-  const branchLabel = runtime.data.branches.find(
-    (branch) => branch.id === runtime.state.branchId,
-  )?.label || 'Selected';
-  const limitCopy = awardState.maxAwards
-    ? `${awardState.total} of ${awardState.maxAwards} awards selected`
-    : `${awardState.total} awards selected`;
-
-  refs.awardsMeta.textContent = `${branchLabel} manifest · ${limitCopy}`;
-  refs.awardsValidation.hidden = !awardState.overLimit;
-  refs.awardsValidation.textContent = awardState.overLimit
-    ? `${branchLabel} ${runtime.data.sizes.find((size) => size.id === runtime.state.sizeId)?.label || 'size'} supports up to ${awardState.maxAwards} awards.`
-    : '';
-
-  const selectedCountById = awardState.awards.reduce((acc, award) => {
-    acc[award.id] = award.quantity;
-    return acc;
-  }, {});
-
-  const cards = branchAwards.map((award) => {
-    const quantity = selectedCountById[award.id] || 0;
-    const card = createElement('article', 'medal-rack-configurator__award-card');
-    const copy = createElement('div', 'medal-rack-configurator__award-copy');
-    const kicker = createElement(
-      'span',
-      'medal-rack-configurator__award-kicker',
-      `Precedence ${award.precedence} · ${award.type}`,
-    );
-    const title = createElement('strong', 'medal-rack-configurator__award-title', award.label);
-    const controls = createElement('div', 'medal-rack-configurator__award-controls');
-    const decrement = createElement(
-      'button',
-      'medal-rack-configurator__award-stepper',
-      '−',
-    );
-    const quantityValue = createElement(
-      'span',
-      'medal-rack-configurator__award-quantity',
-      String(quantity),
-    );
-    const increment = createElement(
-      'button',
-      'medal-rack-configurator__award-stepper',
-      '+',
-    );
-
-    if (quantity > 0) {
-      card.classList.add('is-selected');
-    }
-
-    decrement.type = 'button';
-    decrement.dataset.awardAction = 'decrement';
-    decrement.dataset.awardId = award.id;
-    decrement.disabled = quantity <= 0;
-
-    increment.type = 'button';
-    increment.dataset.awardAction = 'increment';
-    increment.dataset.awardId = award.id;
-    increment.disabled = awardState.maxAwards > 0 && awardState.total >= awardState.maxAwards;
-
-    copy.append(kicker, title);
-    controls.append(decrement, quantityValue, increment);
-    card.append(copy, controls);
-    return card;
-  });
-
-  refs.awardsList.replaceChildren(...cards);
-
-  if (!awardState.awards.length) {
-    const empty = createElement(
-      'p',
-      'medal-rack-configurator__awards-empty',
-      'No awards selected yet. Add one or more awards to build the manifest.',
-    );
-    refs.awardsSummary.replaceChildren(empty);
-    return;
-  }
-
-  const summaryItems = awardState.awards.map((award) => {
-    const item = createElement('div', 'medal-rack-configurator__award-summary-item');
-    item.append(
-      createElement(
-        'span',
-        'medal-rack-configurator__award-summary-label',
-        `${award.precedence}. ${award.label}`,
-      ),
-      createElement(
-        'strong',
-        'medal-rack-configurator__award-summary-qty',
-        `qty:${award.quantity}`,
-      ),
-    );
-    return item;
-  });
-
-  refs.awardsSummary.replaceChildren(...summaryItems);
 }
 
 function renderPreview(runtime, refs) {
@@ -921,7 +652,7 @@ function renderPreview(runtime, refs) {
     runtime.state.hardwareId === 'pewter' ? '#f5f0e8' : '#120d08',
   );
   refs.previewDetailTitle.textContent = `${preview.sizeLabel} ${preview.sizeDimensions}`;
-  refs.previewDetailText.textContent = `${preview.woodLabel} hardwood, ${preview.hardwareLabel} hardware, ${preview.branchLabel} watermark, ${preview.awardCount} of ${preview.maxAwards} awards selected.`;
+  refs.previewDetailText.textContent = `${preview.woodLabel} hardwood, ${preview.hardwareLabel} hardware, ${preview.branchLabel} watermark.`;
 
   if (refs.inscriptionPreview) {
     refs.inscriptionPreview.textContent = preview.inscription;
@@ -932,190 +663,30 @@ function renderPreview(runtime, refs) {
 
 function renderPricing(runtime, refs) {
   const pricing = computePricing(runtime.data, runtime.state);
-  const currency = getDisplayCurrency(runtime);
-  const displayTotal = getDisplayTotal(runtime);
-  const validation = runtime.validation || getConfigurationValidation(runtime.data, runtime.state);
-  let ctaLabel = `${runtime.config.primaryCtaLabel} - ${formatCurrency(displayTotal, currency)}`;
+  const actionState = createPrototypeActionState(
+    runtime.config,
+    runtime.state.prototypeNoteVisible,
+  );
 
-  if (runtime.adding) {
-    ctaLabel = 'Adding to cart...';
-  } else if (runtime.syncing) {
-    ctaLabel = 'Syncing configuration...';
-  }
-
-  refs.priceValue.textContent = formatCurrency(displayTotal, currency);
+  refs.priceValue.textContent = formatCurrency(pricing.total, pricing.currency);
   refs.breakdown.hidden = !runtime.state.breakdownOpen;
-  refs.breakdownToggle.setAttribute('aria-expanded', String(runtime.state.breakdownOpen));
+  refs.breakdownToggle.setAttribute(
+    'aria-expanded',
+    String(runtime.state.breakdownOpen),
+  );
   refs.breakdownToggle.textContent = runtime.state.breakdownOpen
     ? 'Hide breakdown'
     : 'See breakdown';
-  refs.cta.disabled = runtime.adding || runtime.syncing || !isProductConfigurationValid();
-  refs.cta.textContent = ctaLabel;
+  refs.cta.textContent = `${actionState.label} - ${formatCurrency(pricing.total, pricing.currency)}`;
+  refs.prototypeNote.hidden = !runtime.state.prototypeNoteVisible;
+  refs.prototypeNote.textContent = actionState.message;
 
-  renderBreakdown(refs, { ...pricing, currency }, displayTotal);
-
-  if (runtime.statusMessage) {
-    setStatus(refs, runtime.statusMessage, runtime.statusType || 'info');
-  } else if (validation.message && !validation.valid) {
-    setStatus(refs, validation.message, 'warning');
-  } else {
-    setStatus(refs, '', 'info');
-  }
+  renderBreakdown(refs, pricing);
 }
 
 function renderRuntime(runtime, refs) {
   renderPreview(runtime, refs);
-  renderAwards(runtime, refs);
   renderPricing(runtime, refs);
-}
-
-function setRuntimeStatus(runtime, message = '', type = 'info') {
-  runtime.statusMessage = message;
-  runtime.statusType = type;
-}
-
-function applyCommerceConfiguration(runtime) {
-  runtime.validation = getConfigurationValidation(runtime.data, runtime.state);
-  runtime.currentOptionsUIDs = mapSelectionsToOptionsUIDs(
-    runtime.state,
-    runtime.mappings.selectable,
-  );
-  runtime.currentEnteredOptions = buildEnteredOptionsPayload(
-    runtime.data,
-    runtime.state,
-    runtime.mappings.enteredOptions,
-  );
-
-  setProductConfigurationValues((previous = {}) => ({
-    ...previous,
-    sku: getConfiguredSku(runtime.product, runtime.data.commerce.baseSku),
-    quantity: 1,
-    optionsUIDs: runtime.currentOptionsUIDs,
-    enteredOptions: runtime.currentEnteredOptions,
-  }));
-
-  setProductConfigurationValid(() => runtime.validation.valid);
-}
-
-async function syncCommerceProduct(runtime, refs) {
-  const requestId = runtime.syncRequestId + 1;
-  runtime.syncRequestId = requestId;
-  runtime.syncing = true;
-
-  applyCommerceConfiguration(runtime);
-  renderRuntime(runtime, refs);
-
-  try {
-    const nextProduct = await fetchProductData(runtime.data.commerce.baseSku, {
-      optionsUIDs: runtime.currentOptionsUIDs,
-    });
-
-    if (requestId !== runtime.syncRequestId) {
-      return;
-    }
-
-    runtime.product = nextProduct;
-
-    setProductConfigurationValues((previous = {}) => ({
-      ...previous,
-      sku: getConfiguredSku(nextProduct, runtime.data.commerce.baseSku),
-      quantity: 1,
-      optionsUIDs: runtime.currentOptionsUIDs,
-      enteredOptions: runtime.currentEnteredOptions,
-    }));
-
-    setProductConfigurationValid(() => runtime.validation.valid);
-    if (runtime.statusType === 'error') {
-      setRuntimeStatus(runtime, '', 'info');
-    }
-    events.emit('pdp/data', nextProduct);
-  } catch (error) {
-    if (requestId !== runtime.syncRequestId) {
-      return;
-    }
-
-    setRuntimeStatus(
-      runtime,
-      error?.message || 'Unable to refresh live Commerce pricing for this configuration.',
-      'error',
-    );
-    setProductConfigurationValid(() => false);
-  } finally {
-    if (requestId === runtime.syncRequestId) {
-      runtime.syncing = false;
-      renderRuntime(runtime, refs);
-    }
-  }
-}
-
-function requestCommerceRefresh(runtime, refs, delay = 0) {
-  window.clearTimeout(runtime.refreshTimer);
-  runtime.refreshTimer = window.setTimeout(() => {
-    runtime.refreshTimer = 0;
-    syncCommerceProduct(runtime, refs);
-  }, delay);
-}
-
-async function handleSubmit(runtime, refs) {
-  if (runtime.adding || runtime.syncing) {
-    return;
-  }
-
-  runtime.validation = getConfigurationValidation(runtime.data, runtime.state);
-  applyCommerceConfiguration(runtime);
-
-  if (!runtime.validation.valid || !isProductConfigurationValid()) {
-    setRuntimeStatus(
-      runtime,
-      runtime.validation.message || 'Complete the required selections before adding this rack.',
-      'error',
-    );
-    renderRuntime(runtime, refs);
-    return;
-  }
-
-  const configuredValues = getProductConfigurationValues() || {};
-  const payload = buildBaseCartPayload(
-    runtime.product,
-    runtime.data,
-    runtime.state,
-    runtime.mappings,
-  );
-  const baseItem = {
-    sku: payload.sku || configuredValues.sku || '',
-    quantity: 1,
-    optionsUIDs: Array.isArray(configuredValues.optionsUIDs)
-      && configuredValues.optionsUIDs.length
-      ? configuredValues.optionsUIDs
-      : payload.optionsUIDs,
-    enteredOptions: Array.isArray(configuredValues.enteredOptions)
-      && configuredValues.enteredOptions.length
-      ? configuredValues.enteredOptions
-      : payload.enteredOptions,
-  };
-
-  if (!baseItem.sku) {
-    setRuntimeStatus(runtime, 'The configured Commerce SKU could not be resolved.', 'error');
-    renderRuntime(runtime, refs);
-    return;
-  }
-
-  runtime.adding = true;
-  setRuntimeStatus(runtime, 'Adding configured rack to cart…', 'info');
-  renderRuntime(runtime, refs);
-
-  try {
-    await addProductsToCart([baseItem]);
-    window.location.assign(rootLink('/cart'));
-  } catch (error) {
-    runtime.adding = false;
-    setRuntimeStatus(
-      runtime,
-      error?.message || 'Unable to add the configured rack to cart right now.',
-      'error',
-    );
-    renderRuntime(runtime, refs);
-  }
 }
 
 function bindEvents(runtime, refs) {
@@ -1135,18 +706,19 @@ function bindEvents(runtime, refs) {
         break;
       case 'branch':
         runtime.state.branchId = target.value;
-        runtime.state.awardQuantities = syncAwardsForBranch(
-          runtime.data,
-          runtime.state.awardQuantities,
-          runtime.state.branchId,
+        break;
+      case 'addon':
+        runtime.state.addonIds = toggleAddonId(
+          target.value,
+          target.checked,
+          runtime.state.addonIds,
         );
         break;
       default:
         return;
     }
 
-    setRuntimeStatus(runtime, '', 'info');
-    requestCommerceRefresh(runtime, refs);
+    renderRuntime(runtime, refs);
   });
 
   refs.groups.addEventListener('input', (event) => {
@@ -1160,34 +732,7 @@ function bindEvents(runtime, refs) {
     }
 
     runtime.state.inscriptionValue = value;
-    setRuntimeStatus(runtime, '', 'info');
-    requestCommerceRefresh(runtime, refs, 150);
-  });
-
-  refs.groups.addEventListener('click', (event) => {
-    const trigger = event.target instanceof Element
-      ? event.target.closest('[data-award-action]')
-      : null;
-    const button = trigger instanceof HTMLButtonElement ? trigger : null;
-    if (!(button instanceof HTMLButtonElement)) {
-      return;
-    }
-
-    const { awardId, awardAction } = button.dataset;
-    if (!awardId) return;
-
-    const currentQuantity = Number(runtime.state.awardQuantities[awardId] || 0);
-    const delta = awardAction === 'increment' ? 1 : -1;
-    const nextQuantity = Math.max(currentQuantity + delta, 0);
-
-    if (nextQuantity > 0) {
-      runtime.state.awardQuantities[awardId] = nextQuantity;
-    } else {
-      delete runtime.state.awardQuantities[awardId];
-    }
-
-    setRuntimeStatus(runtime, '', 'info');
-    requestCommerceRefresh(runtime, refs);
+    renderRuntime(runtime, refs);
   });
 
   refs.breakdownToggle.addEventListener('click', () => {
@@ -1196,7 +741,9 @@ function bindEvents(runtime, refs) {
   });
 
   refs.cta.addEventListener('click', () => {
-    handleSubmit(runtime, refs);
+    runtime.state.prototypeNoteVisible = true;
+    renderRuntime(runtime, refs);
+    refs.prototypeNote.focus();
   });
 }
 
@@ -1205,47 +752,17 @@ export default async function decorate(block) {
 
   try {
     const data = await fetchDataset(config.dataSource);
-    const { product, linkedSku, detached } = await resolveInitialProduct(config, data);
-
-    if (normalizeKey(product?.sku) !== normalizeKey(linkedSku)) {
-      throw new Error(
-        `This configurator only supports the ${linkedSku} product.`,
-      );
-    }
-
-    document.body.classList.add(MEDAL_RACK_PAGE_FLAG);
-
     const runtime = {
       uid: getUid(),
       config,
       data,
-      product,
-      linkedSku,
-      detached,
       state: createInitialState(data),
-      mappings: resolveCommerceOptionMappings(data, product),
-      validation: null,
-      currentOptionsUIDs: [],
-      currentEnteredOptions: [],
-      refreshTimer: 0,
-      syncRequestId: 0,
-      syncing: false,
-      adding: false,
-      statusMessage: '',
-      statusType: 'info',
     };
-
     const refs = buildShell(block, runtime);
+
     buildGroups(runtime, refs);
     bindEvents(runtime, refs);
-    if (runtime.detached) {
-      setRuntimeStatus(
-        runtime,
-        `Linked preview attached to ${runtime.linkedSku}.`,
-        'info',
-      );
-    }
-    await syncCommerceProduct(runtime, refs);
+    renderRuntime(runtime, refs);
   } catch (error) {
     showBlockMessage(
       block,

@@ -2,11 +2,6 @@
   margin-block: var(--spacing-xxbig);
 }
 
-body.medal-rack-configurator-page .product-details__configuration,
-body.medal-rack-configurator-page .product-details__buttons {
-  display: none !important;
-}
-
 .medal-rack-configurator-block-message {
   margin: 0;
   padding: var(--spacing-medium);
@@ -327,29 +322,6 @@ body.medal-rack-configurator-page .product-details__buttons {
   font: var(--type-body-2-default-font);
 }
 
-.medal-rack-configurator .medal-rack-configurator__awards-meta {
-  color: var(--mrc-accent-strong);
-  font: var(--type-details-caption-1-font);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.medal-rack-configurator .medal-rack-configurator__awards-validation {
-  margin: 0;
-  padding: 1.2rem 1.4rem;
-  border: 1px solid rgb(195 80 80 / 30%);
-  border-radius: 1.4rem;
-  background: rgb(138 44 44 / 12%);
-  color: #f2b7b7;
-  font: var(--type-body-2-default-font);
-}
-
-.medal-rack-configurator .medal-rack-configurator__awards-list,
-.medal-rack-configurator .medal-rack-configurator__awards-summary {
-  display: grid;
-  gap: 1rem;
-}
-
 .medal-rack-configurator .medal-rack-configurator__size-grid,
 .medal-rack-configurator .medal-rack-configurator__swatch-grid,
 .medal-rack-configurator .medal-rack-configurator__branch-grid {
@@ -519,102 +491,6 @@ body.medal-rack-configurator-page .product-details__buttons {
   text-align: center;
 }
 
-.medal-rack-configurator .medal-rack-configurator__award-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 1rem;
-  align-items: center;
-  padding: 1.4rem;
-  border: 1px solid rgb(255 255 255 / 10%);
-  border-radius: 1.8rem;
-  background: rgb(255 255 255 / 3%);
-}
-
-.medal-rack-configurator .medal-rack-configurator__award-card.is-selected {
-  border-color: rgb(201 168 76 / 46%);
-  background: rgb(201 168 76 / 8%);
-  box-shadow: 0 12px 30px rgb(0 0 0 / 16%);
-}
-
-.medal-rack-configurator .medal-rack-configurator__award-copy {
-  display: grid;
-  gap: 0.4rem;
-}
-
-.medal-rack-configurator .medal-rack-configurator__award-kicker {
-  color: var(--mrc-accent-strong);
-  font: var(--type-details-caption-2-font);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.medal-rack-configurator .medal-rack-configurator__award-title {
-  color: var(--mrc-text);
-  font: var(--type-body-2-strong-font);
-}
-
-.medal-rack-configurator .medal-rack-configurator__award-controls {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.medal-rack-configurator .medal-rack-configurator__award-stepper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 3.4rem;
-  height: 3.4rem;
-  border: 1px solid rgb(201 168 76 / 30%);
-  border-radius: 999px;
-  background: rgb(255 255 255 / 4%);
-  color: var(--mrc-text);
-  cursor: pointer;
-  font: var(--type-headline-2-default-font);
-}
-
-.medal-rack-configurator .medal-rack-configurator__award-stepper:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
-.medal-rack-configurator .medal-rack-configurator__award-quantity {
-  min-width: 3ch;
-  color: var(--mrc-text);
-  font: var(--type-body-2-strong-font);
-  text-align: center;
-}
-
-.medal-rack-configurator .medal-rack-configurator__award-summary-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1.2rem;
-  border: 1px solid rgb(255 255 255 / 8%);
-  border-radius: 1.4rem;
-  background: rgb(255 255 255 / 2%);
-}
-
-.medal-rack-configurator .medal-rack-configurator__award-summary-label {
-  color: var(--mrc-muted);
-  font: var(--type-body-2-default-font);
-}
-
-.medal-rack-configurator .medal-rack-configurator__award-summary-qty {
-  color: var(--mrc-accent-strong);
-  font: var(--type-body-2-strong-font);
-}
-
-.medal-rack-configurator .medal-rack-configurator__awards-empty {
-  margin: 0;
-  padding: 1.2rem 1.4rem;
-  border: 1px dashed rgb(255 255 255 / 12%);
-  border-radius: 1.4rem;
-  color: var(--mrc-muted);
-  font: var(--type-body-2-default-font);
-}
-
 .medal-rack-configurator .medal-rack-configurator__addon-list {
   display: grid;
   gap: 1rem;
@@ -626,11 +502,6 @@ body.medal-rack-configurator-page .product-details__buttons {
   align-items: center;
   gap: 1.2rem;
   padding: 1.4rem;
-}
-
-.medal-rack-configurator .medal-rack-configurator__addon-card.is-disabled {
-  cursor: not-allowed;
-  opacity: 0.88;
 }
 
 .medal-rack-configurator .medal-rack-configurator__addon-icon {
@@ -656,26 +527,6 @@ body.medal-rack-configurator-page .product-details__buttons {
 .medal-rack-configurator .medal-rack-configurator__addon-price {
   color: var(--mrc-accent-strong);
   font: var(--type-body-2-strong-font);
-}
-
-.medal-rack-configurator .medal-rack-configurator__addon-footer {
-  display: grid;
-  justify-items: end;
-  gap: 0.6rem;
-}
-
-.medal-rack-configurator .medal-rack-configurator__addon-pill {
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  padding: 0.5rem 0.9rem;
-  border: 1px solid rgb(201 168 76 / 24%);
-  border-radius: 999px;
-  background: rgb(201 168 76 / 9%);
-  color: var(--mrc-accent-strong);
-  font: var(--type-details-caption-2-font);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
 .medal-rack-configurator .medal-rack-configurator__size-option:hover .medal-rack-configurator__size-card,
@@ -719,34 +570,6 @@ body.medal-rack-configurator-page .product-details__buttons {
   font: var(--type-details-caption-2-font);
 }
 
-.medal-rack-configurator .medal-rack-configurator__status {
-  margin: 0;
-  padding: 1.3rem 1.5rem;
-  border: 1px solid rgb(255 255 255 / 8%);
-  border-radius: 1.6rem;
-  background: rgb(255 255 255 / 4%);
-  color: var(--mrc-text);
-  font: var(--type-body-2-default-font);
-}
-
-.medal-rack-configurator .medal-rack-configurator__status[data-type='error'] {
-  border-color: rgb(195 80 80 / 30%);
-  background: rgb(138 44 44 / 12%);
-  color: #f2b7b7;
-}
-
-.medal-rack-configurator .medal-rack-configurator__status[data-type='warning'] {
-  border-color: rgb(201 168 76 / 30%);
-  background: rgb(201 168 76 / 10%);
-  color: #f7e2a2;
-}
-
-.medal-rack-configurator .medal-rack-configurator__status[data-type='success'] {
-  border-color: rgb(77 154 117 / 28%);
-  background: rgb(77 154 117 / 12%);
-  color: #bbecd3;
-}
-
 .medal-rack-configurator .medal-rack-configurator__cta {
   justify-content: center;
   width: 100%;
@@ -762,10 +585,19 @@ body.medal-rack-configurator-page .product-details__buttons {
   text-transform: uppercase;
 }
 
-.medal-rack-configurator .medal-rack-configurator__cta:disabled {
-  box-shadow: none;
-  opacity: 0.6;
-  cursor: not-allowed;
+.medal-rack-configurator .medal-rack-configurator__prototype-note {
+  margin: 0;
+  padding: 1.4rem 1.6rem;
+  border: 1px solid rgb(201 168 76 / 24%);
+  border-radius: 1.6rem;
+  background: rgb(201 168 76 / 10%);
+  color: var(--mrc-text);
+  font: var(--type-body-2-default-font);
+}
+
+.medal-rack-configurator .medal-rack-configurator__prototype-note:focus {
+  outline: 2px solid rgb(201 168 76 / 48%);
+  outline-offset: 3px;
 }
 
 @media (min-width: 768px) {
@@ -779,10 +611,6 @@ body.medal-rack-configurator-page .product-details__buttons {
 
   .medal-rack-configurator .medal-rack-configurator__branch-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .medal-rack-configurator .medal-rack-configurator__awards-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -803,10 +631,6 @@ body.medal-rack-configurator-page .product-details__buttons {
 
   .medal-rack-configurator .medal-rack-configurator__swatch-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-
-  .medal-rack-configurator .medal-rack-configurator__awards-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
