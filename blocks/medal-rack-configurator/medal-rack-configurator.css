@@ -353,6 +353,7 @@
 .medal-rack-configurator .medal-rack-configurator__addon-card,
 .medal-rack-configurator .medal-rack-configurator__inscription-input,
 .medal-rack-configurator .medal-rack-configurator__inscription-preview {
+  box-sizing: border-box;
   border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 1.8rem;
   background: rgb(255 255 255 / 3%);
@@ -367,7 +368,7 @@
 .medal-rack-configurator .medal-rack-configurator__branch-card {
   display: grid;
   gap: 0.5rem;
-  height: 100%;
+  width: 100%;
   padding: 1.4rem;
 }
 
@@ -399,7 +400,7 @@
   display: grid;
   gap: 1rem;
   justify-items: center;
-  height: 100%;
+  width: 100%;
   min-height: 10.2rem;
   padding: 1.4rem 1.2rem;
   text-align: center;
@@ -485,6 +486,7 @@
 }
 
 .medal-rack-configurator .medal-rack-configurator__inscription-preview {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
