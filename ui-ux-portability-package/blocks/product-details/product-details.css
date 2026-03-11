@@ -138,6 +138,10 @@
     grid-column: 1 / span 4;
   }
 
+  .product-details__input-options {
+    grid-column: 1 / span 4;
+  }
+
   .product-details__buttons {
     grid-column: 1 / span 4;
   }

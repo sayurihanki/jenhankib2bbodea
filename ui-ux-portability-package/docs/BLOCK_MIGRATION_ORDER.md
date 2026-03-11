@@ -80,6 +80,7 @@
 | `commerce-search-order` | `commerce` | `core` | 1 | 1 |
 | `commerce-shipping-status` | `commerce` | `core` | 1 | 1 |
 | `commerce-wishlist` | `commerce` | `core` | 1 | 1 |
+| `customer-segment-personalization-block` | `content` | `general` | 1 | 1 |
 | `embed` | `interactive-content` | `engagement` | 1 | 1 |
 | `enrichment` | `content` | `general` | 1 | 1 |
 | `features-grid` | `content` | `general` | 1 | 1 |
@@ -100,6 +101,7 @@
 | `live-block` | `content` | `general` | 1 | 2 |
 | `live-block-premium` | `content` | `general` | 1 | 1 |
 | `luxury-configurator` | `content` | `general` | 1 | 1 |
+| `medal-rack-configurator` | `content` | `general` | 1 | 2 |
 | `modal` | `interactive-content` | `engagement` | 1 | 1 |
 | `newsletter` | `content` | `general` | 1 | 1 |
 | `product-configurator-luxe` | `content` | `general` | 1 | 1 |
@@ -122,5 +124,6 @@
 | `uniform-configurator` | `content` | `general` | 1 | 2 |
 | `video` | `interactive-content` | `engagement` | 1 | 1 |
 | `vip-hero-block` | `content` | `general` | 1 | 1 |
+| `vip-hero-mccs` | `content` | `general` | 1 | 1 |
 | `vip-member-block` | `content` | `general` | 1 | 1 |
 | `vip-member-block-real-v2` | `content` | `general` | 1 | 1 |

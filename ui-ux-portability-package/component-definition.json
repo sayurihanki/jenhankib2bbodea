@@ -371,6 +371,16 @@
           }
         },
         {
+          "title": "VIP Hero MCCS",
+          "id": "vip-hero-mccs",
+          "model": "vip-hero-mccs",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
           "title": "How It Works + Stats",
           "id": "how-it-works-stats",
           "model": "how-it-works-stats",
@@ -496,6 +506,16 @@
           "title": "Targeted Block",
           "id": "targeted-block",
           "model": "targeted-block",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
+          "title": "Customer Segment Personalization Block",
+          "id": "customer-segment-personalization-block",
+          "model": "customer-segment-personalization-block",
           "plugins": {
             "da": {
               "type": "key-value-block"

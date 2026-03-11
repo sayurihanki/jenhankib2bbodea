@@ -62,6 +62,9 @@
           "...": "../blocks/targeted-block/_*.json#/definitions"
         },
         {
+          "...": "../blocks/customer-segment-personalization-block/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/live-block/_*.json#/definitions"
         },
         {

@@ -153,8 +153,10 @@
         "image",
         "text",
         "targeted-block",
+        "customer-segment-personalization-block",
         "live-block",
         "live-block-premium",
+        "vip-hero-mccs",
         "product-recommendations",
         "product-highlights",
         "quiz-router"

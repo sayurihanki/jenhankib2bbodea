@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-03-10T19:32:30.760Z",
+  "generatedAt": "2026-03-11T02:25:14.491Z",
   "summary": {
-    "totalBlocks": 109,
-    "withStyles": 109,
-    "withRuntime": 109,
+    "totalBlocks": 112,
+    "withStyles": 112,
+    "withRuntime": 112,
     "byCategory": {
       "interactive-content": 9,
-      "content": 36,
+      "content": 39,
       "commerce": 55,
       "shell": 5,
       "forms": 4
@@ -1407,6 +1407,29 @@
       "fileCount": 3
     },
     {
+      "name": "customer-segment-personalization-block",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Customer Segment Personalization Block",
+      "overview": "The `customer-segment-personalization-block` displays authored content only when the current shopper matches at least one authored Adobe Commerce customer segment.",
+      "sourcePath": "blocks/customer-segment-personalization-block",
+      "files": {
+        "css": [
+          "blocks/customer-segment-personalization-block/customer-segment-personalization-block.css"
+        ],
+        "js": [
+          "blocks/customer-segment-personalization-block/customer-segment-personalization-block.js"
+        ],
+        "json": [
+          "blocks/customer-segment-personalization-block/_customer-segment-personalization-block.json"
+        ],
+        "readme": "blocks/customer-segment-personalization-block/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 5
+    },
+    {
       "name": "embed",
       "category": "interactive-content",
       "subcategory": "engagement",
@@ -1862,6 +1885,30 @@
       "hasStyles": true,
       "hasRuntime": true,
       "fileCount": 5
+    },
+    {
+      "name": "medal-rack-configurator",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Medal Rack Configurator",
+      "overview": "`medal-rack-configurator` is a prototype-first luxury configurator block for a ceremonial medal rack PDP experience.",
+      "sourcePath": "blocks/medal-rack-configurator",
+      "files": {
+        "css": [
+          "blocks/medal-rack-configurator/medal-rack-configurator.css"
+        ],
+        "js": [
+          "blocks/medal-rack-configurator/medal-rack-configurator.js",
+          "blocks/medal-rack-configurator/medal-rack-configurator.lib.js"
+        ],
+        "json": [
+          "blocks/medal-rack-configurator/_medal-rack-configurator.json"
+        ],
+        "readme": "blocks/medal-rack-configurator/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 6
     },
     {
       "name": "modal",
@@ -2366,6 +2413,29 @@
       "hasStyles": true,
       "hasRuntime": true,
       "fileCount": 4
+    },
+    {
+      "name": "vip-hero-mccs",
+      "category": "content",
+      "subcategory": "general",
+      "title": "VIP Hero MCCS",
+      "overview": "`vip-hero-mccs` is a Commerce-segment-driven EDS hero for the MCCS promotions use case.",
+      "sourcePath": "blocks/vip-hero-mccs",
+      "files": {
+        "css": [
+          "blocks/vip-hero-mccs/vip-hero-mccs.css"
+        ],
+        "js": [
+          "blocks/vip-hero-mccs/vip-hero-mccs.js"
+        ],
+        "json": [
+          "blocks/vip-hero-mccs/_vip-hero-mccs.json"
+        ],
+        "readme": "blocks/vip-hero-mccs/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 5
     },
     {
       "name": "vip-member-block",

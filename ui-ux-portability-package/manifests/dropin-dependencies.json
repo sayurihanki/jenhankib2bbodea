@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10T19:32:31.032Z",
+  "generatedAt": "2026-03-11T02:25:14.910Z",
   "summary": {
     "totalPackages": 17,
     "undeclaredPackages": []
@@ -68,7 +68,7 @@
       "package": "@dropins/storefront-cart",
       "version": "~3.0.0",
       "source": "declared",
-      "importCount": 36,
+      "importCount": 38,
       "importSpecifiers": [
         "@dropins/storefront-cart/api.js",
         "@dropins/storefront-cart/containers/CartSummaryList.js",
@@ -91,6 +91,7 @@
         "blocks/header/header.js",
         "blocks/live-block/dashboard-core.js",
         "blocks/luxury-configurator/luxury-configurator.js",
+        "blocks/medal-rack-configurator/medal-rack-configurator.js",
         "blocks/product-configurator-luxe/product-configurator-luxe.js",
         "blocks/product-details/product-details.js",
         "blocks/product-list-page/product-list-page.js",
@@ -235,7 +236,7 @@
       "package": "@dropins/storefront-pdp",
       "version": "~3.0.0",
       "source": "declared",
-      "importCount": 26,
+      "importCount": 28,
       "importSpecifiers": [
         "@dropins/storefront-pdp/api.js",
         "@dropins/storefront-pdp/containers/ProductAttributes.js",
@@ -252,10 +253,12 @@
       "importedBy": [
         "blocks/commerce-wishlist/commerce-wishlist.js",
         "blocks/luxury-configurator/luxury-configurator.js",
+        "blocks/medal-rack-configurator/medal-rack-configurator.js",
         "blocks/product-configurator-luxe/product-configurator-luxe.js",
         "blocks/product-details/product-details.js",
         "blocks/product-details/requisition-list.js",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.js",
+        "scripts/components/pdp-input-options/pdp-input-options.js",
         "scripts/initializers/pdp.js"
       ]
     },
@@ -263,12 +266,14 @@
       "package": "@dropins/storefront-personalization",
       "version": "~3.0.0",
       "source": "declared",
-      "importCount": 2,
+      "importCount": 4,
       "importSpecifiers": [
         "@dropins/storefront-personalization/api.js"
       ],
       "importedBy": [
+        "blocks/customer-segment-personalization-block/customer-segment-personalization-block.js",
         "blocks/targeted-block/targeted-block.js",
+        "blocks/vip-hero-mccs/vip-hero-mccs.js",
         "scripts/initializers/personalization.js"
       ]
     },
@@ -421,7 +426,7 @@
       "package": "@dropins/tools",
       "version": "~1.6.0",
       "source": "declared",
-      "importCount": 158,
+      "importCount": 162,
       "importSpecifiers": [
         "@dropins/tools/components.js",
         "@dropins/tools/event-bus.js",
@@ -477,6 +482,7 @@
         "blocks/commerce-search-order/commerce-search-order.js",
         "blocks/commerce-shipping-status/commerce-shipping-status.js",
         "blocks/commerce-wishlist/commerce-wishlist.js",
+        "blocks/customer-segment-personalization-block/customer-segment-personalization-block.js",
         "blocks/footer/footer.js",
         "blocks/fragment/fragment.js",
         "blocks/header/header.js",
@@ -484,6 +490,7 @@
         "blocks/header/renderAuthDropdown.js",
         "blocks/live-block/dashboard-core.js",
         "blocks/luxury-configurator/luxury-configurator.js",
+        "blocks/medal-rack-configurator/medal-rack-configurator.js",
         "blocks/modal/modal.js",
         "blocks/product-configurator-luxe/product-configurator-luxe.js",
         "blocks/product-details/product-details.js",
@@ -493,9 +500,11 @@
         "blocks/product-teaser/product-teaser-utils.js",
         "blocks/search-bar/search-bar.js",
         "blocks/targeted-block/targeted-block.js",
+        "blocks/vip-hero-mccs/vip-hero-mccs.js",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.js",
         "scripts/commerce.js",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.js",
+        "scripts/components/pdp-input-options/pdp-input-options.js",
         "scripts/delayed.js",
         "scripts/initializers/account.js",
         "scripts/initializers/auth.js",

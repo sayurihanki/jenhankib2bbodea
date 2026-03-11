@@ -513,6 +513,16 @@
           }
         },
         {
+          "title": "Customer Segment Personalization Block",
+          "id": "customer-segment-personalization-block",
+          "model": "customer-segment-personalization-block",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
           "title": "Live Block",
           "id": "live-block",
           "model": "live-block",

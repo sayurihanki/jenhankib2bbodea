@@ -27,6 +27,10 @@ import ProductGiftCardOptions from '@dropins/storefront-pdp/containers/ProductGi
 import {
   fetchPlaceholders, getProductLink, rootLink, setJsonLd,
 } from '../../scripts/commerce.js';
+import {
+  mountProductInputOptions,
+  deriveEnteredOptionsFromCustomizableOptions,
+} from '../../scripts/components/pdp-input-options/pdp-input-options.js';
 
 // Initializers
 import { IMAGES_SIZES } from '../../scripts/initializers/pdp.js';
@@ -66,6 +70,26 @@ function updateAddToCartButtonText(addToCartInstance, inCart, labels) {
   }
 }
 
+async function getInitialEnteredOptions(itemUid, inputOptions) {
+  if (!itemUid || !Array.isArray(inputOptions) || inputOptions.length === 0) {
+    return [];
+  }
+
+  try {
+    const { getCartData } = await import('@dropins/storefront-cart/api.js');
+    const cartData = await getCartData();
+    const cartItem = cartData?.items?.find((item) => item.uid === itemUid);
+
+    return deriveEnteredOptionsFromCustomizableOptions(
+      inputOptions,
+      cartItem?.customizableOptions,
+    );
+  } catch (error) {
+    console.warn('Could not resolve entered options from cart item:', error);
+    return [];
+  }
+}
+
 export default async function decorate(block) {
   const product = events.lastPayload('pdp/data') ?? null;
   const labels = await fetchPlaceholders();
@@ -93,6 +117,7 @@ export default async function decorate(block) {
         <div class="product-details__gift-card-options"></div>
         <div class="product-details__configuration">
           <div class="product-details__options"></div>
+          <div class="product-details__input-options"></div>
           <div class="product-details__quantity"></div>
           <div class="product-details__buttons">
             <div class="product-details__buttons__add-to-cart"></div>
@@ -113,6 +138,7 @@ export default async function decorate(block) {
   const $galleryMobile = fragment.querySelector('.product-details__right-column .product-details__gallery');
   const $shortDescription = fragment.querySelector('.product-details__short-description');
   const $options = fragment.querySelector('.product-details__options');
+  const $inputOptions = fragment.querySelector('.product-details__input-options');
   const $quantity = fragment.querySelector('.product-details__quantity');
   const $giftCardOptions = fragment.querySelector('.product-details__gift-card-options');
   const $addToCart = fragment.querySelector('.product-details__buttons__add-to-cart');
@@ -223,6 +249,15 @@ export default async function decorate(block) {
     })($wishlistToggleBtn),
   ]);
 
+  const initialEnteredOptions = await getInitialEnteredOptions(
+    itemUidFromUrl,
+    product?.inputOptions,
+  );
+
+  await mountProductInputOptions($inputOptions, {
+    initialEnteredOptions,
+  });
+
   // Configuration – Button - Add to Cart
   const addToCart = await UI.render(Button, {
     children: labels.Global?.AddProductToCart,
@@ -320,6 +355,7 @@ export default async function decorate(block) {
   // Handle option changes
   events.on('pdp/values', async () => {
     const configValues = pdpApi.getProductConfigurationValues();
+    const enteredOptions = configValues?.enteredOptions;
 
     // Check URL parameter for empty optionsUIDs
     const urlOptionsUIDs = urlParams.get('optionsUIDs');
@@ -344,6 +380,7 @@ export default async function decorate(block) {
         product: {
           ...product,
           optionUIDs,
+          enteredOptions,
         },
       }));
     }

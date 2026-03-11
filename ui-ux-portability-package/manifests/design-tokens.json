@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-10T19:32:30.779Z",
+  "generatedAt": "2026-03-11T02:25:14.512Z",
   "summary": {
-    "totalTokens": 627,
-    "definedTokens": 576,
+    "totalTokens": 651,
+    "definedTokens": 600,
     "unresolvedTokens": 51,
     "byPrefix": {
       "accent": 3,
@@ -37,6 +37,7 @@
       "luxury": 14,
       "main": 1,
       "minifiedView": 1,
+      "mrc": 9,
       "nav": 17,
       "newsletter": 28,
       "no": 1,
@@ -58,8 +59,8 @@
       "top": 7,
       "transition": 3,
       "type": 48,
-      "uc": 1,
-      "vip": 20,
+      "uc": 4,
+      "vip": 32,
       "vmb": 3,
       "width": 1,
       "yes": 1
@@ -73,7 +74,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 53,
+      "usageCount": 52,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/form/form.css",
@@ -338,9 +339,10 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 1,
+      "usageCount": 3,
       "usedIn": [
-        "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css"
+        "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -419,12 +421,13 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 7,
+      "usageCount": 10,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
         "blocks/header/header.css",
         "blocks/product-list-page/product-list-page.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -847,7 +850,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 17,
+      "usageCount": 18,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/circle-carousel/circle-carousel.css",
@@ -857,6 +860,7 @@
         "blocks/promotional-hero/promotional-hero.css",
         "blocks/store-locator/store-locator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -889,7 +893,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 65,
+      "usageCount": 66,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -911,6 +915,7 @@
         "blocks/vip-hero-block/vip-hero-block.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -963,7 +968,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 35,
+      "usageCount": 36,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/blog-post/blog-post.css",
@@ -984,7 +989,8 @@
         "blocks/newsletter/newsletter.css",
         "blocks/promotional-hero/promotional-hero.css",
         "blocks/search-bar/search-bar.css",
-        "blocks/vip-hero-block/vip-hero-block.css"
+        "blocks/vip-hero-block/vip-hero-block.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css"
       ],
       "status": "defined"
     },
@@ -995,7 +1001,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 16,
+      "usageCount": 17,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/age-gate/age-gate.css",
@@ -1006,6 +1012,7 @@
         "blocks/hero-cta/hero-cta.css",
         "blocks/product-details/product-details.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -1017,7 +1024,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 43,
+      "usageCount": 45,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/cards-list/cards-list.css",
@@ -1040,7 +1047,8 @@
         "blocks/search/search.css",
         "blocks/top-banner/top-banner.css",
         "blocks/vip-hero-block/vip-hero-block.css",
-        "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css"
+        "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css"
       ],
       "status": "defined"
     },
@@ -1293,7 +1301,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 112,
+      "usageCount": 122,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/catalog-highlights/catalog-highlights.css",
@@ -1308,6 +1316,7 @@
         "blocks/commerce-orders-list/commerce-orders-list.css",
         "blocks/form/form.css",
         "blocks/hero-3/hero-3.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/product-teaser/product-teaser.css",
@@ -1318,6 +1327,7 @@
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/video/video.css",
         "blocks/vip-hero-block/vip-hero-block.css",
+        "blocks/vip-hero-mccs/vip-hero-mccs.css",
         "blocks/vip-member-block/vip-member-block.css",
         "styles/styles.css"
       ],
@@ -2036,17 +2046,19 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 39,
+      "usageCount": 42,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
         "blocks/hero-5/hero-5.css",
         "blocks/live-block-premium/live-block-premium.css",
         "blocks/live-block/live-block.css",
         "blocks/luxury-configurator/luxury-configurator.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-highlights/product-highlights.css",
         "blocks/quiz-router/quiz-router.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
+        "blocks/vip-hero-mccs/vip-hero-mccs.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css"
       ],
@@ -2070,7 +2082,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 20,
+      "usageCount": 19,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
@@ -2113,7 +2125,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 27,
+      "usageCount": 26,
       "usedIn": [
         "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
@@ -2212,7 +2224,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 17,
+      "usageCount": 15,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/header/header.css",
@@ -2221,7 +2233,6 @@
         "blocks/product-teaser/product-teaser.css",
         "blocks/search-bar/search-bar.css",
         "blocks/search/search.css",
-        "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/video/video.css",
         "blocks/vip-hero-block/vip-hero-block.css",
         "styles/styles.css"
@@ -2298,6 +2309,7 @@
       "usageCount": 21,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "styles/styles.css"
@@ -2311,8 +2323,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 3,
+      "usageCount": 4,
       "usedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-member-block/vip-member-block.css",
         "styles/styles.css"
@@ -3502,7 +3515,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 22,
+      "usageCount": 21,
       "usedIn": [
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/quiz-router/quiz-router.css",
@@ -3520,7 +3533,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 9,
+      "usageCount": 10,
       "usedIn": [
         "blocks/header/header.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
@@ -3537,9 +3550,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 10,
+      "usageCount": 12,
       "usedIn": [
         "blocks/header/header.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "styles/styles.css"
@@ -3553,7 +3567,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 18,
+      "usageCount": 19,
       "usedIn": [
         "blocks/header/header.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
@@ -3591,9 +3605,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 8,
+      "usageCount": 9,
       "usedIn": [
         "blocks/hero-6/hero-6.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/vip-hero-block/vip-hero-block.css"
       ],
@@ -4101,6 +4116,123 @@
       "status": "defined"
     },
     {
+      "name": "--mrc-accent",
+      "prefix": "mrc",
+      "value": "var(--gold)",
+      "definedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mrc-accent-strong",
+      "prefix": "mrc",
+      "value": "var(--gold-light)",
+      "definedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "usageCount": 13,
+      "usedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mrc-border",
+      "prefix": "mrc",
+      "value": "rgb(255 255 255 / 10%)",
+      "definedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mrc-border-strong",
+      "prefix": "mrc",
+      "value": "rgb(201 168 76 / 22%)",
+      "definedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mrc-muted",
+      "prefix": "mrc",
+      "value": "rgb(229 220 206 / 72%)",
+      "definedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "usageCount": 9,
+      "usedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mrc-shadow",
+      "prefix": "mrc",
+      "value": "0 32px 90px rgb(2 6 20 / 34%)",
+      "definedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mrc-surface",
+      "prefix": "mrc",
+      "value": "linear-gradient(180deg, rgb(7 11 18 / 96%), rgb(15 24 38 / 94%))",
+      "definedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mrc-surface-soft",
+      "prefix": "mrc",
+      "value": "rgb(11 17 29 / 72%)",
+      "definedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mrc-text",
+      "prefix": "mrc",
+      "value": "#f7f2e8",
+      "definedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "usageCount": 12,
+      "usedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--nav-dropdown-radius",
       "prefix": "nav",
       "value": "24px",
@@ -4159,12 +4291,13 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 20,
+      "usageCount": 21,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/header/header.css",
         "blocks/hero-5/hero-5.css",
         "blocks/hero-6/hero-6.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/store-locator/store-locator.css",
         "styles/styles.css"
@@ -6091,7 +6224,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 12,
+      "usageCount": 10,
       "usedIn": [
         "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
@@ -6125,7 +6258,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 26,
+      "usageCount": 27,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -6139,7 +6272,8 @@
         "blocks/vip-hero-block/vip-hero-block.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
-        "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css"
+        "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css"
       ],
       "status": "defined"
     },
@@ -6197,7 +6331,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 29,
+      "usageCount": 31,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
@@ -6209,6 +6343,7 @@
         "blocks/form-4/form-4.css",
         "blocks/form/form.css",
         "blocks/hero-3/hero-3.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-teaser/product-teaser.css",
         "blocks/search-bar/search-bar.css",
@@ -7276,13 +7411,14 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 55,
+      "usageCount": 56,
       "usedIn": [
         "blocks/age-verification/age-verification.css",
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
         "blocks/commerce-checkout/commerce-checkout.css",
         "blocks/hero-cta/hero-cta.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-details/product-details.css",
         "blocks/search-bar/search-bar.css",
@@ -7314,7 +7450,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 29,
+      "usageCount": 28,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-b2b-po-checkout-success/commerce-b2b-po-checkout-success.css",
@@ -7341,7 +7477,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 142,
+      "usageCount": 148,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -7369,6 +7505,7 @@
         "blocks/commerce-return-header/commerce-return-header.css",
         "blocks/header/header.css",
         "blocks/hero-cta/hero-cta.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/product-details/product-details.css",
@@ -7381,6 +7518,7 @@
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -7392,7 +7530,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 246,
+      "usageCount": 253,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -7431,6 +7569,7 @@
         "blocks/commerce-wishlist/commerce-wishlist.css",
         "blocks/footer/footer.css",
         "blocks/header/header.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/product-details/product-details.css",
@@ -7446,6 +7585,7 @@
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -7509,7 +7649,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 98,
+      "usageCount": 99,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -7541,6 +7681,7 @@
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -7552,9 +7693,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 7,
+      "usageCount": 8,
       "usedIn": [
         "blocks/footer/footer.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/product-details/product-details.css",
         "styles/styles.css"
@@ -7771,7 +7913,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 80,
+      "usageCount": 89,
       "usedIn": [
         "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
@@ -7782,9 +7924,11 @@
         "blocks/commerce-company-structure/commerce-company-structure.css",
         "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/commerce-orders-list/commerce-orders-list.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
+        "blocks/vip-hero-mccs/vip-hero-mccs.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
         "styles/styles.css"
@@ -7798,8 +7942,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 6,
+      "usageCount": 7,
       "usedIn": [
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "styles/styles.css"
       ],
@@ -7846,7 +7991,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 24,
+      "usageCount": 25,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/circle-carousel/circle-carousel.css",
@@ -7861,6 +8006,7 @@
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -7883,7 +8029,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 15,
+      "usageCount": 16,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/circle-carousel/circle-carousel.css",
@@ -7894,6 +8040,7 @@
         "blocks/store-locator/store-locator.css",
         "blocks/top-banner/top-banner.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -7929,7 +8076,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 18,
+      "usageCount": 19,
       "usedIn": [
         "blocks/cards-list/cards-list.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
@@ -7943,6 +8090,7 @@
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/promotional-hero/promotional-hero.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -7954,7 +8102,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 12,
+      "usageCount": 13,
       "usedIn": [
         "blocks/cards-list/cards-list.css",
         "blocks/commerce-cart/commerce-cart.css",
@@ -7962,6 +8110,7 @@
         "blocks/newsletter/newsletter.css",
         "blocks/promotional-hero/promotional-hero.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -7973,7 +8122,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 45,
+      "usageCount": 57,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/blog-post/blog-post.css",
@@ -7989,6 +8138,7 @@
         "blocks/footer/footer.css",
         "blocks/form-4/form-4.css",
         "blocks/hero-cta/hero-cta.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/search-bar/search-bar.css",
@@ -7996,6 +8146,7 @@
         "blocks/top-banner/top-banner.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
+        "blocks/vip-hero-mccs/vip-hero-mccs.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
         "styles/styles.css"
@@ -8081,7 +8232,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 15,
+      "usageCount": 22,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
@@ -8092,6 +8243,7 @@
         "blocks/commerce-company-structure/commerce-company-structure.css",
         "blocks/form-4/form-4.css",
         "blocks/header/header.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/promotional-hero/promotional-hero.css"
       ],
@@ -8145,19 +8297,21 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 15,
+      "usageCount": 17,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/form-4/form-4.css",
         "blocks/hero-cta/hero-cta.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/product-teaser/product-teaser.css",
         "blocks/promotional-hero/promotional-hero.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
+        "blocks/vip-hero-mccs/vip-hero-mccs.css",
         "blocks/vip-member-block/vip-member-block.css",
         "styles/styles.css"
       ],
@@ -8170,7 +8324,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 10,
+      "usageCount": 11,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -8179,6 +8333,7 @@
         "blocks/promotional-hero/promotional-hero.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
+        "blocks/vip-hero-mccs/vip-hero-mccs.css",
         "blocks/vip-member-block/vip-member-block.css",
         "styles/styles.css"
       ],
@@ -8202,19 +8357,22 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 29,
+      "usageCount": 38,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/form-4/form-4.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/store-locator/store-locator.css",
         "blocks/top-banner/top-banner.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
+        "blocks/vip-hero-mccs/vip-hero-mccs.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
-        "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css"
+        "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css"
       ],
       "status": "defined"
     },
@@ -8225,14 +8383,15 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 15,
+      "usageCount": 18,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/store-locator/store-locator.css",
         "blocks/top-banner/top-banner.css",
         "blocks/vip-hero-block/vip-hero-block.css",
         "blocks/vip-member-block/vip-member-block.css",
-        "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css"
+        "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
+        "scripts/components/pdp-input-options/pdp-input-options.css"
       ],
       "status": "defined"
     },
@@ -8243,7 +8402,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 26,
+      "usageCount": 31,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
@@ -8253,6 +8412,7 @@
         "blocks/commerce-company-structure/commerce-company-structure.css",
         "blocks/form-4/form-4.css",
         "blocks/hero-cta/hero-cta.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/store-locator/store-locator.css",
         "blocks/uniform-configurator/uniform-configurator.css"
       ],
@@ -8289,9 +8449,11 @@
         "blocks/commerce-company-roles-permissions/commerce-company-roles-permissions.css",
         "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/form-4/form-4.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
+        "blocks/vip-hero-mccs/vip-hero-mccs.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css"
       ],
@@ -8331,9 +8493,8 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 2,
+      "usageCount": 1,
       "usedIn": [
-        "blocks/uniform-configurator/uniform-configurator.css",
         "styles/styles.css"
       ],
       "status": "defined"
@@ -8345,10 +8506,11 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 6,
+      "usageCount": 7,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/form-4/form-4.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "styles/styles.css"
       ],
@@ -8361,9 +8523,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 3,
+      "usageCount": 4,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "styles/styles.css"
       ],
@@ -8380,6 +8543,7 @@
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/form-4/form-4.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/product-teaser/product-teaser.css",
         "blocks/uniform-configurator/uniform-configurator.css",
@@ -8394,9 +8558,10 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 6,
+      "usageCount": 7,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/product-teaser/product-teaser.css",
         "styles/styles.css"
@@ -8410,7 +8575,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 30,
+      "usageCount": 33,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/features-grid/features-grid.css",
@@ -8419,6 +8584,7 @@
         "blocks/live-block-premium/live-block-premium.css",
         "blocks/live-block/live-block.css",
         "blocks/luxury-configurator/luxury-configurator.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-highlights/product-highlights.css",
         "blocks/quiz-router/quiz-router.css",
         "blocks/uniform-configurator/uniform-configurator.css",
@@ -8446,13 +8612,14 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 8,
+      "usageCount": 9,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
         "blocks/blog-post/blog-post.css",
         "blocks/form-4/form-4.css",
         "blocks/header/header.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
         "styles/styles.css"
       ],
@@ -8505,12 +8672,13 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 15,
+      "usageCount": 18,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
         "blocks/commerce-checkout/commerce-checkout.css",
         "blocks/header/header.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
         "styles/styles.css"
@@ -8524,12 +8692,13 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 11,
+      "usageCount": 12,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
         "blocks/commerce-checkout/commerce-checkout.css",
         "blocks/header/header.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
         "styles/styles.css"
       ],
@@ -8542,7 +8711,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 26,
+      "usageCount": 28,
       "usedIn": [
         "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-addresses/commerce-addresses.css",
@@ -8558,6 +8727,7 @@
         "blocks/commerce-customer-information/commerce-customer-information.css",
         "blocks/commerce-orders-list/commerce-orders-list.css",
         "blocks/form-4/form-4.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/store-locator/store-locator.css",
@@ -8573,10 +8743,11 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 9,
+      "usageCount": 10,
       "usedIn": [
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
         "blocks/commerce-checkout/commerce-checkout.css",
+        "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/store-locator/store-locator.css",
@@ -8671,9 +8842,44 @@
       "status": "defined"
     },
     {
+      "name": "--uc-hero-max",
+      "prefix": "uc",
+      "value": "1120px",
+      "definedIn": [
+        "blocks/uniform-configurator/uniform-configurator.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/uniform-configurator/uniform-configurator.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--uc-layout-gap-desktop",
+      "prefix": "uc",
+      "value": "clamp(2rem, 2.8vw, 3.2rem)",
+      "definedIn": [
+        "blocks/uniform-configurator/uniform-configurator.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--uc-layout-gap-mobile",
+      "prefix": "uc",
+      "value": "clamp(1.6rem, 2vw, 2rem)",
+      "definedIn": [
+        "blocks/uniform-configurator/uniform-configurator.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
       "name": "--uc-shell-max",
       "prefix": "uc",
-      "value": "1240px",
+      "value": "1288px",
       "definedIn": [
         "blocks/uniform-configurator/uniform-configurator.css"
       ],
@@ -8797,6 +9003,160 @@
       "usageCount": 2,
       "usedIn": [
         "blocks/vip-hero-block/vip-hero-block.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-accent",
+      "prefix": "vip",
+      "value": "#8fb8d7",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-accent-strong",
+      "prefix": "vip",
+      "value": "#f1d692",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 4,
+      "usedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-bg",
+      "prefix": "vip",
+      "value": "#07131e",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-border",
+      "prefix": "vip",
+      "value": "rgb(255 255 255 / 18%)",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-cta",
+      "prefix": "vip",
+      "value": "#d8eef8",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-ink",
+      "prefix": "vip",
+      "value": "#ecf4ff",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-muted",
+      "prefix": "vip",
+      "value": "rgb(236 244 255 / 78%)",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-panel",
+      "prefix": "vip",
+      "value": "rgb(6 20 31 / 72%)",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-panel-strong",
+      "prefix": "vip",
+      "value": "rgb(6 20 31 / 84%)",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-proof",
+      "prefix": "vip",
+      "value": "rgb(255 255 255 / 12%)",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-radius",
+      "prefix": "vip",
+      "value": "28px",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-hero-shadow",
+      "prefix": "vip",
+      "value": "0 28px 80px rgb(3 10 18 / 36%)",
+      "definedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/vip-hero-mccs/vip-hero-mccs.css"
       ],
       "status": "defined"
     },
