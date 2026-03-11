@@ -80,7 +80,7 @@
 | `commerce-search-order` | `commerce` | `core` | 1 | 1 |
 | `commerce-shipping-status` | `commerce` | `core` | 1 | 1 |
 | `commerce-wishlist` | `commerce` | `core` | 1 | 1 |
-| `customer-segment-personalization-block` | `content` | `general` | 1 | 1 |
+| `customer-segment-personalization-block` | `content` | `general` | 1 | 2 |
 | `embed` | `interactive-content` | `engagement` | 1 | 1 |
 | `enrichment` | `content` | `general` | 1 | 1 |
 | `features-grid` | `content` | `general` | 1 | 1 |

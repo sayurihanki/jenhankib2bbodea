@@ -3,13 +3,19 @@ import {
   fetchProductData,
   getProductConfigurationValues,
   isProductConfigurationValid,
+  setEndpoint,
   setProductConfigurationValid,
   setProductConfigurationValues,
 } from '@dropins/storefront-pdp/api.js';
 import { addProductsToCart } from '@dropins/storefront-cart/api.js';
 
 import { readBlockConfig } from '../../scripts/aem.js';
-import { rootLink } from '../../scripts/commerce.js';
+import {
+  CS_FETCH_GRAPHQL,
+  rootLink,
+} from '../../scripts/commerce.js';
+import { transformProductInputOptions } from '../../scripts/components/pdp-input-options/pdp-input-options.js';
+import '../../scripts/initializers/cart.js';
 import {
   DEFAULT_BLOCK_CONTENT,
   DEFAULT_DATA_SOURCE,
@@ -70,6 +76,8 @@ function getConfig(block) {
 
   return {
     dataSource: normalizeSingleLine(config['data-source'], DEFAULT_DATA_SOURCE),
+    productSku: normalizeSingleLine(config['product-sku'], ''),
+    productUrl: normalizeSingleLine(config['product-url'], ''),
     eyebrow: normalizeSingleLine(config.eyebrow, DEFAULT_BLOCK_CONTENT.eyebrow),
     title: normalizeMultiline(config.title, DEFAULT_BLOCK_CONTENT.title),
     subtitle: normalizeMultiline(config.subtitle, DEFAULT_BLOCK_CONTENT.subtitle),
@@ -119,23 +127,105 @@ function showBlockMessage(block, type, message) {
   block.replaceChildren(element);
 }
 
-async function waitForProductData() {
-  const current = events.lastPayload('pdp/data');
-  if (current) return current;
+function extractSkuFromProductUrl(rawUrl = '') {
+  if (!rawUrl) {
+    return '';
+  }
 
-  return new Promise((resolve, reject) => {
+  try {
+    const url = new URL(rawUrl, window.location.origin);
+    const match = url.pathname.match(/\/products\/[^/]+\/([^/?#]+)/);
+    if (match?.[1]) {
+      return decodeURIComponent(match[1]);
+    }
+
+    const segments = url.pathname.split('/').filter(Boolean);
+    return decodeURIComponent(segments[segments.length - 1] || '');
+  } catch (error) {
+    return '';
+  }
+}
+
+function resolveLinkedSku(config, data) {
+  return config.productSku
+    || extractSkuFromProductUrl(config.productUrl)
+    || data.commerce.baseSku;
+}
+
+async function waitForProductData(expectedSku, timeout = 1500) {
+  const current = events.lastPayload('pdp/data');
+  if (!expectedSku && current) {
+    return current;
+  }
+
+  if (current && normalizeKey(current.sku) === normalizeKey(expectedSku)) {
+    return current;
+  }
+
+  if (timeout <= 0) {
+    return null;
+  }
+
+  return new Promise((resolve) => {
     let subscription;
     const timer = window.setTimeout(() => {
       subscription?.off?.();
-      reject(new Error('Product data was not available on this page.'));
-    }, 5000);
+      resolve(null);
+    }, timeout);
 
     subscription = events.on('pdp/data', (payload) => {
+      if (expectedSku && normalizeKey(payload?.sku) !== normalizeKey(expectedSku)) {
+        return;
+      }
+
       window.clearTimeout(timer);
       subscription?.off?.();
       resolve(payload);
     });
   });
+}
+
+async function fetchStandaloneProduct(sku) {
+  if (!sku) {
+    throw new Error('A linked product SKU is required for standalone medal rack previews.');
+  }
+
+  setEndpoint(CS_FETCH_GRAPHQL);
+
+  const [product, rawProduct] = await Promise.all([
+    fetchProductData(sku),
+    fetchProductData(sku, { skipTransform: true }),
+  ]);
+
+  if (!product?.sku && !rawProduct?.sku) {
+    throw new Error(`Unable to load Commerce product "${sku}".`);
+  }
+
+  return {
+    ...product,
+    sku: product?.sku || rawProduct?.sku || sku,
+    inputOptions: transformProductInputOptions(rawProduct),
+  };
+}
+
+async function resolveInitialProduct(config, data) {
+  const linkedSku = resolveLinkedSku(config, data);
+  const hasPdpShell = Boolean(document.querySelector('main .product-details'));
+  const liveProduct = await waitForProductData(linkedSku, hasPdpShell ? 1500 : 0);
+
+  if (liveProduct) {
+    return {
+      product: liveProduct,
+      linkedSku,
+      detached: false,
+    };
+  }
+
+  return {
+    product: await fetchStandaloneProduct(linkedSku),
+    linkedSku,
+    detached: true,
+  };
 }
 
 function getUid() {
@@ -1114,14 +1204,12 @@ export default async function decorate(block) {
   const config = getConfig(block);
 
   try {
-    const [data, product] = await Promise.all([
-      fetchDataset(config.dataSource),
-      waitForProductData(),
-    ]);
+    const data = await fetchDataset(config.dataSource);
+    const { product, linkedSku, detached } = await resolveInitialProduct(config, data);
 
-    if (normalizeKey(product?.sku) !== normalizeKey(data.commerce.baseSku)) {
+    if (normalizeKey(product?.sku) !== normalizeKey(linkedSku)) {
       throw new Error(
-        `This configurator only supports the ${data.commerce.baseSku} PDP.`,
+        `This configurator only supports the ${linkedSku} product.`,
       );
     }
 
@@ -1132,6 +1220,8 @@ export default async function decorate(block) {
       config,
       data,
       product,
+      linkedSku,
+      detached,
       state: createInitialState(data),
       mappings: resolveCommerceOptionMappings(data, product),
       validation: null,
@@ -1148,6 +1238,13 @@ export default async function decorate(block) {
     const refs = buildShell(block, runtime);
     buildGroups(runtime, refs);
     bindEvents(runtime, refs);
+    if (runtime.detached) {
+      setRuntimeStatus(
+        runtime,
+        `Linked preview attached to ${runtime.linkedSku}.`,
+        'info',
+      );
+    }
     await syncCommerceProduct(runtime, refs);
   } catch (error) {
     showBlockMessage(

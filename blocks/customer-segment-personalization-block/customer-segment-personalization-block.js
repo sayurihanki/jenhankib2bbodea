@@ -6,7 +6,7 @@ import {
   evaluateSegmentVisibility,
   normalizeRuntimeSegments,
   parseCustomerSegments,
-} from './customer-segment-personalization-block.utils.mjs';
+} from './customer-segment-personalization-block.utils.js';
 
 const personalizationBlocks = [];
 let listenersBound = false;

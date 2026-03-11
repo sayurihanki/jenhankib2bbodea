@@ -6,7 +6,7 @@ import {
   MISSING_CUSTOMER_SEGMENTS_WARNING,
   evaluateSegmentVisibility,
   parseCustomerSegments,
-} from '../../blocks/customer-segment-personalization-block/customer-segment-personalization-block.utils.mjs';
+} from '../../blocks/customer-segment-personalization-block/customer-segment-personalization-block.utils.js';
 /* eslint-enable import/extensions */
 
 test('parseCustomerSegments trims whitespace, ignores empty values, and base64-encodes ids', () => {
