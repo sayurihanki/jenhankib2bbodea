@@ -53,6 +53,7 @@ If block options are not exposed in your DA/EDS authoring UI, apply the same cla
   - smaller card radius and spacing
   - boxed plus icon that rotates in the open state
   - lighter spec-table styling inside the content area
+  - automatic conversion of simple `Label: Value` lines into a 2-column specs table
 
 ## Authoring Example
 
@@ -71,6 +72,19 @@ Rich body content can include:
 - lists
 - links
 - inline HTML tables, including 2-column label/value spec tables
+
+### Google Docs-friendly `full-details` shortcut
+
+When the block has the `full-details` class, the body can also be authored as simple lines instead of a nested HTML table:
+
+```text
+External Height: 2,000 mm (78.7")<br>
+External Width: 600 mm (23.6")<br>
+External Depth: 1,000 mm (39.4")<br>
+Internal Width: 482.6 mm (19.0" EIA-310)
+```
+
+If the body is simple `Label: Value` content separated by `<br>` or paragraph-style line breaks, the block converts it into the same lined 2-column specs layout at runtime.
 
 ## Error Handling
 

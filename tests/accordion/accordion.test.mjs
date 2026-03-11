@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import decorate from '../../blocks/accordion/accordion.js';
+import decorate, { parseFullDetailsRows } from '../../blocks/accordion/accordion.js';
 
 class FakeTextNode {
   constructor(text) {
@@ -198,4 +198,29 @@ test('single-open accordion still allows the active item to collapse', () => {
   firstItem.open = false;
 
   assert.equal(firstItem.open, false);
+});
+
+test('parseFullDetailsRows converts simple full-details lines into label/value rows', () => {
+  const rows = parseFullDetailsRows(`
+    External Height: 2,000 mm (78.7")<br>
+    External Width: 600 mm (23.6")<br>
+    External Depth: 1,000 mm (39.4")
+  `);
+
+  assert.deepEqual(rows, [
+    ['External Height', '2,000 mm (78.7")'],
+    ['External Width', '600 mm (23.6")'],
+    ['External Depth', '1,000 mm (39.4")'],
+  ]);
+});
+
+test('parseFullDetailsRows handles escaped Docs-style line breaks', () => {
+  const rows = parseFullDetailsRows(
+    'External Height: 2,000 mm (78.7")&lt;br&gt;External Width: 600 mm (23.6")',
+  );
+
+  assert.deepEqual(rows, [
+    ['External Height', '2,000 mm (78.7")'],
+    ['External Width', '600 mm (23.6")'],
+  ]);
 });
