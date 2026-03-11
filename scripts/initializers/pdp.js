@@ -3,6 +3,7 @@ import { Image, provider as UI } from '@dropins/tools/components.js';
 import { initialize, setEndpoint, fetchProductData } from '@dropins/storefront-pdp/api.js';
 import { isAemAssetsEnabled, tryGenerateAemAssetsOptimizedUrl } from '@dropins/tools/lib/aem/assets.js';
 import { initializeDropin } from './index.js';
+import { transformProductInputOptions } from '../components/pdp-input-options/pdp-input-options.js';
 import {
   CS_FETCH_GRAPHQL,
   fetchPlaceholders,
@@ -166,6 +167,9 @@ await initializeDropin(async () => {
   const models = {
     ProductDetails: {
       initialData: { ...product },
+      transformer: (rawProduct) => ({
+        inputOptions: transformProductInputOptions(rawProduct),
+      }),
     },
   };
 

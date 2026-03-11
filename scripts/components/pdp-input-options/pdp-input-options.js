@@ -6,14 +6,38 @@ function normalizeLabel(value = '') {
   return String(value).trim().toLowerCase();
 }
 
+function toNumber(value, fallback = 0) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
 function getInputOptions(product) {
   return Array.isArray(product?.inputOptions)
     ? [...product.inputOptions].sort((first, second) => {
-      const firstOrder = Number.isFinite(first?.sortOrder) ? first.sortOrder : 0;
-      const secondOrder = Number.isFinite(second?.sortOrder) ? second.sortOrder : 0;
+      const firstOrder = toNumber(first?.sortOrder);
+      const secondOrder = toNumber(second?.sortOrder);
       return firstOrder - secondOrder;
     })
     : [];
+}
+
+export function transformProductInputOptions(product = {}) {
+  if (!Array.isArray(product?.inputOptions)) {
+    return [];
+  }
+
+  return product.inputOptions.map((option) => ({
+    id: option?.id || '',
+    title: option?.title || option?.label || '',
+    label: option?.title || option?.label || '',
+    required: Boolean(option?.required),
+    type: option?.type || 'text',
+    suffix: option?.suffix || '',
+    sortOrder: toNumber(option?.sortOrder),
+    range: option?.range || null,
+    imageSize: option?.imageSize || null,
+    fileExtensions: option?.fileExtensions || '',
+  }));
 }
 
 function normalizeEnteredOptions(entries = []) {
@@ -54,7 +78,7 @@ function serializeEnteredOptions(entries = []) {
   );
 }
 
-function getEnteredOptionValue(entries = [], uid) {
+function getEnteredOptionValue(uid, entries = []) {
   return normalizeEnteredOptions(entries).find((entry) => entry.uid === uid)?.value || '';
 }
 
@@ -70,7 +94,8 @@ function validateRequiredSelectableOptions(product, selectedOptions) {
 
 function validateRequiredInputOptions(product, enteredOptions) {
   const optionValues = new Map(
-    filterEnteredOptionsForProduct(product, enteredOptions).map((entry) => [entry.uid, entry.value]),
+    filterEnteredOptionsForProduct(product, enteredOptions)
+      .map((entry) => [entry.uid, entry.value]),
   );
 
   return getInputOptions(product).every((option) => {
@@ -87,7 +112,10 @@ export function validateRequiredProductConfiguration(product, values = {}) {
     && validateRequiredInputOptions(product, values?.enteredOptions);
 }
 
-export function deriveEnteredOptionsFromCustomizableOptions(inputOptions = [], customizableOptions = {}) {
+export function deriveEnteredOptionsFromCustomizableOptions(
+  inputOptions = [],
+  customizableOptions = {},
+) {
   if (!Array.isArray(inputOptions) || inputOptions.length === 0) {
     return [];
   }
@@ -355,7 +383,7 @@ export async function mountProductInputOptions(
     }
 
     if (fieldType === 'file') {
-      const currentValue = getEnteredOptionValue(currentEnteredOptions, option.id);
+      const currentValue = getEnteredOptionValue(option.id, currentEnteredOptions);
       const input = createElement('input', 'pdp-input-options__control');
       input.type = 'file';
       input.id = fieldId;
@@ -400,7 +428,7 @@ export async function mountProductInputOptions(
         fieldWrapper.append(selectedValue);
       }
     } else {
-      const currentValue = getEnteredOptionValue(currentEnteredOptions, option.id);
+      const currentValue = getEnteredOptionValue(option.id, currentEnteredOptions);
       const control = fieldType === 'textarea'
         ? createElement('textarea', 'pdp-input-options__control')
         : createElement('input', 'pdp-input-options__control');
