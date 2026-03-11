@@ -50,6 +50,9 @@
           "...": "../blocks/vip-hero-block/_*.json#/definitions"
         },
         {
+          "...": "../blocks/vip-hero-mccs/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/how-it-works-stats/_*.json#/definitions"
         },
         {

@@ -371,6 +371,16 @@
           }
         },
         {
+          "title": "VIP Hero MCCS",
+          "id": "vip-hero-mccs",
+          "model": "vip-hero-mccs",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
           "title": "How It Works + Stats",
           "id": "how-it-works-stats",
           "model": "how-it-works-stats",

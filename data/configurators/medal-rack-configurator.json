@@ -1,11 +1,22 @@
 {
   "id": "medal-rack-configurator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "currency": "USD",
+  "commerce": {
+    "baseSku": "medalrackconfigurator",
+    "optionLabels": {
+      "size": "Rack Size",
+      "wood": "Wood Finish",
+      "hardware": "Hardware Finish",
+      "branch": "Branch of Service",
+      "inscription": "Inscription",
+      "awardManifest": "Award Manifest"
+    }
+  },
   "pricing": {
-    "base": 495,
-    "engraving": 60,
-    "mountKit": 140
+    "base": 695,
+    "engraving": 0,
+    "mountKit": 0
   },
   "defaults": {
     "size": "sm",
@@ -19,25 +30,29 @@
       "id": "sm",
       "label": "Standard",
       "dimensions": "8\" x 10\"",
-      "cost": 0
+      "cost": 0,
+      "maxAwards": 8
     },
     {
       "id": "md",
       "label": "Medium",
       "dimensions": "11\" x 14\"",
-      "cost": 60
+      "cost": 60,
+      "maxAwards": 12
     },
     {
       "id": "lg",
       "label": "Large",
       "dimensions": "14\" x 18\"",
-      "cost": 120
+      "cost": 120,
+      "maxAwards": 18
     },
     {
       "id": "xl",
       "label": "Extra Large",
       "dimensions": "18\" x 24\"",
-      "cost": 200
+      "cost": 200,
+      "maxAwards": 24
     }
   ],
   "woods": [
@@ -138,6 +153,218 @@
       "label": "USSF",
       "icon": "ORBIT",
       "watermark": "USSF"
+    }
+  ],
+  "awards": [
+    {
+      "id": "medal-of-honor-usmc",
+      "label": "Medal of Honor",
+      "branch": "usmc",
+      "precedence": 1,
+      "type": "medal"
+    },
+    {
+      "id": "navy-cross-usmc",
+      "label": "Navy Cross",
+      "branch": "usmc",
+      "precedence": 2,
+      "type": "medal"
+    },
+    {
+      "id": "silver-star-usmc",
+      "label": "Silver Star",
+      "branch": "usmc",
+      "precedence": 3,
+      "type": "medal"
+    },
+    {
+      "id": "bronze-star-usmc",
+      "label": "Bronze Star Medal",
+      "branch": "usmc",
+      "precedence": 4,
+      "type": "medal"
+    },
+    {
+      "id": "purple-heart-usmc",
+      "label": "Purple Heart",
+      "branch": "usmc",
+      "precedence": 5,
+      "type": "medal"
+    },
+    {
+      "id": "medal-of-honor-army",
+      "label": "Medal of Honor",
+      "branch": "army",
+      "precedence": 1,
+      "type": "medal"
+    },
+    {
+      "id": "distinguished-service-cross-army",
+      "label": "Distinguished Service Cross",
+      "branch": "army",
+      "precedence": 2,
+      "type": "medal"
+    },
+    {
+      "id": "silver-star-army",
+      "label": "Silver Star",
+      "branch": "army",
+      "precedence": 3,
+      "type": "medal"
+    },
+    {
+      "id": "bronze-star-army",
+      "label": "Bronze Star Medal",
+      "branch": "army",
+      "precedence": 4,
+      "type": "medal"
+    },
+    {
+      "id": "purple-heart-army",
+      "label": "Purple Heart",
+      "branch": "army",
+      "precedence": 5,
+      "type": "medal"
+    },
+    {
+      "id": "medal-of-honor-navy",
+      "label": "Medal of Honor",
+      "branch": "navy",
+      "precedence": 1,
+      "type": "medal"
+    },
+    {
+      "id": "navy-cross-navy",
+      "label": "Navy Cross",
+      "branch": "navy",
+      "precedence": 2,
+      "type": "medal"
+    },
+    {
+      "id": "silver-star-navy",
+      "label": "Silver Star",
+      "branch": "navy",
+      "precedence": 3,
+      "type": "medal"
+    },
+    {
+      "id": "bronze-star-navy",
+      "label": "Bronze Star Medal",
+      "branch": "navy",
+      "precedence": 4,
+      "type": "medal"
+    },
+    {
+      "id": "purple-heart-navy",
+      "label": "Purple Heart",
+      "branch": "navy",
+      "precedence": 5,
+      "type": "medal"
+    },
+    {
+      "id": "medal-of-honor-airforce",
+      "label": "Medal of Honor",
+      "branch": "airforce",
+      "precedence": 1,
+      "type": "medal"
+    },
+    {
+      "id": "air-force-cross-airforce",
+      "label": "Air Force Cross",
+      "branch": "airforce",
+      "precedence": 2,
+      "type": "medal"
+    },
+    {
+      "id": "silver-star-airforce",
+      "label": "Silver Star",
+      "branch": "airforce",
+      "precedence": 3,
+      "type": "medal"
+    },
+    {
+      "id": "bronze-star-airforce",
+      "label": "Bronze Star Medal",
+      "branch": "airforce",
+      "precedence": 4,
+      "type": "medal"
+    },
+    {
+      "id": "purple-heart-airforce",
+      "label": "Purple Heart",
+      "branch": "airforce",
+      "precedence": 5,
+      "type": "medal"
+    },
+    {
+      "id": "medal-of-honor-cg",
+      "label": "Medal of Honor",
+      "branch": "cg",
+      "precedence": 1,
+      "type": "medal"
+    },
+    {
+      "id": "coast-guard-medal-cg",
+      "label": "Coast Guard Medal",
+      "branch": "cg",
+      "precedence": 2,
+      "type": "medal"
+    },
+    {
+      "id": "silver-star-cg",
+      "label": "Silver Star",
+      "branch": "cg",
+      "precedence": 3,
+      "type": "medal"
+    },
+    {
+      "id": "bronze-star-cg",
+      "label": "Bronze Star Medal",
+      "branch": "cg",
+      "precedence": 4,
+      "type": "medal"
+    },
+    {
+      "id": "purple-heart-cg",
+      "label": "Purple Heart",
+      "branch": "cg",
+      "precedence": 5,
+      "type": "medal"
+    },
+    {
+      "id": "medal-of-honor-sf",
+      "label": "Medal of Honor",
+      "branch": "sf",
+      "precedence": 1,
+      "type": "medal"
+    },
+    {
+      "id": "defense-superior-service-sf",
+      "label": "Defense Superior Service Medal",
+      "branch": "sf",
+      "precedence": 2,
+      "type": "service-medal"
+    },
+    {
+      "id": "silver-star-sf",
+      "label": "Silver Star",
+      "branch": "sf",
+      "precedence": 3,
+      "type": "medal"
+    },
+    {
+      "id": "bronze-star-sf",
+      "label": "Bronze Star Medal",
+      "branch": "sf",
+      "precedence": 4,
+      "type": "medal"
+    },
+    {
+      "id": "purple-heart-sf",
+      "label": "Purple Heart",
+      "branch": "sf",
+      "precedence": 5,
+      "type": "medal"
     }
   ],
   "addons": [
