@@ -42,6 +42,7 @@ const PDP_CONFIGURATOR_FALLBACKS = Object.freeze({
   'USMC-OFFICER-BLUES-PACKAGE': {
     sku: 'USMC-OFFICER-BLUES-PACKAGE',
     dataSource: '/data/configurators/marine-officer-dress-blues.json',
+    layout: 'immersive',
   },
 });
 
@@ -115,6 +116,11 @@ function getConfiguratorFallback(product) {
   return fallback;
 }
 
+function syncConfiguratorLayoutVariant(block, product) {
+  const layout = PDP_CONFIGURATOR_FALLBACKS[product?.sku]?.layout;
+  block.classList.toggle('product-details--configurator-immersive', layout === 'immersive');
+}
+
 async function mountConfiguratorFallback(container, block, product) {
   const fallback = getConfiguratorFallback(product);
 
@@ -147,7 +153,7 @@ async function mountConfiguratorFallback(container, block, product) {
 }
 
 export default async function decorate(block) {
-  const product = events.lastPayload('pdp/data') ?? null;
+  let product = events.lastPayload('pdp/data') ?? null;
   const labels = await fetchPlaceholders();
 
   // Read itemUid from URL
@@ -206,6 +212,7 @@ export default async function decorate(block) {
   const $attributes = fragment.querySelector('.product-details__attributes');
 
   block.replaceChildren(fragment);
+  syncConfiguratorLayoutVariant(block, product);
 
   const gallerySlots = {
     CarouselThumbnail: (ctx) => {
@@ -316,7 +323,34 @@ export default async function decorate(block) {
     initialEnteredOptions,
   });
 
-  await mountConfiguratorFallback($configuratorFallback, block, product);
+  let configuratorFallbackMount = null;
+  const ensureConfiguratorFallback = (nextProduct = product) => {
+    if (configuratorFallbackMount) {
+      return configuratorFallbackMount;
+    }
+
+    configuratorFallbackMount = mountConfiguratorFallback($configuratorFallback, block, nextProduct)
+      .then((mounted) => {
+        if (!mounted) {
+          configuratorFallbackMount = null;
+        }
+
+        return mounted;
+      })
+      .catch((error) => {
+        configuratorFallbackMount = null;
+        console.error('Could not mount PDP configurator fallback:', error);
+        return false;
+      });
+
+    return configuratorFallbackMount;
+  };
+
+  events.on('pdp/data', (nextProduct) => {
+    product = nextProduct;
+    syncConfiguratorLayoutVariant(block, nextProduct);
+    ensureConfiguratorFallback(nextProduct);
+  }, { eager: true });
 
   // Configuration – Button - Add to Cart
   const addToCart = await UI.render(Button, {

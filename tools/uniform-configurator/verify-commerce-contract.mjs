@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -244,7 +246,7 @@ async function fetchCoreCustomizableProduct(config, sku) {
   if (!endpoint) {
     return {
       product: null,
-      error: 'Missing commerce-core-endpoint; Magento customizable options cannot be queried for this simple product.',
+      error: `Missing commerce-core-endpoint; the configured commerce-endpoint resolves "${sku}" as a SimpleProductView without customizable option metadata, so Magento Admin custom options cannot be queried for this simple product.`,
     };
   }
 

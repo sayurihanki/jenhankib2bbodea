@@ -100,7 +100,9 @@ export async function fetchCoreCustomizableCommerceProduct(sku) {
     return {
       product: null,
       error: buildCoreCustomizableError(
-        'This site is missing a commerce-core-endpoint, so Magento customizable options cannot be loaded for this simple package SKU.',
+        `The configured commerce-endpoint resolves "${sku}" as a SimpleProductView without customizable option metadata. `
+        + 'This package uses Magento Admin customizable options on a simple product, so the site also needs a real '
+        + 'commerce-core-endpoint to load the option UIDs required for add-to-cart.',
       ),
     };
   }
