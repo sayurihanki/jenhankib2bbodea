@@ -11,7 +11,10 @@ import {
   buildCommerceContractIndex,
   createUniformCommerceCartItem,
   createUniformCommerceContract,
+  mergeCommerceContractProduct,
   normalizeCommerceKey,
+  normalizeCoreCustomizableProduct,
+  shouldAttemptCoreCustomizableFallback,
   validateCommerceProductContract,
 } from '../../blocks/uniform-configurator/uniform-configurator.commerce.js';
 import {
@@ -82,6 +85,77 @@ function buildMockContractProduct(data) {
   };
 }
 
+function buildMockCoreCustomizableProduct() {
+  return {
+    __typename: 'SimpleProduct',
+    sku: 'USMC-OFFICER-BLUES-PACKAGE',
+    name: 'USMC-OFFICER-BLUES-PACKAGE',
+    options: [
+      {
+        __typename: 'CustomizableDropDownOption',
+        uid: 'core-option-rank',
+        title: 'Rank',
+        required: true,
+        sort_order: 1,
+        value: [
+          {
+            uid: 'core-value-rank-captain',
+            title: 'Captain',
+            sort_order: 1,
+            price: 32,
+            price_type: 'FIXED',
+          },
+        ],
+      },
+      {
+        __typename: 'CustomizableCheckboxOption',
+        uid: 'core-option-additional-insignia',
+        title: 'Additional Insignia',
+        required: false,
+        sort_order: 2,
+        value: [
+          {
+            uid: 'core-value-extra-marksmanship',
+            title: 'Marksmanship Badge',
+            sort_order: 1,
+            price: 14,
+            price_type: 'FIXED',
+          },
+          {
+            uid: 'core-value-extra-aviator',
+            title: 'Naval Aviator Wings',
+            sort_order: 2,
+            price: 24,
+            price_type: 'FIXED',
+          },
+        ],
+      },
+      {
+        __typename: 'CustomizableFieldOption',
+        uid: 'core-input-chest',
+        title: 'Measurement Chest',
+        required: false,
+        sort_order: 3,
+        value: {
+          uid: 'core-input-chest-value',
+          max_characters: 32,
+        },
+      },
+      {
+        __typename: 'CustomizableAreaOption',
+        uid: 'core-input-notes',
+        title: 'Special Instructions',
+        required: false,
+        sort_order: 4,
+        value: {
+          uid: 'core-input-notes-value',
+          max_characters: 500,
+        },
+      },
+    ],
+  };
+}
+
 test('buildCommerceContractIndex maps option titles and entered option titles to UIDs', async () => {
   const data = await loadDataset();
   const index = buildCommerceContractIndex(buildMockContractProduct(data));
@@ -112,6 +186,60 @@ test('validateCommerceProductContract catches missing option values from the Com
     validation.missing.some((issue) => issue.title === 'Cover Frame Size'),
     true,
   );
+});
+
+test('normalizeCoreCustomizableProduct adapts Magento customizable options into the configurator contract shape', () => {
+  const normalized = normalizeCoreCustomizableProduct(buildMockCoreCustomizableProduct());
+  const index = buildCommerceContractIndex(normalized);
+
+  assert.equal(normalized.options.length, 2);
+  assert.equal(normalized.inputOptions.length, 2);
+  assert.equal(
+    index.selectable.get(normalizeCommerceKey('Rank')).values.get(normalizeCommerceKey('Captain')).uid,
+    'core-value-rank-captain',
+  );
+  assert.equal(
+    index.entered.get(normalizeCommerceKey('Measurement Chest')).id,
+    'core-input-chest',
+  );
+});
+
+test('mergeCommerceContractProduct prefers fallback selectable options and merges entered options', () => {
+  const merged = mergeCommerceContractProduct(
+    {
+      __typename: 'SimpleProductView',
+      sku: 'USMC-OFFICER-BLUES-PACKAGE',
+      inputOptions: [
+        {
+          id: 'catalog-notes',
+          title: 'Special Instructions',
+          type: 'area',
+        },
+      ],
+    },
+    normalizeCoreCustomizableProduct(buildMockCoreCustomizableProduct()),
+  );
+
+  assert.equal(merged.options.length, 2);
+  assert.equal(merged.inputOptions.length, 2);
+  assert.equal(merged.inputOptions.some((option) => option.title === 'Measurement Chest'), true);
+  assert.equal(merged.inputOptions.some((option) => option.title === 'Special Instructions'), true);
+});
+
+test('shouldAttemptCoreCustomizableFallback identifies thin simple-product ProductView payloads', () => {
+  assert.equal(shouldAttemptCoreCustomizableFallback({}), true);
+  assert.equal(shouldAttemptCoreCustomizableFallback({
+    __typename: 'SimpleProductView',
+    sku: 'USMC-OFFICER-BLUES-PACKAGE',
+    options: [],
+    inputOptions: [],
+  }), true);
+  assert.equal(shouldAttemptCoreCustomizableFallback({
+    __typename: 'ComplexProductView',
+    sku: 'USMC-OFFICER-BLUES-PACKAGE',
+    options: [{ id: '1' }],
+    inputOptions: [{ id: '2' }],
+  }), false);
 });
 
 test('createUniformCommerceCartItem maps entered options and selectable UIDs', async () => {

@@ -87,6 +87,15 @@
   display: none;
 }
 
+.product-details__configurator-fallback:empty {
+  display: none;
+}
+
+.product-details.product-details--configurator-active .product-details__configurator-fallback {
+  margin-top: var(--spacing-big);
+  margin-bottom: var(--spacing-xxbig);
+}
+
 .product-details__buttons {
   display: grid;
   grid-template-columns: 1fr auto auto;

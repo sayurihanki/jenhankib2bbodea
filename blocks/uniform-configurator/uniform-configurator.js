@@ -26,8 +26,11 @@ import {
   buildCommerceContractIndex,
   createUniformCommerceCartItem,
   describeCommerceContractIssue,
+  mergeCommerceContractProduct,
+  shouldAttemptCoreCustomizableFallback,
   validateCommerceProductContract,
 } from './uniform-configurator.commerce.js';
+import { fetchCoreCustomizableCommerceProduct } from './uniform-configurator.commerce-core.js';
 
 const SOURCE_HOSTS = new Set(['da.live', 'www.da.live', 'content.da.live']);
 
@@ -1125,10 +1128,13 @@ function updateContractState(runtime) {
   const issuesMarkup = contractValidation.missing
     .map((issue) => `<li>${escapeHtml(describeCommerceContractIssue(issue))}</li>`)
     .join('');
+  const blockerCopy = contractValidation.blockerMessage
+    ? `<p>${escapeHtml(contractValidation.blockerMessage)}</p>`
+    : '<p>The authored SKU is missing required Commerce options for this configurator:</p>';
 
   contractError.innerHTML = `
     <strong>Commerce contract mismatch</strong>
-    <p>The authored SKU is missing required Commerce options for this configurator:</p>
+    ${blockerCopy}
     <ul>${issuesMarkup}</ul>
   `;
   contractError.hidden = false;
@@ -1370,7 +1376,10 @@ async function submit(runtime) {
   try {
     if (runtime.commerceMode) {
       if (!runtime.contractValidation?.valid) {
-        throw new Error('Commerce contract validation failed. Fix the missing Admin options before launch.');
+        throw new Error(
+          runtime.contractValidation.blockerMessage
+          || 'Commerce contract validation failed. Fix the missing Admin options before launch.',
+        );
       }
 
       const cartItem = createUniformCommerceCartItem({
@@ -1616,12 +1625,54 @@ export default async function decorate(block) {
       await import('../../scripts/initializers/cart.js');
       setEndpoint(CS_FETCH_GRAPHQL);
       commerceProduct = await fetchProductData(config.sku);
+      let contractProduct = commerceProduct;
+      let coreFallbackResult = null;
+      let blockerMessage = '';
 
-      if (!commerceProduct?.sku) {
-        throw new Error(`The Commerce SKU "${config.sku}" could not be loaded from Adobe Commerce.`);
+      const ensureCoreFallback = async () => {
+        if (coreFallbackResult !== null) {
+          return coreFallbackResult;
+        }
+
+        coreFallbackResult = await fetchCoreCustomizableCommerceProduct(config.sku);
+        return coreFallbackResult;
+      };
+
+      if (shouldAttemptCoreCustomizableFallback(contractProduct)) {
+        const coreProductResult = await ensureCoreFallback();
+        if (coreProductResult.product?.sku) {
+          contractProduct = mergeCommerceContractProduct(contractProduct, coreProductResult.product);
+        } else if (coreProductResult.error) {
+          blockerMessage = coreProductResult.error.message;
+        }
       }
 
-      contractValidation = validateCommerceProductContract(data, commerceProduct);
+      if (!contractProduct?.sku) {
+        throw new Error(
+          blockerMessage || `The Commerce SKU "${config.sku}" could not be loaded from Adobe Commerce.`,
+        );
+      }
+
+      contractValidation = validateCommerceProductContract(data, contractProduct);
+
+      if (shouldAttemptCoreCustomizableFallback(contractProduct, contractValidation)) {
+        const coreProductResult = await ensureCoreFallback();
+        if (coreProductResult.product?.sku) {
+          contractProduct = mergeCommerceContractProduct(contractProduct, coreProductResult.product);
+          contractValidation = validateCommerceProductContract(data, contractProduct);
+        } else if (coreProductResult.error) {
+          blockerMessage = coreProductResult.error.message;
+        }
+      }
+
+      if (blockerMessage && !contractValidation.valid) {
+        contractValidation = {
+          ...contractValidation,
+          blockerMessage,
+        };
+      }
+
+      commerceProduct = contractProduct;
     }
 
     const runtime = {

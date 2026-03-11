@@ -4,6 +4,9 @@ import { fileURLToPath } from 'node:url';
 
 import {
   describeCommerceContractIssue,
+  mergeCommerceContractProduct,
+  normalizeCoreCustomizableProduct,
+  shouldAttemptCoreCustomizableFallback,
   validateCommerceProductContract,
 } from '../../blocks/uniform-configurator/uniform-configurator.commerce.js';
 import { normalizeDataset } from '../../blocks/uniform-configurator/uniform-configurator.lib.js';
@@ -83,6 +86,85 @@ const PRODUCT_QUERY = `
   }
 `;
 
+const CORE_CUSTOMIZABLE_PRODUCT_QUERY = `
+  query UniformConfiguratorCoreProduct($sku: String!) {
+    products(filter: { sku: { eq: $sku } }) {
+      items {
+        __typename
+        sku
+        name
+        ... on CustomizableProductInterface {
+          options {
+            __typename
+            uid
+            title
+            required
+            sort_order
+            ... on CustomizableDropDownOption {
+              value {
+                uid
+                title
+                sort_order
+                price
+                price_type
+                sku
+              }
+            }
+            ... on CustomizableCheckboxOption {
+              value {
+                uid
+                title
+                sort_order
+                price
+                price_type
+                sku
+              }
+            }
+            ... on CustomizableMultipleOption {
+              value {
+                uid
+                title
+                sort_order
+                price
+                price_type
+                sku
+              }
+            }
+            ... on CustomizableRadioOption {
+              value {
+                uid
+                title
+                sort_order
+                price
+                price_type
+                sku
+              }
+            }
+            ... on CustomizableFieldOption {
+              value {
+                uid
+                price
+                price_type
+                max_characters
+                sku
+              }
+            }
+            ... on CustomizableAreaOption {
+              value {
+                uid
+                price
+                price_type
+                max_characters
+                sku
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 async function loadJson(relativePath) {
   const filePath = resolve(repoRoot, relativePath);
   const contents = await readFile(filePath, 'utf8');
@@ -107,6 +189,10 @@ function getHeaderBag(config) {
 
 function getEndpoint(config) {
   return getPublicConfig(config)['commerce-endpoint'];
+}
+
+function getCoreEndpoint(config) {
+  return getPublicConfig(config)['commerce-core-endpoint'];
 }
 
 function extractBasePrice(product = {}) {
@@ -153,6 +239,54 @@ async function fetchProduct(config, sku) {
   return payload?.data?.products?.[0] || null;
 }
 
+async function fetchCoreCustomizableProduct(config, sku) {
+  const endpoint = getCoreEndpoint(config);
+  if (!endpoint) {
+    return {
+      product: null,
+      error: 'Missing commerce-core-endpoint; Magento customizable options cannot be queried for this simple product.',
+    };
+  }
+
+  const headers = {
+    'content-type': 'application/json',
+    ...getPublicConfig(config).headers?.all,
+  };
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      query: CORE_CUSTOMIZABLE_PRODUCT_QUERY,
+      variables: {
+        sku,
+      },
+    }),
+  });
+
+  const payload = await response.json();
+
+  if (!response.ok) {
+    return {
+      product: null,
+      error: `Core customizable query failed with ${response.status}.`,
+    };
+  }
+
+  if (Array.isArray(payload?.errors) && payload.errors.length > 0) {
+    return {
+      product: null,
+      error: payload.errors.map((error) => error.message).join('; '),
+    };
+  }
+
+  const product = payload?.data?.products?.items?.[0];
+  return {
+    product: product?.sku ? normalizeCoreCustomizableProduct(product) : null,
+    error: product?.sku ? null : `Core customizable query returned no product for SKU "${sku}".`,
+  };
+}
+
 async function main() {
   const sku = process.argv[2] || process.env.UNIFORM_CONFIGURATOR_SKU || DEFAULT_SKU;
   const [config, rawDataset] = await Promise.all([
@@ -161,21 +295,32 @@ async function main() {
   ]);
   const data = normalizeDataset(rawDataset);
   const product = await fetchProduct(config, sku);
+  let contractProduct = product;
+  let coreFallbackMessage = '';
 
-  if (!product?.sku) {
+  if (shouldAttemptCoreCustomizableFallback(contractProduct)) {
+    const coreResult = await fetchCoreCustomizableProduct(config, sku);
+    if (coreResult.product?.sku) {
+      contractProduct = mergeCommerceContractProduct(contractProduct, coreResult.product);
+    } else if (coreResult.error) {
+      coreFallbackMessage = coreResult.error;
+    }
+  }
+
+  if (!contractProduct?.sku) {
     console.error(`Contract check failed: SKU "${sku}" did not resolve in the R2BTcyPc7knfUJMozF1oQQ environment.`);
     process.exitCode = 1;
     return;
   }
 
-  const validation = validateCommerceProductContract(data, product);
-  const basePrice = extractBasePrice(product);
+  const validation = validateCommerceProductContract(data, contractProduct);
+  const basePrice = extractBasePrice(contractProduct);
 
-  console.log(`Resolved SKU: ${product.sku}`);
-  console.log(`Product type: ${product.__typename}`);
+  console.log(`Resolved SKU: ${contractProduct.sku}`);
+  console.log(`Product type: ${contractProduct.__typename}`);
   console.log(`Base price: ${basePrice === null ? 'unknown' : basePrice}`);
-  console.log(`Selectable options exposed: ${Array.isArray(product.options) ? product.options.length : 0}`);
-  console.log(`Entered options exposed: ${Array.isArray(product.inputOptions) ? product.inputOptions.length : 0}`);
+  console.log(`Selectable options exposed: ${Array.isArray(contractProduct.options) ? contractProduct.options.length : 0}`);
+  console.log(`Entered options exposed: ${Array.isArray(contractProduct.inputOptions) ? contractProduct.inputOptions.length : 0}`);
 
   if (basePrice !== null && basePrice !== 678) {
     console.error(`Contract check failed: expected base price 678, received ${basePrice}.`);
@@ -184,6 +329,9 @@ async function main() {
   }
 
   if (!validation.valid) {
+    if (coreFallbackMessage) {
+      console.error(`Contract context: ${coreFallbackMessage}`);
+    }
     console.error('Contract check failed. Missing Commerce contract items:');
     validation.missing.forEach((issue) => {
       console.error(`- ${describeCommerceContractIssue(issue)}`);

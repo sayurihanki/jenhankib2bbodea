@@ -24,6 +24,7 @@ import ProductGallery from '@dropins/storefront-pdp/containers/ProductGallery.js
 import ProductGiftCardOptions from '@dropins/storefront-pdp/containers/ProductGiftCardOptions.js';
 
 // Libs
+import { buildBlock, decorateBlock, loadBlock } from '../../scripts/aem.js';
 import {
   fetchPlaceholders, getProductLink, rootLink, setJsonLd,
 } from '../../scripts/commerce.js';
@@ -36,6 +37,13 @@ import {
 import { IMAGES_SIZES } from '../../scripts/initializers/pdp.js';
 import '../../scripts/initializers/cart.js';
 import '../../scripts/initializers/wishlist.js';
+
+const PDP_CONFIGURATOR_FALLBACKS = Object.freeze({
+  'USMC-OFFICER-BLUES-PACKAGE': {
+    sku: 'USMC-OFFICER-BLUES-PACKAGE',
+    dataSource: '/data/configurators/marine-officer-dress-blues.json',
+  },
+});
 
 /**
  * Checks if the page has prerendered product JSON-LD data
@@ -90,6 +98,43 @@ async function getInitialEnteredOptions(itemUid, inputOptions) {
   }
 }
 
+function getConfiguratorFallback(product) {
+  const fallback = PDP_CONFIGURATOR_FALLBACKS[product?.sku];
+
+  if (!fallback) {
+    return null;
+  }
+
+  const hasSelectableOptions = Array.isArray(product?.options) && product.options.length > 0;
+  const hasInputOptions = Array.isArray(product?.inputOptions) && product.inputOptions.length > 0;
+
+  if (hasSelectableOptions || hasInputOptions) {
+    return null;
+  }
+
+  return fallback;
+}
+
+async function mountConfiguratorFallback(container, block, product) {
+  const fallback = getConfiguratorFallback(product);
+
+  if (!container || !fallback) {
+    return false;
+  }
+
+  const fallbackBlock = buildBlock('uniform-configurator', [
+    ['sku', fallback.sku],
+    ['data-source', fallback.dataSource],
+  ]);
+
+  container.replaceChildren(fallbackBlock);
+  decorateBlock(fallbackBlock);
+  block.classList.add('product-details--configurator-active');
+  await loadBlock(fallbackBlock);
+
+  return true;
+}
+
 export default async function decorate(block) {
   const product = events.lastPayload('pdp/data') ?? null;
   const labels = await fetchPlaceholders();
@@ -115,6 +160,7 @@ export default async function decorate(block) {
         <div class="product-details__gallery"></div>
         <div class="product-details__short-description"></div>
         <div class="product-details__gift-card-options"></div>
+        <div class="product-details__configurator-fallback"></div>
         <div class="product-details__configuration">
           <div class="product-details__options"></div>
           <div class="product-details__input-options"></div>
@@ -141,6 +187,7 @@ export default async function decorate(block) {
   const $inputOptions = fragment.querySelector('.product-details__input-options');
   const $quantity = fragment.querySelector('.product-details__quantity');
   const $giftCardOptions = fragment.querySelector('.product-details__gift-card-options');
+  const $configuratorFallback = fragment.querySelector('.product-details__configurator-fallback');
   const $addToCart = fragment.querySelector('.product-details__buttons__add-to-cart');
   const $wishlistToggleBtn = fragment.querySelector('.product-details__buttons__add-to-wishlist');
   const $requisitionListSelector = fragment.querySelector('.product-details__buttons__add-to-req-list');
@@ -257,6 +304,8 @@ export default async function decorate(block) {
   await mountProductInputOptions($inputOptions, {
     initialEnteredOptions,
   });
+
+  await mountConfiguratorFallback($configuratorFallback, block, product);
 
   // Configuration – Button - Add to Cart
   const addToCart = await UI.render(Button, {

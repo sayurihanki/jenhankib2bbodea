@@ -69,6 +69,7 @@ Seed data is provided at `/data/configurators/marine-officer-dress-blues.json`.
 - Fit-photo uploads are intentionally deferred in v1.
 - Legacy submission uses the shared wrapped/raw JSON POST behavior from `scripts/submit-json.js`.
 - Commerce mode loads the authored SKU through `@dropins/storefront-pdp/api.js`, imports `../../scripts/initializers/cart.js`, validates the live option/input contract, and adds `{ sku, quantity: 1, optionsUIDs, enteredOptions }` through `@dropins/storefront-cart/api.js`.
+- If the Catalog Service product view resolves as a simple product without customizable option metadata, the block now attempts a fallback core customizable-options query through `commerce-core-endpoint`. Without that endpoint, simple products that rely on Magento Admin customizable options will stay blocked with an inline fatal error.
 
 ## Submit Payload
 

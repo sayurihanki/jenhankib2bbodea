@@ -41,6 +41,23 @@ export const COMMERCE_ENTERED_OPTION_TITLES = Object.freeze({
   notes: 'Special Instructions',
 });
 
+const CORE_MULTIPLE_OPTION_TYPES = new Set([
+  'CustomizableCheckboxOption',
+  'CustomizableMultipleOption',
+]);
+
+const CORE_SELECTABLE_OPTION_TYPES = new Set([
+  'CustomizableDropDownOption',
+  'CustomizableCheckboxOption',
+  'CustomizableMultipleOption',
+  'CustomizableRadioOption',
+]);
+
+const CORE_ENTERED_OPTION_TYPES = new Set([
+  'CustomizableFieldOption',
+  'CustomizableAreaOption',
+]);
+
 export function normalizeCommerceKey(value = '') {
   return String(value)
     .trim()
@@ -269,6 +286,124 @@ export function buildCommerceContractIndex(product = {}) {
     selectable,
     entered,
   };
+}
+
+function normalizeCoreCustomizableValues(rawValues) {
+  const values = Array.isArray(rawValues) ? rawValues : rawValues ? [rawValues] : [];
+
+  return values
+    .map((value) => ({
+      id: value?.uid || '',
+      uid: value?.uid || '',
+      title: value?.title || '',
+      label: value?.title || '',
+      value: value?.title || '',
+      sortOrder: value?.sort_order ?? 0,
+      price: value?.price ?? 0,
+      priceType: value?.price_type || '',
+      sku: value?.sku || '',
+    }))
+    .filter((value) => value.uid && value.title);
+}
+
+export function normalizeCoreCustomizableProduct(product = {}) {
+  const normalized = {
+    __typename: product?.__typename || 'CustomizableProductInterface',
+    sku: product?.sku || '',
+    name: product?.name || '',
+    options: [],
+    inputOptions: [],
+  };
+
+  const options = Array.isArray(product?.options) ? product.options : [];
+
+  options.forEach((option) => {
+    const typename = option?.__typename || '';
+    const title = option?.title || '';
+    const uid = option?.uid || '';
+
+    if (!title || !uid) {
+      return;
+    }
+
+    if (CORE_SELECTABLE_OPTION_TYPES.has(typename)) {
+      normalized.options.push({
+        id: uid,
+        uid,
+        title,
+        label: title,
+        required: Boolean(option?.required),
+        multi: CORE_MULTIPLE_OPTION_TYPES.has(typename),
+        multiple: CORE_MULTIPLE_OPTION_TYPES.has(typename),
+        values: normalizeCoreCustomizableValues(option?.value),
+      });
+      return;
+    }
+
+    if (CORE_ENTERED_OPTION_TYPES.has(typename)) {
+      normalized.inputOptions.push({
+        id: uid,
+        uid,
+        title,
+        label: title,
+        required: Boolean(option?.required),
+        type: typename === 'CustomizableAreaOption' ? 'area' : 'field',
+      });
+    }
+  });
+
+  return normalized;
+}
+
+function mergeEnteredOptions(primary = [], secondary = []) {
+  const merged = new Map();
+
+  [...primary, ...secondary].forEach((option) => {
+    const title = option?.title || option?.label || '';
+    const key = normalizeCommerceKey(title);
+
+    if (!key) {
+      return;
+    }
+
+    merged.set(key, option);
+  });
+
+  return [...merged.values()];
+}
+
+export function mergeCommerceContractProduct(primaryProduct = {}, contractProduct = {}) {
+  const mergedOptions = Array.isArray(contractProduct?.options) && contractProduct.options.length > 0
+    ? contractProduct.options
+    : Array.isArray(primaryProduct?.options) ? primaryProduct.options : [];
+
+  return {
+    ...primaryProduct,
+    ...contractProduct,
+    sku: primaryProduct?.sku || contractProduct?.sku || '',
+    name: primaryProduct?.name || contractProduct?.name || '',
+    options: mergedOptions,
+    inputOptions: mergeEnteredOptions(primaryProduct?.inputOptions, contractProduct?.inputOptions),
+  };
+}
+
+export function shouldAttemptCoreCustomizableFallback(product = {}, validation = null) {
+  if (!product?.sku) {
+    return true;
+  }
+
+  if (product?.__typename !== 'SimpleProductView') {
+    return false;
+  }
+
+  const hasSelectableOptions = Array.isArray(product?.options) && product.options.length > 0;
+  const hasEnteredOptions = Array.isArray(product?.inputOptions) && product.inputOptions.length > 0;
+
+  if (!validation) {
+    return !hasSelectableOptions || !hasEnteredOptions;
+  }
+
+  return !validation.valid && (!hasSelectableOptions || !hasEnteredOptions);
 }
 
 export function describeCommerceContractIssue(issue = {}) {
