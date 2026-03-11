@@ -756,7 +756,10 @@ export function validateStep(step, state, data, options = {}) {
           }
         });
 
-        if (toText(state.selections.shippingZip) && !ZIP_PATTERN.test(state.selections.shippingZip)) {
+        if (
+          toText(state.selections.shippingZip)
+          && !ZIP_PATTERN.test(state.selections.shippingZip)
+        ) {
           errors.shippingZip = 'Enter a valid ZIP code.';
         }
       }

@@ -45,6 +45,14 @@ export function normalizeCommerceKey(value = '') {
   return String(value)
     .trim()
     .toLowerCase()
+    .replaceAll('⅛', ' 1 8 ')
+    .replaceAll('¼', ' 1 4 ')
+    .replaceAll('⅜', ' 3 8 ')
+    .replaceAll('½', ' 1 2 ')
+    .replaceAll('⅝', ' 5 8 ')
+    .replaceAll('¾', ' 3 4 ')
+    .replaceAll('⅞', ' 7 8 ')
+    .replaceAll('–', '-')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/&/g, ' and ')
@@ -591,7 +599,7 @@ export function createUniformCommerceCartItem({
   return {
     sku,
     quantity: 1,
-    optionsUIDs,
+    optionsUIDs: optionUIDs,
     enteredOptions,
   };
 }

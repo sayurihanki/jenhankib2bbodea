@@ -6,6 +6,7 @@ import { submitJson } from '../../scripts/submit-json.js';
 import {
   DEFAULT_DATA_SOURCE,
   MEASUREMENT_ORDER,
+  RUSH_EXTRA_ID,
   buildLineItems,
   computeTotal,
   createInitialState,
@@ -1109,7 +1110,7 @@ function updateShippingSection(runtime) {
 
 function updateContractState(runtime) {
   const contractError = runtime.block.querySelector('#uc-contract-error');
-  const contractValidation = runtime.contractValidation;
+  const { contractValidation } = runtime;
 
   if (!contractError) {
     return;
@@ -1139,10 +1140,12 @@ function updateSubmitState(runtime) {
   const contractBlocked = runtime.commerceMode && !runtime.contractValidation?.valid;
 
   if (submitButton) {
+    const isSubmitting = runtime.state.submissionState === 'submitting';
+    const defaultLabel = runtime.commerceMode ? 'Add Package to Cart' : 'Place Order';
+    const submittingLabel = runtime.commerceMode ? 'Adding Package…' : 'Submitting…';
+
     submitButton.disabled = runtime.state.submissionState === 'submitting' || contractBlocked;
-    submitButton.textContent = runtime.state.submissionState === 'submitting'
-      ? (runtime.commerceMode ? 'Adding Package…' : 'Submitting…')
-      : (runtime.commerceMode ? 'Add Package to Cart' : 'Place Order');
+    submitButton.textContent = isSubmitting ? submittingLabel : defaultLabel;
   }
 
   submitError.hidden = !runtime.state.submitErrorMessage;
