@@ -7,6 +7,15 @@ export const STEP_LABELS = [
   'Review',
 ];
 
+export const COMMERCE_STEP_LABELS = [
+  'Garments',
+  'Sizing',
+  'Rank & Insignia',
+  'Accessories',
+  'Measurements',
+  'Review',
+];
+
 export const STEP_ONE_FIELDS = [
   'coatLength',
   'coatSize',
@@ -479,6 +488,10 @@ export function createInitialState(data) {
   };
 }
 
+export function getStepLabels(commerceMode = false) {
+  return commerceMode ? COMMERCE_STEP_LABELS : STEP_LABELS;
+}
+
 export function escapeHtml(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -613,7 +626,7 @@ export function buildLineItems(data, state) {
     });
   }
 
-  if (state.selections.frameSize) {
+  if (state.selections.coverSize && state.selections.frameSize) {
     items.push({
       id: 'frame',
       label: data.options.frame.label,
@@ -702,7 +715,8 @@ function validateMeasurements(state, data) {
   return errors;
 }
 
-export function validateStep(step, state, data) {
+export function validateStep(step, state, data, options = {}) {
+  const commerceMode = Boolean(options?.commerceMode);
   let errors = {};
 
   if (step === 1) {
@@ -724,25 +738,27 @@ export function validateStep(step, state, data) {
   }
 
   if (step === 5) {
-    errors = validateRequiredFields(STEP_FIVE_FIELDS, state, {
-      firstName: 'Enter a first name.',
-      lastName: 'Enter a last name.',
-      email: 'Enter an email address.',
-    });
-
-    if (toText(state.selections.email) && !EMAIL_PATTERN.test(state.selections.email)) {
-      errors.email = 'Enter a valid email address.';
-    }
-
-    if (state.selections.shippingOverride) {
-      SHIPPING_FIELDS.forEach((field) => {
-        if (!toText(state.selections[field])) {
-          errors[field] = 'Complete the shipping address.';
-        }
+    if (!commerceMode) {
+      errors = validateRequiredFields(STEP_FIVE_FIELDS, state, {
+        firstName: 'Enter a first name.',
+        lastName: 'Enter a last name.',
+        email: 'Enter an email address.',
       });
 
-      if (toText(state.selections.shippingZip) && !ZIP_PATTERN.test(state.selections.shippingZip)) {
-        errors.shippingZip = 'Enter a valid ZIP code.';
+      if (toText(state.selections.email) && !EMAIL_PATTERN.test(state.selections.email)) {
+        errors.email = 'Enter a valid email address.';
+      }
+
+      if (state.selections.shippingOverride) {
+        SHIPPING_FIELDS.forEach((field) => {
+          if (!toText(state.selections[field])) {
+            errors[field] = 'Complete the shipping address.';
+          }
+        });
+
+        if (toText(state.selections.shippingZip) && !ZIP_PATTERN.test(state.selections.shippingZip)) {
+          errors.shippingZip = 'Enter a valid ZIP code.';
+        }
       }
     }
 
@@ -758,13 +774,13 @@ export function validateStep(step, state, data) {
   };
 }
 
-export function validateStepsUpTo(maxStep, state, data) {
+export function validateStepsUpTo(maxStep, state, data, options = {}) {
   const requiredSteps = [1, 3, 5].filter((step) => step <= maxStep);
   const errors = {};
   let firstInvalidStep = 0;
 
   requiredSteps.forEach((step) => {
-    const validation = validateStep(step, state, data);
+    const validation = validateStep(step, state, data, options);
     if (!validation.valid && !firstInvalidStep) {
       firstInvalidStep = step;
     }
