@@ -5,13 +5,14 @@ import { readBlockConfig } from '../../scripts/aem.js';
 import {
   normalizeBooleanValue,
   normalizeTechnicalDetailsPresentation,
+  parseAuthoredDatasetRows,
   resolveTechnicalDetails,
   shouldRenderTechnicalDetails,
   TECHNICAL_DETAILS_PRESENTATIONS,
 } from './product-technical-details.utils.mjs';
 /* eslint-enable import/extensions */
 
-const DEFAULT_DATA_SOURCE = '/data/product-technical-details/bodea-network-enclosure-immersive.json';
+const DEFAULT_DATA_SOURCE = '';
 const SOURCE_HOSTS = new Set(['da.live', 'www.da.live', 'content.da.live']);
 const VIEWPORT_BREAKPOINT = 900;
 
@@ -40,8 +41,27 @@ function createSectionHeader(title) {
   return header;
 }
 
+function readCellText(cell) {
+  const paragraphs = [...cell.querySelectorAll(':scope > p')];
+
+  if (paragraphs.length > 0) {
+    return paragraphs.map((paragraph) => paragraph.textContent.trim()).join(' ').trim();
+  }
+
+  return cell.textContent.trim();
+}
+
+function readAuthoredRows(block) {
+  return [...block.children].map((row) => [...row.children].map((cell) => readCellText(cell)));
+}
+
 function resolveDataSourceUrl(rawSource) {
-  const source = String(rawSource || DEFAULT_DATA_SOURCE).trim() || DEFAULT_DATA_SOURCE;
+  const source = String(rawSource || DEFAULT_DATA_SOURCE).trim();
+
+  if (!source) {
+    throw new Error('Product technical details requires a data-source or inline authored rows.');
+  }
+
   const url = new URL(source, window.location.origin);
 
   if (!/\.json($|\?)/i.test(url.pathname)) {
@@ -329,13 +349,13 @@ function buildShell(model) {
   return shell;
 }
 
-async function initialize(block, config) {
+async function initialize(block, config, authoredDataset = null) {
   if (block.dataset.initialized === 'true') return;
   block.dataset.initialized = 'true';
 
   try {
     const [dataset, product] = await Promise.all([
-      fetchDataset(config.dataSource),
+      authoredDataset ? Promise.resolve(authoredDataset) : fetchDataset(config.dataSource),
       waitForProductData(),
     ]);
 
@@ -359,10 +379,14 @@ async function initialize(block, config) {
 
 export default function decorate(block) {
   const config = normalizeConfig(block);
+  const authoredDataset = parseAuthoredDatasetRows(readAuthoredRows(block));
+  const hasInlineDataset = authoredDataset.specCards.length > 0
+    || authoredDataset.features.length > 0
+    || authoredDataset.detailsSections.length > 0;
   const lastReadyPayload = events.lastPayload('pdp/configurator-ready');
 
   if (shouldRenderTechnicalDetails(config.presentation, lastReadyPayload)) {
-    initialize(block, config);
+    initialize(block, config, hasInlineDataset ? authoredDataset : null);
     return;
   }
 
@@ -374,7 +398,7 @@ export default function decorate(block) {
       }
 
       subscription?.off?.();
-      initialize(block, config);
+      initialize(block, config, hasInlineDataset ? authoredDataset : null);
     });
   }
 }

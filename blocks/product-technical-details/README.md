@@ -8,13 +8,18 @@
 
 ## Authoring
 
-This is a DA key-value block.
+This block supports two authoring styles:
+
+1. `data-source` JSON
+2. Inline Google Docs-style rows in the block table
 
 | Key | Description |
 | --- | --- |
-| `data-source` | Repo-relative JSON path or published `da.live` JSON URL |
+| `data-source` | Optional repo-relative JSON path or published `da.live` JSON URL |
 | `presentation` | `default` or `rack-immersive` |
 | `enable-parallax` | `true` or `false`; defaults to `true` |
+
+If inline spec/detail rows are authored in the block table, they take precedence over `data-source`.
 
 ## Runtime behavior
 
@@ -60,3 +65,33 @@ This is a DA key-value block.
   ]
 }
 ```
+
+## Google Docs Table Authoring
+
+You can author the full dataset directly in the block table with rows like this:
+
+```text
+| product-technical-details | | | | | |
+| presentation | rack-immersive | | | | |
+| enable-parallax | true | | | | |
+| specs-title | Technical Specifications | | | | |
+| spec-card | U | Rack Height (EIA-310) | rack_height | 42 | U |
+| spec-card | LOAD | Static Load Capacity | static_load_capacity | 1500 | kg |
+| features-title | Key Features | | | | |
+| feature | Hot-Swap Rails | Tool-free slide-rail mounting for standard 1U to 4U equipment. | | | |
+| feature | Cable Entry Brush Strips | Top, bottom, and rear cable entry points with controlled passthrough. | | | |
+| details-title | Full Details | | | | |
+| detail-section | Dimensions and Physical | true | | | |
+| detail-row | External Height | 2,000 mm (78.7 in) | | | |
+| detail-row | External Width | 600 mm (23.6 in) | | | |
+| detail-row | Operating Temperature | 0-45 deg C | operating_temperature | | |
+| detail-section | Power and Electrical | false | | | |
+| detail-row | Max Current (Single Feed) | 16 A at 230 V | | | |
+```
+
+Column meaning:
+
+- `spec-card`: `type | icon | label | attribute | fallback value | unit`
+- `feature`: `type | title | description`
+- `detail-section`: `type | section title | open`
+- `detail-row`: `type | label | value | attribute`

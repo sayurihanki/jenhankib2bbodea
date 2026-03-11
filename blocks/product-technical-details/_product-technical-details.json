@@ -20,8 +20,8 @@
           "valueType": "string",
           "name": "data-source",
           "label": "Data Source",
-          "required": true,
-          "value": "/data/product-technical-details/bodea-network-enclosure-immersive.json"
+          "required": false,
+          "value": ""
         },
         {
           "component": "select",

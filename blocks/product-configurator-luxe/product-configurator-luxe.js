@@ -1125,10 +1125,9 @@ function normalizeConfig(block) {
 }
 
 export default async function decorate(block) {
-  renderLoading(block);
-
   try {
     const config = normalizeConfig(block);
+    renderLoading(block);
     if (!config.schemaUrl) {
       throw new Error('A schema-url is required for product-configurator-luxe.');
     }

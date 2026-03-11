@@ -9,6 +9,12 @@ const DEFAULT_TITLES = Object.freeze({
   detailsTitle: 'Full Details',
 });
 
+const INLINE_CONFIG_KEYS = new Set([
+  'data-source',
+  'presentation',
+  'enable-parallax',
+]);
+
 function asTrimmedString(value, fallback = '') {
   const normalized = String(value ?? fallback).trim();
   return normalized || String(fallback || '').trim();
@@ -41,6 +47,92 @@ export function normalizeBooleanValue(value, fallback = true) {
   if (['true', '1', 'yes', 'on'].includes(normalized)) return true;
 
   return fallback;
+}
+
+export function parseAuthoredDatasetRows(rows = []) {
+  const dataset = {
+    specCards: [],
+    features: [],
+    detailsSections: [],
+  };
+
+  let currentSection = null;
+
+  const ensureSection = () => {
+    if (currentSection) {
+      return currentSection;
+    }
+
+    currentSection = {
+      title: DEFAULT_TITLES.detailsTitle,
+      open: dataset.detailsSections.length === 0,
+      rows: [],
+    };
+    dataset.detailsSections.push(currentSection);
+    return currentSection;
+  };
+
+  rows.forEach((row = []) => {
+    const cells = (Array.isArray(row) ? row : []).map((cell) => asTrimmedString(cell, ''));
+    if (!cells.some(Boolean)) return;
+
+    const rowType = normalizeKey(cells[0]);
+    if (!rowType || INLINE_CONFIG_KEYS.has(rowType)) return;
+
+    switch (rowType) {
+      case 'specs-title':
+      case 'specifications-title':
+        dataset.specsTitle = asTrimmedString(cells[1], DEFAULT_TITLES.specsTitle);
+        break;
+      case 'features-title':
+      case 'feature-title':
+        dataset.featuresTitle = asTrimmedString(cells[1], DEFAULT_TITLES.featuresTitle);
+        break;
+      case 'details-title':
+      case 'detail-title':
+        dataset.detailsTitle = asTrimmedString(cells[1], DEFAULT_TITLES.detailsTitle);
+        break;
+      case 'spec':
+      case 'spec-card':
+        dataset.specCards.push({
+          icon: asTrimmedString(cells[1], ''),
+          label: asTrimmedString(cells[2], `Specification ${dataset.specCards.length + 1}`),
+          attribute: asTrimmedString(cells[3], ''),
+          fallbackValue: asTrimmedString(cells[4], ''),
+          unit: asTrimmedString(cells[5], ''),
+        });
+        break;
+      case 'feature':
+        dataset.features.push({
+          title: asTrimmedString(cells[1], `Feature ${dataset.features.length + 1}`),
+          description: asTrimmedString(cells[2], ''),
+        });
+        break;
+      case 'detail-section':
+      case 'details-section':
+        currentSection = {
+          title: asTrimmedString(cells[1], `Section ${dataset.detailsSections.length + 1}`),
+          open: normalizeBooleanValue(cells[2], dataset.detailsSections.length === 0),
+          rows: [],
+        };
+        dataset.detailsSections.push(currentSection);
+        break;
+      case 'detail-row':
+      case 'details-row': {
+        const section = ensureSection();
+        section.rows.push({
+          label: asTrimmedString(cells[1], `Detail ${section.rows.length + 1}`),
+          value: asTrimmedString(cells[2], ''),
+          attribute: asTrimmedString(cells[3], ''),
+        });
+        break;
+      }
+      default:
+        break;
+    }
+  });
+
+  return normalizeDataset(dataset);
 }
 
 function normalizeSpecCard(card = {}, index = 0) {
