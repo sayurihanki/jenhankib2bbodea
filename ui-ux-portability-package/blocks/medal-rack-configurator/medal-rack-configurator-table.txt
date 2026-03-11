@@ -1,5 +1,6 @@
 medal-rack-configurator
 data-source	/data/configurators/medal-rack-configurator.json
+product-url	/products/medal-rack-direct-order/medalrackconfigurator
 eyebrow	Service and Honor Collection
 title	Officer Heritage\nMedal Rack
 subtitle	Solid hardwood, hand-fitted hardware, engraved inscription, and a regulation-aware prototype preview for ceremonial display.

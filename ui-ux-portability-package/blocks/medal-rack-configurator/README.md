@@ -17,6 +17,7 @@ This is a DA key-value block.
 | Key | Description |
 | --- | --- |
 | `data-source` | Repo-relative JSON path or published `da.live` JSON URL |
+| `product-url` | Optional linked PDP URL used when the block renders outside a live product page, such as the DA block library |
 | `eyebrow` | Small overline above the title |
 | `title` | Main heading. Newlines render as line breaks |
 | `subtitle` | Supporting copy below the title |
@@ -28,6 +29,7 @@ This is a DA key-value block.
 | medal-rack-configurator | |
 | --- | --- |
 | data-source | /data/configurators/medal-rack-configurator.json |
+| product-url | /products/medal-rack-direct-order/medalrackconfigurator |
 | eyebrow | Service and Honor Collection |
 | title | Officer Heritage\nMedal Rack |
 | subtitle | Solid hardwood, hand-fitted hardware, engraved inscription, and a regulation-aware prototype preview for ceremonial display. |
