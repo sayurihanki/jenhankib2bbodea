@@ -24,7 +24,9 @@ import ProductGallery from '@dropins/storefront-pdp/containers/ProductGallery.js
 import ProductGiftCardOptions from '@dropins/storefront-pdp/containers/ProductGiftCardOptions.js';
 
 // Libs
-import { buildBlock, decorateBlock, loadBlock } from '../../scripts/aem.js';
+import {
+  buildBlock, decorateBlock, loadBlock, readBlockConfig,
+} from '../../scripts/aem.js';
 import {
   fetchPlaceholders, getProductLink, rootLink, setJsonLd,
 } from '../../scripts/commerce.js';
@@ -37,6 +39,14 @@ import {
 import { IMAGES_SIZES } from '../../scripts/initializers/pdp.js';
 import '../../scripts/initializers/cart.js';
 import '../../scripts/initializers/wishlist.js';
+/* eslint-disable import/extensions */
+import {
+  normalizeProductDetailsPresentation,
+  shouldActivateConfigurator,
+  shouldActivateImmersivePresentation,
+  PRODUCT_DETAILS_PRESENTATIONS,
+} from './product-details.utils.mjs';
+/* eslint-enable import/extensions */
 
 const PDP_CONFIGURATOR_FALLBACKS = Object.freeze({
   'USMC-OFFICER-BLUES-PACKAGE': {
@@ -155,6 +165,8 @@ async function mountConfiguratorFallback(container, block, product) {
 export default async function decorate(block) {
   let product = events.lastPayload('pdp/data') ?? null;
   const labels = await fetchPlaceholders();
+  const blockConfig = readBlockConfig(block);
+  const presentation = normalizeProductDetailsPresentation(blockConfig.presentation);
 
   // Read itemUid from URL
   const urlParams = new URLSearchParams(window.location.search);
@@ -212,6 +224,10 @@ export default async function decorate(block) {
   const $attributes = fragment.querySelector('.product-details__attributes');
 
   block.replaceChildren(fragment);
+  block.classList.toggle(
+    'product-details--presentation-auto-immersive',
+    presentation === PRODUCT_DETAILS_PRESENTATIONS.AUTO_IMMERSIVE,
+  );
   syncConfiguratorLayoutVariant(block, product);
 
   const gallerySlots = {
@@ -548,9 +564,14 @@ export default async function decorate(block) {
   }, { eager: true });
 
   events.on('pdp/configurator-ready', (payload) => {
-    if (payload?.status === 'ready') {
-      block.classList.add('product-details--configurator-active');
-    }
+    block.classList.toggle(
+      'product-details--configurator-active',
+      shouldActivateConfigurator(payload) || block.classList.contains('product-details--configurator-active'),
+    );
+    block.classList.toggle(
+      'product-details--immersive-active',
+      shouldActivateImmersivePresentation(presentation, payload),
+    );
   }, { eager: true });
 
   return Promise.resolve();

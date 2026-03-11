@@ -772,6 +772,16 @@
           }
         },
         {
+          "title": "Product Details",
+          "id": "product-details",
+          "model": "product-details",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
           "title": "Product Highlights",
           "id": "product-highlights",
           "model": "product-highlights",
@@ -797,6 +807,16 @@
           "title": "Product Teaser",
           "id": "product-teaser",
           "model": "product-teaser",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
+          "title": "Product Technical Details",
+          "id": "product-technical-details",
+          "model": "product-technical-details",
           "plugins": {
             "da": {
               "type": "key-value-block"

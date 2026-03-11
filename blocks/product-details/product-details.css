@@ -111,6 +111,11 @@
   margin-top: var(--spacing-xsmall);
 }
 
+.product-details.product-details--immersive-active .product-details__description,
+.product-details.product-details--immersive-active .product-details__attributes {
+  display: none;
+}
+
 .product-details.product-details--configurator-active.product-details--configurator-immersive .product-details__right-column {
   display: grid;
   gap: var(--spacing-medium);
@@ -219,8 +224,7 @@
   .product-details.product-details--configurator-active.product-details--configurator-immersive .product-details__right-column {
     grid-column: 1 / span 12;
     grid-template-columns: repeat(var(--grid-3-columns), minmax(0, 1fr));
-    column-gap: var(--grid-3-gutters);
-    row-gap: var(--spacing-medium);
+    gap: var(--spacing-medium) var(--grid-3-gutters);
     padding-top: var(--spacing-medium);
   }
 

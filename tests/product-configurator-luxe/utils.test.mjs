@@ -7,6 +7,7 @@ import {
   evaluateConditions,
   extractDisplayPrice,
   findOptionByLabel,
+  getConfiguratorCompatibility,
   normalizeProductOptions,
 } from '../../blocks/product-configurator-luxe/product-configurator-luxe.utils.mjs';
 /* eslint-enable import/extensions */
@@ -112,4 +113,53 @@ test('buildCartItems adds accessory lines that match the configured quantity', (
       },
     },
   ]);
+});
+
+test('getConfiguratorCompatibility rejects products without configurable inputs', () => {
+  const compatibility = getConfiguratorCompatibility({
+    steps: [],
+  }, {
+    sku: 'ADB150',
+    options: [],
+    inputOptions: [],
+  }, []);
+
+  assert.equal(compatibility.compatible, false);
+  assert.equal(compatibility.code, 'no-configurable-inputs');
+});
+
+test('getConfiguratorCompatibility rejects missing required commerce options', () => {
+  const compatibility = getConfiguratorCompatibility({
+    steps: [
+      {
+        controls: [
+          {
+            source: 'commerce-option',
+            required: true,
+            commerceOptionLabel: 'Rack Height',
+          },
+        ],
+      },
+    ],
+  }, {
+    options: [
+      {
+        id: 'attr_finish',
+        title: 'Finish',
+        values: [],
+      },
+    ],
+    inputOptions: [],
+  }, normalizeProductOptions({
+    options: [
+      {
+        id: 'attr_finish',
+        title: 'Finish',
+        values: [],
+      },
+    ],
+  }));
+
+  assert.equal(compatibility.compatible, false);
+  assert.equal(compatibility.code, 'missing-commerce-options');
 });

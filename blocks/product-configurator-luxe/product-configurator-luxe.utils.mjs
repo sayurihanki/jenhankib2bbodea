@@ -107,6 +107,59 @@ export function evaluateConditions(conditions = [], selections = {}) {
   });
 }
 
+function getProductType(product = {}) {
+  return product?.__typename || product?.productType || '';
+}
+
+function getAllSchemaControls(schema = {}) {
+  return (schema?.steps || []).flatMap((step) => (
+    Array.isArray(step?.controls) ? step.controls : []
+  ));
+}
+
+export function getConfiguratorCompatibility(schema = {}, product = {}, options = []) {
+  const hasSelectableOptions = Array.isArray(product?.options) && product.options.length > 0;
+  const hasInputOptions = Array.isArray(product?.inputOptions) && product.inputOptions.length > 0;
+
+  if (!hasSelectableOptions && !hasInputOptions) {
+    return {
+      compatible: false,
+      code: 'no-configurable-inputs',
+      message: 'This product does not expose configurable PDP options.',
+    };
+  }
+
+  const allowedProductTypes = Array.isArray(schema?.productTypes) ? schema.productTypes : [];
+  if (allowedProductTypes.length > 0 && !allowedProductTypes.includes(getProductType(product))) {
+    return {
+      compatible: false,
+      code: 'product-type-mismatch',
+      message: `This configurator expects ${allowedProductTypes.join(', ')} products.`,
+    };
+  }
+
+  const missingOptions = getAllSchemaControls(schema)
+    .filter((control) => control?.source === 'commerce-option' && control?.required)
+    .map((control) => control?.commerceOptionLabel)
+    .filter(Boolean)
+    .filter((label) => !findOptionByLabel(options, label));
+
+  if (missingOptions.length > 0) {
+    return {
+      compatible: false,
+      code: 'missing-commerce-options',
+      missingOptions,
+      message: `Missing Commerce option(s): ${missingOptions.join(', ')}.`,
+    };
+  }
+
+  return {
+    compatible: true,
+    code: 'compatible',
+    message: '',
+  };
+}
+
 export function buildCartItems(values = {}, selectedAddons = [], quantity = 1) {
   const baseQuantity = Number.isFinite(Number(quantity)) && Number(quantity) > 0
     ? Number(quantity)

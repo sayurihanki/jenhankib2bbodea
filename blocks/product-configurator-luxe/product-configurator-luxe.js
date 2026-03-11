@@ -25,6 +25,7 @@ import {
   findOptionByLabel,
   findOptionValue,
   formatMoney,
+  getConfiguratorCompatibility,
   normalizeKey,
   normalizeProductOptions,
 } from './product-configurator-luxe.utils.mjs';
@@ -38,9 +39,11 @@ const DEFAULTS = {
   secondaryCtaLabel: 'Talk to a Bodea specialist',
   secondaryCtaHref: '/contact',
   theme: 'emerald',
+  presentation: 'default',
 };
 
 const THEMES = new Set(['emerald', 'gold']);
+const PRESENTATIONS = new Set(['default', 'rack-immersive']);
 const U_SLOT_MAP = {
   '6u': 1,
   '12u': 2,
@@ -144,10 +147,6 @@ function pushAnalyticsEvent(eventName, payload = {}) {
       ...eventPayload,
     });
   }
-}
-
-function getProductType(product) {
-  return product?.__typename || product?.productType || '';
 }
 
 function getAllControls(schema) {
@@ -346,22 +345,10 @@ async function loadSchema(schemaUrl) {
   return response.json();
 }
 
-function validateSchema(schema, product, options) {
-  const productType = getProductType(product);
-  if (Array.isArray(schema.productTypes) && schema.productTypes.length > 0) {
-    if (!schema.productTypes.includes(productType)) {
-      throw new Error(`This configurator expects ${schema.productTypes.join(', ')} products.`);
-    }
-  }
-
-  getAllControls(schema).forEach((control) => {
-    if (control.source !== 'commerce-option') return;
-
-    const option = findOptionByLabel(options, control.commerceOptionLabel);
-    if (!option && control.required) {
-      throw new Error(`Missing Commerce option "${control.commerceOptionLabel}" on this product.`);
-    }
-  });
+function renderIncompatible(block) {
+  block.textContent = '';
+  block.removeAttribute('data-summary-open');
+  block.dataset.presentation = 'incompatible';
 }
 
 async function loadAddonCatalog(schema) {
@@ -390,7 +377,11 @@ async function loadAddonCatalog(schema) {
 
 function buildShell(state) {
   const fragment = document.createRange().createContextualFragment(`
-    <div class="product-configurator-luxe__shell" data-theme="${state.config.theme}">
+    <div
+      class="product-configurator-luxe__shell"
+      data-theme="${state.config.theme}"
+      data-presentation="${state.config.presentation}"
+    >
       <div class="product-configurator-luxe__intro">
         <span class="product-configurator-luxe__eyebrow">${state.config.eyebrowText}</span>
         <div class="product-configurator-luxe__heading">
@@ -1116,6 +1107,9 @@ function normalizeConfig(block) {
   const theme = THEMES.has(String(config.theme || '').trim().toLowerCase())
     ? String(config.theme).trim().toLowerCase()
     : DEFAULTS.theme;
+  const presentation = PRESENTATIONS.has(String(config.presentation || '').trim().toLowerCase())
+    ? String(config.presentation).trim().toLowerCase()
+    : DEFAULTS.presentation;
 
   return {
     eyebrowText: config['eyebrow-text']?.trim() || DEFAULTS.eyebrowText,
@@ -1126,6 +1120,7 @@ function normalizeConfig(block) {
     secondaryCtaLabel: config['secondary-cta-label']?.trim() || DEFAULTS.secondaryCtaLabel,
     secondaryCtaHref: config['secondary-cta-href']?.trim() || DEFAULTS.secondaryCtaHref,
     theme,
+    presentation,
   };
 }
 
@@ -1145,7 +1140,12 @@ export default async function decorate(block) {
     ]);
 
     const options = normalizeProductOptions(product, getCurrentValues().optionsUIDs);
-    validateSchema(schema, product, options);
+    const compatibility = getConfiguratorCompatibility(schema, product, options);
+    if (!compatibility.compatible) {
+      console.info('product-configurator-luxe: skipping incompatible product', compatibility);
+      renderIncompatible(block);
+      return;
+    }
 
     const addonCatalog = await loadAddonCatalog(schema);
     const state = {
@@ -1168,6 +1168,7 @@ export default async function decorate(block) {
     const { fragment, refs } = buildShell(state);
     block.textContent = '';
     block.dataset.summaryOpen = 'false';
+    block.dataset.presentation = state.config.presentation;
     block.append(fragment);
 
     await Promise.all([
@@ -1184,6 +1185,7 @@ export default async function decorate(block) {
     events.emit('pdp/configurator-ready', {
       block: 'product-configurator-luxe',
       status: 'ready',
+      presentation: state.config.presentation,
     });
   } catch (error) {
     console.warn('product-configurator-luxe:', error);

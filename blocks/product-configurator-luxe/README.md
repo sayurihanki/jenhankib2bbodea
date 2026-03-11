@@ -22,14 +22,15 @@ This is a DA key-value block.
 | `secondary-cta-label` | string | No | `Talk to a Bodea specialist` | Secondary consult CTA text |
 | `secondary-cta-href` | string | No | `/contact` | Secondary CTA destination |
 | `theme` | string | No | `emerald` | Accent palette (`emerald`, `gold`) |
+| `presentation` | string | No | `default` | Visual/runtime mode (`default`, `rack-immersive`) |
 
 ## Runtime Behavior
 
 1. Waits for `pdp/data` so it can map real Commerce options.
 2. Loads the linked schema file from `data/configurators/`.
-3. Validates that required Commerce-backed controls exist on the current product.
+3. Silently skips rendering when the current product is incompatible with the schema.
 4. Fetches accessory pricing for configured add-on SKUs.
-5. Emits `pdp/configurator-ready` only after successful initialization, allowing `product-details` to hide its default configuration region.
+5. Emits `pdp/configurator-ready` only after successful initialization, allowing `product-details` to hide its default configuration region and activate immersive summary mode when applicable.
 
 ## Schema Contract
 
