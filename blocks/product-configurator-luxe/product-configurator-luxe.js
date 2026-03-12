@@ -1104,29 +1104,52 @@ function attachEventListeners(state, refs, block) {
 
 function normalizeConfig(block) {
   const config = readBlockConfig(block);
-  const theme = THEMES.has(String(config.theme || '').trim().toLowerCase())
-    ? String(config.theme).trim().toLowerCase()
+  const themeValue = String(config.theme || block.dataset.configTheme || '').trim().toLowerCase();
+  const presentationValue = String(
+    config.presentation || block.dataset.configPresentation || '',
+  ).trim().toLowerCase();
+  const theme = THEMES.has(themeValue)
+    ? themeValue
     : DEFAULTS.theme;
-  const presentation = PRESENTATIONS.has(String(config.presentation || '').trim().toLowerCase())
-    ? String(config.presentation).trim().toLowerCase()
+  const presentation = PRESENTATIONS.has(presentationValue)
+    ? presentationValue
     : DEFAULTS.presentation;
 
   return {
-    eyebrowText: config['eyebrow-text']?.trim() || DEFAULTS.eyebrowText,
-    title: config.title?.trim() || DEFAULTS.title,
-    subtitle: config.subtitle?.trim() || DEFAULTS.subtitle,
-    schemaUrl: config['schema-url']?.trim() || '',
-    primaryCtaLabel: config['primary-cta-label']?.trim() || DEFAULTS.primaryCtaLabel,
-    secondaryCtaLabel: config['secondary-cta-label']?.trim() || DEFAULTS.secondaryCtaLabel,
-    secondaryCtaHref: config['secondary-cta-href']?.trim() || DEFAULTS.secondaryCtaHref,
+    eyebrowText: config['eyebrow-text']?.trim() || block.dataset.configEyebrowText || DEFAULTS.eyebrowText,
+    title: config.title?.trim() || block.dataset.configTitle || DEFAULTS.title,
+    subtitle: config.subtitle?.trim() || block.dataset.configSubtitle || DEFAULTS.subtitle,
+    schemaUrl: config['schema-url']?.trim() || block.dataset.configSchemaUrl || '',
+    primaryCtaLabel: config['primary-cta-label']?.trim()
+      || block.dataset.configPrimaryCtaLabel
+      || DEFAULTS.primaryCtaLabel,
+    secondaryCtaLabel: config['secondary-cta-label']?.trim()
+      || block.dataset.configSecondaryCtaLabel
+      || DEFAULTS.secondaryCtaLabel,
+    secondaryCtaHref: config['secondary-cta-href']?.trim()
+      || block.dataset.configSecondaryCtaHref
+      || DEFAULTS.secondaryCtaHref,
     theme,
     presentation,
   };
 }
 
+function persistConfig(block, config) {
+  block.dataset.configSchemaUrl = config.schemaUrl;
+  block.dataset.configEyebrowText = config.eyebrowText;
+  block.dataset.configTitle = config.title;
+  block.dataset.configSubtitle = config.subtitle;
+  block.dataset.configPrimaryCtaLabel = config.primaryCtaLabel;
+  block.dataset.configSecondaryCtaLabel = config.secondaryCtaLabel;
+  block.dataset.configSecondaryCtaHref = config.secondaryCtaHref;
+  block.dataset.configTheme = config.theme;
+  block.dataset.configPresentation = config.presentation;
+}
+
 export default async function decorate(block) {
   try {
     const config = normalizeConfig(block);
+    persistConfig(block, config);
     renderLoading(block);
     if (!config.schemaUrl) {
       throw new Error('A schema-url is required for product-configurator-luxe.');
