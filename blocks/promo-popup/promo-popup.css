@@ -9,12 +9,18 @@ main .promo-popup,
 .pp-overlay {
   --pp-accent: var(--main-color-accent, #1f7a4d);
   --pp-accent-light: #2ebe7a;
+  --pp-accent-dark: #155230;
+  --pp-accent-rgb: 31 122 77;
   --pp-text-primary: #0f0f1a;
   --pp-text-secondary: #6b7280;
   --pp-text-muted: #9ca3af;
   --pp-radius-xl: 24px;
   --pp-radius-lg: 16px;
   --pp-radius-full: 100px;
+  --pp-wheel-glow: 139 92 246;
+  --pp-orb-a: 196 181 253;
+  --pp-orb-b: 125 211 252;
+  --pp-orb-c: 216 180 254;
 }
 
 /* Hide raw table content */
@@ -35,6 +41,7 @@ main .promo-popup,
   padding: 1rem;
   background: rgb(180 180 210 / 18%);
   backdrop-filter: blur(12px) saturate(120%);
+  overflow: hidden;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
@@ -57,6 +64,7 @@ main .promo-popup,
 /* ─── Modal ─────────────────────────────────────────────────────── */
 .pp-modal {
   position: relative;
+  z-index: 1;
   width: min(620px, 100%);
   max-height: 95svh;
   overflow: hidden auto;
@@ -80,6 +88,65 @@ main .promo-popup,
 
 .pp-overlay--visible .pp-modal {
   transform: translateY(0) scale(1);
+}
+
+/* ─── Orb field ─────────────────────────────────────────────────── */
+.pp-orb-field {
+  position: absolute;
+  inset: -10%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.pp-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(18px);
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  animation: pp-orb-drift 14s ease-in-out infinite alternate;
+}
+
+.pp-orb--1 {
+  top: 8%;
+  left: 12%;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgb(var(--pp-orb-a) / 55%) 0%, rgb(var(--pp-orb-a) / 0%) 70%);
+}
+
+.pp-orb--2 {
+  right: 10%;
+  bottom: 6%;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgb(var(--pp-orb-b) / 45%) 0%, rgb(var(--pp-orb-b) / 0%) 72%);
+  animation-duration: 16s;
+  animation-delay: -4s;
+}
+
+.pp-orb--3 {
+  top: 20%;
+  right: 22%;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgb(var(--pp-orb-c) / 40%) 0%, rgb(var(--pp-orb-c) / 0%) 70%);
+  animation-duration: 12s;
+  animation-delay: -2s;
+}
+
+@keyframes pp-orb-drift {
+  0% {
+    transform: translate3d(-8px, 0, 0) scale(0.96);
+  }
+
+  50% {
+    transform: translate3d(12px, -18px, 0) scale(1.04);
+  }
+
+  100% {
+    transform: translate3d(-6px, 14px, 0) scale(1);
+  }
 }
 
 /* ─── Close ─────────────────────────────────────────────────────── */
@@ -140,8 +207,8 @@ main .promo-popup,
   gap: 0.35rem;
   padding: 0.4rem 1rem;
   border-radius: var(--pp-radius-full);
-  background: rgb(31 122 77 / 8%);
-  border: 1px solid rgb(31 122 77 / 14%);
+  background: rgb(var(--pp-accent-rgb) / 8%);
+  border: 1px solid rgb(var(--pp-accent-rgb) / 14%);
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -180,7 +247,7 @@ main .promo-popup,
 }
 
 .pp-headline span {
-  background: linear-gradient(135deg, #1f7a4d 0%, #5fd49f 100%);
+  background: linear-gradient(135deg, var(--pp-accent) 0%, var(--pp-accent-light) 100%);
   /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-background-clip: text;
   background-clip: text;
@@ -216,7 +283,7 @@ main .promo-popup,
   width: 480px;
   height: 480px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(139 92 246 / 8%) 0%, transparent 70%);
+  background: radial-gradient(circle, rgb(var(--pp-wheel-glow) / 12%) 0%, transparent 72%);
   pointer-events: none;
 }
 
@@ -355,10 +422,10 @@ main .promo-popup,
   font-weight: 600;
   letter-spacing: 0.01em;
   color: #fff;
-  background: linear-gradient(135deg, #155230 0%, #1f7a4d 100%);
+  background: linear-gradient(135deg, var(--pp-accent-dark) 0%, var(--pp-accent) 100%);
   box-shadow:
     0 1px 3px rgb(0 0 0 / 10%),
-    0 4px 20px rgb(31 122 77 / 35%),
+    0 4px 20px rgb(var(--pp-accent-rgb) / 35%),
     inset 0 1px 0 rgb(255 255 255 / 15%);
   transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
   position: relative;
@@ -390,7 +457,7 @@ main .promo-popup,
   transform: translateY(-2px);
   box-shadow:
     0 2px 8px rgb(0 0 0 / 12%),
-    0 8px 28px rgb(31 122 77 / 45%),
+    0 8px 28px rgb(var(--pp-accent-rgb) / 45%),
     inset 0 1px 0 rgb(255 255 255 / 15%);
 }
 
@@ -476,13 +543,13 @@ main .promo-popup,
   font-size: 1.1rem;
   text-decoration: none;
   letter-spacing: 0.01em;
-  box-shadow: 0 2px 12px rgb(31 122 77 / 30%);
+  box-shadow: 0 2px 12px rgb(var(--pp-accent-rgb) / 30%);
   transition: transform 0.15s, box-shadow 0.15s;
 }
 
 .pp-result-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgb(31 122 77 / 40%);
+  box-shadow: 0 4px 20px rgb(var(--pp-accent-rgb) / 40%);
   color: #fff;
 }
 
@@ -527,7 +594,8 @@ main .promo-popup,
 @media (prefers-reduced-motion: reduce) {
   .pp-pill-dot,
   .pp-spin-btn::after,
-  .pp-pointer {
+  .pp-pointer,
+  .pp-orb {
     animation: none;
   }
 
