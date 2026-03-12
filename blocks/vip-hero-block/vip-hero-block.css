@@ -10,6 +10,8 @@
 }
 
 .vip-hero-block {
+  --vip-content-max-width: 1480px;
+  --vip-content-gutter: 40px;
   --vip-bg: var(--ink-950);
   --vip-bg-soft: var(--ink-900);
   --vip-bg-highlight: var(--ink-800);
@@ -84,9 +86,14 @@
 
 .vip-hero-block .vip-body {
   align-items: stretch;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  margin-inline: auto;
+  max-width: calc(var(--vip-content-max-width) + (var(--vip-content-gutter) * 2));
   min-block-size: clamp(560px, 58vw, 760px);
+  padding-inline: var(--vip-content-gutter);
+  width: 100%;
 }
 
 .vip-hero-block .vip-left {
@@ -95,7 +102,9 @@
   flex-direction: column;
   gap: var(--spacing-medium);
   justify-content: center;
-  padding: clamp(var(--spacing-big), 6vw, var(--spacing-large));
+  padding-block: clamp(var(--spacing-big), 6vw, var(--spacing-large));
+  padding-inline-end: clamp(var(--spacing-big), 4vw, var(--spacing-large));
+  padding-inline-start: 0;
   position: relative;
 }
 
@@ -813,6 +822,10 @@
 }
 
 @media (max-width: 720px) {
+  .vip-hero-block {
+    --vip-content-gutter: 20px;
+  }
+
   .vip-hero-block .vip-ctas {
     align-items: stretch;
     flex-direction: column;
