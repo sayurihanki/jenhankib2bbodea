@@ -89,6 +89,7 @@
 | `form-2` | `forms` | `authorable-forms` | 1 | 1 |
 | `form-3` | `forms` | `authorable-forms` | 1 | 1 |
 | `form-4` | `forms` | `authorable-forms` | 1 | 1 |
+| `form-mccs-preferences` | `forms` | `authorable-forms` | 1 | 1 |
 | `fragment` | `content` | `general` | 1 | 1 |
 | `header` | `shell` | `navigation-and-layout` | 1 | 4 |
 | `hero` | `content` | `general` | 1 | 1 |

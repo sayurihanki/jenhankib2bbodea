@@ -16,7 +16,11 @@ import { tryRenderAemAssetsImage } from '@dropins/tools/lib/aem/assets.js';
 import { events } from '@dropins/tools/event-bus.js';
 // AEM
 import { readBlockConfig } from '../../scripts/aem.js';
-import { fetchPlaceholders, getProductLink } from '../../scripts/commerce.js';
+import {
+  fetchPlaceholders,
+  getProductLink,
+  getSearchContext,
+} from '../../scripts/commerce.js';
 
 // Initializers
 import '../../scripts/initializers/search.js';
@@ -244,6 +248,7 @@ async function performInitialSearch(config, urlParams) {
     sort,
     filter,
   } = urlParams;
+  const context = getSearchContext();
   // Request search based on the page type on block load
   if (config.urlpath) {
     // If it's a category page...
@@ -266,6 +271,7 @@ async function performInitialSearch(config, urlParams) {
         },
         ...getFilterFromParams(filter),
       ],
+      context,
     })
       .catch(() => {
         console.error('Error searching for products');
@@ -284,6 +290,7 @@ async function performInitialSearch(config, urlParams) {
         },
         ...getFilterFromParams(filter),
       ],
+      context,
     })
       .catch(() => {
         console.error('Error searching for products');

@@ -41,16 +41,16 @@
 
 ## Component Inventory Summary
 
-- Total blocks: `114`
-- Blocks with CSS: `114`
-- Blocks with JS runtime: `114`
+- Total blocks: `115`
+- Blocks with CSS: `115`
+- Blocks with JS runtime: `115`
 
 Category distribution:
 - `interactive-content`: 10
 - `content`: 40
 - `commerce`: 55
 - `shell`: 5
-- `forms`: 4
+- `forms`: 5
 
 ## Token Prefix Distribution
 
@@ -86,6 +86,7 @@ Category distribution:
 - `luxury`: 14
 - `main`: 1
 - `minifiedView`: 1
+- `mp`: 23
 - `mrc`: 9
 - `nav`: 17
 - `newsletter`: 28

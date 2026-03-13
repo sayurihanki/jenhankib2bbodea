@@ -1,5 +1,10 @@
-import { getProductLink, rootLink, fetchPlaceholders } from '../../scripts/commerce.js';
 import { tryRenderAemAssetsImage } from '@dropins/tools/lib/aem/assets.js';
+import {
+  getProductLink,
+  rootLink,
+  fetchPlaceholders,
+  getSearchContext,
+} from '../../scripts/commerce.js';
 
 const SEARCH_SCOPE_PREFIX = 'search-bar-block';
 const DEFAULT_MIN_QUERY_LENGTH = 2;
@@ -451,6 +456,7 @@ export default async function decorate(block) {
         filter: [
           { attribute: 'visibility', in: ['Search', 'Catalog, Search'] },
         ],
+        context: getSearchContext(),
       }, { scope: searchScope });
     }, config.debounceMs);
   };

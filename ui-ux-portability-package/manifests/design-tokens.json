@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-13T05:02:38.370Z",
+  "generatedAt": "2026-03-13T22:25:34.183Z",
   "summary": {
-    "totalTokens": 690,
-    "definedTokens": 637,
+    "totalTokens": 713,
+    "definedTokens": 660,
     "unresolvedTokens": 53,
     "byPrefix": {
       "accent": 3,
@@ -37,6 +37,7 @@
       "luxury": 14,
       "main": 1,
       "minifiedView": 1,
+      "mp": 23,
       "mrc": 9,
       "nav": 17,
       "newsletter": 28,
@@ -4143,6 +4144,291 @@
       "status": "defined"
     },
     {
+      "name": "--mp-bg",
+      "prefix": "mp",
+      "value": "#08111e",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-border",
+      "prefix": "mp",
+      "value": "rgb(255 255 255 / 12%)",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-duration",
+      "prefix": "mp",
+      "value": "220ms",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 24,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-ease",
+      "prefix": "mp",
+      "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 25,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-error",
+      "prefix": "mp",
+      "value": "#ff8b9c",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-gold",
+      "prefix": "mp",
+      "value": "#c6a658",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 5,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-gold-soft",
+      "prefix": "mp",
+      "value": "#f0dfb3",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 8,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-label",
+      "prefix": "mp",
+      "value": "#d7cfbf",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-navy",
+      "prefix": "mp",
+      "value": "#11233f",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-panel",
+      "prefix": "mp",
+      "value": "rgb(10 18 31 / 82%)",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-panel-strong",
+      "prefix": "mp",
+      "value": "rgb(9 17 31 / 94%)",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-progress",
+      "prefix": "mp",
+      "value": "1",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-radius-card",
+      "prefix": "mp",
+      "value": "22px",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-radius-pill",
+      "prefix": "mp",
+      "value": "999px",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 4,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-radius-shell",
+      "prefix": "mp",
+      "value": "32px",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-scarlet",
+      "prefix": "mp",
+      "value": "#c41e3a",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 5,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-scarlet-deep",
+      "prefix": "mp",
+      "value": "#891428",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-shadow",
+      "prefix": "mp",
+      "value": "0 36px 120px rgb(0 0 0 / 45%)",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-success",
+      "prefix": "mp",
+      "value": "#d2bc81",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-surface",
+      "prefix": "mp",
+      "value": "rgb(255 255 255 / 6%)",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-surface-strong",
+      "prefix": "mp",
+      "value": "rgb(255 255 255 / 10%)",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-text",
+      "prefix": "mp",
+      "value": "#f5f1e8",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 12,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-text-soft",
+      "prefix": "mp",
+      "value": "rgb(245 241 232 / 72%)",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 10,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--mrc-accent",
       "prefix": "mrc",
       "value": "var(--gold)",
@@ -6038,7 +6324,7 @@
       "definedIn": [
         "blocks/quiz-router-mccs/quiz-router-mccs.css"
       ],
-      "usageCount": 2,
+      "usageCount": 1,
       "usedIn": [
         "blocks/quiz-router-mccs/quiz-router-mccs.css"
       ],

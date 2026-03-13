@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-03-13T05:02:38.347Z",
+  "generatedAt": "2026-03-13T22:25:34.165Z",
   "summary": {
-    "totalBlocks": 114,
-    "withStyles": 114,
-    "withRuntime": 114,
+    "totalBlocks": 115,
+    "withStyles": 115,
+    "withRuntime": 115,
     "byCategory": {
       "interactive-content": 10,
       "content": 40,
       "commerce": 55,
       "shell": 5,
-      "forms": 4
+      "forms": 5
     }
   },
   "blocks": [
@@ -1604,6 +1604,29 @@
           "blocks/form-4/_form-4.json"
         ],
         "readme": "blocks/form-4/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 4
+    },
+    {
+      "name": "form-mccs-preferences",
+      "category": "forms",
+      "subcategory": "authorable-forms",
+      "title": "Form MCCS Preferences",
+      "overview": "`form-mccs-preferences` captures military life context, shopping and recreation interests, and communication preferences in a single refined glassmorphic experience. The block uses a scarlet, gold, and navy palette, supports reduced motion, and ends in a client-side success state with an optional redirect countdown.",
+      "sourcePath": "blocks/form-mccs-preferences",
+      "files": {
+        "css": [
+          "blocks/form-mccs-preferences/form-mccs-preferences.css"
+        ],
+        "js": [
+          "blocks/form-mccs-preferences/form-mccs-preferences.js"
+        ],
+        "json": [
+          "blocks/form-mccs-preferences/_form-mccs-preferences.json"
+        ],
+        "readme": "blocks/form-mccs-preferences/README.md"
       },
       "hasStyles": true,
       "hasRuntime": true,

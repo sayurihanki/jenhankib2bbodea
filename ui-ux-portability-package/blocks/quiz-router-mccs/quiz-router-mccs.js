@@ -8,6 +8,7 @@ import {
   humanizeToken,
   normalizeQuizConfig,
   parseTypedRows,
+  splitAuthoredLines,
 } from './quiz-router-mccs.utils.mjs';
 /* eslint-enable import/extensions */
 
@@ -68,11 +69,18 @@ function readConfig(block) {
 }
 
 function getCellParts(cell) {
-  const text = cell?.innerText || cell?.textContent || '';
-  return text
-    .split(/\n+/)
-    .map((part) => part.trim())
-    .filter(Boolean);
+  const rawText = cell?.innerText || cell?.textContent || '';
+  const rawHtml = cell?.innerHTML || '';
+
+  if (/<br\s*\/?>/i.test(rawHtml) || /<\/p>\s*<p/i.test(rawHtml)) {
+    const htmlAsLines = rawHtml
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<\/p>\s*<p[^>]*>/gi, '\n')
+      .replace(/<[^>]+>/g, '');
+    return splitAuthoredLines(htmlAsLines);
+  }
+
+  return splitAuthoredLines(rawText);
 }
 
 function getRowDestination(typeValue, cell) {

@@ -18,6 +18,10 @@
   --qrm-display-font: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", georgia, serif;
   --qrm-body-font: "Avenir Next", "Trebuchet MS", "Lucida Sans Unicode", sans-serif;
 
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   color: var(--qrm-ink);
   font-family: var(--qrm-body-font);
 }
@@ -45,10 +49,14 @@
 .quiz-router-mccs .quiz-router-mccs-shell {
   position: relative;
   overflow: hidden;
-  border-radius: var(--qrm-radius-lg);
+  width: 100%;
+  max-width: none;
+  min-height: calc(100vh - 7rem);
+  border-radius: 0;
   background: var(--qrm-surface-background);
   box-shadow: var(--qrm-shadow);
-  border: 1px solid rgb(255 255 255 / 70%);
+  border-top: 1px solid rgb(255 255 255 / 70%);
+  border-bottom: 1px solid rgb(255 255 255 / 70%);
 }
 
 .quiz-router-mccs .quiz-router-mccs-shell.is-loading::after {
@@ -117,11 +125,13 @@
 
 .quiz-router-mccs .quiz-router-mccs-surface {
   position: relative;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
+  max-width: min(92rem, calc(100vw - 4rem));
+  margin: 0 auto;
+  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 6vw, 5rem);
 }
 
 .quiz-router-mccs .quiz-router-mccs-view {
-  max-width: 52rem;
+  max-width: min(80rem, 100%);
   margin: 0 auto;
   animation: qrm-fade-up 260ms ease both;
 }
@@ -526,11 +536,16 @@
 @media (max-width: 900px) {
   .quiz-router-mccs .quiz-router-mccs-surface {
     padding: 1.2rem;
+    max-width: 100%;
   }
 
   .quiz-router-mccs .quiz-router-mccs-hero,
   .quiz-router-mccs .quiz-router-mccs-result-hero {
     padding: 1.6rem;
+  }
+
+  .quiz-router-mccs .quiz-router-mccs-shell {
+    min-height: auto;
   }
 }
 
