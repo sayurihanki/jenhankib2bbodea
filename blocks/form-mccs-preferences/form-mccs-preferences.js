@@ -190,7 +190,7 @@ function createSelectField({
 
   shell.append(
     select,
-    el('span', { className: 'mp-select-wrap__arrow', textContent: 'v' }),
+    el('span', { className: 'mp-select-wrap__arrow', textContent: '▾' }),
   );
   field.append(shell, message);
   return field;
@@ -444,7 +444,7 @@ function buildStepOne() {
         className: 'mp-button mp-button--primary',
         id: 'mp-next-1',
         type: 'button',
-        textContent: 'Continue',
+        textContent: 'Continue to Interests',
       }),
     ]),
   );
@@ -557,7 +557,7 @@ function buildStepTwo() {
         className: 'mp-button mp-button--primary',
         id: 'mp-next-2',
         type: 'button',
-        textContent: 'Continue',
+        textContent: 'Continue to Communication',
       }),
     ]),
   );
@@ -778,6 +778,78 @@ function wait(ms) {
   });
 }
 
+function initParticles(canvas) {
+  if (!canvas || typeof canvas.getContext !== 'function') return;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx || typeof window.requestAnimationFrame !== 'function') return;
+
+  let width = 0;
+  let height = 0;
+  let particles = [];
+  const colors = [
+    'rgba(196,30,58,',
+    'rgba(199,164,91,',
+    'rgba(17,35,63,',
+    'rgba(241,226,187,',
+  ];
+
+  function resize() {
+    const rect = canvas.parentElement?.getBoundingClientRect();
+    if (!rect) return;
+    width = rect.width;
+    height = rect.height;
+    canvas.width = width;
+    canvas.height = height;
+  }
+
+  function spawn() {
+    return {
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.22,
+      vy: (Math.random() - 0.5) * 0.22,
+      radius: Math.random() * 1.4 + 0.6,
+      alpha: Math.random() * 0.32 + 0.08,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      life: Math.random() * 180 + 120,
+      age: 0,
+    };
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, width, height);
+
+    if (Math.random() < 0.32 && particles.length < 90) {
+      particles.push(spawn());
+    }
+
+    particles = particles.filter((particle) => {
+      const item = particle;
+      item.x += item.vx;
+      item.y += item.vy;
+      item.age += 1;
+
+      if (item.x < 0 || item.x > width) item.vx *= -1;
+      if (item.y < 0 || item.y > height) item.vy *= -1;
+
+      const t = Math.sin((Math.PI * item.age) / item.life);
+      ctx.beginPath();
+      ctx.arc(item.x, item.y, item.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `${item.color}${item.alpha * t})`;
+      ctx.fill();
+
+      return item.age < item.life;
+    });
+
+    window.requestAnimationFrame(loop);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  loop();
+}
+
 function buildSuccessCard(block, redirectUrl) {
   const installationSelect = block.querySelector(`#${controlId('installation')}`);
   const status = getCheckedValue(block, 'serviceStatus');
@@ -878,7 +950,16 @@ export default function decorate(block) {
 
   block.textContent = '';
 
-  const shell = el('div', { className: 'mp-shell' });
+  const canvas = el('canvas', { className: 'mp-pcanvas' });
+  const bgCanvas = el('div', { className: 'mp-bg-canvas' });
+  const outer = el('div', { className: 'mp-outer' });
+  const badge = el('div', { className: 'mp-badge' }, [
+    el('span', {}, [
+      el('span', { className: 'mp-dot' }),
+      'MCCS Patron Preferences · White Luxury',
+    ]),
+  ]);
+  const shell = el('div', { className: 'mp-shell mp-card' });
   const hero = el('div', { className: 'mp-hero' });
   const titleNode = el('h1', { className: 'mp-hero__title' }, titleLineOne);
 
@@ -893,6 +974,7 @@ export default function decorate(block) {
 
   hero.append(
     el('div', { className: 'mp-hero__badge', textContent: 'MCCS Patron Preferences' }),
+    el('div', { className: 'mp-hero__eyebrow', textContent: 'Marine Corps Community Services' }),
     titleNode,
     el('p', { className: 'mp-hero__body', textContent: subtitle }),
     createProgress(),
@@ -908,17 +990,24 @@ export default function decorate(block) {
 
   formWrap.append(formPanels, successWrap);
   shell.append(hero, formWrap);
-
-  block.append(
-    el('div', { className: 'mp-grid-overlay' }),
-    el('div', { className: 'mp-noise-overlay' }),
+  outer.append(badge, shell);
+  bgCanvas.append(
     el('div', { className: 'mp-orb mp-orb--scarlet' }),
     el('div', { className: 'mp-orb mp-orb--gold' }),
     el('div', { className: 'mp-orb mp-orb--navy' }),
-    shell,
+    el('div', { className: 'mp-orb mp-orb--ivory' }),
+  );
+
+  block.append(
+    canvas,
+    bgCanvas,
+    el('div', { className: 'mp-grid-overlay' }),
+    el('div', { className: 'mp-noise-overlay' }),
+    outer,
   );
 
   attachErrorResetHandlers(block);
+  initParticles(canvas);
 
   let currentStep = 1;
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-13T22:35:51.540Z",
+  "generatedAt": "2026-03-13T22:55:42.172Z",
   "summary": {
     "totalTokens": 714,
     "definedTokens": 661,
@@ -37,13 +37,14 @@
       "luxury": 14,
       "main": 1,
       "minifiedView": 1,
-      "mp": 24,
+      "mp": 23,
       "mrc": 9,
       "nav": 17,
       "newsletter": 28,
       "no": 1,
       "pcl": 5,
       "pp": 14,
+      "primary": 1,
       "product": 11,
       "promotional": 51,
       "qrm": 19,
@@ -1221,11 +1222,13 @@
       "prefix": "d",
       "value": "22s",
       "definedIn": [
-        "blocks/form-4/form-4.css"
+        "blocks/form-4/form-4.css",
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
-        "blocks/form-4/form-4.css"
+        "blocks/form-4/form-4.css",
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
       "status": "defined"
     },
@@ -4146,7 +4149,7 @@
     {
       "name": "--mp-bg",
       "prefix": "mp",
-      "value": "#f4ede2",
+      "value": "#f5eee2",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4155,13 +4158,26 @@
       "status": "defined"
     },
     {
-      "name": "--mp-border",
+      "name": "--mp-blur",
       "prefix": "mp",
-      "value": "rgb(17 35 63 / 12%)",
+      "value": "24px",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
-      "usageCount": 12,
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-border",
+      "prefix": "mp",
+      "value": "rgb(17 35 63 / 10%)",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 8,
       "usedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4187,7 +4203,7 @@
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
-      "usageCount": 25,
+      "usageCount": 26,
       "usedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4196,11 +4212,11 @@
     {
       "name": "--mp-ease",
       "prefix": "mp",
-      "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "value": "cubic-bezier(0.16, 1, 0.3, 1)",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
-      "usageCount": 26,
+      "usageCount": 27,
       "usedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4209,7 +4225,7 @@
     {
       "name": "--mp-error",
       "prefix": "mp",
-      "value": "#ba435c",
+      "value": "#b84c62",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4222,7 +4238,20 @@
     {
       "name": "--mp-gold",
       "prefix": "mp",
-      "value": "#c7a45b",
+      "value": "#c8a357",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 7,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-gold-deep",
+      "prefix": "mp",
+      "value": "#8e6a24",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4233,22 +4262,20 @@
       "status": "defined"
     },
     {
-      "name": "--mp-gold-soft",
+      "name": "--mp-ivory",
       "prefix": "mp",
-      "value": "#9d7a32",
+      "value": "#f6ead0",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
-      "usageCount": 4,
-      "usedIn": [
-        "blocks/form-mccs-preferences/form-mccs-preferences.css"
-      ],
+      "usageCount": 0,
+      "usedIn": [],
       "status": "defined"
     },
     {
       "name": "--mp-label",
       "prefix": "mp",
-      "value": "#5b6677",
+      "value": "#5d6878",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4259,22 +4286,9 @@
       "status": "defined"
     },
     {
-      "name": "--mp-navy",
+      "name": "--mp-paper",
       "prefix": "mp",
-      "value": "#11233f",
-      "definedIn": [
-        "blocks/form-mccs-preferences/form-mccs-preferences.css"
-      ],
-      "usageCount": 3,
-      "usedIn": [
-        "blocks/form-mccs-preferences/form-mccs-preferences.css"
-      ],
-      "status": "defined"
-    },
-    {
-      "name": "--mp-panel",
-      "prefix": "mp",
-      "value": "rgb(255 252 246 / 92%)",
+      "value": "rgb(255 252 246 / 72%)",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4283,9 +4297,20 @@
       "status": "defined"
     },
     {
-      "name": "--mp-panel-strong",
+      "name": "--mp-paper-solid",
       "prefix": "mp",
-      "value": "rgb(255 249 241 / 98%)",
+      "value": "#fffaf3",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--mp-paper-strong",
+      "prefix": "mp",
+      "value": "rgb(255 255 255 / 84%)",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4309,7 +4334,7 @@
     {
       "name": "--mp-radius-card",
       "prefix": "mp",
-      "value": "22px",
+      "value": "20px",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4326,7 +4351,7 @@
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
-      "usageCount": 4,
+      "usageCount": 6,
       "usedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4335,14 +4360,12 @@
     {
       "name": "--mp-radius-shell",
       "prefix": "mp",
-      "value": "32px",
+      "value": "28px",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
-      "usageCount": 1,
-      "usedIn": [
-        "blocks/form-mccs-preferences/form-mccs-preferences.css"
-      ],
+      "usageCount": 0,
+      "usedIn": [],
       "status": "defined"
     },
     {
@@ -4352,7 +4375,7 @@
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
-      "usageCount": 8,
+      "usageCount": 10,
       "usedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4361,7 +4384,7 @@
     {
       "name": "--mp-scarlet-deep",
       "prefix": "mp",
-      "value": "#891428",
+      "value": "#8f162a",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4372,42 +4395,7 @@
     {
       "name": "--mp-shadow",
       "prefix": "mp",
-      "value": "0 28px 72px rgb(17 35 63 / 14%),\n    0 10px 28px rgb(17 35 63 / 6%)",
-      "definedIn": [
-        "blocks/form-mccs-preferences/form-mccs-preferences.css"
-      ],
-      "usageCount": 1,
-      "usedIn": [
-        "blocks/form-mccs-preferences/form-mccs-preferences.css"
-      ],
-      "status": "defined"
-    },
-    {
-      "name": "--mp-success",
-      "prefix": "mp",
-      "value": "#8d7743",
-      "definedIn": [
-        "blocks/form-mccs-preferences/form-mccs-preferences.css"
-      ],
-      "usageCount": 0,
-      "usedIn": [],
-      "status": "defined"
-    },
-    {
-      "name": "--mp-surface",
-      "prefix": "mp",
-      "value": "rgb(255 255 255 / 72%)",
-      "definedIn": [
-        "blocks/form-mccs-preferences/form-mccs-preferences.css"
-      ],
-      "usageCount": 0,
-      "usedIn": [],
-      "status": "defined"
-    },
-    {
-      "name": "--mp-surface-strong",
-      "prefix": "mp",
-      "value": "rgb(255 252 246 / 96%)",
+      "value": "0 2px 10px rgb(17 35 63 / 4%),\n    0 32px 90px rgb(17 35 63 / 14%)",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4420,11 +4408,11 @@
     {
       "name": "--mp-text",
       "prefix": "mp",
-      "value": "#15233d",
+      "value": "#17243f",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
-      "usageCount": 12,
+      "usageCount": 15,
       "usedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4433,7 +4421,7 @@
     {
       "name": "--mp-text-soft",
       "prefix": "mp",
-      "value": "rgb(21 35 61 / 68%)",
+      "value": "rgb(23 36 63 / 68%)",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -5402,6 +5390,17 @@
       "usedIn": [
         "blocks/promo-popup/promo-popup.css"
       ],
+      "status": "defined"
+    },
+    {
+      "name": "--primary",
+      "prefix": "primary",
+      "value": ":before {\n  position: absolute",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
       "status": "defined"
     },
     {
@@ -8759,11 +8758,12 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 62,
+      "usageCount": 63,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/age-gate/age-gate.css",
         "blocks/form-4/form-4.css",
+        "blocks/form-mccs-preferences/form-mccs-preferences.css",
         "blocks/header/header.css",
         "blocks/hero-6/hero-6.css",
         "blocks/how-it-works-stats-2/how-it-works-stats-2.css",
@@ -8783,12 +8783,13 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 25,
+      "usageCount": 26,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/circle-carousel/circle-carousel.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
         "blocks/form-4/form-4.css",
+        "blocks/form-mccs-preferences/form-mccs-preferences.css",
         "blocks/header/header.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
