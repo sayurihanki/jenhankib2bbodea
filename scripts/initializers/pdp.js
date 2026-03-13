@@ -9,6 +9,7 @@ import {
   fetchPlaceholders,
   getOptionsUIDsFromUrl,
   getProductSku,
+  getSearchContext,
   loadErrorPage,
   preloadFile,
 } from '../commerce.js';
@@ -20,8 +21,8 @@ export const IMAGES_SIZES = {
 };
 
 const URLKEY_TO_SKU_QUERY = `
-  query resolveSkuByUrlKey($phrase: String!, $pageSize: Int = 20) {
-    productSearch(phrase: $phrase, page_size: $pageSize) {
+  query resolveSkuByUrlKey($phrase: String!, $pageSize: Int = 20, $context: QueryContextInput) {
+    productSearch(phrase: $phrase, page_size: $pageSize, context: $context) {
       items {
         productView {
           sku
@@ -48,6 +49,7 @@ async function resolveSkuByUrlKey(urlKey) {
       variables: {
         phrase: urlKey,
         pageSize: 20,
+        context: getSearchContext(),
       },
     });
 
