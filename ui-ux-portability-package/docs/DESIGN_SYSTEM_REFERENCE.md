@@ -86,7 +86,7 @@ Category distribution:
 - `luxury`: 14
 - `main`: 1
 - `minifiedView`: 1
-- `mp`: 23
+- `mp`: 24
 - `mrc`: 9
 - `nav`: 17
 - `newsletter`: 28

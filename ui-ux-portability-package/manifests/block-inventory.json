@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-13T22:25:34.165Z",
+  "generatedAt": "2026-03-13T22:35:51.521Z",
   "summary": {
     "totalBlocks": 115,
     "withStyles": 115,
@@ -1630,7 +1630,7 @@
       },
       "hasStyles": true,
       "hasRuntime": true,
-      "fileCount": 4
+      "fileCount": 5
     },
     {
       "name": "fragment",

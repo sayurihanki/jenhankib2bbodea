@@ -228,6 +228,17 @@
           }
         },
         {
+          "title": "Form MCCS Preferences",
+          "id": "form-mccs-preferences",
+          "plugins": {
+            "da": {
+              "name": "form-mccs-preferences",
+              "rows": 3,
+              "columns": 1
+            }
+          }
+        },
+        {
           "title": "Hero",
           "id": "hero",
           "model": "hero",
