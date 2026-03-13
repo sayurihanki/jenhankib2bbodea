@@ -35,6 +35,15 @@ export function humanizeToken(value, fallback = 'Question') {
     .join(' ');
 }
 
+export function splitAuthoredLines(value = '') {
+  return String(value || '')
+    .replace(/\r\n?/g, '\n')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .split(/\n+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
 export function normalizeQuizConfig(rawConfig = {}, context = {}) {
   const pathSlug = toSlug(context.pathSlug || 'arrival-guide', 'arrival-guide');
   const themeValue = String(rawConfig.theme || rawConfig['quizrouter-theme'] || DEFAULT_THEME)

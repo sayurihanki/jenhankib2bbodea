@@ -8,6 +8,7 @@ import {
   getProgressState,
   normalizeQuizConfig,
   parseTypedRows,
+  splitAuthoredLines,
 } from '../../blocks/quiz-router-mccs/quiz-router-mccs.utils.mjs';
 /* eslint-enable import/extensions */
 
@@ -26,6 +27,18 @@ test('normalizeQuizConfig applies MCCS defaults and slugs the quiz id', () => {
     base: '',
     journey: '',
   });
+});
+
+test('splitAuthoredLines supports both literal <br> tokens and normal new lines', () => {
+  assert.deepEqual(
+    splitAuthoredLines('Welcome.<br>Let us get your family settled.<br />Marine Corps Community Services'),
+    ['Welcome.', 'Let us get your family settled.', 'Marine Corps Community Services'],
+  );
+
+  assert.deepEqual(
+    splitAuthoredLines('Line one\nLine two\n\nLine three'),
+    ['Line one', 'Line two', 'Line three'],
+  );
 });
 
 test('parseTypedRows resolves landing, named steps, next actions, fragment results, and page routes', () => {
