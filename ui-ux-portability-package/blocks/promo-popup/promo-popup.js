@@ -23,6 +23,59 @@ const SEGMENT_COLORS = {
   minimal: ['#f0f0f2', '#e5e5e8', '#d8d8dc', '#f0f0f2', '#e5e5e8', '#d8d8dc'],
 };
 
+const THEME_TOKENS = {
+  purple: {
+    accent: '#6d28d9',
+    accentLight: '#8b5cf6',
+    accentDark: '#4c1d95',
+    accentRgb: '109 40 217',
+    wheelGlow: '139 92 246',
+    orbA: '196 181 253',
+    orbB: '125 211 252',
+    orbC: '216 180 254',
+  },
+  emerald: {
+    accent: '#0f7a55',
+    accentLight: '#34d399',
+    accentDark: '#065f46',
+    accentRgb: '15 122 85',
+    wheelGlow: '16 185 129',
+    orbA: '110 231 183',
+    orbB: '134 239 172',
+    orbC: '187 247 208',
+  },
+  sunset: {
+    accent: '#dd6b20',
+    accentLight: '#fb923c',
+    accentDark: '#9a3412',
+    accentRgb: '221 107 32',
+    wheelGlow: '249 115 22',
+    orbA: '253 186 116',
+    orbB: '252 211 77',
+    orbC: '254 215 170',
+  },
+  midnight: {
+    accent: '#1d4ed8',
+    accentLight: '#60a5fa',
+    accentDark: '#1e3a8a',
+    accentRgb: '29 78 216',
+    wheelGlow: '59 130 246',
+    orbA: '96 165 250',
+    orbB: '147 197 253',
+    orbC: '191 219 254',
+  },
+  minimal: {
+    accent: '#4b5563',
+    accentLight: '#9ca3af',
+    accentDark: '#111827',
+    accentRgb: '75 85 99',
+    wheelGlow: '156 163 175',
+    orbA: '229 231 235',
+    orbB: '209 213 219',
+    orbC: '243 244 246',
+  },
+};
+
 const CONFIG_KEYS = [
   'trigger', 'triggerdelay', 'triggerscroll', 'storageduration',
   'headline', 'headlinehighlight', 'subheadline', 'pill',
@@ -103,7 +156,7 @@ function parseBlock(block) {
     resultHeadline: '🎉',
     ctaButtonText: 'Claim Offer',
     theme: 'purple',
-    showOrbBg: false,
+    showOrbBg: true,
     showConfetti: true,
     spinDuration: 4,
   };
@@ -273,13 +326,43 @@ function buildWheel(promotions, theme) {
 
 /* ─── Build Overlay DOM ──────────────────────────────────────────── */
 
-function buildOverlay(config, promotions) {
+function applyThemeTokens(overlay, themeName) {
+  const tokens = THEME_TOKENS[themeName] || THEME_TOKENS.purple;
+  overlay.style.setProperty('--pp-accent', tokens.accent);
+  overlay.style.setProperty('--pp-accent-light', tokens.accentLight);
+  overlay.style.setProperty('--pp-accent-dark', tokens.accentDark);
+  overlay.style.setProperty('--pp-accent-rgb', tokens.accentRgb);
+  overlay.style.setProperty('--pp-wheel-glow', tokens.wheelGlow);
+  overlay.style.setProperty('--pp-orb-a', tokens.orbA);
+  overlay.style.setProperty('--pp-orb-b', tokens.orbB);
+  overlay.style.setProperty('--pp-orb-c', tokens.orbC);
+}
+
+function buildOrbField() {
+  const orbField = document.createElement('div');
+  orbField.className = 'pp-orb-field';
+
+  for (let i = 1; i <= 3; i += 1) {
+    const orb = document.createElement('div');
+    orb.className = `pp-orb pp-orb--${i}`;
+    orbField.appendChild(orb);
+  }
+
+  return orbField;
+}
+
+function buildOverlay(config, promotions, blockId) {
+  const idSuffix = blockId.replace(/[^a-z0-9_-]/gi, '-');
+  const headlineId = `pp-headline-${idSuffix}`;
+  const subheadlineId = `pp-subheadline-${idSuffix}`;
   const overlay = document.createElement('div');
   overlay.className = 'pp-overlay';
+  overlay.dataset.ppOwner = blockId;
   overlay.setAttribute('role', 'dialog');
   overlay.setAttribute('aria-modal', 'true');
-  overlay.setAttribute('aria-labelledby', 'pp-headline-id');
-  overlay.setAttribute('aria-describedby', 'pp-subheadline-id');
+  overlay.setAttribute('aria-labelledby', headlineId);
+  overlay.setAttribute('aria-describedby', subheadlineId);
+  applyThemeTokens(overlay, config.theme);
 
   const modal = document.createElement('div');
   modal.className = 'pp-modal';
@@ -302,8 +385,8 @@ function buildOverlay(config, promotions) {
   modalInner.innerHTML = `
     <div class="pp-header">
       ${config.pill ? `<div class="pp-pill"><div class="pp-pill-dot"></div>${config.pill}</div>` : ''}
-      <h2 id="pp-headline-id" class="pp-headline">${headlineHtml}</h2>
-      <p id="pp-subheadline-id" class="pp-subheadline">${config.subheadline}</p>
+      <h2 id="${headlineId}" class="pp-headline">${headlineHtml}</h2>
+      <p id="${subheadlineId}" class="pp-subheadline">${config.subheadline}</p>
     </div>
   `;
 
@@ -351,6 +434,9 @@ function buildOverlay(config, promotions) {
   bottom.appendChild(resultArea);
   bottom.appendChild(noThanks);
 
+  if (config.showOrbBg) {
+    overlay.appendChild(buildOrbField());
+  }
   modal.appendChild(closeBtn);
   modal.appendChild(modalInner);
   modal.appendChild(wheelSection);
@@ -360,7 +446,9 @@ function buildOverlay(config, promotions) {
   /* ── Spin Logic ── */
   let hasSpun = false;
   let currentRotation = 0;
+  let isClosing = false;
   const duration = config.spinDuration * 1000;
+  const previousActiveElement = document.activeElement;
 
   function doSpin() {
     if (hasSpun) return;
@@ -424,11 +512,14 @@ function buildOverlay(config, promotions) {
   }
 
   function closeOverlay() {
+    if (isClosing) return;
+    isClosing = true;
     document.removeEventListener('keydown', overlay._keyHandler);
     overlay.classList.add('pp-overlay--closing');
     overlay.addEventListener('animationend', () => {
       overlay.remove();
       document.body.classList.remove('pp-no-scroll');
+      previousActiveElement?.focus?.();
     }, { once: true });
   }
 
@@ -546,6 +637,7 @@ function setupTrigger(config, showFn) {
 export default function decorate(block) {
   const { config, promotions } = parseBlock(block);
   const debug = block.dataset.debug === 'true' || block.dataset.debug === '';
+  let hasShown = false;
 
   if (!promotions.length) {
     if (debug) console.warn('[promo-popup] No promotions — block hidden.');
@@ -558,13 +650,15 @@ export default function decorate(block) {
   block.hidden = true;
 
   function showPopup() {
+    if (hasShown) return;
     if (hasBeenSeen(blockId, config.storageDuration)) {
       if (debug) console.warn('[promo-popup] Blocked by storage (already seen). Use storage-duration: never to test.');
       return;
     }
-    markSeen(blockId, config.storageDuration);
 
-    const { overlay, focusFirst } = buildOverlay(config, promotions);
+    const { overlay, focusFirst } = buildOverlay(config, promotions, blockId);
+    hasShown = true;
+    markSeen(blockId, config.storageDuration);
     document.addEventListener('keydown', overlay._keyHandler);
     document.body.appendChild(overlay);
     document.body.classList.add('pp-no-scroll');

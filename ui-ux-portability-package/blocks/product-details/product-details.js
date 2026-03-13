@@ -25,6 +25,9 @@ import ProductGiftCardOptions from '@dropins/storefront-pdp/containers/ProductGi
 
 // Libs
 import {
+  buildBlock, decorateBlock, loadBlock, readBlockConfig,
+} from '../../scripts/aem.js';
+import {
   fetchPlaceholders, getProductLink, rootLink, setJsonLd,
 } from '../../scripts/commerce.js';
 import {
@@ -36,6 +39,22 @@ import {
 import { IMAGES_SIZES } from '../../scripts/initializers/pdp.js';
 import '../../scripts/initializers/cart.js';
 import '../../scripts/initializers/wishlist.js';
+/* eslint-disable import/extensions */
+import {
+  normalizeProductDetailsPresentation,
+  shouldActivateConfigurator,
+  shouldActivateImmersivePresentation,
+  PRODUCT_DETAILS_PRESENTATIONS,
+} from './product-details.utils.mjs';
+/* eslint-enable import/extensions */
+
+const PDP_CONFIGURATOR_FALLBACKS = Object.freeze({
+  'USMC-OFFICER-BLUES-PACKAGE': {
+    sku: 'USMC-OFFICER-BLUES-PACKAGE',
+    dataSource: '/data/configurators/marine-officer-dress-blues.json',
+    layout: 'immersive',
+  },
+});
 
 /**
  * Checks if the page has prerendered product JSON-LD data
@@ -90,9 +109,64 @@ async function getInitialEnteredOptions(itemUid, inputOptions) {
   }
 }
 
+function getConfiguratorFallback(product) {
+  const fallback = PDP_CONFIGURATOR_FALLBACKS[product?.sku];
+
+  if (!fallback) {
+    return null;
+  }
+
+  const hasSelectableOptions = Array.isArray(product?.options) && product.options.length > 0;
+  const hasInputOptions = Array.isArray(product?.inputOptions) && product.inputOptions.length > 0;
+
+  if (hasSelectableOptions || hasInputOptions) {
+    return null;
+  }
+
+  return fallback;
+}
+
+function syncConfiguratorLayoutVariant(block, product) {
+  const layout = PDP_CONFIGURATOR_FALLBACKS[product?.sku]?.layout;
+  block.classList.toggle('product-details--configurator-immersive', layout === 'immersive');
+}
+
+async function mountConfiguratorFallback(container, block, product) {
+  const fallback = getConfiguratorFallback(product);
+
+  if (!container || !fallback) {
+    return false;
+  }
+
+  const fallbackBlock = buildBlock('uniform-configurator', [
+    ['sku', fallback.sku],
+    ['data-source', fallback.dataSource],
+  ]);
+
+  container.replaceChildren(fallbackBlock);
+  decorateBlock(fallbackBlock);
+  block.classList.add('product-details--configurator-active');
+  await loadBlock(fallbackBlock);
+
+  const didRenderConfigurator = Boolean(
+    fallbackBlock.querySelector('.uniform-configurator__shell')
+    || fallbackBlock.querySelector('.uniform-configurator-block-message'),
+  );
+
+  if (!didRenderConfigurator) {
+    block.classList.remove('product-details--configurator-active');
+    container.replaceChildren();
+    return false;
+  }
+
+  return true;
+}
+
 export default async function decorate(block) {
-  const product = events.lastPayload('pdp/data') ?? null;
+  let product = events.lastPayload('pdp/data') ?? null;
   const labels = await fetchPlaceholders();
+  const blockConfig = readBlockConfig(block);
+  const presentation = normalizeProductDetailsPresentation(blockConfig.presentation);
 
   // Read itemUid from URL
   const urlParams = new URLSearchParams(window.location.search);
@@ -115,6 +189,7 @@ export default async function decorate(block) {
         <div class="product-details__gallery"></div>
         <div class="product-details__short-description"></div>
         <div class="product-details__gift-card-options"></div>
+        <div class="product-details__configurator-fallback"></div>
         <div class="product-details__configuration">
           <div class="product-details__options"></div>
           <div class="product-details__input-options"></div>
@@ -141,6 +216,7 @@ export default async function decorate(block) {
   const $inputOptions = fragment.querySelector('.product-details__input-options');
   const $quantity = fragment.querySelector('.product-details__quantity');
   const $giftCardOptions = fragment.querySelector('.product-details__gift-card-options');
+  const $configuratorFallback = fragment.querySelector('.product-details__configurator-fallback');
   const $addToCart = fragment.querySelector('.product-details__buttons__add-to-cart');
   const $wishlistToggleBtn = fragment.querySelector('.product-details__buttons__add-to-wishlist');
   const $requisitionListSelector = fragment.querySelector('.product-details__buttons__add-to-req-list');
@@ -148,6 +224,11 @@ export default async function decorate(block) {
   const $attributes = fragment.querySelector('.product-details__attributes');
 
   block.replaceChildren(fragment);
+  block.classList.toggle(
+    'product-details--presentation-auto-immersive',
+    presentation === PRODUCT_DETAILS_PRESENTATIONS.AUTO_IMMERSIVE,
+  );
+  syncConfiguratorLayoutVariant(block, product);
 
   const gallerySlots = {
     CarouselThumbnail: (ctx) => {
@@ -257,6 +338,35 @@ export default async function decorate(block) {
   await mountProductInputOptions($inputOptions, {
     initialEnteredOptions,
   });
+
+  let configuratorFallbackMount = null;
+  const ensureConfiguratorFallback = (nextProduct = product) => {
+    if (configuratorFallbackMount) {
+      return configuratorFallbackMount;
+    }
+
+    configuratorFallbackMount = mountConfiguratorFallback($configuratorFallback, block, nextProduct)
+      .then((mounted) => {
+        if (!mounted) {
+          configuratorFallbackMount = null;
+        }
+
+        return mounted;
+      })
+      .catch((error) => {
+        configuratorFallbackMount = null;
+        console.error('Could not mount PDP configurator fallback:', error);
+        return false;
+      });
+
+    return configuratorFallbackMount;
+  };
+
+  events.on('pdp/data', (nextProduct) => {
+    product = nextProduct;
+    syncConfiguratorLayoutVariant(block, nextProduct);
+    ensureConfiguratorFallback(nextProduct);
+  }, { eager: true });
 
   // Configuration – Button - Add to Cart
   const addToCart = await UI.render(Button, {
@@ -454,9 +564,14 @@ export default async function decorate(block) {
   }, { eager: true });
 
   events.on('pdp/configurator-ready', (payload) => {
-    if (payload?.status === 'ready') {
-      block.classList.add('product-details--configurator-active');
-    }
+    block.classList.toggle(
+      'product-details--configurator-active',
+      shouldActivateConfigurator(payload) || block.classList.contains('product-details--configurator-active'),
+    );
+    block.classList.toggle(
+      'product-details--immersive-active',
+      shouldActivateImmersivePresentation(presentation, payload),
+    );
   }, { eager: true });
 
   return Promise.resolve();

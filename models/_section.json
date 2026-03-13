@@ -159,7 +159,8 @@
         "vip-hero-mccs",
         "product-recommendations",
         "product-highlights",
-        "quiz-router"
+        "quiz-router",
+        "quiz-router-mccs"
       ]
     }
   ]

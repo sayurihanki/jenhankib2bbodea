@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-03-11T02:26:02.880Z",
+  "generatedAt": "2026-03-13T05:02:38.347Z",
   "summary": {
-    "totalBlocks": 112,
-    "withStyles": 112,
-    "withRuntime": 112,
+    "totalBlocks": 114,
+    "withStyles": 114,
+    "withRuntime": 114,
     "byCategory": {
-      "interactive-content": 9,
-      "content": 39,
+      "interactive-content": 10,
+      "content": 40,
       "commerce": 55,
       "shell": 5,
       "forms": 4
@@ -1993,12 +1993,14 @@
           "blocks/product-details/product-details.js",
           "blocks/product-details/requisition-list.js"
         ],
-        "json": [],
+        "json": [
+          "blocks/product-details/_product-details.json"
+        ],
         "readme": "blocks/product-details/README.md"
       },
       "hasStyles": true,
       "hasRuntime": true,
-      "fileCount": 4
+      "fileCount": 6
     },
     {
       "name": "product-highlights",
@@ -2093,6 +2095,29 @@
       "fileCount": 5
     },
     {
+      "name": "product-technical-details",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Product Technical Details",
+      "overview": "`product-technical-details` renders the lower PDP experience for the immersive rack variant:",
+      "sourcePath": "blocks/product-technical-details",
+      "files": {
+        "css": [
+          "blocks/product-technical-details/product-technical-details.css"
+        ],
+        "js": [
+          "blocks/product-technical-details/product-technical-details.js"
+        ],
+        "json": [
+          "blocks/product-technical-details/_product-technical-details.json"
+        ],
+        "readme": "blocks/product-technical-details/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 5
+    },
+    {
       "name": "promo-popup",
       "category": "content",
       "subcategory": "general",
@@ -2156,6 +2181,29 @@
           "blocks/quiz-router/_quiz-router.json"
         ],
         "readme": "blocks/quiz-router/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 8
+    },
+    {
+      "name": "quiz-router-mccs",
+      "category": "interactive-content",
+      "subcategory": "engagement",
+      "title": "Quiz Router MCCS",
+      "overview": "`quiz-router-mccs` is a guided Marine Corps Community Services arrival block for branching, concierge-style journeys.",
+      "sourcePath": "blocks/quiz-router-mccs",
+      "files": {
+        "css": [
+          "blocks/quiz-router-mccs/quiz-router-mccs.css"
+        ],
+        "js": [
+          "blocks/quiz-router-mccs/quiz-router-mccs.js"
+        ],
+        "json": [
+          "blocks/quiz-router-mccs/_quiz-router-mccs.json"
+        ],
+        "readme": "blocks/quiz-router-mccs/README.md"
       },
       "hasStyles": true,
       "hasRuntime": true,
@@ -2357,6 +2405,8 @@
           "blocks/uniform-configurator/uniform-configurator.css"
         ],
         "js": [
+          "blocks/uniform-configurator/uniform-configurator.commerce-core.js",
+          "blocks/uniform-configurator/uniform-configurator.commerce.js",
           "blocks/uniform-configurator/uniform-configurator.js",
           "blocks/uniform-configurator/uniform-configurator.lib.js"
         ],
@@ -2367,7 +2417,7 @@
       },
       "hasStyles": true,
       "hasRuntime": true,
-      "fileCount": 5
+      "fileCount": 7
     },
     {
       "name": "video",

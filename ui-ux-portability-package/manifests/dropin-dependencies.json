@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-11T02:26:03.046Z",
+  "generatedAt": "2026-03-13T05:02:38.672Z",
   "summary": {
     "totalPackages": 17,
     "undeclaredPackages": []
@@ -91,12 +91,12 @@
         "blocks/header/header.js",
         "blocks/live-block/dashboard-core.js",
         "blocks/luxury-configurator/luxury-configurator.js",
-        "blocks/medal-rack-configurator/medal-rack-configurator.js",
         "blocks/product-configurator-luxe/product-configurator-luxe.js",
         "blocks/product-details/product-details.js",
         "blocks/product-list-page/product-list-page.js",
         "blocks/product-recommendations/product-recommendations.js",
         "blocks/product-teaser/product-teaser.js",
+        "blocks/uniform-configurator/uniform-configurator.js",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.js",
         "scripts/initializers/cart.js"
       ]
@@ -253,10 +253,10 @@
       "importedBy": [
         "blocks/commerce-wishlist/commerce-wishlist.js",
         "blocks/luxury-configurator/luxury-configurator.js",
-        "blocks/medal-rack-configurator/medal-rack-configurator.js",
         "blocks/product-configurator-luxe/product-configurator-luxe.js",
         "blocks/product-details/product-details.js",
         "blocks/product-details/requisition-list.js",
+        "blocks/uniform-configurator/uniform-configurator.js",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.js",
         "scripts/components/pdp-input-options/pdp-input-options.js",
         "scripts/initializers/pdp.js"
@@ -426,7 +426,7 @@
       "package": "@dropins/tools",
       "version": "~1.6.0",
       "source": "declared",
-      "importCount": 162,
+      "importCount": 163,
       "importSpecifiers": [
         "@dropins/tools/components.js",
         "@dropins/tools/event-bus.js",
@@ -490,7 +490,6 @@
         "blocks/header/renderAuthDropdown.js",
         "blocks/live-block/dashboard-core.js",
         "blocks/luxury-configurator/luxury-configurator.js",
-        "blocks/medal-rack-configurator/medal-rack-configurator.js",
         "blocks/modal/modal.js",
         "blocks/product-configurator-luxe/product-configurator-luxe.js",
         "blocks/product-details/product-details.js",
@@ -498,8 +497,10 @@
         "blocks/product-list-page/product-list-page.js",
         "blocks/product-recommendations/product-recommendations.js",
         "blocks/product-teaser/product-teaser-utils.js",
+        "blocks/product-technical-details/product-technical-details.js",
         "blocks/search-bar/search-bar.js",
         "blocks/targeted-block/targeted-block.js",
+        "blocks/uniform-configurator/uniform-configurator.commerce-core.js",
         "blocks/vip-hero-mccs/vip-hero-mccs.js",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.js",
         "scripts/commerce.js",

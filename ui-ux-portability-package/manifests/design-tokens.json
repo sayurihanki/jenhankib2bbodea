@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-03-11T02:26:02.913Z",
+  "generatedAt": "2026-03-13T05:02:38.370Z",
   "summary": {
-    "totalTokens": 651,
-    "definedTokens": 600,
-    "unresolvedTokens": 51,
+    "totalTokens": 690,
+    "definedTokens": 637,
+    "unresolvedTokens": 53,
     "byPrefix": {
       "accent": 3,
       "background": 2,
@@ -22,7 +22,7 @@
       "f4": 20,
       "featured": 1,
       "float": 1,
-      "font": 1,
+      "font": 2,
       "gap": 1,
       "glass": 9,
       "gold": 2,
@@ -42,8 +42,10 @@
       "newsletter": 28,
       "no": 1,
       "pcl": 5,
-      "pp": 8,
+      "pp": 14,
+      "product": 11,
       "promotional": 51,
+      "qrm": 19,
       "quiz": 11,
       "readonly": 1,
       "search": 26,
@@ -60,7 +62,7 @@
       "transition": 3,
       "type": 48,
       "uc": 4,
-      "vip": 32,
+      "vip": 34,
       "vmb": 3,
       "width": 1,
       "yes": 1
@@ -74,7 +76,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 52,
+      "usageCount": 56,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/form/form.css",
@@ -520,9 +522,10 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
-        "blocks/product-highlights/product-highlights.css"
+        "blocks/product-highlights/product-highlights.css",
+        "blocks/product-technical-details/product-technical-details.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -615,11 +618,12 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 6,
+      "usageCount": 7,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
         "blocks/hero-5/hero-5.css",
-        "blocks/product-highlights/product-highlights.css"
+        "blocks/product-highlights/product-highlights.css",
+        "blocks/product-technical-details/product-technical-details.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -639,11 +643,12 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 5,
+      "usageCount": 6,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
         "blocks/hero-5/hero-5.css",
-        "blocks/product-highlights/product-highlights.css"
+        "blocks/product-highlights/product-highlights.css",
+        "blocks/product-technical-details/product-technical-details.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -770,11 +775,12 @@
       "prefix": "color",
       "value": null,
       "definedIn": [],
-      "usageCount": 6,
+      "usageCount": 11,
       "usedIn": [
         "blocks/features-grid/features-grid.css",
         "blocks/hero-5/hero-5.css",
-        "blocks/product-highlights/product-highlights.css"
+        "blocks/product-highlights/product-highlights.css",
+        "blocks/product-technical-details/product-technical-details.css"
       ],
       "status": "referenced-without-definition"
     },
@@ -927,7 +933,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 11,
+      "usageCount": 12,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/cards/cards.css",
@@ -936,6 +942,7 @@
         "blocks/header/header.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-recommendations/product-recommendations.css",
+        "blocks/product-technical-details/product-technical-details.css",
         "blocks/quiz-router/quiz-router.css",
         "blocks/search-bar/search-bar.css"
       ],
@@ -948,14 +955,16 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 9,
+      "usageCount": 12,
       "usedIn": [
+        "blocks/accordion/accordion.css",
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/form-4/form-4.css",
         "blocks/form/form.css",
         "blocks/hero-cta/hero-cta.css",
+        "blocks/product-technical-details/product-technical-details.css",
         "blocks/quiz-router/quiz-router.css",
         "blocks/vip-hero-block/vip-hero-block.css"
       ],
@@ -968,8 +977,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 36,
+      "usageCount": 39,
       "usedIn": [
+        "blocks/accordion/accordion.css",
         "blocks/age-gate/age-gate.css",
         "blocks/blog-post/blog-post.css",
         "blocks/carousel/carousel.css",
@@ -987,6 +997,7 @@
         "blocks/form-4/form-4.css",
         "blocks/form/form.css",
         "blocks/newsletter/newsletter.css",
+        "blocks/product-technical-details/product-technical-details.css",
         "blocks/promotional-hero/promotional-hero.css",
         "blocks/search-bar/search-bar.css",
         "blocks/vip-hero-block/vip-hero-block.css",
@@ -1024,8 +1035,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 45,
+      "usageCount": 47,
       "usedIn": [
+        "blocks/accordion/accordion.css",
         "blocks/blog-post/blog-post.css",
         "blocks/cards-list/cards-list.css",
         "blocks/circle-carousel/circle-carousel.css",
@@ -2046,8 +2058,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 42,
+      "usageCount": 47,
       "usedIn": [
+        "blocks/accordion/accordion.css",
         "blocks/features-grid/features-grid.css",
         "blocks/hero-5/hero-5.css",
         "blocks/live-block-premium/live-block-premium.css",
@@ -2055,6 +2068,7 @@
         "blocks/luxury-configurator/luxury-configurator.css",
         "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-highlights/product-highlights.css",
+        "blocks/product-technical-details/product-technical-details.css",
         "blocks/quiz-router/quiz-router.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
@@ -2063,6 +2077,17 @@
         "blocks/vip-member-block/vip-member-block.css"
       ],
       "status": "defined"
+    },
+    {
+      "name": "--font-mono",
+      "prefix": "font",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/accordion/accordion.css"
+      ],
+      "status": "referenced-without-definition"
     },
     {
       "name": "--gap",
@@ -2082,7 +2107,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 19,
+      "usageCount": 20,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
@@ -2106,8 +2131,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 10,
+      "usageCount": 11,
       "usedIn": [
+        "blocks/accordion/accordion.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/form/form.css",
         "blocks/newsletter/newsletter.css",
@@ -2246,8 +2272,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 26,
+      "usageCount": 29,
       "usedIn": [
+        "blocks/accordion/accordion.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
         "blocks/commerce-addresses/commerce-addresses.css",
@@ -2578,7 +2605,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
         "blocks/product-details/product-details.css"
       ],
@@ -2591,7 +2618,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
         "blocks/product-details/product-details.css"
       ],
@@ -4135,7 +4162,7 @@
       "definedIn": [
         "blocks/medal-rack-configurator/medal-rack-configurator.css"
       ],
-      "usageCount": 13,
+      "usageCount": 9,
       "usedIn": [
         "blocks/medal-rack-configurator/medal-rack-configurator.css"
       ],
@@ -4174,7 +4201,7 @@
       "definedIn": [
         "blocks/medal-rack-configurator/medal-rack-configurator.css"
       ],
-      "usageCount": 9,
+      "usageCount": 7,
       "usedIn": [
         "blocks/medal-rack-configurator/medal-rack-configurator.css"
       ],
@@ -4226,7 +4253,7 @@
       "definedIn": [
         "blocks/medal-rack-configurator/medal-rack-configurator.css"
       ],
-      "usageCount": 12,
+      "usageCount": 9,
       "usedIn": [
         "blocks/medal-rack-configurator/medal-rack-configurator.css"
       ],
@@ -4901,7 +4928,20 @@
       "definedIn": [
         "blocks/promo-popup/promo-popup.css"
       ],
-      "usageCount": 3,
+      "usageCount": 5,
+      "usedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--pp-accent-dark",
+      "prefix": "pp",
+      "value": "#155230",
+      "definedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "usageCount": 1,
       "usedIn": [
         "blocks/promo-popup/promo-popup.css"
       ],
@@ -4911,6 +4951,58 @@
       "name": "--pp-accent-light",
       "prefix": "pp",
       "value": "#2ebe7a",
+      "definedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--pp-accent-rgb",
+      "prefix": "pp",
+      "value": "31 122 77",
+      "definedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "usageCount": 6,
+      "usedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--pp-orb-a",
+      "prefix": "pp",
+      "value": "196 181 253",
+      "definedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--pp-orb-b",
+      "prefix": "pp",
+      "value": "125 211 252",
+      "definedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--pp-orb-c",
+      "prefix": "pp",
+      "value": "216 180 254",
       "definedIn": [
         "blocks/promo-popup/promo-popup.css"
       ],
@@ -4995,6 +5087,158 @@
       "usageCount": 3,
       "usedIn": [
         "blocks/promo-popup/promo-popup.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--pp-wheel-glow",
+      "prefix": "pp",
+      "value": "139 92 246",
+      "definedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/promo-popup/promo-popup.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--product-technical-details-accent",
+      "prefix": "product",
+      "value": "var(--color-green-500, #1a6640)",
+      "definedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--product-technical-details-accent-strong",
+      "prefix": "product",
+      "value": "var(--color-green-700, #0f3d24)",
+      "definedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--product-technical-details-border",
+      "prefix": "product",
+      "value": "rgb(15 61 36 / 10%)",
+      "definedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--product-technical-details-gold",
+      "prefix": "product",
+      "value": "var(--color-gold, #c9a84c)",
+      "definedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--product-technical-details-grid",
+      "prefix": "product",
+      "value": "rgb(15 61 36 / 4%)",
+      "definedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--product-technical-details-grid-shift",
+      "prefix": "product",
+      "value": "0px",
+      "definedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--product-technical-details-panel",
+      "prefix": "product",
+      "value": "rgb(255 255 255 / 84%)",
+      "definedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--product-technical-details-panel-strong",
+      "prefix": "product",
+      "value": "rgb(255 255 255 / 92%)",
+      "definedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--product-technical-details-plane-shift",
+      "prefix": "product",
+      "value": "0px",
+      "definedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--product-technical-details-reveal-index",
+      "prefix": "product",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--product-technical-details-shadow",
+      "prefix": "product",
+      "value": "0 20px 60px rgb(8 12 10 / 10%)",
+      "definedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/product-technical-details/product-technical-details.css"
       ],
       "status": "defined"
     },
@@ -5660,6 +5904,251 @@
       "status": "defined"
     },
     {
+      "name": "--qrm-body-font",
+      "prefix": "qrm",
+      "value": "\"Avenir Next\", \"Trebuchet MS\", \"Lucida Sans Unicode\", sans-serif",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-border",
+      "prefix": "qrm",
+      "value": "rgb(22 39 50 / 12%)",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 6,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-border-strong",
+      "prefix": "qrm",
+      "value": "rgb(22 39 50 / 22%)",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-display-font",
+      "prefix": "qrm",
+      "value": "\"Iowan Old Style\", \"Palatino Linotype\", \"Book Antiqua\", georgia, serif",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-faint",
+      "prefix": "qrm",
+      "value": "#90a3af",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 5,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-hero-background",
+      "prefix": "qrm",
+      "value": "radial-gradient(circle at 84% 22%, rgb(107 180 159 / 16%) 0, transparent 28%),\n    radial-gradient(circle at 92% 88%, rgb(107 180 159 / 12%) 0, transparent 22%),\n    linear-gradient(180deg, #0b1f31 0%, #122b40 100%)",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-ink",
+      "prefix": "qrm",
+      "value": "#162732",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 5,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-muted",
+      "prefix": "qrm",
+      "value": "#5d7483",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 4,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-navy",
+      "prefix": "qrm",
+      "value": "#0b1f31",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-navy-soft",
+      "prefix": "qrm",
+      "value": "#15354f",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-radius-lg",
+      "prefix": "qrm",
+      "value": "28px",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-radius-md",
+      "prefix": "qrm",
+      "value": "18px",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-radius-sm",
+      "prefix": "qrm",
+      "value": "12px",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-sand",
+      "prefix": "qrm",
+      "value": "#f2ebdd",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 5,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-sand-soft",
+      "prefix": "qrm",
+      "value": "#faf6ef",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-shadow",
+      "prefix": "qrm",
+      "value": "0 24px 80px rgb(10 18 26 / 14%)",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-surface-background",
+      "prefix": "qrm",
+      "value": "linear-gradient(180deg, rgb(250 246 239 / 98%), rgb(244 238 229 / 98%))",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-teal",
+      "prefix": "qrm",
+      "value": "#1d7d71",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--qrm-teal-soft",
+      "prefix": "qrm",
+      "value": "#6bb49f",
+      "definedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/quiz-router-mccs/quiz-router-mccs.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--quiz-router-ease",
       "prefix": "quiz",
       "value": "var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1))",
@@ -6284,7 +6773,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 55,
+      "usageCount": 56,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -7411,7 +7900,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 56,
+      "usageCount": 58,
       "usedIn": [
         "blocks/age-verification/age-verification.css",
         "blocks/blog-post/blog-post.css",
@@ -7450,7 +7939,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 28,
+      "usageCount": 30,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-b2b-po-checkout-success/commerce-b2b-po-checkout-success.css",
@@ -7460,6 +7949,7 @@
         "blocks/commerce-order-header/commerce-order-header.css",
         "blocks/commerce-return-header/commerce-return-header.css",
         "blocks/header/header.css",
+        "blocks/product-details/product-details.css",
         "blocks/promotional-hero/promotional-hero.css",
         "blocks/quiz-router/quiz-router.css",
         "blocks/store-locator/store-locator.css",
@@ -7477,7 +7967,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 148,
+      "usageCount": 153,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -7693,7 +8183,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 8,
+      "usageCount": 9,
       "usedIn": [
         "blocks/footer/footer.css",
         "blocks/medal-rack-configurator/medal-rack-configurator.css",
@@ -7968,8 +8458,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 61,
+      "usageCount": 62,
       "usedIn": [
+        "blocks/accordion/accordion.css",
         "blocks/age-gate/age-gate.css",
         "blocks/form-4/form-4.css",
         "blocks/header/header.css",
@@ -8122,7 +8613,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 57,
+      "usageCount": 59,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/blog-post/blog-post.css",
@@ -8141,6 +8632,7 @@
         "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/newsletter/newsletter.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
+        "blocks/product-technical-details/product-technical-details.css",
         "blocks/search-bar/search-bar.css",
         "blocks/store-locator/store-locator.css",
         "blocks/top-banner/top-banner.css",
@@ -8232,7 +8724,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 22,
+      "usageCount": 21,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
@@ -8245,6 +8737,7 @@
         "blocks/header/header.css",
         "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
+        "blocks/product-technical-details/product-technical-details.css",
         "blocks/promotional-hero/promotional-hero.css"
       ],
       "status": "defined"
@@ -8297,7 +8790,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 17,
+      "usageCount": 19,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -8308,6 +8801,7 @@
         "blocks/newsletter/newsletter.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/product-teaser/product-teaser.css",
+        "blocks/product-technical-details/product-technical-details.css",
         "blocks/promotional-hero/promotional-hero.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
@@ -8357,7 +8851,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 38,
+      "usageCount": 37,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
@@ -8402,7 +8896,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 31,
+      "usageCount": 29,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
@@ -8441,7 +8935,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 39,
+      "usageCount": 40,
       "usedIn": [
         "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-b2b-requisition-list-view/commerce-b2b-requisition-list-view.css",
@@ -8575,8 +9069,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 33,
+      "usageCount": 38,
       "usedIn": [
+        "blocks/accordion/accordion.css",
         "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/features-grid/features-grid.css",
         "blocks/hero-5/hero-5.css",
@@ -8586,6 +9081,7 @@
         "blocks/luxury-configurator/luxury-configurator.css",
         "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-highlights/product-highlights.css",
+        "blocks/product-technical-details/product-technical-details.css",
         "blocks/quiz-router/quiz-router.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "styles/styles.css"
@@ -8672,7 +9168,7 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 18,
+      "usageCount": 17,
       "usedIn": [
         "blocks/blog-post/blog-post.css",
         "blocks/commerce-b2b-quote-checkout/commerce-b2b-quote-checkout.css",
@@ -8988,6 +9484,32 @@
         "blocks/vip-hero-block/vip-hero-block.css"
       ],
       "usageCount": 5,
+      "usedIn": [
+        "blocks/vip-hero-block/vip-hero-block.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-content-gutter",
+      "prefix": "vip",
+      "value": "40px",
+      "definedIn": [
+        "blocks/vip-hero-block/vip-hero-block.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/vip-hero-block/vip-hero-block.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--vip-content-max-width",
+      "prefix": "vip",
+      "value": "1480px",
+      "definedIn": [
+        "blocks/vip-hero-block/vip-hero-block.css"
+      ],
+      "usageCount": 1,
       "usedIn": [
         "blocks/vip-hero-block/vip-hero-block.css"
       ],

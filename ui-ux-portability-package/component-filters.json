@@ -27,7 +27,8 @@
       "vip-hero-mccs",
       "product-recommendations",
       "product-highlights",
-      "quiz-router"
+      "quiz-router",
+      "quiz-router-mccs"
     ]
   },
   {
@@ -81,6 +82,10 @@
       "text",
       "image"
     ]
+  },
+  {
+    "id": "quiz-router-mccs",
+    "components": []
   },
   {
     "id": "quiz-router",

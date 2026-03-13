@@ -2302,6 +2302,52 @@
             "value": "gold"
           }
         ]
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "presentation",
+        "label": "Presentation",
+        "value": "default",
+        "options": [
+          {
+            "name": "Default",
+            "value": "default"
+          },
+          {
+            "name": "Rack Immersive",
+            "value": "rack-immersive"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "product-details",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "defaultsku",
+        "label": "Default SKU",
+        "value": ""
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "presentation",
+        "label": "Presentation",
+        "value": "default",
+        "options": [
+          {
+            "name": "Default",
+            "value": "default"
+          },
+          {
+            "name": "Auto Immersive",
+            "value": "auto-immersive"
+          }
+        ]
       }
     ]
   },
@@ -2347,6 +2393,43 @@
         "valueType": "boolean",
         "name": "cart-button",
         "label": "Show Add to Cart Button",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "product-technical-details",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "data-source",
+        "label": "Data Source",
+        "required": false,
+        "value": ""
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "presentation",
+        "label": "Presentation",
+        "value": "default",
+        "options": [
+          {
+            "name": "Default",
+            "value": "default"
+          },
+          {
+            "name": "Rack Immersive",
+            "value": "rack-immersive"
+          }
+        ]
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "enable-parallax",
+        "label": "Enable Parallax",
         "value": true
       }
     ]
@@ -2546,6 +2629,29 @@
   {
     "id": "promotional-hero",
     "fields": []
+  },
+  {
+    "id": "quiz-router-mccs",
+    "fields": [
+      {
+        "component": "text",
+        "name": "rowType",
+        "label": "Row Type",
+        "description": "Use landing, question, question:<id>, or option."
+      },
+      {
+        "component": "richtext",
+        "name": "content",
+        "label": "Content",
+        "description": "Landing uses P1 title, P2 subtitle, P3 tagline. Questions use P1 title, P2 subtitle. Options use P1 badge, P2 title, P3 description."
+      },
+      {
+        "component": "text",
+        "name": "destination",
+        "label": "Destination / CTA",
+        "description": "Landing uses button text. Options use #next, #step:<id>, /fragments/... for inline results, or /page for navigation."
+      }
+    ]
   },
   {
     "id": "quiz-router",
@@ -3008,6 +3114,13 @@
         "name": "data-source",
         "label": "Data Source",
         "value": "/data/configurators/marine-officer-dress-blues.json"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "sku",
+        "label": "Commerce SKU",
+        "value": ""
       },
       {
         "component": "text",

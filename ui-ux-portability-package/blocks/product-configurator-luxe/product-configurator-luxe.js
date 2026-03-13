@@ -25,6 +25,7 @@ import {
   findOptionByLabel,
   findOptionValue,
   formatMoney,
+  getConfiguratorCompatibility,
   normalizeKey,
   normalizeProductOptions,
 } from './product-configurator-luxe.utils.mjs';
@@ -38,9 +39,11 @@ const DEFAULTS = {
   secondaryCtaLabel: 'Talk to a Bodea specialist',
   secondaryCtaHref: '/contact',
   theme: 'emerald',
+  presentation: 'default',
 };
 
 const THEMES = new Set(['emerald', 'gold']);
+const PRESENTATIONS = new Set(['default', 'rack-immersive']);
 const U_SLOT_MAP = {
   '6u': 1,
   '12u': 2,
@@ -144,10 +147,6 @@ function pushAnalyticsEvent(eventName, payload = {}) {
       ...eventPayload,
     });
   }
-}
-
-function getProductType(product) {
-  return product?.__typename || product?.productType || '';
 }
 
 function getAllControls(schema) {
@@ -346,22 +345,10 @@ async function loadSchema(schemaUrl) {
   return response.json();
 }
 
-function validateSchema(schema, product, options) {
-  const productType = getProductType(product);
-  if (Array.isArray(schema.productTypes) && schema.productTypes.length > 0) {
-    if (!schema.productTypes.includes(productType)) {
-      throw new Error(`This configurator expects ${schema.productTypes.join(', ')} products.`);
-    }
-  }
-
-  getAllControls(schema).forEach((control) => {
-    if (control.source !== 'commerce-option') return;
-
-    const option = findOptionByLabel(options, control.commerceOptionLabel);
-    if (!option && control.required) {
-      throw new Error(`Missing Commerce option "${control.commerceOptionLabel}" on this product.`);
-    }
-  });
+function renderIncompatible(block) {
+  block.textContent = '';
+  block.removeAttribute('data-summary-open');
+  block.dataset.presentation = 'incompatible';
 }
 
 async function loadAddonCatalog(schema) {
@@ -390,7 +377,11 @@ async function loadAddonCatalog(schema) {
 
 function buildShell(state) {
   const fragment = document.createRange().createContextualFragment(`
-    <div class="product-configurator-luxe__shell" data-theme="${state.config.theme}">
+    <div
+      class="product-configurator-luxe__shell"
+      data-theme="${state.config.theme}"
+      data-presentation="${state.config.presentation}"
+    >
       <div class="product-configurator-luxe__intro">
         <span class="product-configurator-luxe__eyebrow">${state.config.eyebrowText}</span>
         <div class="product-configurator-luxe__heading">
@@ -1113,27 +1104,53 @@ function attachEventListeners(state, refs, block) {
 
 function normalizeConfig(block) {
   const config = readBlockConfig(block);
-  const theme = THEMES.has(String(config.theme || '').trim().toLowerCase())
-    ? String(config.theme).trim().toLowerCase()
+  const themeValue = String(config.theme || block.dataset.configTheme || '').trim().toLowerCase();
+  const presentationValue = String(
+    config.presentation || block.dataset.configPresentation || '',
+  ).trim().toLowerCase();
+  const theme = THEMES.has(themeValue)
+    ? themeValue
     : DEFAULTS.theme;
+  const presentation = PRESENTATIONS.has(presentationValue)
+    ? presentationValue
+    : DEFAULTS.presentation;
 
   return {
-    eyebrowText: config['eyebrow-text']?.trim() || DEFAULTS.eyebrowText,
-    title: config.title?.trim() || DEFAULTS.title,
-    subtitle: config.subtitle?.trim() || DEFAULTS.subtitle,
-    schemaUrl: config['schema-url']?.trim() || '',
-    primaryCtaLabel: config['primary-cta-label']?.trim() || DEFAULTS.primaryCtaLabel,
-    secondaryCtaLabel: config['secondary-cta-label']?.trim() || DEFAULTS.secondaryCtaLabel,
-    secondaryCtaHref: config['secondary-cta-href']?.trim() || DEFAULTS.secondaryCtaHref,
+    eyebrowText: config['eyebrow-text']?.trim() || block.dataset.configEyebrowText || DEFAULTS.eyebrowText,
+    title: config.title?.trim() || block.dataset.configTitle || DEFAULTS.title,
+    subtitle: config.subtitle?.trim() || block.dataset.configSubtitle || DEFAULTS.subtitle,
+    schemaUrl: config['schema-url']?.trim() || block.dataset.configSchemaUrl || '',
+    primaryCtaLabel: config['primary-cta-label']?.trim()
+      || block.dataset.configPrimaryCtaLabel
+      || DEFAULTS.primaryCtaLabel,
+    secondaryCtaLabel: config['secondary-cta-label']?.trim()
+      || block.dataset.configSecondaryCtaLabel
+      || DEFAULTS.secondaryCtaLabel,
+    secondaryCtaHref: config['secondary-cta-href']?.trim()
+      || block.dataset.configSecondaryCtaHref
+      || DEFAULTS.secondaryCtaHref,
     theme,
+    presentation,
   };
 }
 
-export default async function decorate(block) {
-  renderLoading(block);
+function persistConfig(block, config) {
+  block.dataset.configSchemaUrl = config.schemaUrl;
+  block.dataset.configEyebrowText = config.eyebrowText;
+  block.dataset.configTitle = config.title;
+  block.dataset.configSubtitle = config.subtitle;
+  block.dataset.configPrimaryCtaLabel = config.primaryCtaLabel;
+  block.dataset.configSecondaryCtaLabel = config.secondaryCtaLabel;
+  block.dataset.configSecondaryCtaHref = config.secondaryCtaHref;
+  block.dataset.configTheme = config.theme;
+  block.dataset.configPresentation = config.presentation;
+}
 
+export default async function decorate(block) {
   try {
     const config = normalizeConfig(block);
+    persistConfig(block, config);
+    renderLoading(block);
     if (!config.schemaUrl) {
       throw new Error('A schema-url is required for product-configurator-luxe.');
     }
@@ -1145,7 +1162,12 @@ export default async function decorate(block) {
     ]);
 
     const options = normalizeProductOptions(product, getCurrentValues().optionsUIDs);
-    validateSchema(schema, product, options);
+    const compatibility = getConfiguratorCompatibility(schema, product, options);
+    if (!compatibility.compatible) {
+      console.info('product-configurator-luxe: skipping incompatible product', compatibility);
+      renderIncompatible(block);
+      return;
+    }
 
     const addonCatalog = await loadAddonCatalog(schema);
     const state = {
@@ -1168,6 +1190,7 @@ export default async function decorate(block) {
     const { fragment, refs } = buildShell(state);
     block.textContent = '';
     block.dataset.summaryOpen = 'false';
+    block.dataset.presentation = state.config.presentation;
     block.append(fragment);
 
     await Promise.all([
@@ -1184,6 +1207,7 @@ export default async function decorate(block) {
     events.emit('pdp/configurator-ready', {
       block: 'product-configurator-luxe',
       status: 'ready',
+      presentation: state.config.presentation,
     });
   } catch (error) {
     console.warn('product-configurator-luxe:', error);

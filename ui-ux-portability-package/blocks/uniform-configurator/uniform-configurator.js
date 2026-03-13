@@ -1,10 +1,12 @@
+import { addProductsToCart } from '@dropins/storefront-cart/api.js';
+import { fetchProductData, setEndpoint } from '@dropins/storefront-pdp/api.js';
 import { readBlockConfig } from '../../scripts/aem.js';
+import { CS_FETCH_GRAPHQL, rootLink } from '../../scripts/commerce.js';
 import { submitJson } from '../../scripts/submit-json.js';
 import {
   DEFAULT_DATA_SOURCE,
   MEASUREMENT_ORDER,
   RUSH_EXTRA_ID,
-  STEP_LABELS,
   buildLineItems,
   computeTotal,
   createInitialState,
@@ -12,6 +14,7 @@ import {
   escapeHtml,
   formatCurrency,
   getRushExtra,
+  getStepLabels,
   getSelectedMedalPackage,
   getSelectedRank,
   mapRankPreview,
@@ -19,6 +22,14 @@ import {
   toIdSegment,
   validateStepsUpTo,
 } from './uniform-configurator.lib.js';
+import {
+  buildCommerceContractIndex,
+  createUniformCommerceCartItem,
+  mergeCommerceContractProduct,
+  shouldAttemptCoreCustomizableFallback,
+  validateCommerceProductContract,
+} from './uniform-configurator.commerce.js';
+import { fetchCoreCustomizableCommerceProduct } from './uniform-configurator.commerce-core.js';
 
 const SOURCE_HOSTS = new Set(['da.live', 'www.da.live', 'content.da.live']);
 
@@ -27,44 +38,51 @@ const DEFAULT_CONFIG = {
   title: 'Officer Dress Blues\nPackage Builder',
   subtitle: 'Configure your complete male officer blue dress uniform to USMC regulation standards with real-time pricing and a live visual preview.',
   dataSource: DEFAULT_DATA_SOURCE,
+  sku: '',
   submitUrl: '',
   successTitle: 'Order Submitted',
   successMessage: 'Your Blue Dress Package is now in production. Our veteran uniform team will review your specifications and reach out within 24 hours to confirm details.',
   analyticsId: 'marine-officer-dress-blues',
 };
 
-const STEP_META = [
-  {
-    step: 1,
-    title: 'Select Your Garments',
-    subtitle: 'Choose the core components of your officer dress blues package.',
-  },
-  {
-    step: 2,
-    title: 'Footwear, Belt & Cover',
-    subtitle: 'Select optional add-ons and sizes for your remaining components.',
-  },
-  {
-    step: 3,
-    title: 'Rank & Insignia',
-    subtitle: 'Select your rank to update the live preview and required hardware.',
-  },
-  {
-    step: 4,
-    title: 'Medals, Ribbons & Badges',
-    subtitle: 'Toggle the awards and insignia needed for this uniform package.',
-  },
-  {
-    step: 5,
-    title: 'Contact & Measurements',
-    subtitle: 'Provide order details and optional fit measurements for tailoring.',
-  },
-  {
-    step: 6,
-    title: 'Order Review',
-    subtitle: 'Review your package and submit the full configuration to our team.',
-  },
-];
+function getStepMeta(commerceMode = false) {
+  return [
+    {
+      step: 1,
+      title: 'Select Your Garments',
+      subtitle: 'Choose the core components of your officer dress blues package.',
+    },
+    {
+      step: 2,
+      title: 'Footwear, Belt & Cover',
+      subtitle: 'Select optional add-ons and sizes for your remaining components.',
+    },
+    {
+      step: 3,
+      title: 'Rank & Insignia',
+      subtitle: 'Select your rank to update the live preview and required hardware.',
+    },
+    {
+      step: 4,
+      title: 'Medals, Ribbons & Badges',
+      subtitle: 'Toggle the awards and insignia needed for this uniform package.',
+    },
+    {
+      step: 5,
+      title: commerceMode ? 'Measurements & Notes' : 'Contact & Measurements',
+      subtitle: commerceMode
+        ? 'Provide optional measurements and tailoring instructions for the Commerce order item.'
+        : 'Provide order details and optional fit measurements for tailoring.',
+    },
+    {
+      step: 6,
+      title: commerceMode ? 'Review & Cart' : 'Order Review',
+      subtitle: commerceMode
+        ? 'Review your package and add it directly to your Adobe Commerce cart.'
+        : 'Review your package and submit the full configuration to our team.',
+    },
+  ];
+}
 
 function showBlockMessage(block, type, message) {
   const messageEl = document.createElement('p');
@@ -84,6 +102,7 @@ function getConfig(block) {
     title: normalizeMultiline(config.title, DEFAULT_CONFIG.title),
     subtitle: normalizeMultiline(config.subtitle, DEFAULT_CONFIG.subtitle),
     dataSource: normalizeSingleLine(config['data-source'], DEFAULT_CONFIG.dataSource),
+    sku: normalizeSingleLine(config.sku, DEFAULT_CONFIG.sku),
     submitUrl: normalizeSingleLine(config['submit-url'], DEFAULT_CONFIG.submitUrl),
     successTitle: normalizeSingleLine(config['success-title'], DEFAULT_CONFIG.successTitle),
     successMessage: normalizeMultiline(config['success-message'], DEFAULT_CONFIG.successMessage),
@@ -127,7 +146,7 @@ function track(runtime, eventName, payload = {}) {
     configuratorId: runtime.data.id,
     configuratorVersion: runtime.data.version,
     stepIndex: runtime.state.step,
-    stepLabel: STEP_LABELS[runtime.state.step - 1],
+    stepLabel: runtime.stepLabels[runtime.state.step - 1],
   };
 
   if (window.adobeDataLayer && typeof window.adobeDataLayer.push === 'function') {
@@ -149,6 +168,14 @@ function track(runtime, eventName, payload = {}) {
   }
 }
 
+function emitRuntimeEvent(runtime, eventName, payload = {}) {
+  track(runtime, eventName, payload);
+  runtime.block.dispatchEvent(new CustomEvent(eventName, {
+    bubbles: true,
+    detail: payload,
+  }));
+}
+
 function formatHeading(title) {
   return escapeHtml(title).replace(/\n/g, '<br>');
 }
@@ -164,8 +191,8 @@ function renderSelectOptions(options, selectedValue = '') {
   return [emptyOption, ...optionMarkup].join('');
 }
 
-function renderStepButtons(state) {
-  return STEP_LABELS.map((label, index) => {
+function renderStepButtons(labels, state) {
+  return labels.map((label, index) => {
     const step = index + 1;
     const activeClass = step === state.step ? ' active' : '';
     return `
@@ -494,251 +521,18 @@ function renderRushToggle(data, state) {
 }
 
 function createShell(runtime) {
-  const { config, data, state } = runtime;
-
-  return `
-    <div class="uniform-configurator__shell">
-      <header class="cfg-hero">
-        <div class="cfg-hero__eyebrow">${escapeHtml(config.eyebrow)}</div>
-        <h1 class="cfg-hero__title">${formatHeading(config.title)}</h1>
-        <p class="cfg-hero__sub">${escapeHtml(config.subtitle)}</p>
-      </header>
-
-      <nav class="cfg-steps-nav" aria-label="Configuration steps">
-        <div class="steps-track" role="tablist">
-          ${renderStepButtons(state)}
-        </div>
-      </nav>
-
-      <div class="cfg-layout">
-        <aside class="cfg-preview" aria-label="Live uniform preview">
-          <div class="cfg-preview__header">
-            <h3>Live Preview</h3>
-            <span class="cfg-preview__badge" id="uc-rank-label">Select Rank</span>
-          </div>
-          <figure class="cfg-preview__figure" aria-hidden="true">
-            ${renderUniformFigure()}
-          </figure>
-          <div class="cfg-preview__price">
-            <div class="price-label">Package Total</div>
-            <div class="price-total">
-              <span id="uc-price-total">$0</span>
-            </div>
-            <div class="price-breakdown" id="uc-price-breakdown"></div>
-          </div>
-        </aside>
-
-        <div class="cfg-form-area" role="region" aria-label="Uniform configurator form">
-          <section class="cfg-panel active" data-panel="1" role="tabpanel">
-            <h2 class="cfg-panel__title">${escapeHtml(STEP_META[0].title)}</h2>
-            <p class="cfg-panel__sub">${escapeHtml(STEP_META[0].subtitle)}</p>
-
-            <div class="cfg-section">
-              <div class="cfg-section__title"><span class="cfg-section__icon">🧥</span> Dress Coat</div>
-              <div class="field-grid field-grid--2">
-                ${renderSelectField({
-    key: 'coatLength',
-    id: 'uc-coat-length',
-    label: 'Coat Length',
-    options: data.options.coat.length,
-    value: state.selections.coatLength,
-  })}
-                ${renderSelectField({
-    key: 'coatSize',
-    id: 'uc-coat-size',
-    label: 'Coat Size',
-    options: data.options.coat.size,
-    value: state.selections.coatSize,
-  })}
-              </div>
-              ${renderNotice(data.notices.coat, '⚠️')}
-            </div>
-
-            <div class="cfg-section">
-              <div class="cfg-section__title"><span class="cfg-section__icon">👖</span> Dress Trousers</div>
-              <div class="field-grid field-grid--2">
-                ${renderSelectField({
-    key: 'trouserWaist',
-    id: 'uc-trouser-waist',
-    label: 'Waist',
-    options: data.options.trouser.waist,
-    value: state.selections.trouserWaist,
-  })}
-                ${renderSelectField({
-    key: 'trouserInseam',
-    id: 'uc-trouser-inseam',
-    label: 'Inseam',
-    options: data.options.trouser.inseam,
-    value: state.selections.trouserInseam,
-  })}
-              </div>
-              <div class="toggle-row toggle-row--locked">
-                <div class="toggle-info">
-                  <div class="toggle-info__title">Scarlet Blood Stripe</div>
-                  <div class="toggle-info__sub">Required for officer dress trousers and included in the base package.</div>
-                  <div class="toggle-info__price">Included</div>
-                </div>
-                <span class="cfg-static-chip">Regulation</span>
-              </div>
-            </div>
-
-            <div class="cfg-section">
-              <div class="cfg-section__title"><span class="cfg-section__icon">👔</span> Dress Shirt &amp; Collar</div>
-              <div class="field-grid field-grid--3">
-                ${renderSelectField({
-    key: 'shirtNeck',
-    id: 'uc-shirt-neck',
-    label: 'Neck (inches)',
-    options: data.options.shirt.neck,
-    value: state.selections.shirtNeck,
-  })}
-                ${renderSelectField({
-    key: 'shirtSleeve',
-    id: 'uc-shirt-sleeve',
-    label: 'Sleeve (inches)',
-    options: data.options.shirt.sleeve,
-    value: state.selections.shirtSleeve,
-  })}
-                ${renderSelectField({
-    key: 'collarStrip',
-    id: 'uc-collar-strip',
-    label: 'Collar Strip',
-    options: data.options.shirt.collarStrip,
-    value: state.selections.collarStrip,
-  })}
-              </div>
-            </div>
-
-            <div class="cfg-actions">
-              <span></span>
-              <button class="btn btn-primary" type="button" data-go-step="2">Continue to Sizing →</button>
-            </div>
-          </section>
-
-          <section class="cfg-panel" data-panel="2" role="tabpanel" hidden>
-            <h2 class="cfg-panel__title">${escapeHtml(STEP_META[1].title)}</h2>
-            <p class="cfg-panel__sub">${escapeHtml(STEP_META[1].subtitle)}</p>
-
-            <div class="cfg-section">
-              <div class="cfg-section__title"><span class="cfg-section__icon">👞</span> Oxford Dress Shoes</div>
-              <div class="field-grid field-grid--2">
-                ${renderSelectField({
-    key: 'shoeSize',
-    id: 'uc-shoe-size',
-    label: 'Shoe Size',
-    options: data.options.shoes.size,
-    value: state.selections.shoeSize,
-  })}
-                ${renderSelectField({
-    key: 'shoeWidth',
-    id: 'uc-shoe-width',
-    label: 'Width',
-    options: data.options.shoes.width,
-    value: state.selections.shoeWidth,
-  })}
-              </div>
-            </div>
-
-            <div class="cfg-section">
-              <div class="cfg-section__title"><span class="cfg-section__icon">⬛</span> Belt &amp; Buckle</div>
-              <div class="field-grid field-grid--2">
-                ${renderSelectField({
-    key: 'beltSize',
-    id: 'uc-belt-size',
-    label: 'Belt Size',
-    options: data.options.belt.size,
-    value: state.selections.beltSize,
-    note: 'Black web belt with gold-finish USMC EGA buckle',
-  })}
-                <div class="field">
-                  <span class="field__label">Buckle Style</span>
-                  <div class="card-selector card-selector--split">
-                    ${renderBuckleCards(data, state)}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="cfg-section">
-              <div class="cfg-section__title"><span class="cfg-section__icon">🎩</span> Officer Service Cover</div>
-              <div class="field-grid field-grid--2">
-                ${renderSelectField({
-    key: 'coverSize',
-    id: 'uc-cover-size',
-    label: 'Cover Size',
-    options: data.options.cover.size,
-    value: state.selections.coverSize,
-  })}
-                ${renderSelectField({
-    key: 'frameSize',
-    id: 'uc-frame-size',
-    label: 'Frame Size',
-    options: data.options.frame.size,
-    value: state.selections.frameSize,
-    hint: 'Interior support frame for proper cover shape',
-  })}
-              </div>
-            </div>
-
-            <div class="cfg-actions">
-              <button class="btn btn-secondary" type="button" data-go-step="1">← Back</button>
-              <button class="btn btn-primary" type="button" data-go-step="3">Rank &amp; Insignia →</button>
-            </div>
-          </section>
-
-          <section class="cfg-panel" data-panel="3" role="tabpanel" hidden>
-            <h2 class="cfg-panel__title">${escapeHtml(STEP_META[2].title)}</h2>
-            <p class="cfg-panel__sub">${escapeHtml(STEP_META[2].subtitle)}</p>
-
-            <div class="cfg-section">
-              <div class="cfg-section__title"><span class="cfg-section__icon">🎖️</span> Officer Rank</div>
-              <div class="rank-grid" data-field="rank">
-                ${renderRankCards(data, state)}
-              </div>
-              ${renderFieldError('rank')}
-              ${renderNotice(data.notices.rank, '📋')}
-            </div>
-
-            <div class="cfg-actions">
-              <button class="btn btn-secondary" type="button" data-go-step="2">← Back</button>
-              <button class="btn btn-primary" type="button" data-go-step="4">Accessories →</button>
-            </div>
-          </section>
-
-          <section class="cfg-panel" data-panel="4" role="tabpanel" hidden>
-            <h2 class="cfg-panel__title">${escapeHtml(STEP_META[3].title)}</h2>
-            <p class="cfg-panel__sub">${escapeHtml(STEP_META[3].subtitle)}</p>
-
-            <div class="cfg-section">
-              <div class="cfg-section__title"><span class="cfg-section__icon">🏅</span> Medal Package</div>
-              <div class="card-selector card-selector--medals">
-                ${renderMedalCards(data, state)}
-              </div>
-            </div>
-
-            <div class="cfg-section">
-              <div class="cfg-section__title"><span class="cfg-section__icon">🔵</span> Additional Insignia</div>
-              ${renderExtraToggles(data, state)}
-            </div>
-
-            <div class="cfg-actions">
-              <button class="btn btn-secondary" type="button" data-go-step="3">← Back</button>
-              <button class="btn btn-primary" type="button" data-go-step="5">Contact Info →</button>
-            </div>
-          </section>
-
-          <section class="cfg-panel" data-panel="5" role="tabpanel" hidden>
-            <h2 class="cfg-panel__title">${escapeHtml(STEP_META[4].title)}</h2>
-            <p class="cfg-panel__sub">${escapeHtml(STEP_META[4].subtitle)}</p>
-
-            <div class="cfg-section">
-              <div class="cfg-section__title"><span class="cfg-section__icon">📐</span> Body Measurements</div>
-              <p class="cfg-inline-copy">Measurements are optional in v1, but any values entered must be within the allowed range.</p>
-              <div class="measure-grid">
-                ${renderMeasurementFields(data, state)}
-              </div>
-            </div>
-
+  const {
+    config,
+    data,
+    state,
+    commerceMode,
+    stepLabels,
+    stepMeta,
+  } = runtime;
+  const stepFourCta = commerceMode ? 'Measurements →' : 'Contact Info →';
+  const stepFiveCta = commerceMode ? 'Review Package →' : 'Review Order →';
+  const submitLabel = commerceMode ? 'Add Package to Cart' : 'Place Order';
+  const contactSection = commerceMode ? '' : `
             <div class="cfg-section">
               <div class="cfg-section__title"><span class="cfg-section__icon">📋</span> Contact Information</div>
               <div class="field-grid field-grid--2">
@@ -823,6 +617,262 @@ function createShell(runtime) {
                 </div>
               </div>
             </div>
+  `;
+  const successSection = commerceMode ? '' : `
+          <div class="cfg-success" id="uc-success" hidden>
+            <div class="success-icon">✓</div>
+            <h2 class="success-title">${escapeHtml(config.successTitle)}</h2>
+            <p class="success-sub">${escapeHtml(config.successMessage)}</p>
+            <button class="btn btn-primary" type="button" data-reset-configurator>Build Another Package</button>
+          </div>
+  `;
+
+  return `
+    <div class="uniform-configurator__shell">
+      <header class="cfg-hero">
+        <div class="cfg-hero__eyebrow">${escapeHtml(config.eyebrow)}</div>
+        <h1 class="cfg-hero__title">${formatHeading(config.title)}</h1>
+        <p class="cfg-hero__sub">${escapeHtml(config.subtitle)}</p>
+      </header>
+
+      <nav class="cfg-steps-nav" aria-label="Configuration steps">
+        <div class="steps-track" role="tablist">
+          ${renderStepButtons(stepLabels, state)}
+        </div>
+      </nav>
+
+      <div class="cfg-layout">
+        <aside class="cfg-preview" aria-label="Live uniform preview">
+          <div class="cfg-preview__header">
+            <h3>Live Preview</h3>
+            <span class="cfg-preview__badge" id="uc-rank-label">Select Rank</span>
+          </div>
+          <figure class="cfg-preview__figure" aria-hidden="true">
+            ${renderUniformFigure()}
+          </figure>
+          <div class="cfg-preview__price">
+            <div class="price-label">Package Total</div>
+            <div class="price-total">
+              <span id="uc-price-total">$0</span>
+            </div>
+            <div class="price-breakdown" id="uc-price-breakdown"></div>
+          </div>
+        </aside>
+
+        <div class="cfg-form-area" role="region" aria-label="Uniform configurator form">
+          <div class="cfg-fatal-error" id="uc-contract-error" hidden></div>
+
+          <section class="cfg-panel active" data-panel="1" role="tabpanel">
+            <h2 class="cfg-panel__title">${escapeHtml(stepMeta[0].title)}</h2>
+            <p class="cfg-panel__sub">${escapeHtml(stepMeta[0].subtitle)}</p>
+
+            <div class="cfg-section">
+              <div class="cfg-section__title"><span class="cfg-section__icon">🧥</span> Dress Coat</div>
+              <div class="field-grid field-grid--2">
+                ${renderSelectField({
+    key: 'coatLength',
+    id: 'uc-coat-length',
+    label: 'Coat Length',
+    options: data.options.coat.length,
+    value: state.selections.coatLength,
+  })}
+                ${renderSelectField({
+    key: 'coatSize',
+    id: 'uc-coat-size',
+    label: 'Coat Size',
+    options: data.options.coat.size,
+    value: state.selections.coatSize,
+  })}
+              </div>
+              ${renderNotice(data.notices.coat, '⚠️')}
+            </div>
+
+            <div class="cfg-section">
+              <div class="cfg-section__title"><span class="cfg-section__icon">👖</span> Dress Trousers</div>
+              <div class="field-grid field-grid--2">
+                ${renderSelectField({
+    key: 'trouserWaist',
+    id: 'uc-trouser-waist',
+    label: 'Waist',
+    options: data.options.trouser.waist,
+    value: state.selections.trouserWaist,
+  })}
+                ${renderSelectField({
+    key: 'trouserInseam',
+    id: 'uc-trouser-inseam',
+    label: 'Inseam',
+    options: data.options.trouser.inseam,
+    value: state.selections.trouserInseam,
+  })}
+              </div>
+              <div class="toggle-row toggle-row--locked">
+                <div class="toggle-info">
+                  <div class="toggle-info__title">Scarlet Blood Stripe</div>
+                  <div class="toggle-info__sub">Required for officer dress trousers and included in the base package.</div>
+                  <div class="toggle-info__price">Included</div>
+                </div>
+                <span class="cfg-static-chip">Regulation</span>
+              </div>
+            </div>
+
+            <div class="cfg-section">
+              <div class="cfg-section__title"><span class="cfg-section__icon">👔</span> Dress Shirt &amp; Collar</div>
+              <div class="field-grid field-grid--3">
+                ${renderSelectField({
+    key: 'shirtNeck',
+    id: 'uc-shirt-neck',
+    label: 'Neck (inches)',
+    options: data.options.shirt.neck,
+    value: state.selections.shirtNeck,
+  })}
+                ${renderSelectField({
+    key: 'shirtSleeve',
+    id: 'uc-shirt-sleeve',
+    label: 'Sleeve (inches)',
+    options: data.options.shirt.sleeve,
+    value: state.selections.shirtSleeve,
+  })}
+                ${renderSelectField({
+    key: 'collarStrip',
+    id: 'uc-collar-strip',
+    label: 'Collar Strip',
+    options: data.options.shirt.collarStrip,
+    value: state.selections.collarStrip,
+  })}
+              </div>
+            </div>
+
+            <div class="cfg-actions">
+              <span></span>
+              <button class="btn btn-primary" type="button" data-go-step="2">Continue to Sizing →</button>
+            </div>
+          </section>
+
+          <section class="cfg-panel" data-panel="2" role="tabpanel" hidden>
+            <h2 class="cfg-panel__title">${escapeHtml(stepMeta[1].title)}</h2>
+            <p class="cfg-panel__sub">${escapeHtml(stepMeta[1].subtitle)}</p>
+
+            <div class="cfg-section">
+              <div class="cfg-section__title"><span class="cfg-section__icon">👞</span> Oxford Dress Shoes</div>
+              <div class="field-grid field-grid--2">
+                ${renderSelectField({
+    key: 'shoeSize',
+    id: 'uc-shoe-size',
+    label: 'Shoe Size',
+    options: data.options.shoes.size,
+    value: state.selections.shoeSize,
+  })}
+                ${renderSelectField({
+    key: 'shoeWidth',
+    id: 'uc-shoe-width',
+    label: 'Width',
+    options: data.options.shoes.width,
+    value: state.selections.shoeWidth,
+  })}
+              </div>
+            </div>
+
+            <div class="cfg-section">
+              <div class="cfg-section__title"><span class="cfg-section__icon">⬛</span> Belt &amp; Buckle</div>
+              <div class="field-grid field-grid--2">
+                ${renderSelectField({
+    key: 'beltSize',
+    id: 'uc-belt-size',
+    label: 'Belt Size',
+    options: data.options.belt.size,
+    value: state.selections.beltSize,
+    note: 'Black web belt with gold-finish USMC EGA buckle',
+  })}
+                <div class="field">
+                  <span class="field__label">Buckle Style</span>
+                  <div class="card-selector card-selector--split">
+                    ${renderBuckleCards(data, state)}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cfg-section">
+              <div class="cfg-section__title"><span class="cfg-section__icon">🎩</span> Officer Service Cover</div>
+              <div class="field-grid field-grid--2">
+                ${renderSelectField({
+    key: 'coverSize',
+    id: 'uc-cover-size',
+    label: 'Cover Size',
+    options: data.options.cover.size,
+    value: state.selections.coverSize,
+  })}
+                ${renderSelectField({
+    key: 'frameSize',
+    id: 'uc-frame-size',
+    label: 'Frame Size',
+    options: data.options.frame.size,
+    value: state.selections.frameSize,
+    hint: 'Interior support frame for proper cover shape',
+  })}
+              </div>
+            </div>
+
+            <div class="cfg-actions">
+              <button class="btn btn-secondary" type="button" data-go-step="1">← Back</button>
+              <button class="btn btn-primary" type="button" data-go-step="3">Rank &amp; Insignia →</button>
+            </div>
+          </section>
+
+          <section class="cfg-panel" data-panel="3" role="tabpanel" hidden>
+            <h2 class="cfg-panel__title">${escapeHtml(stepMeta[2].title)}</h2>
+            <p class="cfg-panel__sub">${escapeHtml(stepMeta[2].subtitle)}</p>
+
+            <div class="cfg-section">
+              <div class="cfg-section__title"><span class="cfg-section__icon">🎖️</span> Officer Rank</div>
+              <div class="rank-grid" data-field="rank">
+                ${renderRankCards(data, state)}
+              </div>
+              ${renderFieldError('rank')}
+              ${renderNotice(data.notices.rank, '📋')}
+            </div>
+
+            <div class="cfg-actions">
+              <button class="btn btn-secondary" type="button" data-go-step="2">← Back</button>
+              <button class="btn btn-primary" type="button" data-go-step="4">Accessories →</button>
+            </div>
+          </section>
+
+          <section class="cfg-panel" data-panel="4" role="tabpanel" hidden>
+            <h2 class="cfg-panel__title">${escapeHtml(stepMeta[3].title)}</h2>
+            <p class="cfg-panel__sub">${escapeHtml(stepMeta[3].subtitle)}</p>
+
+            <div class="cfg-section">
+              <div class="cfg-section__title"><span class="cfg-section__icon">🏅</span> Medal Package</div>
+              <div class="card-selector card-selector--medals">
+                ${renderMedalCards(data, state)}
+              </div>
+            </div>
+
+            <div class="cfg-section">
+              <div class="cfg-section__title"><span class="cfg-section__icon">🔵</span> Additional Insignia</div>
+              ${renderExtraToggles(data, state)}
+            </div>
+
+            <div class="cfg-actions">
+              <button class="btn btn-secondary" type="button" data-go-step="3">← Back</button>
+              <button class="btn btn-primary" type="button" data-go-step="5">${escapeHtml(stepFourCta)}</button>
+            </div>
+          </section>
+
+          <section class="cfg-panel" data-panel="5" role="tabpanel" hidden>
+            <h2 class="cfg-panel__title">${escapeHtml(stepMeta[4].title)}</h2>
+            <p class="cfg-panel__sub">${escapeHtml(stepMeta[4].subtitle)}</p>
+
+            <div class="cfg-section">
+              <div class="cfg-section__title"><span class="cfg-section__icon">📐</span> Body Measurements</div>
+              <p class="cfg-inline-copy">Measurements are optional in v1, but any values entered must be within the allowed range.</p>
+              <div class="measure-grid">
+                ${renderMeasurementFields(data, state)}
+              </div>
+            </div>
+
+            ${contactSection}
 
             ${renderTextareaField({
     key: 'notes',
@@ -834,18 +884,18 @@ function createShell(runtime) {
 
             <div class="cfg-actions">
               <button class="btn btn-secondary" type="button" data-go-step="4">← Back</button>
-              <button class="btn btn-primary" type="button" data-go-step="6">Review Order →</button>
+              <button class="btn btn-primary" type="button" data-go-step="6">${escapeHtml(stepFiveCta)}</button>
             </div>
           </section>
 
           <section class="cfg-panel" data-panel="6" role="tabpanel" hidden>
-            <h2 class="cfg-panel__title">${escapeHtml(STEP_META[5].title)}</h2>
-            <p class="cfg-panel__sub">${escapeHtml(STEP_META[5].subtitle)}</p>
+            <h2 class="cfg-panel__title">${escapeHtml(stepMeta[5].title)}</h2>
+            <p class="cfg-panel__sub">${escapeHtml(stepMeta[5].subtitle)}</p>
 
             <div class="order-summary">
               <div class="order-summary__header">
                 <h3>Officer Blue Dress Package</h3>
-                <p>Custom-tailored to your specifications</p>
+                <p>${commerceMode ? 'Ready to add to your Commerce cart' : 'Custom-tailored to your specifications'}</p>
               </div>
               <div class="order-summary__items" id="uc-summary-items"></div>
               <div class="summary-total-row">
@@ -873,16 +923,11 @@ function createShell(runtime) {
 
             <div class="cfg-actions">
               <button class="btn btn-secondary" type="button" data-go-step="5">← Back</button>
-              <button class="btn btn-gold" type="button" data-submit-order>Place Order</button>
+              <button class="btn btn-gold" type="button" data-submit-order>${escapeHtml(submitLabel)}</button>
             </div>
           </section>
 
-          <div class="cfg-success" id="uc-success" hidden>
-            <div class="success-icon">✓</div>
-            <h2 class="success-title">${escapeHtml(config.successTitle)}</h2>
-            <p class="success-sub">${escapeHtml(config.successMessage)}</p>
-            <button class="btn btn-primary" type="button" data-reset-configurator>Build Another Package</button>
-          </div>
+          ${successSection}
         </div>
       </div>
     </div>
@@ -913,11 +958,13 @@ function updateStepUi(runtime) {
     panel.hidden = !isActive;
   });
 
-  success.hidden = runtime.state.submissionState !== 'success';
-  success.classList.toggle('active', runtime.state.submissionState === 'success');
+  if (success) {
+    success.hidden = runtime.state.submissionState !== 'success';
+    success.classList.toggle('active', runtime.state.submissionState === 'success');
+  }
   root.querySelector('.cfg-steps-nav').classList.toggle(
     'cfg-steps-nav--muted',
-    runtime.state.submissionState === 'success',
+    Boolean(success) && runtime.state.submissionState === 'success',
   );
 }
 
@@ -1058,18 +1105,34 @@ function updatePreview(runtime, lineItems, total) {
 
 function updateShippingSection(runtime) {
   const shippingSection = runtime.block.querySelector('#uc-shipping-section');
-  shippingSection.classList.toggle('visible', runtime.state.selections.shippingOverride);
+  if (shippingSection) {
+    shippingSection.classList.toggle('visible', runtime.state.selections.shippingOverride);
+  }
+}
+
+function updateContractState(runtime) {
+  const contractError = runtime.block.querySelector('#uc-contract-error');
+
+  if (!contractError) {
+    return;
+  }
+
+  contractError.hidden = true;
+  contractError.replaceChildren();
 }
 
 function updateSubmitState(runtime) {
   const submitButton = runtime.block.querySelector('[data-submit-order]');
   const submitError = runtime.block.querySelector('#uc-submit-error');
+  const contractBlocked = runtime.commerceMode && !runtime.contractValidation?.valid;
 
   if (submitButton) {
-    submitButton.disabled = runtime.state.submissionState === 'submitting';
-    submitButton.textContent = runtime.state.submissionState === 'submitting'
-      ? 'Submitting…'
-      : 'Place Order';
+    const isSubmitting = runtime.state.submissionState === 'submitting';
+    const defaultLabel = runtime.commerceMode ? 'Add Package to Cart' : 'Place Order';
+    const submittingLabel = runtime.commerceMode ? 'Adding Package…' : 'Submitting…';
+
+    submitButton.disabled = runtime.state.submissionState === 'submitting' || contractBlocked;
+    submitButton.textContent = isSubmitting ? submittingLabel : defaultLabel;
   }
 
   submitError.hidden = !runtime.state.submitErrorMessage;
@@ -1153,6 +1216,7 @@ function refresh(runtime) {
     updatePreview(runtime, lineItems, total);
     updateReview(runtime, lineItems, total);
     updateShippingSection(runtime);
+    updateContractState(runtime);
     updateSubmitState(runtime);
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -1192,7 +1256,12 @@ function navigateToStep(runtime, nextStep, shouldScroll = true) {
   const targetStep = Math.max(1, Math.min(6, nextStep));
 
   if (targetStep > runtime.state.step) {
-    const validation = validateStepsUpTo(targetStep - 1, runtime.state, runtime.data);
+    const validation = validateStepsUpTo(
+      targetStep - 1,
+      runtime.state,
+      runtime.data,
+      { commerceMode: runtime.commerceMode },
+    );
     if (!validation.valid) {
       runtime.state.errors = {
         ...runtime.state.errors,
@@ -1210,7 +1279,7 @@ function navigateToStep(runtime, nextStep, shouldScroll = true) {
     refresh(runtime);
     track(runtime, 'uniform_configurator_step_view', {
       stepIndex: runtime.state.step,
-      stepLabel: STEP_LABELS[runtime.state.step - 1],
+      stepLabel: runtime.stepLabels[runtime.state.step - 1],
     });
   }
 
@@ -1243,6 +1312,16 @@ function clearErrors(runtime, keys) {
 function updateSelection(runtime, key, value) {
   runtime.state.selections[key] = value;
   clearErrors(runtime, [key]);
+
+  if (key === 'shoeSize' && !value) {
+    runtime.state.selections.shoeWidth = '';
+    clearErrors(runtime, ['shoeWidth']);
+  }
+
+  if (key === 'coverSize' && !value) {
+    runtime.state.selections.frameSize = '';
+    clearErrors(runtime, ['frameSize']);
+  }
 }
 
 function updateMeasurement(runtime, key, value) {
@@ -1251,7 +1330,12 @@ function updateMeasurement(runtime, key, value) {
 }
 
 async function submit(runtime) {
-  const validation = validateStepsUpTo(5, runtime.state, runtime.data);
+  const validation = validateStepsUpTo(
+    5,
+    runtime.state,
+    runtime.data,
+    { commerceMode: runtime.commerceMode },
+  );
   if (!validation.valid) {
     runtime.state.errors = {
       ...runtime.state.errors,
@@ -1263,34 +1347,58 @@ async function submit(runtime) {
     return;
   }
 
-  if (!runtime.config.submitUrl) {
-    runtime.state.submitErrorMessage = 'Configure a submit URL to enable order submission.';
-    refresh(runtime);
-    return;
-  }
-
   const lineItems = buildLineItems(runtime.data, runtime.state);
   const total = computeTotal(lineItems);
-  const payload = createSubmitPayload({
-    analyticsId: runtime.config.analyticsId || runtime.data.id,
-    data: runtime.data,
-    state: runtime.state,
-    lineItems,
-    total,
-    pageUrl: window.location.href,
-    referrer: document.referrer,
-  });
 
   runtime.state.submissionState = 'submitting';
   runtime.state.submitErrorMessage = '';
   refresh(runtime);
 
-  track(runtime, 'uniform_configurator_submit', {
-    total,
-    lineItemCount: lineItems.length,
-  });
-
   try {
+    if (runtime.commerceMode) {
+      if (!runtime.contractValidation?.valid) {
+        throw new Error(
+          runtime.contractValidation.blockerMessage
+          || 'Commerce contract validation failed. Fix the missing Admin options before launch.',
+        );
+      }
+
+      const cartItem = createUniformCommerceCartItem({
+        sku: runtime.config.sku,
+        data: runtime.data,
+        state: runtime.state,
+        contractIndex: runtime.contractIndex,
+      });
+
+      await addProductsToCart([cartItem]);
+      emitRuntimeEvent(runtime, 'uniform_configurator_add_to_cart_success', {
+        total,
+        lineItemCount: lineItems.length,
+        sku: runtime.config.sku,
+      });
+      window.location.href = rootLink('/cart');
+      return;
+    }
+
+    if (!runtime.config.submitUrl) {
+      throw new Error('Configure a submit URL to enable order submission.');
+    }
+
+    const payload = createSubmitPayload({
+      analyticsId: runtime.config.analyticsId || runtime.data.id,
+      data: runtime.data,
+      state: runtime.state,
+      lineItems,
+      total,
+      pageUrl: window.location.href,
+      referrer: document.referrer,
+    });
+
+    track(runtime, 'uniform_configurator_submit', {
+      total,
+      lineItemCount: lineItems.length,
+    });
+
     await submitJson(runtime.config.submitUrl, payload);
     runtime.state.submissionState = 'success';
     runtime.state.submitErrorMessage = '';
@@ -1301,11 +1409,22 @@ async function submit(runtime) {
     });
   } catch (error) {
     runtime.state.submissionState = 'idle';
-    runtime.state.submitErrorMessage = 'Something went wrong while submitting. Please try again.';
+    runtime.state.step = runtime.commerceMode ? 6 : runtime.state.step;
+    runtime.state.submitErrorMessage = error?.message
+      || (runtime.commerceMode
+        ? 'Unable to add this package to cart right now.'
+        : 'Something went wrong while submitting. Please try again.');
     refresh(runtime);
-    track(runtime, 'uniform_configurator_submit_error', {
-      message: error.message,
-    });
+    if (runtime.commerceMode) {
+      emitRuntimeEvent(runtime, 'uniform_configurator_add_to_cart_error', {
+        message: error?.message || 'Unable to add this package to cart right now.',
+        sku: runtime.config.sku,
+      });
+    } else {
+      track(runtime, 'uniform_configurator_submit_error', {
+        message: error.message,
+      });
+    }
     // eslint-disable-next-line no-console
     console.warn('uniform-configurator: submission failed', error);
   }
@@ -1447,6 +1566,7 @@ function bindEvents(runtime) {
 
 export default async function decorate(block) {
   const config = getConfig(block);
+  const commerceMode = Boolean(config.sku);
   const section = block.closest('.section');
   const wrapper = block.parentElement;
 
@@ -1463,18 +1583,96 @@ export default async function decorate(block) {
 
   showBlockMessage(block, 'info', 'Loading uniform configurator…');
 
-  if (!config.submitUrl) {
+  if (commerceMode && config.submitUrl) {
+    showBlockMessage(block, 'error', 'Commerce-authored uniform configurators must use a SKU and must not define a submit URL.');
+    return;
+  }
+
+  if (!commerceMode && !config.submitUrl) {
     showBlockMessage(block, 'error', 'Configure the block with a submit URL before publishing.');
     return;
   }
 
   try {
     const data = await fetchDataset(config.dataSource);
+    let commerceProduct = null;
+    let contractValidation = {
+      valid: true,
+      missing: [],
+      index: buildCommerceContractIndex(),
+    };
+
+    if (commerceMode) {
+      await import('../../scripts/initializers/cart.js');
+      setEndpoint(CS_FETCH_GRAPHQL);
+      commerceProduct = await fetchProductData(config.sku);
+      let contractProduct = commerceProduct;
+      let coreFallbackResult = null;
+      let blockerMessage = '';
+
+      const ensureCoreFallback = async () => {
+        if (coreFallbackResult !== null) {
+          return coreFallbackResult;
+        }
+
+        coreFallbackResult = await fetchCoreCustomizableCommerceProduct(config.sku);
+        return coreFallbackResult;
+      };
+
+      if (shouldAttemptCoreCustomizableFallback(contractProduct)) {
+        const coreProductResult = await ensureCoreFallback();
+        if (coreProductResult.product?.sku) {
+          contractProduct = mergeCommerceContractProduct(
+            contractProduct,
+            coreProductResult.product,
+          );
+        } else if (coreProductResult.error) {
+          blockerMessage = coreProductResult.error.message;
+        }
+      }
+
+      if (!contractProduct?.sku) {
+        throw new Error(
+          blockerMessage || `The Commerce SKU "${config.sku}" could not be loaded from Adobe Commerce.`,
+        );
+      }
+
+      contractValidation = validateCommerceProductContract(data, contractProduct);
+
+      if (shouldAttemptCoreCustomizableFallback(contractProduct, contractValidation)) {
+        const coreProductResult = await ensureCoreFallback();
+        if (coreProductResult.product?.sku) {
+          contractProduct = mergeCommerceContractProduct(
+            contractProduct,
+            coreProductResult.product,
+          );
+          contractValidation = validateCommerceProductContract(data, contractProduct);
+        } else if (coreProductResult.error) {
+          blockerMessage = coreProductResult.error.message;
+        }
+      }
+
+      if (blockerMessage && !contractValidation.valid) {
+        contractValidation = {
+          ...contractValidation,
+          blockerMessage,
+        };
+      }
+
+      commerceProduct = contractProduct;
+    }
+
     const runtime = {
       block,
       config,
       data,
       state: createInitialState(data),
+      commerceMode,
+      commerceProduct,
+      contractValidation,
+      contractIndex: contractValidation.index,
+      stepLabels: getStepLabels(commerceMode),
+      stepMeta: getStepMeta(commerceMode),
       previousTotal: null,
     };
 
@@ -1484,11 +1682,11 @@ export default async function decorate(block) {
 
     track(runtime, 'uniform_configurator_start', {
       stepIndex: runtime.state.step,
-      stepLabel: STEP_LABELS[runtime.state.step - 1],
+      stepLabel: runtime.stepLabels[runtime.state.step - 1],
     });
     track(runtime, 'uniform_configurator_step_view', {
       stepIndex: runtime.state.step,
-      stepLabel: STEP_LABELS[runtime.state.step - 1],
+      stepLabel: runtime.stepLabels[runtime.state.step - 1],
     });
   } catch (error) {
     showBlockMessage(block, 'error', error.message || 'Unable to load the uniform configurator.');

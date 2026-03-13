@@ -84,6 +84,9 @@
         },
         {
           "...": "../blocks/quiz-router/_*.json#/definitions"
+        },
+        {
+          "...": "../blocks/quiz-router-mccs/_*.json#/definitions"
         }
       ]
     },

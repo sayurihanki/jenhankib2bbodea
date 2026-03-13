@@ -110,9 +110,11 @@
 | `product-list-page` | `content` | `general` | 1 | 2 |
 | `product-recommendations` | `content` | `general` | 1 | 1 |
 | `product-teaser` | `content` | `general` | 1 | 2 |
+| `product-technical-details` | `content` | `general` | 1 | 1 |
 | `promo-popup` | `content` | `general` | 1 | 1 |
 | `promotional-hero` | `content` | `general` | 1 | 1 |
 | `quiz-router` | `interactive-content` | `engagement` | 1 | 1 |
+| `quiz-router-mccs` | `interactive-content` | `engagement` | 1 | 1 |
 | `quote` | `content` | `general` | 1 | 1 |
 | `search` | `shell` | `navigation-and-layout` | 1 | 1 |
 | `search-bar` | `shell` | `navigation-and-layout` | 1 | 1 |
@@ -121,7 +123,7 @@
 | `tabs` | `interactive-content` | `engagement` | 1 | 1 |
 | `targeted-block` | `content` | `general` | 1 | 1 |
 | `top-banner` | `shell` | `navigation-and-layout` | 1 | 1 |
-| `uniform-configurator` | `content` | `general` | 1 | 2 |
+| `uniform-configurator` | `content` | `general` | 1 | 4 |
 | `video` | `interactive-content` | `engagement` | 1 | 1 |
 | `vip-hero-block` | `content` | `general` | 1 | 1 |
 | `vip-hero-mccs` | `content` | `general` | 1 | 1 |

@@ -754,6 +754,19 @@
               "columns": 3
             }
           }
+        },
+        {
+          "title": "Quiz Router MCCS",
+          "id": "quiz-router-mccs",
+          "model": "quiz-router-mccs",
+          "filter": "quiz-router-mccs",
+          "plugins": {
+            "da": {
+              "name": "quiz-router-mccs",
+              "rows": 1,
+              "columns": 3
+            }
+          }
         }
       ]
     },

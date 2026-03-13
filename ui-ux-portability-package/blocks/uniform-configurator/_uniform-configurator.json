@@ -46,6 +46,13 @@
         {
           "component": "text",
           "valueType": "string",
+          "name": "sku",
+          "label": "Commerce SKU",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
           "name": "submit-url",
           "label": "Submit URL",
           "value": ""
