@@ -70,10 +70,10 @@ const SPOUSE_OPTIONS = [
 
 const SERVICE_STATUS_LABELS = Object.fromEntries(SERVICE_STATUS_OPTIONS);
 const FREQUENCY_LABELS = {
-  realtime: 'Real-time offers',
-  weekly: 'Weekly digest',
-  monthly: 'Monthly roundup',
-  minimal: 'Essential updates only',
+  realtime: 'Real-time',
+  weekly: 'Weekly',
+  monthly: 'Monthly',
+  minimal: 'Minimal',
 };
 
 function controlId(key) {
@@ -98,6 +98,7 @@ function el(tag, props = {}, children = []) {
     else if (key === 'textContent') node.textContent = value;
     else if (key === 'htmlFor') node.setAttribute('for', value);
     else if (key === 'ariaLive') node.setAttribute('aria-live', value);
+    else if (key === 'html') node.innerHTML = value;
     else if (key === 'attributes') {
       Object.entries(value).forEach(([attr, attrValue]) => {
         node.setAttribute(attr, attrValue);
@@ -117,130 +118,97 @@ function el(tag, props = {}, children = []) {
   return node;
 }
 
-function createFieldChrome({
-  key,
-  label,
-  required = false,
-  optional = false,
-  wide = false,
-}) {
-  const field = el('div', {
-    className: `mp-field${wide ? ' mp-field--wide' : ''}`,
-    id: fieldId(key),
-  });
-  const header = el('div', { className: 'mp-field__header' });
-  const labelRow = el('div', { className: 'mp-field__label' }, label);
+function buildFieldLabel(label, { required = false, optional = false } = {}) {
+  const labelNode = el('div', { className: 'mp-flbl' }, label);
 
   if (required) {
-    labelRow.append(el('span', {
-      className: 'mp-field__required',
-      textContent: 'Required',
-    }));
+    labelNode.append(el('span', { className: 'mp-freq', textContent: '*' }));
   } else if (optional) {
-    labelRow.append(el('span', {
-      className: 'mp-field__optional',
-      textContent: 'Optional',
+    labelNode.append(el('span', {
+      className: 'mp-flbl-opt',
+      textContent: '(optional)',
     }));
   }
 
-  header.append(labelRow);
-  field.append(header);
-
-  return {
-    field,
-    message: el('p', {
-      className: 'mp-field__message',
-      id: messageId(key),
-      ariaLive: 'polite',
-    }),
-  };
+  return labelNode;
 }
 
-function createSelectField({
+function buildMessage(key) {
+  return el('span', {
+    className: 'mp-fmsg',
+    id: messageId(key),
+    ariaLive: 'polite',
+  });
+}
+
+function createField({
   key,
   name,
   label,
-  options,
+  type = 'text',
+  options = [],
+  placeholder = '',
   required = false,
   optional = false,
-  wide = false,
-}) {
-  const { field, message } = createFieldChrome({
-    key,
-    label,
-    required,
-    optional,
-    wide,
-  });
-  const shell = el('div', { className: 'mp-select-wrap' });
-  const select = el('select', {
-    className: 'mp-input mp-select',
-    id: controlId(key),
-    name,
-    required,
-  });
-  select.setAttribute('data-error-key', key);
-
-  options.forEach(([value, text]) => {
-    select.append(el('option', {
-      value,
-      textContent: text,
-    }));
-  });
-
-  shell.append(
-    select,
-    el('span', { className: 'mp-select-wrap__arrow', textContent: '▾' }),
-  );
-  field.append(shell, message);
-  return field;
-}
-
-function createTextAreaField({
-  key,
-  name,
-  label,
-  placeholder,
+  span2 = false,
   maxLength,
-  required = false,
-  optional = false,
-  wide = false,
 }) {
-  const { field, message } = createFieldChrome({
-    key,
-    label,
-    required,
-    optional,
-    wide,
+  const field = el('div', {
+    className: `mp-field${span2 ? ' mp-span2' : ''}`,
+    id: fieldId(key),
   });
-  const textArea = el('textarea', {
-    className: 'mp-input mp-textarea',
-    id: controlId(key),
-    name,
-    placeholder,
-    required,
-    maxLength,
-    rows: 5,
-  });
-  textArea.setAttribute('data-error-key', key);
+  const wrap = el('div', { className: 'mp-fwrap' });
+  let input;
 
-  const counter = el('div', {
-    className: 'mp-field__counter',
-    id: `${controlId(key)}-counter`,
-    textContent: `0 / ${maxLength}`,
-  });
+  field.append(buildFieldLabel(label, { required, optional }));
 
-  textArea.addEventListener('input', () => {
-    const count = textArea.value.length;
-    counter.textContent = `${count} / ${maxLength}`;
-    counter.classList.toggle('is-warning', count >= Math.floor(maxLength * 0.85));
-  });
+  if (type === 'textarea') {
+    input = el('textarea', {
+      className: 'mp-fi',
+      id: controlId(key),
+      name,
+      rows: 4,
+      placeholder,
+      required,
+      maxLength,
+    });
+  } else if (type === 'select') {
+    input = el('select', {
+      className: 'mp-fi',
+      id: controlId(key),
+      name,
+      required,
+    });
+    options.forEach(([value, text]) => {
+      input.append(el('option', { value, textContent: text }));
+    });
+    wrap.append(input, el('span', {
+      className: 'mp-fchev',
+      textContent: '▾',
+    }));
+  } else {
+    input = el('input', {
+      className: 'mp-fi',
+      id: controlId(key),
+      name,
+      type,
+      placeholder,
+      required,
+    });
+  }
 
-  field.append(textArea, counter, message);
+  input.setAttribute('data-error-key', key);
+
+  if (type !== 'select') {
+    wrap.append(input);
+  }
+
+  field.append(wrap, buildMessage(key));
+
   return field;
 }
 
-function createChoiceGroup({
+function createPillGroup({
   key,
   name,
   label,
@@ -248,62 +216,52 @@ function createChoiceGroup({
   choices,
   required = false,
   optional = false,
-  wide = true,
+  span2 = true,
 }) {
-  const { field, message } = createFieldChrome({
-    key,
-    label,
-    required,
-    optional,
-    wide,
+  const field = el('div', {
+    className: `mp-field${span2 ? ' mp-span2' : ''}`,
+    id: fieldId(key),
   });
-  const grid = el('div', { className: 'mp-choice-grid' });
+  const pills = el('div', { className: 'mp-pills' });
+
+  field.append(buildFieldLabel(label, { required, optional }));
 
   choices.forEach(([value, text], index) => {
     const id = `${controlId(key)}-${index}`;
-    const input = el('input', {
+    const control = el('input', {
       id,
-      type,
       name,
+      type,
       value,
-      className: 'mp-choice-grid__input',
     });
-    input.setAttribute('data-error-key', key);
+    control.setAttribute('data-error-key', key);
 
-    const choiceClass = type === 'radio' ? 'mp-chip mp-chip--radio' : 'mp-chip';
-    const labelNode = el('label', {
-      className: choiceClass,
-      htmlFor: id,
-      textContent: text,
-    });
-    grid.append(input, labelNode);
+    pills.append(el('div', { className: 'mp-pc' }, [
+      control,
+      el('label', { htmlFor: id, textContent: text }),
+    ]));
   });
 
-  field.append(grid, message);
+  field.append(pills, buildMessage(key));
   return field;
 }
 
-function createToggleField(name, title, copy) {
-  const label = el('label', { className: 'mp-toggle' });
+function createToggleRow(name, title, subtitle) {
   const input = el('input', {
-    className: 'mp-toggle__input',
     type: 'checkbox',
     name,
   });
-  const copyWrap = el('span', { className: 'mp-toggle__copy' }, [
-    el('span', { className: 'mp-toggle__title', textContent: title }),
-    el('span', { className: 'mp-toggle__body', textContent: copy }),
-  ]);
 
-  label.append(
-    input,
-    copyWrap,
-    el('span', { className: 'mp-toggle__track' }, [
-      el('span', { className: 'mp-toggle__thumb' }),
+  return el('div', { className: 'mp-trow' }, [
+    el('div', { className: 'mp-ttxt' }, [
+      el('div', { className: 'mp-ttitle', textContent: title }),
+      el('div', { className: 'mp-tsub', textContent: subtitle }),
     ]),
-  );
-
-  return label;
+    el('label', { className: 'mp-tswitch' }, [
+      input,
+      el('span', { className: 'mp-ttrack' }),
+    ]),
+  ]);
 }
 
 function createDivider(text) {
@@ -315,23 +273,31 @@ function createDivider(text) {
 function createProgress() {
   const progress = el('div', { className: 'mp-progress' });
 
-  STEP_LABELS.forEach((stepLabel, index) => {
+  STEP_LABELS.forEach((label, index) => {
     const step = index + 1;
     const item = el('div', {
-      className: `mp-progress__item${step === 1 ? ' is-current' : ''}`,
+      className: `mp-si${step === 1 ? ' mp-si--active is-current' : ''}`,
       id: `mp-progress-${step}`,
     });
+    const badge = el('div', {
+      className: `mp-sb${step === 1 ? ' mp-sb--active' : ''}`,
+    }, [
+      el('span', { className: 'mp-sn', textContent: String(step) }),
+      el('span', { className: 'mp-sb-check', textContent: '✓' }),
+    ]);
 
-    item.append(
-      el('div', { className: 'mp-progress__badge', textContent: String(step) }),
-      el('div', { className: 'mp-progress__label', textContent: stepLabel }),
-    );
+    item.append(el('div', { className: 'mp-sw' }, [
+      badge,
+      el('div', { className: 'mp-slbl', textContent: label }),
+    ]));
 
     if (step < STEP_LABELS.length) {
-      item.append(el('div', {
-        className: 'mp-progress__line',
-        id: `mp-progress-line-${step}`,
-      }));
+      item.append(el('div', { className: 'mp-sl' }, [
+        el('div', {
+          className: 'mp-slf',
+          id: `mp-progress-line-${step}`,
+        }),
+      ]));
     }
 
     progress.append(item);
@@ -342,54 +308,61 @@ function createProgress() {
 
 function buildStepOne() {
   const step = el('section', {
-    className: 'mp-step-panel is-active',
+    className: 'mp-step-panel mp-fstep is-active mp-fstep--active',
     id: 'mp-step-1',
     attributes: { 'data-step': '1' },
   });
   const grid = el('div', { className: 'mp-grid' });
 
   step.append(
-    el('div', { className: 'mp-step__eyebrow', textContent: 'Step 1 of 3' }),
-    el('h2', { className: 'mp-step__title', textContent: 'Your military life' }),
-    el('p', {
-      className: 'mp-step__body',
-      textContent: 'Help MCCS understand your day-to-day context so we can surface the most relevant shopping, recreation, and family support programs.',
+    el('div', { className: 'mp-stitle', textContent: 'Your military life' }),
+    el('div', {
+      className: 'mp-ssub',
+      textContent: 'Help us understand your connection to MCCS so we can personalize your experience across every installation.',
     }),
   );
 
   grid.append(
-    createChoiceGroup({
+    createPillGroup({
       key: 'service-status',
       name: 'serviceStatus',
       label: 'Service status',
       type: 'radio',
-      choices: SERVICE_STATUS_OPTIONS,
+      choices: [
+        ['active_duty', 'Active Duty'],
+        ['spouse_dependent', 'Spouse / Dependent'],
+        ['veteran_retiree', 'Veteran / Retiree'],
+        ['dod_civilian', 'DoD / Coast Guard Civilian'],
+      ],
       required: true,
     }),
-    createSelectField({
+    createField({
       key: 'installation',
       name: 'installation',
       label: 'Primary installation',
-      options: INSTALLATION_OPTIONS,
+      type: 'select',
       required: true,
-      wide: true,
+      span2: true,
+      options: INSTALLATION_OPTIONS,
     }),
-    createSelectField({
+    createField({
       key: 'branch',
       name: 'branch',
       label: 'Branch',
-      options: BRANCH_OPTIONS,
+      type: 'select',
       optional: true,
+      options: BRANCH_OPTIONS,
     }),
-    createSelectField({
+    createField({
       key: 'rank-category',
       name: 'rankCategory',
       label: 'Rank category',
-      options: RANK_OPTIONS,
+      type: 'select',
       optional: true,
+      options: RANK_OPTIONS,
     }),
     createDivider('Household'),
-    createChoiceGroup({
+    createPillGroup({
       key: 'children-ages',
       name: 'childrenAges',
       label: 'Children in household',
@@ -403,22 +376,24 @@ function buildStepOne() {
         ['none', 'No children'],
       ],
     }),
-    createSelectField({
+    createField({
       key: 'household-size',
       name: 'householdSize',
       label: 'Household size',
-      options: HOUSEHOLD_OPTIONS,
+      type: 'select',
       optional: true,
+      options: HOUSEHOLD_OPTIONS,
     }),
-    createSelectField({
+    createField({
       key: 'spouse-service',
       name: 'spouseService',
       label: 'Spouse on active duty?',
-      options: SPOUSE_OPTIONS,
+      type: 'select',
       optional: true,
+      options: SPOUSE_OPTIONS,
     }),
-    createDivider('Upcoming milestones'),
-    createChoiceGroup({
+    createDivider('Life events'),
+    createPillGroup({
       key: 'milestones',
       name: 'milestones',
       label: 'Upcoming milestones',
@@ -427,10 +402,10 @@ function buildStepOne() {
       choices: [
         ['pcs', 'PCS / Relocation'],
         ['deployment', 'Deployment'],
-        ['new_baby', 'New baby'],
-        ['rank_change', 'Promotion / Rank change'],
+        ['new_baby', 'New Baby'],
+        ['rank_change', 'Promotion / Rank Change'],
         ['retirement', 'Retirement / Transition'],
-        ['back_to_school', 'Back to school'],
+        ['back_to_school', 'Back to School'],
         ['none', 'None right now'],
       ],
     }),
@@ -439,13 +414,15 @@ function buildStepOne() {
   step.append(
     grid,
     el('div', { className: 'mp-nav' }, [
-      el('span', { className: 'mp-nav__spacer' }),
+      el('div'),
       el('button', {
-        className: 'mp-button mp-button--primary',
+        className: 'mp-bnx',
         id: 'mp-next-1',
         type: 'button',
-        textContent: 'Continue to Interests',
-      }),
+      }, [
+        el('span', { textContent: 'Continue' }),
+        '→',
+      ]),
     ]),
   );
 
@@ -454,111 +431,108 @@ function buildStepOne() {
 
 function buildStepTwo() {
   const step = el('section', {
-    className: 'mp-step-panel',
+    className: 'mp-step-panel mp-fstep',
     id: 'mp-step-2',
     attributes: { 'data-step': '2' },
   });
   const grid = el('div', { className: 'mp-grid' });
+  const toggles = el('div', {
+    className: 'mp-field mp-span2',
+    id: fieldId('services'),
+  });
+  const toggleList = el('div', { className: 'mp-toggles' });
 
   step.append(
-    el('div', { className: 'mp-step__eyebrow', textContent: 'Step 2 of 3' }),
-    el('h2', { className: 'mp-step__title', textContent: 'Shopping and recreation' }),
-    el('p', {
-      className: 'mp-step__body',
-      textContent: 'Choose the categories, events, and support programs you want MCCS to prioritize across your shopping and recreation experience.',
+    el('div', { className: 'mp-stitle', textContent: 'Shopping & recreation' }),
+    el('div', {
+      className: 'mp-ssub',
+      textContent: 'Select the categories and activities that interest you. We will use these to surface relevant offers, recommendations, and events.',
     }),
   );
 
-  const toggleGroup = createFieldChrome({
-    key: 'services',
-    label: 'Programs you want to hear about',
-    optional: true,
-    wide: true,
-  });
-  const toggles = el('div', { className: 'mp-toggle-list' });
+  toggles.append(
+    buildFieldLabel('Programs you would like to hear about', { optional: true }),
+    toggleList,
+  );
 
   [
-    ['svc_childcare', 'Childcare and CDC', 'School Age Care, CDC waitlists, and youth programming.'],
+    ['svc_childcare', 'Childcare & CDC', 'Youth programs, School Age Care, and CDC updates.'],
     ['svc_financial', 'Financial readiness', 'Budgeting, debt management, and financial counseling.'],
-    ['svc_education', 'Education and tuition assistance', 'Scholarships, tuition help, and career development.'],
-    ['svc_career', 'Career transition and employment', 'Transition Readiness, spouse employment, and job events.'],
-    ['svc_relocation', 'Relocation and newcomer support', 'PCS assistance, orientation, and welcome programs.'],
-    ['svc_counseling', 'Prevention and counseling', 'Wellness, stress support, and relationship resources.'],
-  ].forEach(([name, title, copy]) => {
-    toggles.append(createToggleField(name, title, copy));
+    ['svc_education', 'Education & tuition assistance', 'Tuition aid, scholarships, and development resources.'],
+    ['svc_career', 'Career transition & employment', 'Transition Readiness, Marine For Life, and spouse employment.'],
+    ['svc_relocation', 'Relocation & newcomer support', 'PCS assistance, orientation, and welcome programs.'],
+    ['svc_counseling', 'Prevention & counseling', 'Stress management, wellness, and support resources.'],
+  ].forEach(([name, title, subtitle]) => {
+    toggleList.append(createToggleRow(name, title, subtitle));
   });
 
-  toggleGroup.field.append(toggles, toggleGroup.message);
-
   grid.append(
-    createChoiceGroup({
+    createPillGroup({
       key: 'shop-categories',
       name: 'shopCategories',
       label: 'MCX shopping interests',
       type: 'checkbox',
-      optional: true,
       choices: [
-        ['uniforms', 'Uniforms and service wear'],
-        ['electronics', 'Electronics and gaming'],
-        ['outdoor', 'Outdoor and fitness gear'],
-        ['home', 'Home and household'],
-        ['branded', 'Marine-branded merch'],
-        ['cosmetics', 'Cosmetics and personal care'],
-        ['kids', 'Kids and family'],
-        ['firearms', 'Firearms and accessories'],
+        ['uniforms', 'Uniforms & Service Wear'],
+        ['electronics', 'Electronics & Gaming'],
+        ['outdoor', 'Outdoor & Fitness Gear'],
+        ['home', 'Home & Household'],
+        ['branded', 'Marine-Branded Merch'],
+        ['cosmetics', 'Cosmetics & Personal Care'],
+        ['kids', 'Kids & Family'],
+        ['firearms', 'Firearms & Accessories'],
       ],
     }),
-    createDivider('MWR and ITT'),
-    createChoiceGroup({
+    createDivider('MWR & Recreation'),
+    createPillGroup({
       key: 'mwr-interests',
       name: 'mwrInterests',
       label: 'Recreation interests',
       type: 'checkbox',
-      optional: true,
       choices: [
         ['bowling', 'Bowling'],
         ['golf', 'Golf'],
         ['fitness', 'Fitness / Gym'],
-        ['outdoor_rec', 'Camping and outdoor recreation'],
-        ['marina', 'Marina and water sports'],
-        ['youth_sports', 'Youth sports and activities'],
-        ['arts_crafts', 'Arts and crafts'],
-        ['auto_skills', 'Auto skills'],
+        ['outdoor_rec', 'Camping & Outdoor'],
+        ['marina', 'Marina & Water Sports'],
+        ['youth_sports', 'Youth Sports & Activities'],
+        ['arts_crafts', 'Arts & Crafts'],
+        ['auto_skills', 'Auto Skills'],
       ],
     }),
-    createChoiceGroup({
+    createPillGroup({
       key: 'ticket-interests',
       name: 'ticketInterests',
-      label: 'Tickets and events',
+      label: 'Tickets & events',
       type: 'checkbox',
-      optional: true,
       choices: [
-        ['theme_parks', 'Theme parks'],
-        ['sporting_events', 'Sporting events'],
-        ['concerts', 'Concerts and shows'],
-        ['local_attractions', 'Local attractions'],
-        ['travel', 'Leisure travel'],
+        ['theme_parks', 'Theme Parks'],
+        ['sporting_events', 'Sporting Events'],
+        ['concerts', 'Concerts & Shows'],
+        ['local_attractions', 'Local Attractions'],
+        ['travel', 'Leisure Travel'],
       ],
     }),
     createDivider('Life services'),
-    toggleGroup.field,
+    toggles,
   );
 
   step.append(
     grid,
     el('div', { className: 'mp-nav' }, [
       el('button', {
-        className: 'mp-button mp-button--ghost',
+        className: 'mp-bbk',
         id: 'mp-back-2',
         type: 'button',
-        textContent: 'Back',
-      }),
+      }, ['←', 'Back']),
       el('button', {
-        className: 'mp-button mp-button--primary',
+        className: 'mp-bnx',
         id: 'mp-next-2',
         type: 'button',
-        textContent: 'Continue to Communication',
-      }),
+      }, [
+        el('span', { textContent: 'Continue' }),
+        '→',
+      ]),
     ]),
   );
 
@@ -567,53 +541,55 @@ function buildStepTwo() {
 
 function buildStepThree() {
   const step = el('section', {
-    className: 'mp-step-panel',
+    className: 'mp-step-panel mp-fstep',
     id: 'mp-step-3',
     attributes: { 'data-step': '3' },
   });
   const grid = el('div', { className: 'mp-grid' });
+  const consentField = el('div', {
+    className: 'mp-field mp-span2',
+    id: fieldId('consent'),
+  });
+  const consentInput = el('input', {
+    id: controlId('consent'),
+    name: 'consent',
+    type: 'checkbox',
+    value: 'yes',
+  });
+
+  consentInput.setAttribute('data-error-key', 'consent');
 
   step.append(
-    el('div', { className: 'mp-step__eyebrow', textContent: 'Step 3 of 3' }),
-    el('h2', { className: 'mp-step__title', textContent: 'Communication preferences' }),
-    el('p', {
-      className: 'mp-step__body',
-      textContent: 'Choose how you want MCCS to reach you and how you prefer to fulfill orders and offers.',
+    el('div', { className: 'mp-stitle', textContent: 'Communication preferences' }),
+    el('div', {
+      className: 'mp-ssub',
+      textContent: 'Tell us how and when you would like to hear from MCCS. You can update these anytime from your dashboard.',
     }),
   );
 
-  const consentChrome = createFieldChrome({
-    key: 'consent',
-    label: 'Privacy consent',
-    required: true,
-    wide: true,
-  });
-  const consentLabel = el('label', { className: 'mp-consent' });
-  const consentInput = el('input', {
-    className: 'mp-consent__input',
-    id: controlId('consent'),
-    type: 'checkbox',
-    name: 'consent',
-    value: 'yes',
-  });
-  consentInput.setAttribute('data-error-key', 'consent');
-  consentLabel.append(
-    consentInput,
-    el('span', { className: 'mp-consent__box' }),
-    el('span', { className: 'mp-consent__text' }, [
-      'I consent to MCCS using my preferences to personalize my experience in line with the ',
-      el('a', {
-        className: 'mp-inline-link',
-        href: '#',
-        textContent: 'MCCS Privacy Policy',
-      }),
-      '.',
+  consentField.append(
+    el('div', { className: 'mp-pills' }, [
+      el('div', { className: 'mp-pc mp-pc--wide' }, [
+        consentInput,
+        el('label', {
+          className: 'mp-consent-label',
+          htmlFor: controlId('consent'),
+        }, [
+          'I consent to MCCS using my preferences to personalize my experience per the ',
+          el('a', {
+            className: 'mp-link',
+            href: '#',
+            textContent: 'MCCS Privacy Policy',
+          }),
+          '.',
+        ]),
+      ]),
     ]),
+    buildMessage('consent'),
   );
-  consentChrome.field.append(consentLabel, consentChrome.message);
 
   grid.append(
-    createChoiceGroup({
+    createPillGroup({
       key: 'channels',
       name: 'channels',
       label: 'Preferred channels',
@@ -622,64 +598,66 @@ function buildStepThree() {
       choices: [
         ['email', 'Email'],
         ['sms', 'SMS / Text'],
-        ['push', 'Push notifications'],
+        ['push', 'Push'],
         ['inapp', 'In-app notifications'],
       ],
     }),
-    createChoiceGroup({
+    createPillGroup({
       key: 'frequency',
       name: 'frequency',
       label: 'Message frequency',
       type: 'radio',
-      optional: true,
       choices: [
         ['realtime', 'Real-time offers'],
         ['weekly', 'Weekly digest'],
         ['monthly', 'Monthly roundup'],
-        ['minimal', 'Only essential updates'],
+        ['minimal', 'Essential updates only'],
       ],
+      optional: true,
     }),
     createDivider('Fulfillment'),
-    createChoiceGroup({
+    createPillGroup({
       key: 'fulfillment',
       name: 'fulfillment',
       label: 'Preferred fulfillment',
       type: 'radio',
-      optional: true,
       choices: [
         ['bopis', 'Pick up at my base MCX'],
         ['ship_home', 'Ship to my address'],
         ['no_pref', 'No preference'],
       ],
+      optional: true,
     }),
-    createDivider('Anything else'),
-    createTextAreaField({
+    createDivider('Additional'),
+    createField({
       key: 'notes',
       name: 'notes',
-      label: 'Additional notes',
-      placeholder: 'Special interests, accessibility needs, or feedback on your MCCS experience.',
-      maxLength: 500,
+      label: 'Anything else we should know?',
+      type: 'textarea',
+      span2: true,
       optional: true,
-      wide: true,
+      placeholder: 'Special interests, accessibility needs, or feedback on your MCCS experience...',
+      maxLength: 500,
     }),
-    consentChrome.field,
+    consentField,
   );
 
   step.append(
     grid,
     el('div', { className: 'mp-nav' }, [
       el('button', {
-        className: 'mp-button mp-button--ghost',
+        className: 'mp-bbk',
         id: 'mp-back-3',
         type: 'button',
-        textContent: 'Back',
-      }),
+      }, ['←', 'Back']),
       el('button', {
-        className: 'mp-button mp-button--primary',
+        className: 'mp-bnx mp-bsub',
         id: 'mp-submit',
         type: 'button',
-        textContent: 'Save my preferences',
-      }),
+      }, [
+        el('span', { textContent: 'Save my preferences' }),
+        '✦',
+      ]),
     ]),
   );
 
@@ -708,24 +686,35 @@ function getSelectText(select) {
 function setError(block, key, message) {
   const field = block.querySelector(`#${fieldId(key)}`);
   const messageNode = block.querySelector(`#${messageId(key)}`);
-  if (field) field.classList.add('is-error');
+  if (field) {
+    field.classList.add('mp-field--err');
+    field.classList.remove('mp-field--ok');
+  }
   if (messageNode) messageNode.textContent = message;
 }
 
 function clearError(block, key) {
   const field = block.querySelector(`#${fieldId(key)}`);
   const messageNode = block.querySelector(`#${messageId(key)}`);
-  if (field) field.classList.remove('is-error');
+  if (field) field.classList.remove('mp-field--err');
   if (messageNode) messageNode.textContent = '';
 }
 
+function markValid(block, key) {
+  const field = block.querySelector(`#${fieldId(key)}`);
+  if (field) {
+    field.classList.remove('mp-field--err');
+    field.classList.add('mp-field--ok');
+  }
+  clearError(block, key);
+}
+
 function validateChoiceRequired(block, key, name, message) {
-  const hasSelection = getCheckedValues(block, name).length > 0;
-  if (!hasSelection) {
+  if (getCheckedValues(block, name).length === 0) {
     setError(block, key, message);
     return false;
   }
-  clearError(block, key);
+  markValid(block, key);
   return true;
 }
 
@@ -735,7 +724,7 @@ function validateSelectRequired(block, key, message) {
     setError(block, key, message);
     return false;
   }
-  clearError(block, key);
+  markValid(block, key);
   return true;
 }
 
@@ -745,24 +734,39 @@ function validateCheckboxRequired(block, key, message) {
     setError(block, key, message);
     return false;
   }
-  clearError(block, key);
+  markValid(block, key);
   return true;
 }
 
 function setStep(block, nextStep) {
   [...block.querySelectorAll('.mp-step-panel')].forEach((panel, index) => {
-    panel.classList.toggle('is-active', index + 1 === nextStep);
+    const active = index + 1 === nextStep;
+    panel.classList.toggle('is-active', active);
+    panel.classList.toggle('mp-fstep--active', active);
   });
 
   STEP_LABELS.forEach((_, index) => {
     const step = index + 1;
     const item = block.querySelector(`#mp-progress-${step}`);
+    const badge = item?.querySelector('.mp-sb');
     const line = block.querySelector(`#mp-progress-line-${step}`);
-    if (!item) return;
 
-    item.classList.toggle('is-current', step === nextStep);
-    item.classList.toggle('is-complete', step < nextStep);
-    if (line) line.classList.toggle('is-complete', step < nextStep);
+    if (!item || !badge) return;
+
+    item.className = 'mp-si';
+    badge.className = 'mp-sb';
+
+    if (step < nextStep) {
+      item.classList.add('mp-si--done', 'is-complete');
+      badge.classList.add('mp-sb--done');
+      if (line) line.style.transform = 'scaleX(1)';
+    } else if (step === nextStep) {
+      item.classList.add('mp-si--active', 'is-current');
+      badge.classList.add('mp-sb--active');
+      if (line) line.style.transform = 'scaleX(0)';
+    } else if (line) {
+      line.style.transform = 'scaleX(0)';
+    }
   });
 }
 
@@ -778,20 +782,29 @@ function wait(ms) {
   });
 }
 
+function runNextFrame(callback) {
+  if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+    window.requestAnimationFrame(callback);
+    return;
+  }
+  callback();
+}
+
 function initParticles(canvas) {
   if (!canvas || typeof canvas.getContext !== 'function') return;
+  if (typeof window === 'undefined' || typeof window.requestAnimationFrame !== 'function') return;
 
   const ctx = canvas.getContext('2d');
-  if (!ctx || typeof window.requestAnimationFrame !== 'function') return;
+  if (!ctx) return;
 
   let width = 0;
   let height = 0;
   let particles = [];
   const colors = [
-    'rgba(255,255,255,',
-    'rgba(214,189,132,',
-    'rgba(240,227,199,',
-    'rgba(188,163,116,',
+    'rgba(196,30,58,',
+    'rgba(197,164,78,',
+    'rgba(26,39,68,',
+    'rgba(158,24,48,',
   ];
 
   function resize() {
@@ -807,12 +820,12 @@ function initParticles(canvas) {
     return {
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.22,
-      vy: (Math.random() - 0.5) * 0.22,
-      radius: Math.random() * 1.4 + 0.6,
-      alpha: Math.random() * 0.32 + 0.08,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      radius: Math.random() * 1.5 + 0.5,
+      alpha: Math.random() * 0.5 + 0.1,
       color: colors[Math.floor(Math.random() * colors.length)],
-      life: Math.random() * 180 + 120,
+      life: Math.random() * 200 + 100,
       age: 0,
     };
   }
@@ -820,9 +833,8 @@ function initParticles(canvas) {
   function loop() {
     ctx.clearRect(0, 0, width, height);
 
-    if (Math.random() < 0.32 && particles.length < 90) {
-      particles.push(spawn());
-    }
+    if (Math.random() < 0.4) particles.push(spawn());
+    if (particles.length > 150) particles = particles.slice(-150);
 
     particles = particles.filter((particle) => {
       const item = particle;
@@ -862,47 +874,67 @@ function buildSuccessCard(block, redirectUrl) {
     `Frequency: ${FREQUENCY_LABELS[frequency] || 'Not set'}`,
   ];
 
-  const card = el('div', { className: 'mp-success' });
-  const chipList = el('div', { className: 'mp-success__chips' });
+  const success = el('div', { className: 'mp-success' });
+  const burst = el('div', { className: 'mp-sburst' });
+  const chipsWrap = el('div', { className: 'mp-chips' });
+
+  burst.append(
+    el('div', { className: 'mp-sbring' }),
+    el('div', { className: 'mp-sbring' }),
+    el('div', { className: 'mp-sbring' }),
+    el('div', { className: 'mp-sico' }, [
+      el('div', { className: 'mp-sico-svg', textContent: '✓' }),
+    ]),
+  );
 
   chips.forEach((chip) => {
-    chipList.append(el('div', { className: 'mp-success__chip', textContent: chip }));
+    chipsWrap.append(el('div', { className: 'mp-chip mp-success__chip' }, [
+      el('span', { className: 'mp-chip-svg', textContent: '✓' }),
+      chip,
+    ]));
   });
 
-  card.append(
-    el('div', { className: 'mp-success__crest', textContent: 'MCCS' }),
-    el('h2', { className: 'mp-success__title', textContent: 'Preferences saved' }),
+  success.append(
+    burst,
+    el('h2', { className: 'mp-sh mp-success__title', textContent: 'Preferences saved' }),
     el('p', {
-      className: 'mp-success__body',
-      textContent: 'Your profile is ready for a more tailored MCCS experience across shopping, recreation, and family programming.',
+      className: 'mp-ssbody',
+      textContent: 'Your profile has been updated. We will use your preferences to personalize your MCCS experience across shopping, events, and family programs.',
     }),
-    chipList,
+    chipsWrap,
   );
 
   if (redirectUrl) {
-    const countdown = el('div', { className: 'mp-countdown' });
-    const ring = el('div', { className: 'mp-countdown__ring' });
-    const number = el('span', { className: 'mp-countdown__value', textContent: '5' });
-    const copy = el('p', {
-      className: 'mp-countdown__copy',
-      textContent: 'Redirecting to your next MCCS experience in 5 seconds.',
+    const countdown = el('div', { className: 'mp-scount' });
+    const ring = el('div', { className: 'mp-cring' });
+    const number = el('div', { className: 'mp-cnum', textContent: '5' });
+    const label = el('div', {
+      className: 'mp-clbl',
+      textContent: 'Redirecting to your personalized experience...',
     });
     const goNow = el('button', {
-      className: 'mp-button mp-button--ghost mp-button--small',
+      className: 'mp-bgn',
       type: 'button',
-      textContent: 'Go now',
+      textContent: 'Go now →',
+    });
+
+    ring.innerHTML = '<svg viewBox="0 0 72 72">'
+      + '<circle class="mp-rbg" cx="36" cy="36" r="33"></circle>'
+      + '<circle class="mp-rfg" cx="36" cy="36" r="33"></circle>'
+      + '</svg>';
+    ring.append(number);
+
+    countdown.append(ring, label, goNow);
+    success.append(countdown);
+
+    runNextFrame(() => {
+      success.classList.add('mp-success--visible');
     });
 
     let remaining = 5;
-    ring.style.setProperty('--mp-progress', '1');
-
     const interval = setInterval(() => {
       remaining -= 1;
-      const progress = Math.max(remaining / 5, 0);
-      ring.style.setProperty('--mp-progress', String(progress));
       number.textContent = String(Math.max(remaining, 0));
-      copy.textContent = `Redirecting to your next MCCS experience in ${Math.max(remaining, 0)} seconds.`;
-
       if (remaining <= 0) {
         clearInterval(interval);
         window.location.href = redirectUrl;
@@ -913,30 +945,40 @@ function buildSuccessCard(block, redirectUrl) {
       clearInterval(interval);
       window.location.href = redirectUrl;
     });
-
-    countdown.append(
-      el('div', { className: 'mp-countdown__visual' }, [
-        el('div', { className: 'mp-countdown__stack' }, [ring, number]),
-      ]),
-      copy,
-      goNow,
-    );
-    card.append(countdown);
+  } else {
+    runNextFrame(() => {
+      success.classList.add('mp-success--visible');
+    });
   }
 
-  return card;
+  return success;
 }
 
 function attachErrorResetHandlers(block) {
   [...block.querySelectorAll('input'), ...block.querySelectorAll('select'), ...block.querySelectorAll('textarea')]
     .forEach((input) => {
       input.addEventListener('change', () => {
-        const errorKey = input.getAttribute('data-error-key');
-        if (errorKey) clearError(block, errorKey);
+        const key = input.getAttribute('data-error-key');
+        if (!key) return;
+
+        if (input.type === 'checkbox' || input.type === 'radio') {
+          if ((input.type === 'checkbox' && getCheckedValues(block, input.name).length > 0)
+            || (input.type === 'radio' && getCheckedValue(block, input.name))) {
+            markValid(block, key);
+          } else {
+            clearError(block, key);
+          }
+          return;
+        }
+
+        if (input.value) markValid(block, key);
+        else clearError(block, key);
       });
+
       input.addEventListener('input', () => {
-        const errorKey = input.getAttribute('data-error-key');
-        if (errorKey) clearError(block, errorKey);
+        const key = input.getAttribute('data-error-key');
+        if (!key) return;
+        if (input.value) markValid(block, key);
       });
     });
 }
@@ -944,8 +986,8 @@ function attachErrorResetHandlers(block) {
 export default function decorate(block) {
   const rows = [...block.children];
   const title = rows[0]?.textContent?.trim() || 'Personalize\nyour MCCS experience';
-  const subtitle = rows[1]?.textContent?.trim() || 'Tell us about your military life, interests, and communication preferences so MCCS can tailor the experience around you.';
-  const redirectUrl = rows[2]?.querySelector('a')?.getAttribute('href') || '';
+  const subtitle = rows[1]?.textContent?.trim() || 'Tell us about your military life, interests, and preferences. We will tailor your shopping, events, and family programs to fit your world.';
+  const redirectUrl = rows[2]?.querySelector('a')?.getAttribute('href') || rows[2]?.textContent?.trim() || '';
   const [titleLineOne, titleAccent] = splitHeading(title);
 
   block.textContent = '';
@@ -956,53 +998,49 @@ export default function decorate(block) {
   const badge = el('div', { className: 'mp-badge' }, [
     el('span', {}, [
       el('span', { className: 'mp-dot' }),
-      'MCCS Patron Preferences · White Gold',
+      'MCCS Patron Preferences · Personalization',
     ]),
   ]);
-  const shell = el('div', { className: 'mp-shell mp-card' });
+  const card = el('div', { className: 'mp-card' });
   const hero = el('div', { className: 'mp-hero' });
-  const titleNode = el('h1', { className: 'mp-hero__title' }, titleLineOne);
+  const heading = el('h1', { className: 'mp-h1' }, titleLineOne);
+  const panels = el('div', { className: 'mp-panels mp-fbody' });
+  const successWrap = el('div', { className: 'mp-success-wrap' });
 
   if (titleAccent) {
-    titleNode.append(
-      el('span', {
-        className: 'mp-hero__accent',
-        textContent: titleAccent,
-      }),
-    );
+    heading.append(el('br'), el('em', {
+      className: 'mp-hero__accent',
+      textContent: titleAccent,
+    }));
   }
 
   hero.append(
-    el('div', { className: 'mp-hero__badge', textContent: 'Curated Preference Profile' }),
-    el('div', { className: 'mp-hero__eyebrow', textContent: 'Marine Corps Community Services' }),
-    titleNode,
-    el('p', { className: 'mp-hero__body', textContent: subtitle }),
+    el('div', { className: 'mp-eyebrow', textContent: 'My preferences' }),
+    heading,
+    el('p', { className: 'mp-hero-p', textContent: subtitle }),
     createProgress(),
   );
 
-  const formWrap = el('div', { className: 'mp-form-wrap' });
-  const formPanels = el('div', { className: 'mp-panels' }, [
+  panels.append(
     buildStepOne(),
     buildStepTwo(),
     buildStepThree(),
-  ]);
-  const successWrap = el('div', { className: 'mp-success-wrap' });
+  );
+  card.append(hero, panels, successWrap);
 
-  formWrap.append(formPanels, successWrap);
-  shell.append(hero, formWrap);
-  outer.append(badge, shell);
+  outer.append(badge, card);
   bgCanvas.append(
-    el('div', { className: 'mp-orb mp-orb--scarlet' }),
-    el('div', { className: 'mp-orb mp-orb--gold' }),
-    el('div', { className: 'mp-orb mp-orb--navy' }),
-    el('div', { className: 'mp-orb mp-orb--ivory' }),
+    el('div', { className: 'mp-orb' }),
+    el('div', { className: 'mp-orb' }),
+    el('div', { className: 'mp-orb' }),
+    el('div', { className: 'mp-orb' }),
   );
 
   block.append(
     canvas,
     bgCanvas,
-    el('div', { className: 'mp-grid-overlay' }),
-    el('div', { className: 'mp-noise-overlay' }),
+    el('div', { className: 'mp-bg-grid' }),
+    el('div', { className: 'mp-bg-noise' }),
     outer,
   );
 
@@ -1025,7 +1063,6 @@ export default function decorate(block) {
     );
 
     if (!serviceOk || !installationOk) return;
-
     currentStep = 2;
     setStep(block, currentStep);
   });
@@ -1061,16 +1098,15 @@ export default function decorate(block) {
     if (!channelsOk || !consentOk) return;
 
     const button = block.querySelector('#mp-submit');
+    const label = button.querySelector('span');
+
     button.disabled = true;
-    button.classList.add('is-loading');
-    button.textContent = 'Saving...';
+    button.classList.add('mp-bnx--ld');
+    if (label) label.textContent = 'Saving...';
 
     await wait(900);
 
-    formPanels.style.display = 'none';
+    panels.style.display = 'none';
     successWrap.append(buildSuccessCard(block, redirectUrl));
-    button.disabled = false;
-    button.classList.remove('is-loading');
-    button.textContent = 'Save my preferences';
   });
 }

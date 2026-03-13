@@ -93,7 +93,6 @@ Category distribution:
 - `no`: 1
 - `pcl`: 5
 - `pp`: 14
-- `primary`: 1
 - `product`: 11
 - `promotional`: 51
 - `qrm`: 19
