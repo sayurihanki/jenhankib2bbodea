@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-13T22:55:42.172Z",
+  "generatedAt": "2026-03-13T23:02:14.667Z",
   "summary": {
     "totalTokens": 714,
     "definedTokens": 661,
@@ -4149,7 +4149,7 @@
     {
       "name": "--mp-bg",
       "prefix": "mp",
-      "value": "#f5eee2",
+      "value": "#fbf7ef",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4160,7 +4160,7 @@
     {
       "name": "--mp-blur",
       "prefix": "mp",
-      "value": "24px",
+      "value": "30px",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4173,7 +4173,7 @@
     {
       "name": "--mp-border",
       "prefix": "mp",
-      "value": "rgb(17 35 63 / 10%)",
+      "value": "rgb(166 136 74 / 16%)",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4186,7 +4186,7 @@
     {
       "name": "--mp-border-strong",
       "prefix": "mp",
-      "value": "rgb(17 35 63 / 18%)",
+      "value": "rgb(166 136 74 / 28%)",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4225,7 +4225,7 @@
     {
       "name": "--mp-error",
       "prefix": "mp",
-      "value": "#b84c62",
+      "value": "#b46a74",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4238,20 +4238,7 @@
     {
       "name": "--mp-gold",
       "prefix": "mp",
-      "value": "#c8a357",
-      "definedIn": [
-        "blocks/form-mccs-preferences/form-mccs-preferences.css"
-      ],
-      "usageCount": 7,
-      "usedIn": [
-        "blocks/form-mccs-preferences/form-mccs-preferences.css"
-      ],
-      "status": "defined"
-    },
-    {
-      "name": "--mp-gold-deep",
-      "prefix": "mp",
-      "value": "#8e6a24",
+      "value": "#c6a15b",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4262,9 +4249,22 @@
       "status": "defined"
     },
     {
+      "name": "--mp-gold-deep",
+      "prefix": "mp",
+      "value": "#8c6a2d",
+      "definedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "usageCount": 9,
+      "usedIn": [
+        "blocks/form-mccs-preferences/form-mccs-preferences.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--mp-ivory",
       "prefix": "mp",
-      "value": "#f6ead0",
+      "value": "#f7efd9",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4275,7 +4275,7 @@
     {
       "name": "--mp-label",
       "prefix": "mp",
-      "value": "#5d6878",
+      "value": "#766b58",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4288,7 +4288,7 @@
     {
       "name": "--mp-paper",
       "prefix": "mp",
-      "value": "rgb(255 252 246 / 72%)",
+      "value": "rgb(255 255 255 / 56%)",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4299,7 +4299,7 @@
     {
       "name": "--mp-paper-solid",
       "prefix": "mp",
-      "value": "#fffaf3",
+      "value": "#fffdf8",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4310,7 +4310,7 @@
     {
       "name": "--mp-paper-strong",
       "prefix": "mp",
-      "value": "rgb(255 255 255 / 84%)",
+      "value": "rgb(255 255 255 / 78%)",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4371,20 +4371,18 @@
     {
       "name": "--mp-scarlet",
       "prefix": "mp",
-      "value": "#c41e3a",
+      "value": "#a6636a",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
-      "usageCount": 10,
-      "usedIn": [
-        "blocks/form-mccs-preferences/form-mccs-preferences.css"
-      ],
+      "usageCount": 0,
+      "usedIn": [],
       "status": "defined"
     },
     {
       "name": "--mp-scarlet-deep",
       "prefix": "mp",
-      "value": "#8f162a",
+      "value": "#86474e",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4395,7 +4393,7 @@
     {
       "name": "--mp-shadow",
       "prefix": "mp",
-      "value": "0 2px 10px rgb(17 35 63 / 4%),\n    0 32px 90px rgb(17 35 63 / 14%)",
+      "value": "0 8px 26px rgb(35 48 70 / 5%),\n    0 34px 90px rgb(166 136 74 / 12%)",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4408,11 +4406,11 @@
     {
       "name": "--mp-text",
       "prefix": "mp",
-      "value": "#17243f",
+      "value": "#233046",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
-      "usageCount": 15,
+      "usageCount": 13,
       "usedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],
@@ -4421,7 +4419,7 @@
     {
       "name": "--mp-text-soft",
       "prefix": "mp",
-      "value": "rgb(23 36 63 / 68%)",
+      "value": "rgb(35 48 70 / 66%)",
       "definedIn": [
         "blocks/form-mccs-preferences/form-mccs-preferences.css"
       ],

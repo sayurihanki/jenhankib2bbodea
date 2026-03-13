@@ -788,10 +788,10 @@ function initParticles(canvas) {
   let height = 0;
   let particles = [];
   const colors = [
-    'rgba(196,30,58,',
-    'rgba(199,164,91,',
-    'rgba(17,35,63,',
-    'rgba(241,226,187,',
+    'rgba(255,255,255,',
+    'rgba(214,189,132,',
+    'rgba(240,227,199,',
+    'rgba(188,163,116,',
   ];
 
   function resize() {
@@ -956,7 +956,7 @@ export default function decorate(block) {
   const badge = el('div', { className: 'mp-badge' }, [
     el('span', {}, [
       el('span', { className: 'mp-dot' }),
-      'MCCS Patron Preferences · White Luxury',
+      'MCCS Patron Preferences · White Gold',
     ]),
   ]);
   const shell = el('div', { className: 'mp-shell mp-card' });
@@ -973,7 +973,7 @@ export default function decorate(block) {
   }
 
   hero.append(
-    el('div', { className: 'mp-hero__badge', textContent: 'MCCS Patron Preferences' }),
+    el('div', { className: 'mp-hero__badge', textContent: 'Curated Preference Profile' }),
     el('div', { className: 'mp-hero__eyebrow', textContent: 'Marine Corps Community Services' }),
     titleNode,
     el('p', { className: 'mp-hero__body', textContent: subtitle }),
