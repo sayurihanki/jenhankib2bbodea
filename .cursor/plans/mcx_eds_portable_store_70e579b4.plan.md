@@ -1,11 +1,25 @@
 ---
 name: MCX EDS Portable Store
-overview: "Plan to convert the MCX (Marine Corps Exchange) single-file HTML prototype into a portable AEM Edge Delivery Services (EDS) store experience in a new GitHub repo: EDS scaffold, MCX theme layer, block decomposition with content models, and optional commerce integration path."
+overview: "Plan to convert the MCX (Marine Corps Exchange) single-file HTML prototype into a portable, author-first AEM Edge Delivery Services (EDS) store: block-based content authoring, schema-driven blocks, MCX theme, edge delivery, and a path to Commerce and optional AEM preview integration."
 todos: []
 isProject: false
 ---
 
 # MCX EDS Portable Store — Implementation Plan
+
+## Vision and principles
+
+**One-line vision:** Ship an **author-first Edge Delivery document authoring site** built from reusable, schema-driven blocks that authors assemble into pages; render at the edge for fast TTFB, with in-place preview (DA.live / Universal Editor), accessibility baked in, and safe deployments.
+
+**Core design principles:**
+
+- **Block-first** — Every UI region is a block with a typed schema (DA.live definitions + models), preview in editor, and a single `decorate(block)` contract. Blocks are reusable and composable.
+- **Authoring-first** — Inline and structured authoring via tables (max 4 cells/row), semantic formatting, block variants, and clear content models so authors control content without touching code.
+- **Edge-native delivery** — EDS/Franklin serves HTML from the edge; target sub-200ms TTFB where applicable; leverage existing EDS caching and optional purge on publish.
+- **Portable and AEM-friendly** — Theme and block set are copyable to other EDS repos; optional future integration with AEM Content Fragments or SPA Editor for unified authoring.
+- **Observability and safety** — Lint, tests, accessibility checks (e.g. axe), and security rules applied; no secrets in frontend; sanitize rich text and validate input.
+
+---
 
 ## Goal
 
@@ -34,10 +48,11 @@ Extract all `:root` CSS custom properties and global/base styles from the provid
 **Deliverables:**
 
 - `**styles/mcx-theme.css`** (or equivalent) containing:
-  - All variables from the HTML: `--scarlet`, `--scarlet-dark`, `--gold`, `--black`, `--surface-1`–`--surface-4`, `--border`, `--text-primary/secondary/muted`, `--font-display`, `--font-condensed`, `--font-body`, `--font-tactical`, `--radius-*`, `--shadow-*`, `--transition`, etc.
+  - All variables from the HTML: `--scarlet`, `--scarlet-dark` / `--scarlet-deep`, `--scarlet-bright`, `--gold`, `--gold-lt`, `--black` / `--void` / `--ink`, `--surface-1`–`--surface-5`, `--border` / `--rim`, `--text-primary/secondary/muted` (or `--text-bright` / `--text-body` / `--text-dim`), `--font-display` / `--font-hero`, `--font-condensed` / `--font-ui`, `--font-body`, `--font-tactical` / `--font-mono`, `--radius-`* / `--r-sm` etc., `--shadow-*`, `--transition` / `--t-fast`, `--t-mid`, `--ease`, and optional `--teal` for accent variants.
   - Base resets and body/typography that depend on those tokens (no block-specific layout).
-- `**styles/fonts.css`** (or a section in the theme) loading: Bebas Neue, Barlow Condensed, Barlow, Rajdhani from Google Fonts (with `preconnect` already in `head.html`).
-- `**styles/styles.css**` in the new repo: minimal base (e.g. box-sizing, scroll-behavior) and an import of `mcx-theme.css`, so swapping the theme file changes the whole look.
+- `**styles/fonts.css`** (or a section in the theme) loading **primary set**: Bebas Neue, Barlow Condensed, Barlow, Rajdhani from Google Fonts. **Optional alternate set** (design variant): Big Shoulders Display, DM Sans, Barlow Condensed, Share Tech Mono — document as second theme file or variant so the experience can switch between “classic” and “tactical” look.
+- **Optional design variants** (document, do not block first release): custom cursor (dot + ring, `cursor: none`; **must be disabled on touch/mobile** via media query or `pointer: coarse`); scroll-reveal utility classes (`.reveal`, `.reveal-delay-1` … with IntersectionObserver); hero refinements (scan-line animation, rank/SYS badge, gold stroke on heading line). Prefer theme or global script so blocks stay portable.
+- `**styles/styles.css`** in the new repo: minimal base (e.g. box-sizing, scroll-behavior) and an import of `mcx-theme.css`, so swapping the theme file changes the whole look.
 
 **Portability:** Document in the repo README that “to reuse this experience in another EDS site, copy `styles/mcx-theme.css` and `styles/fonts.css` (and optionally the MCX blocks) and import the theme.” Optionally add a one-page “Portability” doc that lists theme files and block names.
 
@@ -58,6 +73,7 @@ Map each section of the MCX HTML to an EDS block: either **new MCX block** or **
 | Category grid (12 cards)                              | **New** `mcx-category-grid`                                                | Collection: icon/emoji, name, count per row                                 | 3 cells per row; 12 rows. Section heading via section metadata or first row.                                                                                                                                                       |
 | Product grid (8 cards)                                | Reuse **cards** or **New** `mcx-product-cards`                             | Collection: image, brand, name, rating, price, was-price, badge             | If reusing Block Collection `cards`, add a variant for “product” layout and map to MCX product card markup. Else implement `mcx-product-cards` with Collection model; later wire to Commerce (product-list-page / product-teaser). |
 | Promo strip (red gradient, CTA)                       | **New** `mcx-promo-strip`                                                  | Standalone: tag, title, description, button label + URL                     | 1–2 rows.                                                                                                                                                                                                                          |
+| **Deal countdown strip**                              | **New** `mcx-deal-countdown`                                               | Standalone + config: label, title, description, end date/duration, CTA     | **Countdown ticker**: Days : Hours : Mins : Secs; JS updates every second; optional digit flip animation. Author provides end datetime (ISO or “7 days from publish”) or duration. Max 4 cells for copy; end date via block config/sidebar. |
 | Featured collections (1 large + 2 small)              | **New** `mcx-featured-collections`                                         | Standalone: 3 rows (main image+text, side1 image+text, side2 image+text)    | Image, tag, title, CTA per area.                                                                                                                                                                                                   |
 | Brands row                                            | **New** `mcx-brands`                                                       | Collection: 1 column, each row = brand name                                 | 7 rows.                                                                                                                                                                                                                            |
 | Editorial (3 cards)                                   | Reuse **cards** with variant or **New** `mcx-editorial-cards`              | Collection: image, number, category, title, description                     | 3 rows.                                                                                                                                                                                                                            |
@@ -72,6 +88,32 @@ Map each section of the MCX HTML to an EDS block: either **new MCX block** or **
 - Max 4 cells per row; use semantic formatting (headings, bold) for meaning.
 - Prefer block variants (e.g. `mcx-hero (dark)`) over extra config columns.
 - Document each block in a short `README.md` and a `_block-name.json` with `definitions` and `models` for DA.live (and `component-definition.json` registration).
+
+### Block contract (EDS alignment)
+
+Each block fulfills a minimal contract so it fits the authoring and delivery pipeline:
+
+
+| Contract piece    | EDS implementation                                                                                                                                                    |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **id**            | Block name = folder and `data-block-name` (e.g. `mcx-hero`).                                                                                                          |
+| **schema**        | `_block-name.json` → `definitions` (table shape, rows/columns) + `models` (sidebar fields, types). Optionally add a JSON Schema or examples in README for validation. |
+| **preview**       | DA.live / Universal Editor render block in place; same `decorate(block)` produces final DOM.                                                                          |
+| **client**        | `blocks/<name>/<name>.js` (and optional lazy/delayed behavior). No framework in critical path.                                                                        |
+| **accessibility** | Per-block checklist in README; ARIA where needed (mega menu, ticker, modals); axe in Storybook/CI.                                                                    |
+| **metadata**      | `_block-name.json` title, plugins.da; version/deprecation via docs or model fields.                                                                                   |
+
+
+### Block categories (MCX set)
+
+Organize the MCX block set for discoverability and future growth:
+
+- **Shell:** mcx-announcement-bar, mcx-header, mcx-footer
+- **Hero / Above-fold:** mcx-hero
+- **Content / Marketing:** mcx-ticker, mcx-benefits, mcx-promo-strip, mcx-featured-collections, mcx-editorial-cards (or cards)
+- **Navigation / Discovery:** mcx-category-grid, mcx-brands
+- **Product / Commerce:** mcx-product-cards (or cards variant)
+- **Utility:** mcx-newsletter, back-to-top, toast (global)
 
 ---
 
@@ -90,15 +132,33 @@ Each block follows the standard EDS pattern: `decorate(block)` in `blocks/<name>
 
 ---
 
-## 5. Content and authoring
+## 5. Data and schema strategy
+
+- **Canonical schema per block** — Store structure in `_block-name.json` (definitions + models). Optionally add `schema.json` or documented examples in README for validation and tooling.
+- **Validation** — Client-side: DA.live/UE enforces model fields. Optional: CI job that validates block config or sample content against expected shape.
+- **Content model** — Page = ordered sections; each section = optional section metadata + one or more blocks. Block data lives in authoring source (Google Doc, SharePoint, DA.live) as tables; EDS converts to DOM and `decorate(block)` runs.
+- **Fragments** — Reuse content across pages via EDS fragments (e.g. header/footer) or links to shared docs; no separate GraphQL in initial scope.
+
+---
+
+## 6. Content and authoring
 
 - **Test content:** Add at least one authoring source (e.g. Google Doc or local `.plain.html`) that represents the homepage so you can validate all blocks. Use the CDD workflow: design content model → create test content → implement → validate.
 - **Local preview:** Use `aem up --html-folder drafts --no-open` (or equivalent) and serve a `drafts/tmp/mcx-home.plain.html` that includes section metadata and one instance of each MCX block in order.
 - **Documentation:** In the new repo, add a short “Authoring guide” that lists each block, its table shape (rows × columns), and example content (e.g. “Row 1: eyebrow text | optional line label”).
+- **Authoring UX (EDS):** DA.live / Universal Editor provide the edit surface. Ensure block titles and model labels are author-friendly; support block presets or templates in docs if useful. Optional later: AEM Content Fragments or SPA Editor integration and publish webhook for cache invalidation.
 
 ---
 
-## 6. Commerce integration (later phase)
+## 7. Edge delivery and caching
+
+- **Delivery** — EDS (Franklin) serves pages from edge; no extra edge runtime in scope unless you add a custom layer.
+- **TTFB** — Aim for fast first paint; keep eager block and LCP content minimal; lazy-load remaining sections and blocks.
+- **Cache invalidation** — If content is published from AEM or another CMS, trigger revalidation or purge via webhook (e.g. on publish) so updated pages appear within agreed TTL. Document in an optional `EDGE-DEPLOY.md`.
+
+---
+
+## 8. Commerce integration (later phase)
 
 The HTML includes product cards, cart count, and “Add to Cart” / wishlist. For the **first phase**, implement with static or mock data so the experience is complete without a backend.
 
@@ -113,15 +173,86 @@ Do not implement Commerce API calls or secrets in the initial portable package; 
 
 ---
 
-## 7. Security and quality
+## 9. Security and access
 
-- **Security (workspace rules):** No raw user input in file/command/query usage; no secrets in frontend; validate newsletter and form input; allow only safe URL protocols; use `rel="noopener noreferrer"` for `target="_blank"`.
-- **Validation:** Run `npm run lint` (and fix lint) in the new repo; optional `npm test` if tests are added.
-- **Accessibility:** Use semantic HTML, ARIA where needed (e.g. mega menu, ticker), and ensure focus and keyboard behavior for header nav and CTAs.
+- **Workspace rules:** No raw user input in file/command/query usage; no secrets in frontend; validate newsletter and form input; allow only safe URL protocols; use `rel="noopener noreferrer"` for `target="_blank"`.
+- **Sanitization:** Sanitize rich text and any author-provided HTML with an allowlist; build DOM with `createElement` / `textContent`; no unsanitized `innerHTML`.
+- **Preview:** If authenticated preview is used later, protect preview endpoints with signed tokens (e.g. JWT) with limited TTL and scope; no secrets in builds (use env or vault).
+- **Lint and tests:** Run `npm run lint` (and fix lint); add `npm test` for block logic or schema validation where useful.
 
 ---
 
-## 8. Deliverables summary
+## 10. Storybook and visual QA
+
+- **Role of Storybook** — Each block has stories for default, key variants, and edge cases (minimal data, long text, missing image). Storybook doubles as a block marketplace for authors and developers.
+- **Per-block stories** — Minimal state, full state, error/missing-data state; document props/slots that map to authoring table cells.
+- **Accessibility in Storybook** — Run axe (or similar) in CI on Storybook build; fix critical/serious issues before merge.
+- **Visual regression (optional)** — Chromatic or similar for visual diffs on PRs; snapshot key viewports (mobile, desktop).
+
+---
+
+## 11. Testing and QA
+
+- **Unit** — Jest (or Vitest) for block helpers, config normalizers, and any pure logic; optional tests for `decorate(block)` with fixture DOM.
+- **Integration / visual** — Storybook + optional Chromatic; verify blocks render and respond to viewport.
+- **E2E** — Playwright for critical paths: load homepage, navigate header, click CTA, submit newsletter (if applicable). Optional: authoring flow in DA.live/UE if preview is in scope.
+- **Schema** — CI job to validate `_block-name.json` and optionally sample content or block config against expected structure.
+- **Accessibility** — axe in Storybook and/or E2E; manual keyboard and screen-reader check for shell (header, footer, mega menu) and one representative page.
+
+---
+
+## 12. CI/CD
+
+- **CI (per PR):** Lint → Unit test → Build (if applicable) → Storybook build → Accessibility (axe) → Optional visual regression. Block schema/config validation if implemented.
+- **CD (on merge to main):** Deploy preview/production (e.g. EDS pipeline or GitHub Actions deploy); optionally publish Storybook; document cache invalidation or content-sync if using publish webhook.
+- **AEM sync (optional later):** On publish from AEM, call webhook to revalidate paths or trigger incremental build; document in `AEM-INTEGRATION.md` or `EDGE-DEPLOY.md`.
+
+---
+
+## 13. Performance and media
+
+- **Images** — Use `createOptimizedPicture` from `aem.js`; output `srcset`, `sizes`, and `loading="lazy"` for non-LCP images; LCP image in hero: eager load.
+- **Islands** — EDS already lazy-loads blocks after first section; keep interactive blocks (header, search, cart) lightweight; defer heavy or third-party scripts to delayed.
+- **Critical CSS** — Inline or eager-load CSS for hero and header; remaining block CSS loaded with block (EDS default).
+- **Budgets (optional)** — Lighthouse CI in pipeline with thresholds for LCP, CLS, and bundle size to avoid regressions.
+
+---
+
+## 14. Observability and analytics
+
+- **RUM** — Use EDS/RUM if available; otherwise minimal instrumentation for LCP, FCP, CLS where feasible.
+- **Errors** — Front-end errors to logging or Sentry (or equivalent) if the project adopts it.
+- **Business events** — Add-to-cart, wishlist, newsletter signup, CTA clicks can be sent to analytics or a server-side event gateway when Commerce and marketing are wired.
+- **Edge/cache** — If using custom edge or purge API, monitor cache hit ratio and revalidation errors.
+
+---
+
+## 15. Governance and block registry
+
+- **Adding/changing blocks** — PR with implementation, README, content model, and `_block-name.json`; design sign-off and accessibility (axe) pass; Storybook coverage for new blocks.
+- **Deprecation** — Mark deprecated blocks in metadata or README; provide migration path (e.g. “use mcx-hero instead of hero”) and optional script or doc to update authoring sources.
+
+---
+
+## 16. Phased milestones
+
+- **Phase 1 (foundation):** Repo scaffold, MCX theme, fonts, base styles; shell blocks (announcement-bar, header, footer); mcx-hero; one test page. Target: recognizable MCX look and chrome.
+- **Phase 2 (content blocks):** mcx-ticker, mcx-benefits, mcx-category-grid, mcx-promo-strip, mcx-featured-collections, mcx-brands, editorial (cards or mcx-editorial-cards), mcx-newsletter; back-to-top and toast. Target: full homepage from authoring source.
+- **Phase 3 (commerce-ready):** mcx-product-cards (or cards variant) with mock data; wire header cart/search placeholders; document Commerce integration points. Target: product grid and CTAs ready for backend hookup.
+- **Phase 4 (hardening):** Storybook for all blocks; CI (lint, test, axe, optional visual); Authoring guide and Portability doc; optional EDGE-DEPLOY and AEM-INTEGRATION notes. Target: release-ready portable package.
+
+---
+
+## 17. Risks and mitigations
+
+- **Preview vs. production mismatch** — Mitigate: use same `decorate(block)` and theme in editor preview and edge; add a smoke test or visual check that a known doc renders the same in both.
+- **Block schema drift** — Mitigate: document content model in README and `_block-name.json`; optional CI validation of config or sample content; migration note when fields change.
+- **Cache staleness after publish** — Mitigate: document and implement publish webhook to revalidate or purge; set sensible TTL and monitor.
+- **Author friction** — Mitigate: clear Authoring guide, sensible defaults, block presets/templates in docs, and helpful model labels in DA.live.
+
+---
+
+## 18. Deliverables summary
 
 
 | Deliverable            | Description                                                                                                                                                                                                                                                               |
@@ -137,7 +268,23 @@ Do not implement Commerce API calls or secrets in the initial portable package; 
 
 ---
 
-## 9. Out of scope for this plan
+**Acceptance criteria (page-level):** Authors can compose a page using blocks, save, preview in full fidelity, and publish. Published page renders with target TTFB (edge; aim <200ms median where applicable). Storybook coverage for all blocks with visual and a11y tests passing; no critical axe violations. Publish webhook (when used) invalidates edge cache and updated content appears within agreed TTL.
+
+---
+
+## 19. Recommended next artifacts
+
+After the plan is approved, the following artifacts can be produced next (pick as needed):
+
+1. **Block spec template** — JSON schema + editor UI hints + acceptance checklist for a single block (e.g. `blocks/mcx-hero/schema.json`) to reuse across MCX blocks.
+2. **Hero block implementation** — Full `mcx-hero`: `decorate(block)`, CSS, `_mcx-hero.json`, README, and a Storybook story (and optional unit test) as the reference implementation.
+3. **AEM-INTEGRATION.md** — Step-by-step: authoring blocks in DA.live/UE, mapping fields to block schema, optional AEM Content Fragments/SPA Editor and publish webhook.
+4. **CI workflow** — GitHub Actions `ci.yml` for lint, unit test, Storybook build, axe, and optional Chromatic and schema validation.
+5. **EDGE-DEPLOY.md** — Caching strategy, purge/revalidate webhook, preview tokens, and example config or snippet for cache invalidation on publish.
+
+---
+
+## 20. Out of scope for this plan
 
 - Implementing Adobe Commerce backend or dropins in the first phase.
 - Migrating or copying the full jenhankib2bbodea block set into the new repo.
