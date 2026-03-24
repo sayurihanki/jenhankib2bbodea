@@ -12,3 +12,7 @@ media2	Replace with image 2
 caption2	Aupale exists not to reinvent, but to respect.
 media3	Replace with image 3
 caption3	We let time, patience, and precision guide every step.
+media4	Replace with image 4
+caption4	Materials carry memory long before they carry color.
+media5	Replace with image 5
+caption5	Each finish is chosen to feel discovered, not manufactured.

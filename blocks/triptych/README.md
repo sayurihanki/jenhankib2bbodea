@@ -2,7 +2,7 @@
 
 ## Overview
 
-`triptych` renders an editorial composition with a large oval copy panel, decorative cartography, and three floating media cards with captions.
+`triptych` renders an editorial composition with a large oval copy panel, decorative cartography, and five floating media cards with captions.
 
 The desktop layout stays close to the inspiration, while mobile simplifies the floating cards into a stacked sequence below the oval.
 
@@ -36,6 +36,10 @@ Author using a **2-column** key/value table named `triptych`.
 | 11 | `caption2` | Caption text |
 | 12 | `media3` | Image |
 | 13 | `caption3` | Caption text |
+| 14 | `media4` | Image |
+| 15 | `caption4` | Caption text |
+| 16 | `media5` | Image |
+| 17 | `caption5` | Caption text |
 
 ### Notes
 

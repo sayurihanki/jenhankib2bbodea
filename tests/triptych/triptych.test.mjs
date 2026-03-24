@@ -416,6 +416,10 @@ function createKeyValueRowsWithMedia() {
     { key: 'caption2', value: 'Caption 2' },
     { key: 'media3', value: { type: 'image', src: '/favicon.ico', alt: 'Favicon' } },
     { key: 'caption3', value: 'Caption 3' },
+    { key: 'media4', value: { type: 'image', src: '/icons/menu.svg', alt: 'Menu' } },
+    { key: 'caption4', value: 'Caption 4' },
+    { key: 'media5', value: { type: 'image', src: '/icons/close.svg', alt: 'Close' } },
+    { key: 'caption5', value: 'Caption 5' },
   ];
 }
 
@@ -495,12 +499,16 @@ test('decorate accepts 2-column key-value authored rows', () => {
     { key: 'caption2', value: 'Aupale exists not to reinvent, but to respect.' },
     { key: 'media3', value: { type: 'image', src: '/favicon.ico', alt: 'Favicon' } },
     { key: 'caption3', value: 'We let time, patience, and precision guide every step.' },
+    { key: 'media4', value: { type: 'image', src: '/icons/menu.svg', alt: 'Menu' } },
+    { key: 'caption4', value: 'Materials carry memory long before they carry color.' },
+    { key: 'media5', value: { type: 'image', src: '/icons/close.svg', alt: 'Close' } },
+    { key: 'caption5', value: 'Each finish is chosen to feel discovered, not manufactured.' },
   ]);
 
   withGlobals(fixture, () => decorate(fixture.block));
 
   assert.equal(fixture.block.querySelectorAll('.triptych-line-inner').length, 7);
-  assert.equal(fixture.block.querySelectorAll('.triptych-media').length, 3);
+  assert.equal(fixture.block.querySelectorAll('.triptych-media').length, 5);
   assert.equal(
     fixture.block.querySelector('.triptych-caption-inner').textContent,
     'Purity is not created. It is preserved.',

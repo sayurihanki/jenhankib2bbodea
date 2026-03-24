@@ -3208,6 +3208,34 @@
         "name": "caption3",
         "label": "Caption 3",
         "value": "We let time, patience, and precision guide every step."
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "media4",
+        "label": "Media 4",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "caption4",
+        "label": "Caption 4",
+        "value": "Materials carry memory long before they carry color."
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "media5",
+        "label": "Media 5",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "caption5",
+        "label": "Caption 5",
+        "value": "Each finish is chosen to feel discovered, not manufactured."
       }
     ]
   },

@@ -14,6 +14,8 @@ export const TRIPTYCH_DEFAULT_CAPTIONS = [
   "Purity is not created. It's preserved.",
   'Aupale exists not to reinvent, but to respect.',
   'We let time, patience, and precision guide every step.',
+  'Materials carry memory long before they carry color.',
+  'Each finish is chosen to feel discovered, not manufactured.',
 ];
 
 export const TRIPTYCH_DEFAULTS = {
@@ -22,11 +24,18 @@ export const TRIPTYCH_DEFAULTS = {
 };
 
 const DESKTOP_BREAKPOINT = 768;
-const PARALLAX_SPEEDS = [0.1, 0.15, 0.05];
+const LEGACY_MEDIA_COUNT = 3;
+const MAX_MEDIA_COUNT = 5;
+const PARALLAX_SPEEDS = [0.08, 0.14, 0.05, 0.11, 0.07];
 const COPY_FIELDS = ['line1', 'line2', 'line3', 'line4', 'line5', 'line6', 'line7'];
-const MEDIA_FIELDS = ['media1', 'media2', 'media3'];
-const CAPTION_FIELDS = ['caption1', 'caption2', 'caption3'];
+const MEDIA_FIELDS = Array.from({ length: MAX_MEDIA_COUNT }, (_, index) => `media${index + 1}`);
+const CAPTION_FIELDS = Array.from({ length: MAX_MEDIA_COUNT }, (_, index) => `caption${index + 1}`);
 const SUPPORTED_FIELDS = new Set([...COPY_FIELDS, ...MEDIA_FIELDS, ...CAPTION_FIELDS]);
+const LEGACY_MEDIA_ROW_INDEXES = Array.from(
+  { length: MAX_MEDIA_COUNT },
+  (_, index) => COPY_FIELDS.length + (index * 2),
+);
+const LEGACY_CAPTION_ROW_INDEXES = LEGACY_MEDIA_ROW_INDEXES.map((index) => index + 1);
 
 const BACKGROUND_CARTOGRAPHY = `
   <svg viewBox="0 0 600 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,20 +125,53 @@ function getKeyValueSourceCells(block) {
   return matchedFields ? cells : null;
 }
 
+function getMediaCount(block, keyValueCells) {
+  if (keyValueCells) {
+    let highestIndex = 0;
+
+    for (let index = 0; index < MAX_MEDIA_COUNT; index += 1) {
+      if (keyValueCells[MEDIA_FIELDS[index]] || keyValueCells[CAPTION_FIELDS[index]]) {
+        highestIndex = index + 1;
+      }
+    }
+
+    return highestIndex || LEGACY_MEDIA_COUNT;
+  }
+
+  const authoredMediaRows = Math.floor(
+    Math.max(0, block.children.length - COPY_FIELDS.length) / 2,
+  );
+
+  return Math.max(
+    LEGACY_MEDIA_COUNT,
+    Math.min(MAX_MEDIA_COUNT, authoredMediaRows || LEGACY_MEDIA_COUNT),
+  );
+}
+
 function getTriptychSource(block) {
   if (block._triptychSource) return block._triptychSource;
 
   const keyValueCells = getKeyValueSourceCells(block);
+  const mediaCount = getMediaCount(block, keyValueCells);
   const source = {
     lines: keyValueCells
       ? COPY_FIELDS.map((fieldName) => getCellText(keyValueCells[fieldName]))
       : Array.from({ length: 7 }, (_, index) => getRowText(block, index)),
     media: keyValueCells
-      ? MEDIA_FIELDS.map((fieldName) => extractImageSource(keyValueCells[fieldName]))
-      : [7, 9, 11].map((rowIndex) => extractImageSource(getRowCell(block, rowIndex))),
+      ? MEDIA_FIELDS
+        .slice(0, mediaCount)
+        .map((fieldName) => extractImageSource(keyValueCells[fieldName]))
+      : LEGACY_MEDIA_ROW_INDEXES
+        .slice(0, mediaCount)
+        .map((rowIndex) => extractImageSource(getRowCell(block, rowIndex))),
     captions: keyValueCells
-      ? CAPTION_FIELDS.map((fieldName) => getCellText(keyValueCells[fieldName]))
-      : [8, 10, 12].map((rowIndex) => getRowText(block, rowIndex)),
+      ? CAPTION_FIELDS
+        .slice(0, mediaCount)
+        .map((fieldName) => getCellText(keyValueCells[fieldName]))
+      : LEGACY_CAPTION_ROW_INDEXES
+        .slice(0, mediaCount)
+        .map((rowIndex) => getRowText(block, rowIndex)),
+    mediaCount,
   };
 
   block._triptychSource = source;
@@ -248,9 +290,9 @@ function buildMediaAsset(source, mediaIndex, doc) {
       source.alt || `Triptych media ${mediaIndex + 1}`,
       mediaIndex === 0,
       [
-        { media: '(min-width: 1200px)', width: '540' },
-        { media: '(min-width: 768px)', width: '420' },
-        { width: '320' },
+        { media: '(min-width: 1400px)', width: '720' },
+        { media: '(min-width: 768px)', width: '560' },
+        { width: '420' },
       ],
     );
     picture.classList.add('triptych-picture');
@@ -360,7 +402,7 @@ export default function decorate(block) {
     ovalWrap,
   );
 
-  [0, 1, 2].forEach((index) => {
+  Array.from({ length: source.mediaCount }, (_, index) => index).forEach((index) => {
     mediaGrid.append(buildMediaCard(source, index, config.motionEnabled, doc));
   });
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-24T19:49:47.489Z",
+  "generatedAt": "2026-03-24T20:37:56.260Z",
   "summary": {
     "totalBlocks": 116,
     "withStyles": 116,
@@ -2421,7 +2421,7 @@
       "category": "content",
       "subcategory": "general",
       "title": "Triptych Block",
-      "overview": "`triptych` renders an editorial composition with a large oval copy panel, decorative cartography, and three floating media cards with captions.",
+      "overview": "`triptych` renders an editorial composition with a large oval copy panel, decorative cartography, and five floating media cards with captions.",
       "sourcePath": "blocks/triptych",
       "files": {
         "css": [
