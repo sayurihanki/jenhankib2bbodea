@@ -345,17 +345,28 @@ class FakeWindow extends FakeEventTarget {
 
 function createRow(doc, content) {
   const row = doc.createElement('div');
-  const cell = doc.createElement('div');
+  const appendCellContent = (cell, value) => {
+    if (typeof value === 'string') {
+      cell.append(doc.createTextNode(value));
+    } else if (value?.type === 'image') {
+      const image = doc.createElement('img');
+      image.setAttribute('src', value.src);
+      image.setAttribute('alt', value.alt || '');
+      cell.append(image);
+    }
+  };
 
-  if (typeof content === 'string') {
-    cell.append(doc.createTextNode(content));
-  } else if (content?.type === 'image') {
-    const image = doc.createElement('img');
-    image.setAttribute('src', content.src);
-    image.setAttribute('alt', content.alt || '');
-    cell.append(image);
+  if (content && typeof content === 'object' && 'key' in content) {
+    const labelCell = doc.createElement('div');
+    const valueCell = doc.createElement('div');
+    appendCellContent(labelCell, content.key);
+    appendCellContent(valueCell, content.value);
+    row.append(labelCell, valueCell);
+    return row;
   }
 
+  const cell = doc.createElement('div');
+  appendCellContent(cell, content);
   row.append(cell);
   return row;
 }
@@ -390,21 +401,21 @@ function createFixture(rows, options = {}) {
   };
 }
 
-function createRowsWithMedia() {
+function createKeyValueRowsWithMedia() {
   return [
-    'When',
-    'nature',
-    'perfects',
-    'something,',
-    "we don't",
-    'alter it, we',
-    'reveal it.',
-    { type: 'image', src: '/icons/heart.svg', alt: 'Heart' },
-    'Caption 1',
-    { type: 'image', src: '/icons/search.svg', alt: 'Search' },
-    'Caption 2',
-    { type: 'image', src: '/favicon.ico', alt: 'Favicon' },
-    'Caption 3',
+    { key: 'line1', value: 'When' },
+    { key: 'line2', value: 'nature' },
+    { key: 'line3', value: 'perfects' },
+    { key: 'line4', value: 'something,' },
+    { key: 'line5', value: "we don't" },
+    { key: 'line6', value: 'alter it, we' },
+    { key: 'line7', value: 'reveal it.' },
+    { key: 'media1', value: { type: 'image', src: '/icons/heart.svg', alt: 'Heart' } },
+    { key: 'caption1', value: 'Caption 1' },
+    { key: 'media2', value: { type: 'image', src: '/icons/search.svg', alt: 'Search' } },
+    { key: 'caption2', value: 'Caption 2' },
+    { key: 'media3', value: { type: 'image', src: '/favicon.ico', alt: 'Favicon' } },
+    { key: 'caption3', value: 'Caption 3' },
   ];
 }
 
@@ -460,6 +471,34 @@ test('decorate maps authored rows into the expected triptych structure', () => {
 
   assert.ok(fixture.block.querySelector('.triptych-scene'));
   assert.ok(fixture.block.querySelector('.triptych-oval'));
+  assert.equal(fixture.block.querySelectorAll('.triptych-line-inner').length, 7);
+  assert.equal(fixture.block.querySelectorAll('.triptych-media').length, 3);
+  assert.equal(
+    fixture.block.querySelector('.triptych-caption-inner').textContent,
+    'Purity is not created. It is preserved.',
+  );
+});
+
+test('decorate accepts 2-column key-value authored rows', () => {
+  FakeIntersectionObserver.instances = [];
+  const fixture = createFixture([
+    { key: 'line1', value: 'When' },
+    { key: 'line2', value: 'nature' },
+    { key: 'line3', value: 'perfects' },
+    { key: 'line4', value: 'something,' },
+    { key: 'line5', value: "we don't" },
+    { key: 'line6', value: 'alter it, we' },
+    { key: 'line7', value: 'reveal it.' },
+    { key: 'media1', value: { type: 'image', src: '/icons/heart.svg', alt: 'Heart' } },
+    { key: 'caption1', value: 'Purity is not created. It is preserved.' },
+    { key: 'media2', value: { type: 'image', src: '/icons/search.svg', alt: 'Search' } },
+    { key: 'caption2', value: 'Aupale exists not to reinvent, but to respect.' },
+    { key: 'media3', value: { type: 'image', src: '/favicon.ico', alt: 'Favicon' } },
+    { key: 'caption3', value: 'We let time, patience, and precision guide every step.' },
+  ]);
+
+  withGlobals(fixture, () => decorate(fixture.block));
+
   assert.equal(fixture.block.querySelectorAll('.triptych-line-inner').length, 7);
   assert.equal(fixture.block.querySelectorAll('.triptych-media').length, 3);
   assert.equal(
@@ -543,7 +582,7 @@ test('missing media rows render placeholders and do not break the layout', () =>
 
 test('motion-off and reduced-motion paths skip parallax and observer setup', () => {
   FakeIntersectionObserver.instances = [];
-  const offFixture = createFixture(createRowsWithMedia(), {
+  const offFixture = createFixture(createKeyValueRowsWithMedia(), {
     motion: 'off',
     innerWidth: 1440,
   });
@@ -555,7 +594,7 @@ test('motion-off and reduced-motion paths skip parallax and observer setup', () 
   assert.ok(offFixture.block.querySelector('.triptych-oval').classList.contains('is-visible'));
 
   FakeIntersectionObserver.instances = [];
-  const reducedFixture = createFixture(createRowsWithMedia(), {
+  const reducedFixture = createFixture(createKeyValueRowsWithMedia(), {
     innerWidth: 1440,
     reducedMotion: true,
   });

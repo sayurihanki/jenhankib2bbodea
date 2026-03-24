@@ -23,6 +23,10 @@ export const TRIPTYCH_DEFAULTS = {
 
 const DESKTOP_BREAKPOINT = 768;
 const PARALLAX_SPEEDS = [0.1, 0.15, 0.05];
+const COPY_FIELDS = ['line1', 'line2', 'line3', 'line4', 'line5', 'line6', 'line7'];
+const MEDIA_FIELDS = ['media1', 'media2', 'media3'];
+const CAPTION_FIELDS = ['caption1', 'caption2', 'caption3'];
+const SUPPORTED_FIELDS = new Set([...COPY_FIELDS, ...MEDIA_FIELDS, ...CAPTION_FIELDS]);
 
 const BACKGROUND_CARTOGRAPHY = `
   <svg viewBox="0 0 600 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,21 +78,58 @@ function createElement(tag, className = '', attrs = {}, children = [], doc = doc
   return node;
 }
 
-function getRowCell(block, rowIndex) {
-  return block.children[rowIndex]?.querySelector('div') || block.children[rowIndex] || null;
+function getRowCells(row) {
+  return row ? [...(row.children || [])] : [];
 }
 
-function getRowText(block, rowIndex) {
-  return getRowCell(block, rowIndex)?.textContent?.trim() || '';
+function getRowCell(block, rowIndex, cellIndex = 0) {
+  const row = block.children[rowIndex];
+  const cells = getRowCells(row);
+  return cells[cellIndex] || cells[0] || row || null;
+}
+
+function getCellText(cell) {
+  return cell?.textContent?.trim() || '';
+}
+
+function getRowText(block, rowIndex, cellIndex = 0) {
+  return getCellText(getRowCell(block, rowIndex, cellIndex));
+}
+
+function getKeyValueSourceCells(block) {
+  const rows = [...block.children];
+  const cells = {};
+  let matchedFields = 0;
+
+  rows.forEach((row) => {
+    const rowCells = getRowCells(row);
+    if (rowCells.length < 2) return;
+    const [, valueCell] = rowCells;
+
+    const fieldName = getCellText(rowCells[0]).toLowerCase();
+    if (!SUPPORTED_FIELDS.has(fieldName)) return;
+
+    cells[fieldName] = valueCell;
+    matchedFields += 1;
+  });
+
+  return matchedFields ? cells : null;
 }
 
 function getTriptychSource(block) {
   if (block._triptychSource) return block._triptychSource;
 
+  const keyValueCells = getKeyValueSourceCells(block);
   const source = {
-    lines: Array.from({ length: 7 }, (_, index) => getRowText(block, index)),
-    media: [7, 9, 11].map((rowIndex) => extractImageSource(getRowCell(block, rowIndex))),
-    captions: [8, 10, 12].map((rowIndex) => getRowText(block, rowIndex)),
+    lines: keyValueCells
+      ? COPY_FIELDS.map((fieldName) => getCellText(keyValueCells[fieldName]))
+      : Array.from({ length: 7 }, (_, index) => getRowText(block, index)),
+    media: keyValueCells
+      ? MEDIA_FIELDS.map((fieldName) => extractImageSource(keyValueCells[fieldName]))
+      : [7, 9, 11].map((rowIndex) => extractImageSource(getRowCell(block, rowIndex))),
+    captions: keyValueCells
+      ? CAPTION_FIELDS.map((fieldName) => getCellText(keyValueCells[fieldName]))
+      : [8, 10, 12].map((rowIndex) => getRowText(block, rowIndex)),
   };
 
   block._triptychSource = source;

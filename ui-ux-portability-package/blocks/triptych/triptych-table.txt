@@ -1,14 +1,14 @@
 triptych
-When
-nature
-perfects
-something,
-we don't
-alter it, we
-reveal it.
-Replace with image 1
-Purity is not created. It's preserved.
-Replace with image 2
-Aupale exists not to reinvent, but to respect.
-Replace with image 3
-We let time, patience, and precision guide every step.
+line1	When
+line2	nature
+line3	perfects
+line4	something,
+line5	we don't
+line6	alter it, we
+line7	reveal it.
+media1	Replace with image 1
+caption1	Purity is not created. It's preserved.
+media2	Replace with image 2
+caption2	Aupale exists not to reinvent, but to respect.
+media3	Replace with image 3
+caption3	We let time, patience, and precision guide every step.

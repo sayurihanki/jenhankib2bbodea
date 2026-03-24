@@ -12,14 +12,14 @@ The desktop layout stays close to the inspiration, while mobile simplifies the f
 
 1. Open [`triptych-table.txt`](triptych-table.txt)
 2. Select all and copy it
-3. In DA.live or Google Docs, create a 1-column table or paste into the first cell so tabs/newlines become rows
+3. In DA.live or Google Docs, create a new table with 2 columns, or paste into the first cell so tabs become columns and newlines become rows
 4. Make sure the first row contains only `triptych`
 
-The starter table intentionally uses text placeholders for the media rows. Replace those rows with real images in DA.live.
+The file uses tabs between columns and newlines between rows. The starter table intentionally uses text placeholders for the media rows. Replace those rows with real images in DA.live.
 
 ## Authoring Model
 
-Author using a **1-column** table named `triptych` with 13 rows after the block name.
+Author using a **2-column** key/value table named `triptych`.
 
 | Row | Field | Expected Value |
 |---|---|---|
@@ -42,6 +42,7 @@ Author using a **1-column** table named `triptych` with 13 rows after the block 
 - Empty copy rows are skipped at render time.
 - If every copy row is empty, the block falls back to the default sample text.
 - Missing images render a styled placeholder instead of breaking the layout.
+- The block remains backward-compatible with the earlier positional 1-column row-order format.
 
 ## Section Metadata
 
