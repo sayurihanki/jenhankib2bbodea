@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-03-13T23:21:55.101Z",
+  "generatedAt": "2026-03-24T19:45:15.732Z",
   "summary": {
-    "totalBlocks": 115,
-    "withStyles": 115,
-    "withRuntime": 115,
+    "totalBlocks": 116,
+    "withStyles": 116,
+    "withRuntime": 116,
     "byCategory": {
       "interactive-content": 10,
-      "content": 40,
+      "content": 41,
       "commerce": 55,
       "shell": 5,
       "forms": 5
@@ -2415,6 +2415,29 @@
       "hasStyles": true,
       "hasRuntime": true,
       "fileCount": 4
+    },
+    {
+      "name": "triptych",
+      "category": "content",
+      "subcategory": "general",
+      "title": "Triptych Block",
+      "overview": "`triptych` renders an editorial composition with a large oval copy panel, decorative cartography, and three floating media cards with captions.",
+      "sourcePath": "blocks/triptych",
+      "files": {
+        "css": [
+          "blocks/triptych/triptych.css"
+        ],
+        "js": [
+          "blocks/triptych/triptych.js"
+        ],
+        "json": [
+          "blocks/triptych/_triptych.json"
+        ],
+        "readme": "blocks/triptych/README.md"
+      },
+      "hasStyles": true,
+      "hasRuntime": true,
+      "fileCount": 5
     },
     {
       "name": "uniform-configurator",

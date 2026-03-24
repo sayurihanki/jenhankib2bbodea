@@ -124,6 +124,7 @@
 | `tabs` | `interactive-content` | `engagement` | 1 | 1 |
 | `targeted-block` | `content` | `general` | 1 | 1 |
 | `top-banner` | `shell` | `navigation-and-layout` | 1 | 1 |
+| `triptych` | `content` | `general` | 1 | 1 |
 | `uniform-configurator` | `content` | `general` | 1 | 4 |
 | `video` | `interactive-content` | `engagement` | 1 | 1 |
 | `vip-hero-block` | `content` | `general` | 1 | 1 |

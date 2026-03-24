@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-03-13T23:21:55.128Z",
+  "generatedAt": "2026-03-24T19:45:15.767Z",
   "summary": {
-    "totalTokens": 713,
-    "definedTokens": 660,
-    "unresolvedTokens": 53,
+    "totalTokens": 728,
+    "definedTokens": 674,
+    "unresolvedTokens": 54,
     "byPrefix": {
       "accent": 3,
       "background": 2,
@@ -61,6 +61,7 @@
       "text": 1,
       "top": 7,
       "transition": 3,
+      "triptych": 15,
       "type": 48,
       "uc": 4,
       "vip": 34,
@@ -8753,6 +8754,199 @@
       "status": "defined"
     },
     {
+      "name": "--triptych-border",
+      "prefix": "triptych",
+      "value": "rgb(61 107 69 / 18%)",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-caption-tone",
+      "prefix": "triptych",
+      "value": "rgb(26 26 23 / 68%)",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-card-shadow",
+      "prefix": "triptych",
+      "value": "0 20px 44px rgb(22 31 24 / 18%)",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-card-width",
+      "prefix": "triptych",
+      "value": "clamp(138px, 17vw, 220px)",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-cream",
+      "prefix": "triptych",
+      "value": "#f0ece4",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-display-font",
+      "prefix": "triptych",
+      "value": "\"Instrument Serif\", \"Syne\", georgia, serif",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-ink",
+      "prefix": "triptych",
+      "value": "#1a1a17",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-line-delay",
+      "prefix": "triptych",
+      "value": null,
+      "definedIn": [],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "referenced-without-definition"
+    },
+    {
+      "name": "--triptych-mono-font",
+      "prefix": "triptych",
+      "value": "\"DM Mono\", var(--type-fixed-font-family, ui-monospace, monospace)",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-noise",
+      "prefix": "triptych",
+      "value": "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-panel-shadow",
+      "prefix": "triptych",
+      "value": "0 28px 60px rgb(36 51 39 / 18%)",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-parallax-offset",
+      "prefix": "triptych",
+      "value": "0px",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-surface",
+      "prefix": "triptych",
+      "value": "#b8d9bc",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-surface-soft",
+      "prefix": "triptych",
+      "value": "#d4e8d6",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--triptych-surface-strong",
+      "prefix": "triptych",
+      "value": "#3d6b45",
+      "definedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "usageCount": 2,
+      "usedIn": [
+        "blocks/triptych/triptych.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--type-base-font-family",
       "prefix": "type",
       "value": "\"Plus Jakarta Sans\", \"DM Sans\", \"Sora\", system-ui, sans-serif",
@@ -9406,8 +9600,9 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 1,
+      "usageCount": 2,
       "usedIn": [
+        "blocks/triptych/triptych.css",
         "styles/styles.css"
       ],
       "status": "defined"

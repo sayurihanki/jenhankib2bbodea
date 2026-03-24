@@ -81,9 +81,9 @@ Suggested order:
 All tokens are cataloged in `manifests/design-tokens.json`.
 Token summary:
 
-- Total tokens detected: `713`
-- Defined tokens: `660`
-- Unresolved references: `53`
+- Total tokens detected: `728`
+- Defined tokens: `674`
+- Unresolved references: `54`
 
 When adapting brand:
 

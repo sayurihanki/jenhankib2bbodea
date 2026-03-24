@@ -74,6 +74,9 @@
           "...": "../blocks/live-block-premium/_*.json#/definitions"
         },
         {
+          "...": "../blocks/triptych/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/vip-member-block/_*.json#/definitions"
         },
         {
