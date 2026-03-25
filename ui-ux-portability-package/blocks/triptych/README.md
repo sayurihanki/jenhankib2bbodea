@@ -2,7 +2,7 @@
 
 ## Overview
 
-`triptych` renders an editorial composition with a large oval copy panel, decorative cartography, and five floating media cards with captions.
+`triptych` renders an editorial composition with a large oval copy panel, decorative cartography, and up to seven floating media cards with captions.
 
 The desktop layout stays close to the inspiration, while mobile simplifies the floating cards into a stacked sequence below the oval.
 
@@ -40,12 +40,17 @@ Author using a **2-column** key/value table named `triptych`.
 | 15 | `caption4` | Caption text |
 | 16 | `media5` | Image |
 | 17 | `caption5` | Caption text |
+| 18 | `media6` | Image |
+| 19 | `caption6` | Caption text |
+| 20 | `media7` | Image |
+| 21 | `caption7` | Caption text |
 
 ### Notes
 
 - Empty copy rows are skipped at render time.
 - If every copy row is empty, the block falls back to the default sample text.
 - Missing images render a styled placeholder instead of breaking the layout.
+- The block renders as many authored media slots as are provided, up to 7.
 - The block remains backward-compatible with the earlier positional 1-column row-order format.
 
 ## Section Metadata

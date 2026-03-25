@@ -16,6 +16,8 @@ export const TRIPTYCH_DEFAULT_CAPTIONS = [
   'We let time, patience, and precision guide every step.',
   'Materials carry memory long before they carry color.',
   'Each finish is chosen to feel discovered, not manufactured.',
+  'Quiet structure lets texture do the speaking.',
+  'The final layer should feel gathered over time, not rushed.',
 ];
 
 export const TRIPTYCH_DEFAULTS = {
@@ -25,8 +27,8 @@ export const TRIPTYCH_DEFAULTS = {
 
 const DESKTOP_BREAKPOINT = 768;
 const LEGACY_MEDIA_COUNT = 3;
-const MAX_MEDIA_COUNT = 5;
-const PARALLAX_SPEEDS = [0.08, 0.14, 0.05, 0.11, 0.07];
+const MAX_MEDIA_COUNT = 7;
+const PARALLAX_SPEEDS = [0.08, 0.14, 0.05, 0.11, 0.07, 0.1, 0.06];
 const COPY_FIELDS = ['line1', 'line2', 'line3', 'line4', 'line5', 'line6', 'line7'];
 const MEDIA_FIELDS = Array.from({ length: MAX_MEDIA_COUNT }, (_, index) => `media${index + 1}`);
 const CAPTION_FIELDS = Array.from({ length: MAX_MEDIA_COUNT }, (_, index) => `caption${index + 1}`);
@@ -290,9 +292,9 @@ function buildMediaAsset(source, mediaIndex, doc) {
       source.alt || `Triptych media ${mediaIndex + 1}`,
       mediaIndex === 0,
       [
-        { media: '(min-width: 1400px)', width: '720' },
-        { media: '(min-width: 768px)', width: '560' },
-        { width: '420' },
+        { media: '(min-width: 1400px)', width: '780' },
+        { media: '(min-width: 768px)', width: '620' },
+        { width: '460' },
       ],
     );
     picture.classList.add('triptych-picture');

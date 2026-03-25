@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-24T20:37:56.277Z",
+  "generatedAt": "2026-03-25T20:04:40.124Z",
   "summary": {
     "totalTokens": 728,
     "definedTokens": 674,
@@ -8795,7 +8795,7 @@
     {
       "name": "--triptych-card-width",
       "prefix": "triptych",
-      "value": "clamp(210px, 18vw, 296px)",
+      "value": "clamp(224px, 18.8vw, 314px)",
       "definedIn": [
         "blocks/triptych/triptych.css"
       ],

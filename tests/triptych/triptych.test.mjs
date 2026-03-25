@@ -420,6 +420,10 @@ function createKeyValueRowsWithMedia() {
     { key: 'caption4', value: 'Caption 4' },
     { key: 'media5', value: { type: 'image', src: '/icons/close.svg', alt: 'Close' } },
     { key: 'caption5', value: 'Caption 5' },
+    { key: 'media6', value: { type: 'image', src: '/icons/chevron-right.svg', alt: 'Chevron Right' } },
+    { key: 'caption6', value: 'Caption 6' },
+    { key: 'media7', value: { type: 'image', src: '/icons/chevron-left.svg', alt: 'Chevron Left' } },
+    { key: 'caption7', value: 'Caption 7' },
   ];
 }
 
@@ -503,12 +507,16 @@ test('decorate accepts 2-column key-value authored rows', () => {
     { key: 'caption4', value: 'Materials carry memory long before they carry color.' },
     { key: 'media5', value: { type: 'image', src: '/icons/close.svg', alt: 'Close' } },
     { key: 'caption5', value: 'Each finish is chosen to feel discovered, not manufactured.' },
+    { key: 'media6', value: { type: 'image', src: '/icons/chevron-right.svg', alt: 'Chevron Right' } },
+    { key: 'caption6', value: 'Quiet structure lets texture do the speaking.' },
+    { key: 'media7', value: { type: 'image', src: '/icons/chevron-left.svg', alt: 'Chevron Left' } },
+    { key: 'caption7', value: 'The final layer should feel gathered over time, not rushed.' },
   ]);
 
   withGlobals(fixture, () => decorate(fixture.block));
 
   assert.equal(fixture.block.querySelectorAll('.triptych-line-inner').length, 7);
-  assert.equal(fixture.block.querySelectorAll('.triptych-media').length, 5);
+  assert.equal(fixture.block.querySelectorAll('.triptych-media').length, 7);
   assert.equal(
     fixture.block.querySelector('.triptych-caption-inner').textContent,
     'Purity is not created. It is preserved.',

@@ -91,6 +91,34 @@
           "name": "caption5",
           "label": "Caption 5",
           "value": "Each finish is chosen to feel discovered, not manufactured."
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "media6",
+          "label": "Media 6",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "caption6",
+          "label": "Caption 6",
+          "value": "Quiet structure lets texture do the speaking."
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "media7",
+          "label": "Media 7",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "caption7",
+          "label": "Caption 7",
+          "value": "The final layer should feel gathered over time, not rushed."
         }
       ]
     }

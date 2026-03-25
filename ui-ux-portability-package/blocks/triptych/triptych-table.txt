@@ -16,3 +16,7 @@ media4	Replace with image 4
 caption4	Materials carry memory long before they carry color.
 media5	Replace with image 5
 caption5	Each finish is chosen to feel discovered, not manufactured.
+media6	Replace with image 6
+caption6	Quiet structure lets texture do the speaking.
+media7	Replace with image 7
+caption7	The final layer should feel gathered over time, not rushed.
