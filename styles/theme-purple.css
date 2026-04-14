@@ -1,0 +1,118 @@
+/*
+ * Purple theme override — CitiSignal-inspired aesthetic.
+ * Load AFTER import-order.css to re-theme all tokenized surfaces.
+ *
+ * Design reference: purple (#7C3AED) + cyan (#06B6D4) accent pairing,
+ * neutral glass borders, pill buttons, soft canvas-style orbs.
+ * Fonts: Adobe Clean (self-hosted via fonts.css @font-face).
+ */
+
+:root, .dropin-design {
+  /* ===== Purple palette (replaces --green-*) ===== */
+  --purple-900: #1a0e2e;
+  --purple-800: #271545;
+  --purple-700: #351d5e;
+  --purple-600: #452578;
+  --purple-500: #5b21b6;
+  --purple-400: #7c3aed;
+  --purple-300: #a78bfa;
+  --purple-200: #c4b5fd;
+  --purple-100: #ddd6fe;
+  --purple-50: #f5f0ff;
+
+  /* ===== Ink scale (neutral with subtle purple tint) ===== */
+  --ink-950: #0a0a12;
+  --ink-900: #111118;
+  --ink-800: #1e1e2e;
+  --ink-700: #2d2d3d;
+  --ink-600: #46465a;
+  --ink-500: #64647a;
+  --ink-400: #7e7e94;
+  --ink-300: #9e9eb0;
+  --ink-200: #c8c8d4;
+  --ink-100: #e5e5ea;
+  --ink-50: #f5f3ee;
+
+  /* ===== Secondary accents (replaces --gold) ===== */
+  --cyan: #06b6d4;
+  --cyan-light: #22d3ee;
+  --amber: #f59e0b;
+  --cream: #fafaf7;
+
+  /* ===== Primary brand token ===== */
+  --main-color-accent: var(--purple-400);
+
+  /* ===== Semantic accent tokens ===== */
+  --accent-1: var(--main-color-accent);
+  --accent-2: var(--purple-500);
+  --accent-3: var(--cyan);
+
+  /* ===== Dropin / commerce brand tokens ===== */
+  --color-brand-300: var(--ink-500);
+  --color-brand-500: var(--ink-700);
+  --color-brand-600: var(--ink-800);
+  --color-brand-700: var(--ink-900);
+  --color-neutral-50: #fff;
+  --color-neutral-100: var(--ink-50);
+  --color-neutral-200: #ececf0;
+  --color-neutral-300: var(--ink-100);
+  --color-neutral-400: var(--ink-200);
+  --color-neutral-500: var(--ink-300);
+  --color-neutral-600: var(--ink-400);
+  --color-neutral-700: var(--ink-500);
+  --color-neutral-800: var(--ink-700);
+  --color-neutral-900: var(--ink-900);
+
+  /* Positive → purple (matches primary) */
+  --color-positive-200: var(--purple-50);
+  --color-positive-500: var(--purple-300);
+  --color-positive-800: var(--purple-600);
+
+  /* Warning → amber */
+  --color-warning-200: #fef3c7;
+  --color-warning-500: var(--amber);
+  --color-warning-800: #d97706;
+
+  /* Informational → cyan */
+  --color-informational-200: #cffafe;
+  --color-informational-500: var(--cyan);
+  --color-informational-800: #0891b2;
+
+  /* ===== Shadows — lighter, neutral base with purple only on CTAs ===== */
+  --shadow-glass: 0 8px 32px rgb(0 0 0 / 6%);
+  --shadow-glass-hover: 0 12px 40px rgb(0 0 0 / 8%);
+  --shadow-button: 0 4px 16px rgb(124 58 237 / 25%);
+  --shadow-button-hover: 0 8px 24px rgb(124 58 237 / 30%);
+  --shadow-focus: 0 0 0 3px var(--color-neutral-50), 0 0 0 5px rgb(124 58 237 / 30%);
+
+  /* ===== Glassmorphic system — neutral borders ===== */
+  --glass-bg: rgb(255 255 255 / 70%);
+  --glass-bg-hover: rgb(255 255 255 / 90%);
+  --glass-bg-strong: rgb(255 255 255 / 100%);
+  --glass-border: rgb(255 255 255 / 74%);
+  --glass-border-subtle: rgb(0 0 0 / 6%);
+
+  /* ===== Background ===== */
+  --background-color: var(--cream);
+
+  /* ===== Glow triplets for tokenized block overrides ===== */
+  --accent-glow: 124 58 237;
+  --accent-deep-glow: 91 33 182;
+  --accent-dark-glow: 26 14 46;
+  --secondary-glow: 6 182 212;
+
+  /* ===== Font override → Adobe Clean ===== */
+  --type-base-font-family: "adobe-clean", "Helvetica Neue", helvetica, arial, sans-serif;
+  --type-display-font-family: "adobe-clean", var(--type-base-font-family);
+  --font-display: var(--type-display-font-family);
+  --type-price-font-family: "adobe-clean", var(--type-base-font-family);
+}
+
+/* ===== Orb gradients — purple + cyan ambient glow ===== */
+body::before {
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgb(124 58 237 / 14%), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 10%, rgb(91 33 182 / 10%), transparent 45%),
+    radial-gradient(ellipse 50% 30% at 70% 80%, rgb(6 182 212 / 8%), transparent 45%),
+    radial-gradient(ellipse 40% 30% at 10% 70%, rgb(245 158 11 / 6%), transparent 45%);
+}

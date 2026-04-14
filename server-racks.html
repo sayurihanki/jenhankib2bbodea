@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="script-src 'nonce-aem' 'strict-dynamic' 'unsafe-inline' http: https:; base-uri 'self'; object-src 'none';"
+    move-to-http-header="true"
+  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Server Racks | Bodea</title>
+  <meta
+    name="description"
+    content="Browse Bodea server racks or launch the premium rack finder to get a guided shortlist based on deployment, rack capacity, and growth horizon."
+  />
+  <meta property="og:title" content="Server Racks | Bodea" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@400;500;600;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script nonce="aem" type="importmap">
+    {
+      "imports": {
+        "@dropins/storefront-account/": "/scripts/__dropins__/storefront-account/",
+        "@dropins/storefront-auth/": "/scripts/__dropins__/storefront-auth/",
+        "@dropins/storefront-cart/": "/scripts/__dropins__/storefront-cart/",
+        "@dropins/storefront-checkout/": "/scripts/__dropins__/storefront-checkout/",
+        "@dropins/storefront-order/": "/scripts/__dropins__/storefront-order/",
+        "@dropins/storefront-payment-services/": "/scripts/__dropins__/storefront-payment-services/",
+        "@dropins/storefront-pdp/": "/scripts/__dropins__/storefront-pdp/",
+        "@dropins/storefront-recommendations/": "/scripts/__dropins__/storefront-recommendations/",
+        "@dropins/storefront-wishlist/": "/scripts/__dropins__/storefront-wishlist/",
+        "@dropins/storefront-personalization/": "/scripts/__dropins__/storefront-personalization/",
+        "@dropins/storefront-product-discovery/": "/scripts/__dropins__/storefront-product-discovery/",
+        "@dropins/storefront-quote-management/": "/scripts/__dropins__/storefront-quote-management/",
+        "@dropins/storefront-company-switcher/": "/scripts/__dropins__/storefront-company-switcher/",
+        "@dropins/storefront-company-management/": "/scripts/__dropins__/storefront-company-management/",
+        "@dropins/storefront-requisition-list/": "/scripts/__dropins__/storefront-requisition-list/",
+        "@dropins/storefront-purchase-order/": "/scripts/__dropins__/storefront-purchase-order/",
+        "@dropins/tools/": "/scripts/__dropins__/tools/"
+      }
+    }
+  </script>
+  <script nonce="aem" type="module">
+    if (!(HTMLScriptElement.supports?.('importmap'))) {
+      import('/scripts/__dropins__/tools/shims/importmap.js');
+    }
+  </script>
+  <script nonce="aem" src="/scripts/aem.js" type="module"></script>
+  <script nonce="aem" src="/scripts/scripts.js" type="module"></script>
+  <script nonce="aem" src="/scripts/commerce.js" type="module"></script>
+  <link rel="stylesheet" href="/styles/styles.css" />
+  <link rel="stylesheet" href="/styles/rack-finder-pages.css" />
+</head>
+
+<body class="page-server-racks">
+  <header></header>
+  <main>
+    <div class="section rack-category-entry">
+      <div class="rack-category-entry__surface">
+        <div class="rack-category-entry__copy">
+          <p class="rack-category-entry__eyebrow">Premium guided selling</p>
+          <h1 id="server-racks" class="rack-category-entry__title">Browse server racks, or let Bodea guide you to the right shortlist.</h1>
+          <p class="rack-category-entry__body">
+            Use the flagship rack finder when you want a faster path from deployment requirements to a ranked recommendation.
+            It scores environment, rack capacity, operational density, and growth horizon, then layers in adjacent categories like cooling and cable management.
+          </p>
+          <div class="rack-category-entry__actions">
+            <a href="/rack-finder" class="button primary">Launch the rack finder</a>
+            <a href="/server-racks?sort=position_DESC" class="button secondary">Compare all server racks</a>
+          </div>
+          <div class="rack-category-entry__tags">
+            <span class="rack-category-entry__tag">5-step advisor</span>
+            <span class="rack-category-entry__tag">Ranked persona output</span>
+            <span class="rack-category-entry__tag">Live catalog-backed results</span>
+          </div>
+        </div>
+        <div class="rack-category-entry__meta">
+          <div class="rack-category-entry__stats">
+            <div class="rack-category-entry__stat">
+              <span class="rack-category-entry__stat-label">Outcome</span>
+              <strong>3 ranked paths</strong>
+              <span>Primary match plus two strong alternates.</span>
+            </div>
+            <div class="rack-category-entry__stat">
+              <span class="rack-category-entry__stat-label">Coverage</span>
+              <strong>5 catalog families</strong>
+              <span>Server racks, enclosures, cooling, cable management, and accessories.</span>
+            </div>
+            <div class="rack-category-entry__stat">
+              <span class="rack-category-entry__stat-label">Tone</span>
+              <strong>Premium Bodea</strong>
+              <span>Editorial, highly visual, and aligned to the global emerald theme.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="product-list-page block">
+        <div>
+          <div>urlPath</div>
+          <div>server-racks</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="enrichment block">
+        <div>
+          <div>type</div>
+          <div>category</div>
+        </div>
+        <div>
+          <div>position</div>
+          <div>below-category</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="product-recommendations block">
+        <div>
+          <div>recId</div>
+          <div>cf042e53-7efb-4a7e-b1bd-4f87d5c6ca84</div>
+        </div>
+        <div>
+          <div>currentSku</div>
+          <div>ADB150</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+
+</html>

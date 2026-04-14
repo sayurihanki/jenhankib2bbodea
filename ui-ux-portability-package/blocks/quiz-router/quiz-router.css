@@ -281,7 +281,7 @@
   transform: translateY(-8px) scale(1.012);
   box-shadow:
     0 1px 0 rgb(255 255 255 / 80%) inset,
-    0 18px 36px rgb(31 122 77 / 14%),
+    0 18px 36px rgb(var(--accent-deep-glow) / 14%),
     0 0 0 1px rgb(95 212 159 / 26%);
 }
 
@@ -296,7 +296,7 @@
 
 .quiz-router .quiz-router-option:hover .quiz-router-option-arrow {
   transform: translateX(3px) scale(1.08);
-  box-shadow: 0 6px 14px rgb(31 122 77 / 34%);
+  box-shadow: 0 6px 14px rgb(var(--accent-deep-glow) / 34%);
   opacity: 1;
 }
 
@@ -309,7 +309,7 @@
   border-color: var(--green-300, #2ebe7a);
   background: linear-gradient(140deg, rgb(232 250 242 / 76%), rgb(255 255 255 / 74%));
   box-shadow:
-    0 10px 24px rgb(31 122 77 / 16%),
+    0 10px 24px rgb(var(--accent-deep-glow) / 16%),
     0 0 0 1px rgb(95 212 159 / 24%);
 }
 
@@ -601,12 +601,12 @@
   color: var(--color-neutral-50, #fff);
   transform: scale(1.18);
   box-shadow:
-    0 0 0 4px rgb(31 122 77 / 15%),
-    0 4px 12px rgb(31 122 77 / 35%);
+    0 0 0 4px rgb(var(--accent-deep-glow) / 15%),
+    0 4px 12px rgb(var(--accent-deep-glow) / 35%);
 }
 
 .quiz-router--premium .quiz-router-step-pill.is-active::after {
-  border-color: rgb(31 122 77 / 25%);
+  border-color: rgb(var(--accent-deep-glow) / 25%);
   animation: quiz-router-step-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
@@ -736,7 +736,7 @@
   transform: translateY(-4px) scale(1.01);
   border-color: rgb(95 212 159 / 55%);
   box-shadow:
-    0 8px 24px rgb(31 122 77 / 12%),
+    0 8px 24px rgb(var(--accent-deep-glow) / 12%),
     0 16px 48px rgb(6 24 13 / 8%),
     0 0 0 1px rgb(95 212 159 / 20%);
   background: linear-gradient(160deg, rgb(232 250 242 / 80%) 0%, var(--color-neutral-50, #fff) 60%);
@@ -760,7 +760,7 @@
   background: linear-gradient(160deg, rgb(208 244 226 / 50%) 0%, rgb(232 250 242 / 30%) 50%, var(--color-neutral-50, #fff) 100%);
   box-shadow:
     0 0 0 1px rgb(45 184 114 / 30%),
-    0 8px 28px rgb(31 122 77 / 14%),
+    0 8px 28px rgb(var(--accent-deep-glow) / 14%),
     0 2px 8px rgb(6 24 13 / 6%);
   transform: translateY(-2px);
 }

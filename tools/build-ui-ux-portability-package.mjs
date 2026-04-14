@@ -536,6 +536,7 @@ function writePackageFiles(manifests) {
     "@import './fonts.css';",
     "@import './styles.css';",
     "@import './lazy-styles.css';",
+    "@import './theme-purple.css';",
     '',
   ].join('\n');
   writeFileSync(join(outputDir, 'styles', 'import-order.css'), cssImportOrder, 'utf-8');

@@ -8,10 +8,10 @@
   --nav-dropdown-radius: 24px;
   --nav-interaction-speed: 0.22s;
   --nav-overlay-blur: 5px;
-  --nav-highlight-bg: rgb(46 190 122 / 5%);
-  --nav-highlight-border: rgb(46 190 122 / 12%);
+  --nav-highlight-bg: rgb(var(--accent-glow) / 5%);
+  --nav-highlight-border: rgb(var(--accent-glow) / 12%);
   --nav-highlight-bg-selected: rgb(255 255 255 / 80%);
-  --nav-highlight-shadow: 0 0 0 1px rgb(255 255 255 / 50%) inset, 0 2px 8px rgb(46 190 122 / 8%);
+  --nav-highlight-shadow: 0 0 0 1px rgb(255 255 255 / 50%) inset, 0 2px 8px rgb(var(--accent-glow) / 8%);
   --nav-flyout-bg: rgb(250 248 243 / 98%);
   --nav-flyout-border: rgb(176 197 181 / 68%);
   --nav-flyout-shadow: 0 16px 44px rgb(14 20 16 / 15%);
@@ -301,7 +301,7 @@ header nav .nav-sections ul > li:empty {
     bottom: -2px;
     height: 2px;
     border-radius: 2px;
-    background: linear-gradient(90deg, rgb(46 190 122 / 45%) 0%, rgb(31 122 77 / 65%) 100%);
+    background: linear-gradient(90deg, rgb(var(--accent-glow) / 45%) 0%, rgb(var(--accent-deep-glow) / 65%) 100%);
     opacity: 0;
     transform: scaleX(0.35);
     transform-origin: center;
@@ -690,15 +690,15 @@ header .nav-search-panel input::placeholder {
 }
 
 header .nav-search-panel input:hover {
-  border-color: rgb(46 190 122 / 18%);
+  border-color: rgb(var(--accent-glow) / 18%);
   box-shadow: 0 1px 0 rgb(255 255 255 / 62%) inset;
 }
 
 header .nav-search-panel input:focus,
 header .nav-search-panel input:focus-visible {
-  border-color: rgb(46 190 122 / 28%);
+  border-color: rgb(var(--accent-glow) / 28%);
   box-shadow:
-    0 0 0 2px rgb(46 190 122 / 12%),
+    0 0 0 2px rgb(var(--accent-glow) / 12%),
     0 1px 0 rgb(255 255 255 / 62%) inset;
 }
 
@@ -754,7 +754,7 @@ header .nav-search-panel .search-bar-result .dropin-product-item-card {
 }
 
 header .nav-search-panel .search-bar-result .dropin-product-item-card:hover {
-  border-color: rgb(46 190 122 / 16%);
+  border-color: rgb(var(--accent-glow) / 16%);
   box-shadow:
     0 1px 0 rgb(255 255 255 / 62%) inset,
     0 10px 20px rgb(17 24 39 / 10%);
@@ -810,7 +810,7 @@ header .nav-search-panel .search-bar-result .product-discovery-product-list__foo
 
 header .search-view-all .dropin-button:hover,
 header .nav-search-panel .search-bar-result .product-discovery-product-list__footer button:hover {
-  border-color: rgb(46 190 122 / 26%);
+  border-color: rgb(var(--accent-glow) / 26%);
   box-shadow:
     0 1px 0 rgb(255 255 255 / 60%) inset,
     0 10px 20px rgb(17 24 39 / 10%);
@@ -818,7 +818,7 @@ header .nav-search-panel .search-bar-result .product-discovery-product-list__foo
 
 header .search-view-all .dropin-button:focus-visible,
 header .nav-search-panel .search-bar-result .product-discovery-product-list__footer button:focus-visible {
-  outline: 2px solid rgb(46 190 122 / 30%);
+  outline: 2px solid rgb(var(--accent-glow) / 30%);
   outline-offset: 2px;
 }
 

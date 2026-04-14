@@ -764,6 +764,16 @@
           }
         },
         {
+          "title": "Guided Selling Luxe",
+          "id": "guided-selling-luxe",
+          "model": "guided-selling-luxe",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
           "title": "Quiz Router",
           "id": "quiz-router",
           "model": "quiz-router",

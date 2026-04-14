@@ -1,0 +1,650 @@
+{
+  "id": "bodea-rack-finder",
+  "version": "2026-04-13",
+  "theme": "emerald",
+  "contactHref": "/contact",
+  "compareHref": "/server-racks?sort=position_DESC",
+  "tieBreakerOrder": [
+    "deployment-environment",
+    "rack-capacity",
+    "highest-priority"
+  ],
+  "hero": {
+    "eyebrow": "Flagship Guided Selling",
+    "title": "Find the rack architecture that fits the room, the load, and the growth curve.",
+    "subtitle": "Answer five focused questions and move from abstract requirements to a Bodea recommendation set that feels deliberate, premium, and ready for purchase.",
+    "body": "This experience weighs deployment context, rack density, noise posture, cabling pressure, and growth expectations to surface the best-fit collection first and the right adjacent categories second.",
+    "primaryCtaLabel": "Start the rack finder",
+    "secondaryCtaLabel": "Compare all server racks",
+    "secondaryCtaHref": "/server-racks?sort=position_DESC",
+    "stats": [
+      {
+        "value": "5",
+        "label": "decision steps"
+      },
+      {
+        "value": "3",
+        "label": "ranked recommendations"
+      },
+      {
+        "value": "5",
+        "label": "adjacent categories"
+      }
+    ],
+    "badges": [
+      "Deployment-aware scoring",
+      "Premium Bodea visual system",
+      "Live catalog-backed results"
+    ]
+  },
+  "personas": [
+    {
+      "id": "compact-edge",
+      "title": "Compact Edge",
+      "kicker": "Tight footprint, confident service access",
+      "description": "For branch offices, satellite closets, and right-sized environments where you want disciplined capacity without overbuilding the room.",
+      "rationale": "You leaned toward smaller rack-unit counts, practical deployment settings, and a buying posture that values a compact but polished install.",
+      "route": "/network-enclosures?filter=sku:BD-NE-06U-1,BD-NE-12U-GLASS-6U,BD-NE-12U-GLASS-12U&sort=position_DESC",
+      "compareRoute": "/server-racks?sort=position_DESC",
+      "consultationHref": "/contact",
+      "media": {
+        "eyebrow": "Compact profile",
+        "stat": "6U-12U"
+      },
+      "strengths": [
+        "Compact deployment footprint",
+        "Faster install and service access",
+        "Balanced for edge growth"
+      ],
+      "collection": {
+        "id": "compact-edge-collection",
+        "title": "Compact edge shortlist",
+        "description": "A focused set of Bodea enclosures for smaller environments that still need clean airflow, cable discipline, and a premium finish.",
+        "badge": "Best for branch installs",
+        "route": "/network-enclosures?filter=sku:BD-NE-06U-1,BD-NE-12U-GLASS-6U,BD-NE-12U-GLASS-12U&sort=position_DESC",
+        "limit": 3,
+        "sort": "position_DESC",
+        "search": {
+          "skus": [
+            "BD-NE-06U-1",
+            "BD-NE-12U-GLASS-6U",
+            "BD-NE-12U-GLASS-12U"
+          ]
+        }
+      }
+    },
+    {
+      "id": "quiet-office-retail",
+      "title": "Quiet Office Retail",
+      "kicker": "Customer-adjacent, acoustically aware",
+      "description": "For open offices, retail backrooms, and polished commercial spaces where noise, visual restraint, and approachable servicing matter.",
+      "rationale": "Your answers favored quieter operation, customer-adjacent deployment, and a rack profile that feels refined rather than industrial.",
+      "route": "/server-racks?sort=position_DESC",
+      "compareRoute": "/server-racks?sort=position_DESC",
+      "consultationHref": "/contact",
+      "media": {
+        "eyebrow": "Quiet posture",
+        "stat": "Low-noise bias"
+      },
+      "strengths": [
+        "Lower-noise operating posture",
+        "Refined finish for visible spaces",
+        "Service access without visual clutter"
+      ],
+      "collection": {
+        "id": "quiet-office-retail-collection",
+        "title": "Quiet office shortlist",
+        "description": "Server-rack recommendations for spaces where acoustics, polish, and moderate growth all matter at once.",
+        "badge": "Open office ready",
+        "route": "/server-racks?sort=position_DESC",
+        "limit": 3,
+        "sort": "position_DESC",
+        "search": {
+          "categoryPath": [
+            "server-racks"
+          ]
+        }
+      }
+    },
+    {
+      "id": "secure-growth",
+      "title": "Secure Growth",
+      "kicker": "Lockable, growth-ready, cleanly scalable",
+      "description": "For teams planning ahead: enough room to grow, stronger access control, and a cabinet posture that stays professional as density rises.",
+      "rationale": "You signaled balanced-to-medium rack heights, controlled access, and a buying posture that expects additional equipment in the near term.",
+      "route": "/network-enclosures?filter=sku:BD-NE-12U-GLASS-12U,BD-NE-12U-GLASS-24U&sort=position_DESC",
+      "compareRoute": "/server-racks?sort=position_DESC",
+      "consultationHref": "/contact",
+      "media": {
+        "eyebrow": "Secure expansion",
+        "stat": "12U-24U"
+      },
+      "strengths": [
+        "Growth-ready rack height options",
+        "Lockable access posture",
+        "Balanced airflow and cable control"
+      ],
+      "collection": {
+        "id": "secure-growth-collection",
+        "title": "Secure growth shortlist",
+        "description": "A curated set for teams that need stronger access control today and headroom for tomorrow's network expansion.",
+        "badge": "Most versatile",
+        "route": "/network-enclosures?filter=sku:BD-NE-12U-GLASS-12U,BD-NE-12U-GLASS-24U&sort=position_DESC",
+        "limit": 3,
+        "sort": "position_DESC",
+        "search": {
+          "skus": [
+            "BD-NE-12U-GLASS-12U",
+            "BD-NE-12U-GLASS-24U"
+          ]
+        }
+      }
+    },
+    {
+      "id": "high-capacity-core",
+      "title": "High Capacity Core",
+      "kicker": "Dense infrastructure, bigger thermal expectations",
+      "description": "For server rooms and primary network cores where capacity, airflow, and disciplined cable management take priority over a smaller footprint.",
+      "rationale": "Your answers emphasized larger rack-unit ranges, higher density, and more ambitious scaling expectations, which points to a core-room strategy.",
+      "route": "/network-enclosures?filter=sku:BD-NE-12U-GLASS-24U,BD-NE-12U-GLASS-42U&sort=position_DESC",
+      "compareRoute": "/server-racks?sort=position_DESC",
+      "consultationHref": "/contact",
+      "media": {
+        "eyebrow": "Dense core",
+        "stat": "24U-42U"
+      },
+      "strengths": [
+        "Higher rack capacity",
+        "Better posture for dense cabling",
+        "Natural fit for thermal add-ons"
+      ],
+      "collection": {
+        "id": "high-capacity-core-collection",
+        "title": "High-capacity shortlist",
+        "description": "A denser recommendation path for primary rooms, core closets, and service-heavy deployments that need real capacity headroom.",
+        "badge": "High density",
+        "route": "/network-enclosures?filter=sku:BD-NE-12U-GLASS-24U,BD-NE-12U-GLASS-42U&sort=position_DESC",
+        "limit": 3,
+        "sort": "position_DESC",
+        "search": {
+          "skus": [
+            "BD-NE-12U-GLASS-24U",
+            "BD-NE-12U-GLASS-42U"
+          ]
+        }
+      }
+    },
+    {
+      "id": "industrial-edge",
+      "title": "Industrial Edge",
+      "kicker": "Warehouse-ready, service-forward, resilient",
+      "description": "For harsher operational environments with heavier cable churn, faster servicing, and a more utilitarian infrastructure posture.",
+      "rationale": "You favored warehouse or industrial deployment, heavier service needs, and an environment that benefits from more operational resilience.",
+      "route": "/server-racks?sort=position_DESC",
+      "compareRoute": "/server-racks?sort=position_DESC",
+      "consultationHref": "/contact",
+      "media": {
+        "eyebrow": "Operational resilience",
+        "stat": "Industrial edge"
+      },
+      "strengths": [
+        "Better match for harsher environments",
+        "Supports frequent service access",
+        "Pairs naturally with cooling and cable-management add-ons"
+      ],
+      "collection": {
+        "id": "industrial-edge-collection",
+        "title": "Industrial edge shortlist",
+        "description": "A tougher Bodea recommendation path for warehouse edge, utility spaces, and environments with frequent operational change.",
+        "badge": "Warehouse-ready",
+        "route": "/server-racks?sort=position_DESC",
+        "limit": 3,
+        "sort": "position_DESC",
+        "search": {
+          "categoryPath": [
+            "server-racks"
+          ]
+        }
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "deployment-environment",
+      "kicker": "Step 1",
+      "title": "Where will this rack or enclosure live?",
+      "description": "The room changes the answer. Acoustic expectations, service posture, and physical footprint all start here.",
+      "supportCopy": "Choose the environment that is closest to the real install, not the ideal one.",
+      "media": {
+        "eyebrow": "Context first",
+        "stat": "Room posture"
+      },
+      "answers": [
+        {
+          "id": "branch-office",
+          "label": "Branch office or satellite closet",
+          "subtitle": "Tight footprint, practical service access, polished enough for shared spaces.",
+          "badge": "Popular",
+          "icon": "OFF",
+          "previewLabel": "Compact branch posture",
+          "weights": {
+            "compact-edge": 5,
+            "quiet-office-retail": 2,
+            "secure-growth": 4,
+            "high-capacity-core": 1,
+            "industrial-edge": 1
+          }
+        },
+        {
+          "id": "open-office-retail",
+          "label": "Open office or retail backroom",
+          "subtitle": "Customer-adjacent, acoustically aware, and visually restrained.",
+          "badge": "Quiet zone",
+          "icon": "QRT",
+          "previewLabel": "Low-noise commercial posture",
+          "weights": {
+            "compact-edge": 2,
+            "quiet-office-retail": 5,
+            "secure-growth": 2,
+            "high-capacity-core": 0,
+            "industrial-edge": 1
+          }
+        },
+        {
+          "id": "server-room",
+          "label": "Dedicated server room",
+          "subtitle": "Higher density, stronger airflow expectations, and more growth headroom.",
+          "badge": "Scale first",
+          "icon": "SRV",
+          "previewLabel": "Core-room posture",
+          "weights": {
+            "compact-edge": 1,
+            "quiet-office-retail": 0,
+            "secure-growth": 4,
+            "high-capacity-core": 5,
+            "industrial-edge": 2
+          }
+        },
+        {
+          "id": "warehouse-edge",
+          "label": "Warehouse or industrial edge",
+          "subtitle": "Operationally busy, more utilitarian, and often more demanding on service access.",
+          "badge": "Utility",
+          "icon": "IND",
+          "previewLabel": "Industrial operations posture",
+          "weights": {
+            "compact-edge": 1,
+            "quiet-office-retail": 0,
+            "secure-growth": 2,
+            "high-capacity-core": 3,
+            "industrial-edge": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "rack-capacity",
+      "kicker": "Step 2",
+      "title": "What rack capacity feels right today?",
+      "description": "We are using current demand as the anchor, then letting growth expectations shape the alternates.",
+      "supportCopy": "If you are between sizes, choose the higher band only if you already expect expansion in the next cycle.",
+      "media": {
+        "eyebrow": "Rack height",
+        "stat": "Capacity band"
+      },
+      "answers": [
+        {
+          "id": "u-1-6",
+          "label": "1-6U compact edge",
+          "subtitle": "Smaller switch stacks, branch-office kits, or edge utility gear.",
+          "badge": "Smallest footprint",
+          "icon": "6U",
+          "previewLabel": "Compact rack envelope",
+          "weights": {
+            "compact-edge": 5,
+            "quiet-office-retail": 2,
+            "secure-growth": 1,
+            "high-capacity-core": 0,
+            "industrial-edge": 2
+          }
+        },
+        {
+          "id": "u-7-12",
+          "label": "7-12U balanced growth",
+          "subtitle": "A practical sweet spot for mixed network stacks and more polished commercial deployments.",
+          "badge": "Balanced",
+          "icon": "12U",
+          "previewLabel": "Growth-ready rack envelope",
+          "weights": {
+            "compact-edge": 3,
+            "quiet-office-retail": 4,
+            "secure-growth": 5,
+            "high-capacity-core": 2,
+            "industrial-edge": 2
+          }
+        },
+        {
+          "id": "u-13-24",
+          "label": "13-24U mid-scale core",
+          "subtitle": "More room for denser cabling, security posture, and stronger adjacent thermal planning.",
+          "badge": "Core closet",
+          "icon": "24U",
+          "previewLabel": "Mid-scale core envelope",
+          "weights": {
+            "compact-edge": 1,
+            "quiet-office-retail": 1,
+            "secure-growth": 4,
+            "high-capacity-core": 5,
+            "industrial-edge": 4
+          }
+        },
+        {
+          "id": "u-25-42",
+          "label": "25-42U high capacity",
+          "subtitle": "Primary rooms, denser infrastructure, and the clearest fit for thermal and cable-management add-ons.",
+          "badge": "Most capacity",
+          "icon": "42U",
+          "previewLabel": "High-capacity rack envelope",
+          "weights": {
+            "compact-edge": 0,
+            "quiet-office-retail": 0,
+            "secure-growth": 2,
+            "high-capacity-core": 5,
+            "industrial-edge": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "highest-priority",
+      "kicker": "Step 3",
+      "title": "What matters most in the buying decision?",
+      "description": "This becomes the strongest tie-breaker inside the persona group that already fits your capacity and environment.",
+      "supportCopy": "Pick the single thing that would disappoint you most if the rack got it wrong.",
+      "media": {
+        "eyebrow": "Priority filter",
+        "stat": "Decision weight"
+      },
+      "answers": [
+        {
+          "id": "quiet-operation",
+          "label": "Quiet operation",
+          "subtitle": "Lower perceived noise and a more refined feel for visible or adjacent spaces.",
+          "badge": "Acoustics",
+          "icon": "QET",
+          "previewLabel": "Acoustic-first bias",
+          "weights": {
+            "compact-edge": 2,
+            "quiet-office-retail": 5,
+            "secure-growth": 1,
+            "high-capacity-core": 0,
+            "industrial-edge": 0
+          }
+        },
+        {
+          "id": "secure-access",
+          "label": "Security and lockable access",
+          "subtitle": "Controlled servicing, better access posture, and stronger day-to-day governance.",
+          "badge": "Security",
+          "icon": "SEC",
+          "previewLabel": "Secure-access bias",
+          "weights": {
+            "compact-edge": 1,
+            "quiet-office-retail": 1,
+            "secure-growth": 5,
+            "high-capacity-core": 3,
+            "industrial-edge": 2
+          }
+        },
+        {
+          "id": "airflow-capacity",
+          "label": "Airflow and thermal headroom",
+          "subtitle": "A stronger fit for warmer rooms, denser infrastructure, and future accessory stacking.",
+          "badge": "Thermal",
+          "icon": "AIR",
+          "previewLabel": "Thermal-first bias",
+          "weights": {
+            "compact-edge": 0,
+            "quiet-office-retail": 0,
+            "secure-growth": 2,
+            "high-capacity-core": 5,
+            "industrial-edge": 4
+          }
+        },
+        {
+          "id": "fast-service",
+          "label": "Fast service access",
+          "subtitle": "Fewer obstacles when the rack changes often or technicians need quick access windows.",
+          "badge": "Operations",
+          "icon": "OPS",
+          "previewLabel": "Service-first bias",
+          "weights": {
+            "compact-edge": 3,
+            "quiet-office-retail": 1,
+            "secure-growth": 2,
+            "high-capacity-core": 3,
+            "industrial-edge": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "cable-density",
+      "kicker": "Step 4",
+      "title": "How dense or change-heavy is the cabling?",
+      "description": "Cable pressure influences whether we should bias toward a cleaner footprint, denser core posture, or heavier adjacent cable-management emphasis.",
+      "supportCopy": "Think in terms of how often the routing changes, not only how many cables you have today.",
+      "media": {
+        "eyebrow": "Cable behavior",
+        "stat": "Operational density"
+      },
+      "answers": [
+        {
+          "id": "light",
+          "label": "Light and stable",
+          "subtitle": "A few devices, limited churn, and a cleaner install rhythm.",
+          "badge": "Low churn",
+          "icon": "LGT",
+          "previewLabel": "Light routing",
+          "weights": {
+            "compact-edge": 4,
+            "quiet-office-retail": 4,
+            "secure-growth": 2,
+            "high-capacity-core": 0,
+            "industrial-edge": 1
+          }
+        },
+        {
+          "id": "moderate",
+          "label": "Moderate with occasional changes",
+          "subtitle": "A balanced mid-range condition that still benefits from disciplined cable management.",
+          "badge": "Balanced",
+          "icon": "MOD",
+          "previewLabel": "Balanced routing",
+          "weights": {
+            "compact-edge": 3,
+            "quiet-office-retail": 3,
+            "secure-growth": 4,
+            "high-capacity-core": 3,
+            "industrial-edge": 2
+          }
+        },
+        {
+          "id": "dense",
+          "label": "Dense and actively changing",
+          "subtitle": "More service windows, more routing pressure, and a stronger argument for higher-capacity posture.",
+          "badge": "Dense",
+          "icon": "DNS",
+          "previewLabel": "Dense routing",
+          "weights": {
+            "compact-edge": 0,
+            "quiet-office-retail": 0,
+            "secure-growth": 3,
+            "high-capacity-core": 5,
+            "industrial-edge": 4
+          }
+        },
+        {
+          "id": "very-dense",
+          "label": "Very dense or highly variable",
+          "subtitle": "A living infrastructure environment where routing, access, and add-on planning matter continuously.",
+          "badge": "Most demanding",
+          "icon": "VDS",
+          "previewLabel": "High-variance routing",
+          "weights": {
+            "compact-edge": 0,
+            "quiet-office-retail": 0,
+            "secure-growth": 2,
+            "high-capacity-core": 4,
+            "industrial-edge": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "growth-horizon",
+      "kicker": "Step 5",
+      "title": "How quickly do you expect this environment to grow?",
+      "description": "The final step decides whether we should keep the recommendation disciplined, stretch it for growth, or bias toward a more operationally resilient path.",
+      "supportCopy": "Use the next six to twelve months as the planning window.",
+      "media": {
+        "eyebrow": "Growth horizon",
+        "stat": "Planning window"
+      },
+      "answers": [
+        {
+          "id": "stable",
+          "label": "Stable for the next year",
+          "subtitle": "The deployment is known, relatively settled, and not expected to surge quickly.",
+          "badge": "Known state",
+          "icon": "STB",
+          "previewLabel": "Stable planning horizon",
+          "weights": {
+            "compact-edge": 4,
+            "quiet-office-retail": 4,
+            "secure-growth": 2,
+            "high-capacity-core": 1,
+            "industrial-edge": 2
+          }
+        },
+        {
+          "id": "moderate-growth",
+          "label": "Moderate growth in six to twelve months",
+          "subtitle": "Enough change is coming that a little more room today may protect the next buying cycle.",
+          "badge": "Growth-ready",
+          "icon": "GRW",
+          "previewLabel": "Moderate growth horizon",
+          "weights": {
+            "compact-edge": 2,
+            "quiet-office-retail": 2,
+            "secure-growth": 5,
+            "high-capacity-core": 3,
+            "industrial-edge": 2
+          }
+        },
+        {
+          "id": "aggressive-growth",
+          "label": "Aggressive growth in the near term",
+          "subtitle": "Capacity, cable pressure, and adjacent thermal planning are all likely to intensify quickly.",
+          "badge": "Scale first",
+          "icon": "SCL",
+          "previewLabel": "Aggressive growth horizon",
+          "weights": {
+            "compact-edge": 0,
+            "quiet-office-retail": 0,
+            "secure-growth": 3,
+            "high-capacity-core": 5,
+            "industrial-edge": 4
+          }
+        },
+        {
+          "id": "operational-unknown",
+          "label": "Unknown or operationally unpredictable",
+          "subtitle": "A changing environment with unclear next requirements, where resilience matters as much as elegance.",
+          "badge": "Adaptive",
+          "icon": "UNK",
+          "previewLabel": "Adaptive planning horizon",
+          "weights": {
+            "compact-edge": 1,
+            "quiet-office-retail": 1,
+            "secure-growth": 2,
+            "high-capacity-core": 3,
+            "industrial-edge": 5
+          }
+        }
+      ]
+    }
+  ],
+  "crossCategoryModules": [
+    {
+      "id": "server-racks",
+      "title": "Server Racks",
+      "description": "Explore the full server-rack catalog if you want to widen the shortlist beyond the recommended persona.",
+      "badge": "Core catalog",
+      "route": "/server-racks?sort=position_DESC",
+      "limit": 2,
+      "sort": "position_DESC",
+      "search": {
+        "categoryPath": [
+          "server-racks"
+        ]
+      }
+    },
+    {
+      "id": "network-enclosures",
+      "title": "Network Enclosures",
+      "description": "A natural adjacent category when the deployment leans compact, secure, or branch-oriented.",
+      "badge": "Adjacency",
+      "route": "/network-enclosures?sort=position_DESC",
+      "limit": 2,
+      "sort": "position_DESC",
+      "search": {
+        "categoryPath": [
+          "network-enclosures"
+        ]
+      }
+    },
+    {
+      "id": "power-cooling",
+      "title": "Power and Cooling",
+      "description": "Thermal and power accessories become more important as density and growth expectations rise.",
+      "badge": "Support layer",
+      "route": "/power-cooling?sort=position_DESC",
+      "limit": 2,
+      "sort": "position_DESC",
+      "search": {
+        "categoryPath": [
+          "power-cooling"
+        ]
+      }
+    },
+    {
+      "id": "cable-management",
+      "title": "Cable Management",
+      "description": "A higher-value add-on when service access and change-heavy routing are central to the environment.",
+      "badge": "Operations",
+      "route": "/cable-management?sort=position_DESC",
+      "limit": 2,
+      "sort": "position_DESC",
+      "search": {
+        "categoryPath": [
+          "cable-management"
+        ]
+      }
+    },
+    {
+      "id": "accessories",
+      "title": "Accessories",
+      "description": "Round out the solution with the finishing layer that keeps the rack disciplined once it is live.",
+      "badge": "Finishing layer",
+      "route": "/accessories?sort=position_DESC",
+      "limit": 2,
+      "sort": "position_DESC",
+      "search": {
+        "categoryPath": [
+          "accessories"
+        ]
+      }
+    }
+  ]
+}

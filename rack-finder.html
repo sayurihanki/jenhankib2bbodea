@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="script-src 'nonce-aem' 'strict-dynamic' 'unsafe-inline' http: https:; base-uri 'self'; object-src 'none';"
+    move-to-http-header="true"
+  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bodea Rack Finder</title>
+  <meta
+    name="description"
+    content="Use the flagship Bodea rack finder to move from deployment context to a ranked shortlist of server racks, enclosures, and adjacent infrastructure categories."
+  />
+  <meta property="og:title" content="Bodea Rack Finder" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@400;500;600;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script nonce="aem" type="importmap">
+    {
+      "imports": {
+        "@dropins/storefront-account/": "/scripts/__dropins__/storefront-account/",
+        "@dropins/storefront-auth/": "/scripts/__dropins__/storefront-auth/",
+        "@dropins/storefront-cart/": "/scripts/__dropins__/storefront-cart/",
+        "@dropins/storefront-checkout/": "/scripts/__dropins__/storefront-checkout/",
+        "@dropins/storefront-order/": "/scripts/__dropins__/storefront-order/",
+        "@dropins/storefront-payment-services/": "/scripts/__dropins__/storefront-payment-services/",
+        "@dropins/storefront-pdp/": "/scripts/__dropins__/storefront-pdp/",
+        "@dropins/storefront-recommendations/": "/scripts/__dropins__/storefront-recommendations/",
+        "@dropins/storefront-wishlist/": "/scripts/__dropins__/storefront-wishlist/",
+        "@dropins/storefront-personalization/": "/scripts/__dropins__/storefront-personalization/",
+        "@dropins/storefront-product-discovery/": "/scripts/__dropins__/storefront-product-discovery/",
+        "@dropins/storefront-quote-management/": "/scripts/__dropins__/storefront-quote-management/",
+        "@dropins/storefront-company-switcher/": "/scripts/__dropins__/storefront-company-switcher/",
+        "@dropins/storefront-company-management/": "/scripts/__dropins__/storefront-company-management/",
+        "@dropins/storefront-requisition-list/": "/scripts/__dropins__/storefront-requisition-list/",
+        "@dropins/storefront-purchase-order/": "/scripts/__dropins__/storefront-purchase-order/",
+        "@dropins/tools/": "/scripts/__dropins__/tools/"
+      }
+    }
+  </script>
+  <script nonce="aem" type="module">
+    if (!(HTMLScriptElement.supports?.('importmap'))) {
+      import('/scripts/__dropins__/tools/shims/importmap.js');
+    }
+  </script>
+  <script nonce="aem" src="/scripts/aem.js" type="module"></script>
+  <script nonce="aem" src="/scripts/scripts.js" type="module"></script>
+  <script nonce="aem" src="/scripts/commerce.js" type="module"></script>
+  <link rel="stylesheet" href="/styles/styles.css" />
+  <link rel="stylesheet" href="/styles/rack-finder-pages.css" />
+</head>
+
+<body class="page-rack-finder">
+  <header></header>
+  <main class="rack-page-shell">
+    <div class="section">
+      <div class="guided-selling-luxe block">
+        <div>
+          <div>schema-url</div>
+          <div>/data/guided-selling/bodea-rack-finder.json</div>
+        </div>
+        <div>
+          <div>eyebrow-text</div>
+          <div>Bodea Rack Finder</div>
+        </div>
+        <div>
+          <div>title</div>
+          <div>Find the right rack architecture in guided steps.</div>
+        </div>
+        <div>
+          <div>subtitle</div>
+          <div>Move from deployment context to a ranked Bodea shortlist with a premium guided-selling experience.</div>
+        </div>
+        <div>
+          <div>primary-cta-label</div>
+          <div>Start the rack finder</div>
+        </div>
+        <div>
+          <div>secondary-cta-label</div>
+          <div>Talk to a Bodea specialist</div>
+        </div>
+        <div>
+          <div>secondary-cta-href</div>
+          <div>/contact</div>
+        </div>
+        <div>
+          <div>theme</div>
+          <div>emerald</div>
+        </div>
+      </div>
+    </div>
+    <div class="section rack-page-support">
+      <div class="rack-page-support__panel">
+        <p class="rack-category-entry__eyebrow">Need a direct path instead?</p>
+        <p>Jump straight to the full category view if you already know you want to compare all server racks manually.</p>
+        <a href="/server-racks?sort=position_DESC" class="button secondary">Compare all server racks</a>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+
+</html>

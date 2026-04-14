@@ -89,6 +89,9 @@
           "...": "../blocks/uniform-configurator/_*.json#/definitions"
         },
         {
+          "...": "../blocks/guided-selling-luxe/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/quiz-router/_*.json#/definitions"
         },
         {

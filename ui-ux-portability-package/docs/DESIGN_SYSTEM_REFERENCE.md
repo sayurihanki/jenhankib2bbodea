@@ -54,7 +54,8 @@ Category distribution:
 
 ## Token Prefix Distribution
 
-- `accent`: 3
+- `accent`: 6
+- `amber`: 1
 - `background`: 2
 - `blogpost`: 1
 - `body`: 4
@@ -62,6 +63,7 @@ Category distribution:
 - `color`: 63
 - `column`: 1
 - `cream`: 1
+- `cyan`: 2
 - `d`: 1
 - `desktop`: 5
 - `dialog`: 1
@@ -95,10 +97,12 @@ Category distribution:
 - `pp`: 14
 - `product`: 11
 - `promotional`: 51
+- `purple`: 10
 - `qrm`: 19
 - `quiz`: 11
 - `readonly`: 1
 - `search`: 26
+- `secondary`: 1
 - `sel`: 1
 - `shadow`: 5
 - `shape`: 15

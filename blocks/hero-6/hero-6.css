@@ -30,8 +30,8 @@
 .hero-6 {
   background:
     radial-gradient(ellipse 70% 60% at 65% 35%, rgb(26 102 64 / 22%) 0%, transparent 65%),
-    radial-gradient(ellipse 45% 50% at 10% 80%, rgb(46 190 122 / 10%) 0%, transparent 55%),
-    radial-gradient(ellipse 35% 30% at 90% 10%, rgb(201 168 76 / 6%) 0%, transparent 50%),
+    radial-gradient(ellipse 45% 50% at 10% 80%, rgb(var(--accent-glow) / 10%) 0%, transparent 55%),
+    radial-gradient(ellipse 35% 30% at 90% 10%, rgb(var(--secondary-glow) / 6%) 0%, transparent 50%),
     var(--ink-950, #080c0a);
   min-height: calc(100dvh - var(--nav-height, 0px));
   min-height: calc(100vh - var(--nav-height, 0px));
@@ -69,7 +69,7 @@
 
 /* ── Bento cell base ────────────────────────────────────────── */
 .hero-6 .h6-cell {
-  border: 1px solid rgb(46 190 122 / 12%);
+  border: 1px solid rgb(var(--accent-glow) / 12%);
   border-radius: 20px;
   overflow: hidden;
   padding: clamp(24px, 3vw, 40px);
@@ -78,7 +78,7 @@
 }
 
 .hero-6 .h6-cell::before {
-  background: linear-gradient(135deg, rgb(46 190 122 / 6%) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgb(var(--accent-glow) / 6%) 0%, transparent 60%);
   border-radius: inherit;
   content: '';
   inset: 0;
@@ -105,7 +105,7 @@
   animation: h6-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
   background: rgb(8 14 10 / 90%);
   backdrop-filter: blur(24px) saturate(1.2);
-  border-color: rgb(46 190 122 / 18%);
+  border-color: rgb(var(--accent-glow) / 18%);
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -128,7 +128,7 @@
   align-items: center;
   animation: h6-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
   background: rgb(5 10 7 / 95%);
-  border-color: rgb(46 190 122 / 8%);
+  border-color: rgb(var(--accent-glow) / 8%);
   display: flex;
   grid-column: 6 / 13;
   grid-row: 2;
@@ -146,8 +146,8 @@
 .hero-6 .h6-eyebrow {
   align-items: center;
   animation: h6-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
-  background: rgb(46 190 122 / 12%);
-  border: 1px solid rgb(46 190 122 / 25%);
+  background: rgb(var(--accent-glow) / 12%);
+  border: 1px solid rgb(var(--accent-glow) / 25%);
   border-radius: 999px;
   color: var(--green-200, #5fd49f);
   display: inline-flex;
@@ -294,7 +294,7 @@
 .hero-6 .h6-stats-header {
   align-items: center;
   animation: h6-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
-  border-bottom: 1px solid rgb(46 190 122 / 10%);
+  border-bottom: 1px solid rgb(var(--accent-glow) / 10%);
   display: flex;
   justify-content: space-between;
   margin-block-end: 20px;
@@ -311,8 +311,8 @@
 
 .hero-6 .h6-stats-live {
   animation: h6-live-badge 2.5s ease-in-out infinite;
-  background: rgb(46 190 122 / 15%);
-  border: 1px solid rgb(46 190 122 / 30%);
+  background: rgb(var(--accent-glow) / 15%);
+  border: 1px solid rgb(var(--accent-glow) / 30%);
   border-radius: 999px;
   color: var(--green-200, #5fd49f);
   font-size: 10px;
@@ -329,7 +329,7 @@
 
 .hero-6 .h6-stat {
   animation: h6-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-  border: 1px solid rgb(46 190 122 / 8%);
+  border: 1px solid rgb(var(--accent-glow) / 8%);
   border-radius: 14px;
   display: flex;
   flex-direction: column;
@@ -345,8 +345,8 @@
 .hero-6 .h6-stat:nth-child(4) { animation-delay: 0.46s; }
 
 .hero-6 .h6-stat:hover {
-  background: rgb(46 190 122 / 6%);
-  border-color: rgb(46 190 122 / 18%);
+  background: rgb(var(--accent-glow) / 6%);
+  border-color: rgb(var(--accent-glow) / 18%);
 }
 
 .hero-6 .h6-stat-num {
@@ -356,7 +356,7 @@
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
-  text-shadow: 0 0 40px rgb(46 190 122 / 20%);
+  text-shadow: 0 0 40px rgb(var(--accent-glow) / 20%);
 }
 
 .hero-6 .h6-stat-label {
@@ -391,7 +391,7 @@
 .hero-6 .h6-feat {
   align-items: flex-start;
   animation: h6-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-  border: 1px solid rgb(46 190 122 / 0%);
+  border: 1px solid rgb(var(--accent-glow) / 0%);
   border-radius: 14px;
   display: flex;
   flex: 1;
@@ -405,12 +405,12 @@
 .hero-6 .h6-feat:nth-child(4) { animation-delay: 0.6s; }
 
 .hero-6 .h6-feat:hover {
-  background: rgb(46 190 122 / 5%);
-  border-color: rgb(46 190 122 / 14%);
+  background: rgb(var(--accent-glow) / 5%);
+  border-color: rgb(var(--accent-glow) / 14%);
 }
 
 .hero-6 .h6-feat-icon {
-  background: rgb(46 190 122 / 14%);
+  background: rgb(var(--accent-glow) / 14%);
   border-radius: 10px;
   color: var(--green-300, #2ebe7a);
   flex-shrink: 0;

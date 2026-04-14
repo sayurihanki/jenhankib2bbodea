@@ -1,11 +1,12 @@
 {
-  "generatedAt": "2026-03-25T20:04:40.124Z",
+  "generatedAt": "2026-04-08T00:07:45.986Z",
   "summary": {
-    "totalTokens": 728,
-    "definedTokens": 674,
+    "totalTokens": 745,
+    "definedTokens": 691,
     "unresolvedTokens": 54,
     "byPrefix": {
-      "accent": 3,
+      "accent": 6,
+      "amber": 1,
       "background": 2,
       "blogpost": 1,
       "body": 4,
@@ -13,6 +14,7 @@
       "color": 63,
       "column": 1,
       "cream": 1,
+      "cyan": 2,
       "d": 1,
       "desktop": 5,
       "dialog": 1,
@@ -46,10 +48,12 @@
       "pp": 14,
       "product": 11,
       "promotional": 51,
+      "purple": 10,
       "qrm": 19,
       "quiz": 11,
       "readonly": 1,
       "search": 26,
+      "secondary": 1,
       "sel": 1,
       "shadow": 5,
       "shape": 15,
@@ -76,7 +80,8 @@
       "prefix": "accent",
       "value": "var(--main-color-accent)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 56,
       "usedIn": [
@@ -99,7 +104,8 @@
       "prefix": "accent",
       "value": "var(--green-500)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 24,
       "usedIn": [
@@ -120,7 +126,8 @@
       "prefix": "accent",
       "value": "var(--gold)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 7,
       "usedIn": [
@@ -133,11 +140,83 @@
       "status": "defined"
     },
     {
+      "name": "--accent-dark-glow",
+      "prefix": "accent",
+      "value": "15 61 36",
+      "definedIn": [
+        "styles/styles.css",
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 23,
+      "usedIn": [
+        "blocks/accordion/accordion.css",
+        "blocks/uniform-configurator/uniform-configurator.css",
+        "styles/lazy-styles.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--accent-deep-glow",
+      "prefix": "accent",
+      "value": "31 122 77",
+      "definedIn": [
+        "styles/styles.css",
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 14,
+      "usedIn": [
+        "blocks/form-4/form-4.css",
+        "blocks/header/header.css",
+        "blocks/hero-3/hero-3.css",
+        "blocks/quiz-router/quiz-router.css",
+        "styles/lazy-styles.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--accent-glow",
+      "prefix": "accent",
+      "value": "46 190 122",
+      "definedIn": [
+        "styles/styles.css",
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 102,
+      "usedIn": [
+        "blocks/accordion/accordion.css",
+        "blocks/form-4/form-4.css",
+        "blocks/header/header.css",
+        "blocks/hero-3/hero-3.css",
+        "blocks/hero-6/hero-6.css",
+        "blocks/product-configurator-luxe/product-configurator-luxe.css",
+        "blocks/search/search.css",
+        "styles/lazy-styles.css",
+        "styles/styles.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--amber",
+      "prefix": "amber",
+      "value": "#f59e0b",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/theme-purple.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--background-color",
       "prefix": "background",
       "value": "var(--cream)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 8,
       "usedIn": [
@@ -367,7 +446,8 @@
       "prefix": "color",
       "value": "var(--ink-500)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 0,
       "usedIn": [],
@@ -389,7 +469,8 @@
       "prefix": "color",
       "value": "var(--ink-700)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 20,
       "usedIn": [
@@ -409,7 +490,8 @@
       "prefix": "color",
       "value": "var(--ink-800)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 3,
       "usedIn": [
@@ -424,7 +506,8 @@
       "prefix": "color",
       "value": "var(--ink-900)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 10,
       "usedIn": [
@@ -671,7 +754,8 @@
       "prefix": "color",
       "value": "#eeeffb",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 0,
       "usedIn": [],
@@ -682,7 +766,8 @@
       "prefix": "color",
       "value": "#6978d9",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 3,
       "usedIn": [
@@ -697,7 +782,8 @@
       "prefix": "color",
       "value": "#5d6dd6",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 0,
       "usedIn": [],
@@ -815,7 +901,8 @@
       "prefix": "color",
       "value": "var(--ink-50)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 14,
       "usedIn": [
@@ -837,7 +924,8 @@
       "prefix": "color",
       "value": "#e8efe9",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 22,
       "usedIn": [
@@ -857,7 +945,8 @@
       "prefix": "color",
       "value": "var(--ink-100)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 18,
       "usedIn": [
@@ -879,7 +968,8 @@
       "prefix": "color",
       "value": "var(--ink-200)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 13,
       "usedIn": [
@@ -900,9 +990,10 @@
       "prefix": "color",
       "value": "#fff",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 66,
+      "usageCount": 67,
       "usedIn": [
         "blocks/age-gate/age-gate.css",
         "blocks/age-verification/age-verification.css",
@@ -925,7 +1016,8 @@
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
         "scripts/components/pdp-input-options/pdp-input-options.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -934,7 +1026,8 @@
       "prefix": "color",
       "value": "var(--ink-300)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 13,
       "usedIn": [
@@ -957,7 +1050,8 @@
       "prefix": "color",
       "value": "var(--ink-400)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 13,
       "usedIn": [
@@ -980,7 +1074,8 @@
       "prefix": "color",
       "value": "var(--ink-500)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 40,
       "usedIn": [
@@ -1016,7 +1111,8 @@
       "prefix": "color",
       "value": "var(--ink-700)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 17,
       "usedIn": [
@@ -1039,7 +1135,8 @@
       "prefix": "color",
       "value": "var(--ink-900)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 48,
       "usedIn": [
@@ -1098,7 +1195,8 @@
       "prefix": "color",
       "value": "var(--green-50)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 2,
       "usedIn": [
@@ -1112,7 +1210,8 @@
       "prefix": "color",
       "value": "var(--green-300)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 2,
       "usedIn": [
@@ -1137,7 +1236,8 @@
       "prefix": "color",
       "value": "var(--green-600)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 4,
       "usedIn": [
@@ -1153,7 +1253,8 @@
       "prefix": "color",
       "value": "#fdf3e9",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 0,
       "usedIn": [],
@@ -1164,7 +1265,8 @@
       "prefix": "color",
       "value": "var(--gold-light)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 1,
       "usedIn": [
@@ -1177,7 +1279,8 @@
       "prefix": "color",
       "value": "var(--gold)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 1,
       "usedIn": [
@@ -1213,13 +1316,39 @@
       "prefix": "cream",
       "value": "#faf8f3",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 3,
+      "usedIn": [
+        "blocks/catalog-highlights/catalog-highlights.css",
+        "styles/styles.css",
+        "styles/theme-purple.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--cyan",
+      "prefix": "cyan",
+      "value": "#06b6d4",
+      "definedIn": [
+        "styles/theme-purple.css"
       ],
       "usageCount": 2,
       "usedIn": [
-        "blocks/catalog-highlights/catalog-highlights.css",
-        "styles/styles.css"
+        "styles/theme-purple.css"
       ],
+      "status": "defined"
+    },
+    {
+      "name": "--cyan-light",
+      "prefix": "cyan",
+      "value": "#22d3ee",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
       "status": "defined"
     },
     {
@@ -1810,7 +1939,7 @@
     {
       "name": "--f4-a3",
       "prefix": "f4",
-      "value": "#059669",
+      "value": "var(--green-500)",
       "definedIn": [
         "blocks/form-4/form-4.css"
       ],
@@ -1888,7 +2017,7 @@
     {
       "name": "--f4-gb-f",
       "prefix": "f4",
-      "value": "rgb(46 190 122 / 40%)",
+      "value": "rgb(var(--accent-glow) / 40%)",
       "definedIn": [
         "blocks/form-4/form-4.css"
       ],
@@ -2065,7 +2194,8 @@
       "prefix": "font",
       "value": "var(--type-display-font-family)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 47,
       "usedIn": [
@@ -2114,7 +2244,8 @@
       "prefix": "glass",
       "value": "rgb(255 255 255 / 58%)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 20,
       "usedIn": [
@@ -2138,7 +2269,8 @@
       "prefix": "glass",
       "value": "rgb(255 255 255 / 72%)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 11,
       "usedIn": [
@@ -2158,7 +2290,8 @@
       "prefix": "glass",
       "value": "rgb(255 255 255 / 84%)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 26,
       "usedIn": [
@@ -2257,7 +2390,8 @@
       "prefix": "glass",
       "value": "rgb(255 255 255 / 74%)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 15,
       "usedIn": [
@@ -2277,9 +2411,10 @@
     {
       "name": "--glass-border-subtle",
       "prefix": "glass",
-      "value": "rgb(15 61 36 / 12%)",
+      "value": "rgb(var(--accent-dark-glow) / 12%)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 29,
       "usedIn": [
@@ -2458,10 +2593,11 @@
       "definedIn": [
         "styles/styles.css"
       ],
-      "usageCount": 33,
+      "usageCount": 34,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/commerce-account-hub/commerce-account-hub.css",
+        "blocks/form-4/form-4.css",
         "blocks/header/header.css",
         "blocks/quiz-router/quiz-router.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
@@ -3461,15 +3597,17 @@
       "prefix": "ink",
       "value": "#d8e5da",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 6,
+      "usageCount": 7,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/hero-6/hero-6.css",
         "blocks/quiz-router/quiz-router.css",
         "blocks/vip-hero-block/vip-hero-block.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -3478,13 +3616,15 @@
       "prefix": "ink",
       "value": "#b0c5b5",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 4,
+      "usageCount": 5,
       "usedIn": [
         "blocks/footer/footer.css",
         "blocks/uniform-configurator/uniform-configurator.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -3493,9 +3633,10 @@
       "prefix": "ink",
       "value": "#7f9985",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 19,
+      "usageCount": 20,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/footer/footer.css",
@@ -3505,7 +3646,8 @@
         "blocks/vip-hero-block/vip-hero-block.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -3514,9 +3656,10 @@
       "prefix": "ink",
       "value": "#5a7060",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 25,
+      "usageCount": 26,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/hero-6/hero-6.css",
@@ -3524,7 +3667,8 @@
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -3533,14 +3677,16 @@
       "prefix": "ink",
       "value": "#f2f7f3",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 8,
+      "usageCount": 9,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/hero-6/hero-6.css",
         "blocks/vip-member-block/vip-member-block.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -3549,16 +3695,18 @@
       "prefix": "ink",
       "value": "#3d5342",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 21,
+      "usageCount": 23,
       "usedIn": [
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/quiz-router/quiz-router.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -3567,7 +3715,8 @@
       "prefix": "ink",
       "value": "#2d3d30",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 10,
       "usedIn": [
@@ -3584,15 +3733,17 @@
       "prefix": "ink",
       "value": "#1f2b22",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 12,
+      "usageCount": 14,
       "usedIn": [
         "blocks/header/header.css",
         "blocks/medal-rack-configurator/medal-rack-configurator.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/uniform-configurator/uniform-configurator.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -3601,16 +3752,18 @@
       "prefix": "ink",
       "value": "#161d18",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 19,
+      "usageCount": 20,
       "usedIn": [
         "blocks/header/header.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
         "blocks/uniform-configurator/uniform-configurator.css",
         "blocks/vip-hero-block/vip-hero-block.css",
         "blocks/vip-member-block/vip-member-block.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -3619,9 +3772,10 @@
       "prefix": "ink",
       "value": "#0e1410",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 38,
+      "usageCount": 40,
       "usedIn": [
         "blocks/catalog-highlights/catalog-highlights.css",
         "blocks/product-configurator-luxe/product-configurator-luxe.css",
@@ -3630,7 +3784,8 @@
         "blocks/vip-hero-block/vip-hero-block.css",
         "blocks/vip-member-block-real-v2/vip-member-block-real-v2.css",
         "blocks/vip-member-block/vip-member-block.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -3639,7 +3794,8 @@
       "prefix": "ink",
       "value": "#080c0a",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 9,
       "usedIn": [
@@ -4122,9 +4278,10 @@
       "prefix": "main",
       "value": "var(--green-400)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 16,
+      "usageCount": 17,
       "usedIn": [
         "blocks/commerce-account-hub/commerce-account-hub.css",
         "blocks/commerce-account-sidebar/commerce-account-sidebar.css",
@@ -4136,7 +4293,8 @@
         "blocks/commerce-company-users/commerce-company-users.css",
         "blocks/form-4/form-4.css",
         "blocks/promo-popup/promo-popup.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -4634,7 +4792,7 @@
     {
       "name": "--nav-highlight-bg",
       "prefix": "nav",
-      "value": "rgb(46 190 122 / 5%)",
+      "value": "rgb(var(--accent-glow) / 5%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -4660,7 +4818,7 @@
     {
       "name": "--nav-highlight-border",
       "prefix": "nav",
-      "value": "rgb(46 190 122 / 12%)",
+      "value": "rgb(var(--accent-glow) / 12%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -4673,7 +4831,7 @@
     {
       "name": "--nav-highlight-shadow",
       "prefix": "nav",
-      "value": "0 0 0 1px rgb(255 255 255 / 50%) inset, 0 2px 8px rgb(46 190 122 / 8%)",
+      "value": "0 0 0 1px rgb(255 255 255 / 50%) inset, 0 2px 8px rgb(var(--accent-glow) / 8%)",
       "definedIn": [
         "blocks/header/header.css"
       ],
@@ -5172,7 +5330,7 @@
     {
       "name": "--pcl-accent-soft",
       "prefix": "pcl",
-      "value": "rgb(46 190 122 / 18%)",
+      "value": "rgb(var(--accent-glow) / 18%)",
       "definedIn": [
         "blocks/product-configurator-luxe/product-configurator-luxe.css"
       ],
@@ -6204,6 +6362,126 @@
       "status": "defined"
     },
     {
+      "name": "--purple-100",
+      "prefix": "purple",
+      "value": "#ddd6fe",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--purple-200",
+      "prefix": "purple",
+      "value": "#c4b5fd",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--purple-300",
+      "prefix": "purple",
+      "value": "#a78bfa",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/theme-purple.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--purple-400",
+      "prefix": "purple",
+      "value": "#7c3aed",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/theme-purple.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--purple-50",
+      "prefix": "purple",
+      "value": "#f5f0ff",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/theme-purple.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--purple-500",
+      "prefix": "purple",
+      "value": "#5b21b6",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/theme-purple.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--purple-600",
+      "prefix": "purple",
+      "value": "#452578",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 1,
+      "usedIn": [
+        "styles/theme-purple.css"
+      ],
+      "status": "defined"
+    },
+    {
+      "name": "--purple-700",
+      "prefix": "purple",
+      "value": "#351d5e",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--purple-800",
+      "prefix": "purple",
+      "value": "#271545",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
+      "name": "--purple-900",
+      "prefix": "purple",
+      "value": "#1a0e2e",
+      "definedIn": [
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 0,
+      "usedIn": [],
+      "status": "defined"
+    },
+    {
       "name": "--qrm-body-font",
       "prefix": "qrm",
       "value": "\"Avenir Next\", \"Trebuchet MS\", \"Lucida Sans Unicode\", sans-serif",
@@ -6942,6 +7220,23 @@
       "status": "defined"
     },
     {
+      "name": "--secondary-glow",
+      "prefix": "secondary",
+      "value": "201 168 76",
+      "definedIn": [
+        "styles/styles.css",
+        "styles/theme-purple.css"
+      ],
+      "usageCount": 14,
+      "usedIn": [
+        "blocks/hero-6/hero-6.css",
+        "blocks/product-configurator-luxe/product-configurator-luxe.css",
+        "blocks/uniform-configurator/uniform-configurator.css",
+        "styles/lazy-styles.css"
+      ],
+      "status": "defined"
+    },
+    {
       "name": "--sel",
       "prefix": "sel",
       "value": ":after {\n  content: '\\2713'",
@@ -6955,9 +7250,10 @@
     {
       "name": "--shadow-button",
       "prefix": "shadow",
-      "value": "0 4px 14px rgb(31 122 77 / 36%)",
+      "value": "0 4px 14px rgb(var(--accent-deep-glow) / 36%)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 8,
       "usedIn": [
@@ -6973,9 +7269,10 @@
     {
       "name": "--shadow-button-hover",
       "prefix": "shadow",
-      "value": "0 6px 20px rgb(31 122 77 / 48%)",
+      "value": "0 6px 20px rgb(var(--accent-deep-glow) / 48%)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 6,
       "usedIn": [
@@ -6991,9 +7288,10 @@
     {
       "name": "--shadow-focus",
       "prefix": "shadow",
-      "value": "0 0 0 3px var(--color-neutral-50), 0 0 0 5px rgb(46 190 122 / 45%)",
+      "value": "0 0 0 3px var(--color-neutral-50), 0 0 0 5px rgb(var(--accent-glow) / 45%)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 8,
       "usedIn": [
@@ -7011,7 +7309,8 @@
       "prefix": "shadow",
       "value": "0 8px 32px rgb(0 0 0 / 10%)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 10,
       "usedIn": [
@@ -7031,7 +7330,8 @@
       "prefix": "shadow",
       "value": "0 12px 40px rgb(0 0 0 / 14%)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 2,
       "usedIn": [
@@ -8951,9 +9251,10 @@
       "prefix": "type",
       "value": "\"Plus Jakarta Sans\", \"DM Sans\", \"Sora\", system-ui, sans-serif",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 86,
+      "usageCount": 88,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/age-gate/age-gate.css",
@@ -8967,7 +9268,8 @@
         "blocks/quiz-router/quiz-router.css",
         "blocks/store-locator/store-locator.css",
         "scripts/components/commerce-mini-pdp/commerce-mini-pdp.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -9572,9 +9874,10 @@
       "prefix": "type",
       "value": "\"Syne\", \"Sora\", var(--type-base-font-family)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
-      "usageCount": 38,
+      "usageCount": 39,
       "usedIn": [
         "blocks/accordion/accordion.css",
         "blocks/catalog-highlights/catalog-highlights.css",
@@ -9589,7 +9892,8 @@
         "blocks/product-technical-details/product-technical-details.css",
         "blocks/quiz-router/quiz-router.css",
         "blocks/uniform-configurator/uniform-configurator.css",
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "status": "defined"
     },
@@ -9800,7 +10104,8 @@
       "prefix": "type",
       "value": "\"Sora\", \"Syne\", var(--type-base-font-family)",
       "definedIn": [
-        "styles/styles.css"
+        "styles/styles.css",
+        "styles/theme-purple.css"
       ],
       "usageCount": 15,
       "usedIn": [
