@@ -23,7 +23,10 @@ import {
   IS_UE,
   IS_DA,
 } from './commerce.js';
-import { runExperimentation } from './experiment-loader.js';
+import {
+  runExperimentation,
+  showExperimentationRail,
+} from './experiment-loader.js';
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -100,7 +103,11 @@ export function decorateMain(main) {
 }
 
 const experimentationConfig = {
-  audiences: {},
+  prodHost: 'main--jenhankib2bbodea--sayurihanki.aem.live',
+  audiences: {
+    mobile: () => window.innerWidth < 600,
+    desktop: () => window.innerWidth >= 600,
+  },
   decorateFunction: async (el) => {
     if (el.matches('main')) {
       decorateMain(el);
@@ -177,6 +184,7 @@ async function loadLazy(doc) {
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
+  await showExperimentationRail(doc, experimentationConfig);
 }
 
 /**
