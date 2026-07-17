@@ -1,0 +1,6 @@
+razer-minipage
+preset	basilisk-v3-pro-35k
+navigation	true
+footer	true
+motion	true
+product-url	https://www.razer.com/gaming-mice/razer-basilisk-v3-pro-35k/RZ01-05240100-R3U1

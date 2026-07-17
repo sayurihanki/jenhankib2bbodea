@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Razer minipage block integration preview">
+    <title>Razer Minipage Block Preview</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/blocks/razer-minipage/razer-minipage.css">
+    <link rel="stylesheet" href="/blocks/header/header.css">
+    <link rel="stylesheet" href="/blocks/footer/footer.css">
+    <style>
+      .razer-minipage-demo-sentinel {
+        padding: 24px;
+        background: #f4efe5;
+        color: #27312b;
+        font: 16px/1.5 sans-serif;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body class="appear">
+    <header aria-label="Host site header">
+      <div class="razer-minipage-demo-sentinel">Host header sentinel</div>
+    </header>
+    <main>
+      <div
+        class="section razer-minipage-container appear"
+        data-section-status="loaded"
+        style="display: block">
+        <div class="razer-minipage-wrapper">
+          <div
+            class="razer-minipage block"
+            data-block-name="razer-minipage"
+            data-block-status="loaded">
+            <div><div>preset</div><div>basilisk-v3-pro-35k</div></div>
+            <div><div>navigation</div><div>true</div></div>
+            <div><div>footer</div><div>true</div></div>
+            <div><div>motion</div><div>true</div></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer aria-label="Host site footer">
+      <div class="razer-minipage-demo-sentinel">Host footer sentinel</div>
+    </footer>
+    <script type="module">
+      import decorate from './blocks/razer-minipage/razer-minipage.js';
+
+      decorate(document.querySelector('.razer-minipage'));
+    </script>
+  </body>
+</html>

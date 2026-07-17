@@ -1,0 +1,71 @@
+{
+  "definitions": [
+    {
+      "title": "Razer Minipage",
+      "id": "razer-minipage",
+      "model": "razer-minipage",
+      "plugins": {
+        "da": {
+          "type": "key-value-block"
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "razer-minipage",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "preset",
+          "label": "Experience Preset",
+          "value": "basilisk-v3-pro-35k",
+          "options": [
+            {
+              "name": "Razer Basilisk V3 Pro 35K",
+              "value": "basilisk-v3-pro-35k"
+            }
+          ]
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "navigation",
+          "label": "Show Product Navigation",
+          "value": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "footer",
+          "label": "Show Product Footer",
+          "value": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "motion",
+          "label": "Enable Motion",
+          "value": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "product-url",
+          "label": "Buy and Add-to-cart URL",
+          "value": "https://www.razer.com/gaming-mice/razer-basilisk-v3-pro-35k/RZ01-05240100-R3U1"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "sticky-offset",
+          "label": "Optional Sticky Offset",
+          "description": "Leave empty to automatically clear the fixed site header on mobile.",
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

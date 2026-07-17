@@ -74,6 +74,9 @@
           "...": "../blocks/live-block-premium/_*.json#/definitions"
         },
         {
+          "...": "../blocks/razer-minipage/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/triptych/_*.json#/definitions"
         },
         {

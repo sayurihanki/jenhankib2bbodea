@@ -554,6 +554,16 @@
           }
         },
         {
+          "title": "Razer Minipage",
+          "id": "razer-minipage",
+          "model": "razer-minipage",
+          "plugins": {
+            "da": {
+              "type": "key-value-block"
+            }
+          }
+        },
+        {
           "title": "Triptych",
           "id": "triptych",
           "model": "triptych",
