@@ -80,6 +80,9 @@
           "...": "../blocks/razer-minipage-block2/_*.json#/definitions"
         },
         {
+          "...": "../blocks/razer-minipage-block3/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/triptych/_*.json#/definitions"
         },
         {

@@ -26,6 +26,7 @@
       "live-block-premium",
       "razer-minipage",
       "razer-minipage-block2",
+      "razer-minipage-block3",
       "vip-hero-mccs",
       "product-recommendations",
       "product-highlights",
@@ -109,6 +110,24 @@
       "razer-minipage-block2-feature-media",
       "razer-minipage-block2-specification",
       "razer-minipage-block2-related-product"
+    ]
+  },
+  {
+    "id": "razer-minipage-block3",
+    "components": [
+      "razer-minipage-block3-setting",
+      "razer-minipage-block3-brand",
+      "razer-minipage-block3-product",
+      "razer-minipage-block3-gallery-image",
+      "razer-minipage-block3-option-group",
+      "razer-minipage-block3-option",
+      "razer-minipage-block3-delivery",
+      "razer-minipage-block3-trust",
+      "razer-minipage-block3-highlight",
+      "razer-minipage-block3-feature",
+      "razer-minipage-block3-feature-media",
+      "razer-minipage-block3-specification",
+      "razer-minipage-block3-related-product"
     ]
   },
   {
