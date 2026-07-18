@@ -8,6 +8,12 @@ the long internal navigation and editorial story used by Block 2. Block 3 is
 independent: authoring or publishing it does not change
 `razer-minipage-block2`.
 
+Its block-scoped presentation follows Razer's storefront language: a black
+showroom canvas, cinematic gallery with a thumbnail rail, condensed product
+hierarchy, green price and purchase action, native option cards, and a compact
+three-item highlight band. Motion is limited to a short first-paint entrance
+and restrained control transitions; reduced-motion preferences disable both.
+
 The parent uses filtered child rows. Authors insert one **Razer Minipage Block
 3** and add typed rows inside it. DA.live serializes the child components as
 ordinary rows of the parent block.

@@ -880,16 +880,13 @@ function renderPicture(image, {
   </picture>`;
 }
 
-function renderGallery(gallery, highlights, showHighlights) {
+function renderGallery(gallery) {
   if (!gallery.length) return '';
   const thumbnails = gallery.map((image, index) => `
     <button class="rm3-gallery-thumb" type="button" data-gallery-index="${index}"
       aria-pressed="${index === 0}" aria-label="Show ${escapeHTML(image.alt)}">
       ${image.thumbnailSrc ? renderPicture(image, { thumbnail: true, decorative: true }) : ''}
     </button>`).join('');
-  const highlightList = showHighlights && highlights.length
-    ? `<ul class="rm3-highlights">${highlights.map((text) => `<li>${escapeHTML(text)}</li>`).join('')}</ul>`
-    : '';
   return `<div class="rm3-gallery">
     <div class="rm3-gallery-stage" data-gallery-stage>
       <div class="rm3-gallery-main">
@@ -899,18 +896,27 @@ function renderGallery(gallery, highlights, showHighlights) {
   })}
       </div>
     </div>
-    <div class="rm3-gallery-thumbs" aria-label="Product images">${thumbnails}</div>
+    <div class="rm3-gallery-thumbs" role="group" aria-label="Product images">${thumbnails}</div>
     <p class="rm3-gallery-status visually-hidden" aria-live="polite" data-gallery-status>
       Image 1 of ${gallery.length}
     </p>
-    ${highlightList}
   </div>`;
+}
+
+function renderHighlights(highlights) {
+  return highlights.length
+    ? `<ul class="rm3-highlights" aria-label="Product highlights">
+      ${highlights.map((text) => `<li>${escapeHTML(text)}</li>`).join('')}
+    </ul>`
+    : '';
 }
 
 function renderOptionGroups(groups, instanceId) {
   if (!groups.length) return '';
-  return `<div class="rm3-option-groups">${groups.map((group) => `
-    <fieldset class="rm3-option-group">
+  return `<div class="rm3-option-groups">${groups.map((group, index) => `
+    <fieldset class="rm3-option-group"
+      data-visual="${index === 0 ? 'swatches' : 'cards'}"
+      data-count="${group.options.length}">
       <legend class="rm3-option-legend">${escapeHTML(group.label)}</legend>
       <div class="rm3-options">${group.options.map((option) => `
         <label class="rm3-option">
@@ -952,7 +958,6 @@ function renderPurchase(product, config, ui) {
     ? `<ul class="rm3-trust">${product.trust.map((text) => `<li>${escapeHTML(text)}</li>`).join('')}</ul>`
     : '';
   return `<div class="rm3-purchase">
-    ${renderPrice(product)}
     ${renderFulfillment(product, config, ui)}
     <a class="rm3-buy-link" href="${escapeHTML(config.productUrl)}">${escapeHTML(ui.buyLabel)}</a>
     ${trust}
@@ -982,7 +987,7 @@ function renderFeatures(features, instanceId) {
   const headingId = `${instanceId}-features-title`;
   return `<section class="rm3-features" aria-labelledby="${headingId}">
     <div class="rm3-section-head">
-      <div><p class="rm3-section-index">Optional editorial</p>
+      <div><p class="rm3-section-index">Built to perform</p>
       <h2 class="rm3-section-title" id="${headingId}">Product features</h2></div>
     </div>
     ${features.map((feature) => `<article class="rm3-feature" data-layout="${escapeHTML(feature.side || 'right')}">
@@ -1016,7 +1021,7 @@ function renderRelatedProducts(products, heading, instanceId) {
   const headingId = `${instanceId}-related-title`;
   return `<section class="rm3-related" aria-labelledby="${headingId}">
     <div class="rm3-section-head">
-      <div><p class="rm3-section-index">Curated loadout</p>
+      <div><p class="rm3-section-index">More gamer gear</p>
       <h2 class="rm3-section-title" id="${headingId}">${escapeHTML(heading)}</h2></div>
     </div>
     <div class="rm3-related-grid">${products.map((product) => `
@@ -1044,7 +1049,9 @@ function renderMobileBuybar(product, config, ui) {
 
 function renderExperience(content, config, instanceId) {
   const { product, ui } = content;
+  const titleId = `${instanceId}-title`;
   const options = config.showOptions ? renderOptionGroups(product.optionGroups, instanceId) : '';
+  const highlights = config.showHighlights ? renderHighlights(content.highlights) : '';
   const features = config.showFeatures ? renderFeatures(content.features, instanceId) : '';
   const specifications = config.showSpecifications
     ? renderSpecifications(content.specifications, ui.specificationsHeading)
@@ -1053,19 +1060,24 @@ function renderExperience(content, config, instanceId) {
     ? renderRelatedProducts(content.relatedProducts, ui.relatedHeading, instanceId)
     : '';
   return `<div class="rm3-shell">
-    <div class="rm3-product-header">
-      <div>
-        ${content.brand ? renderPicture(content.brand, { className: 'rm3-brand' }) : ''}
-        <p class="rm3-eyebrow">Razer gaming mouse · ${escapeHTML(product.color)}</p>
-        <h1 class="rm3-title">${escapeHTML(product.title)}</h1>
-        <p class="rm3-subtitle">${escapeHTML(product.subtitle)}</p>
+    <section class="rm3-hero" aria-labelledby="${titleId}">
+      ${renderGallery(product.gallery)}
+      <div class="rm3-configurator">
+        <div class="rm3-product-intro">
+          <div class="rm3-product-meta">
+            ${content.brand ? renderPicture(content.brand, { className: 'rm3-brand' }) : ''}
+            <p class="rm3-eyebrow">Razer gaming mouse · ${escapeHTML(product.color)}</p>
+            <p class="rm3-sku">${escapeHTML(product.sku)}</p>
+          </div>
+          <h1 class="rm3-title" id="${titleId}">${escapeHTML(product.title)}</h1>
+          <p class="rm3-subtitle">${escapeHTML(product.subtitle)}</p>
+        </div>
+        ${renderPrice(product)}
+        ${options}
+        ${renderPurchase(product, config, ui)}
       </div>
-      <p class="rm3-sku">${escapeHTML(product.sku)}</p>
-    </div>
-    <div class="rm3-hero">
-      ${renderGallery(product.gallery, content.highlights, config.showHighlights)}
-      <div class="rm3-configurator">${options}${renderPurchase(product, config, ui)}</div>
-    </div>
+    </section>
+    ${highlights}
     ${features}${specifications}${related}
   </div>
   ${renderMobileBuybar(product, config, ui)}`;

@@ -635,6 +635,9 @@ test('standalone sources stay within budgets and omit expensive legacy behavior'
     /addEventListener\s*\(\s*['"`](?:scroll|resize)['"`]/,
   );
   assert.doesNotMatch(javascript, /\bon(?:scroll|resize)\s*=/);
+  assert.match(javascript, /role="group" aria-label="Product images"/);
+  assert.match(javascript, /class="rm3-product-intro"/);
+  assert.doesNotMatch(javascript, /class="rm3-product-header"/);
 
   const listenerTypes = [...javascript.matchAll(
     /addEventListener\s*\(\s*['"`]([^'"`]+)['"`]/g,
@@ -643,6 +646,7 @@ test('standalone sources stay within budgets and omit expensive legacy behavior'
 
   assert.doesNotMatch(css, /@import\b/i);
   assert.match(css, /\.razer-minipage-block3/);
+  assert.doesNotMatch(css, /PRODUCT VIEW|clip-path:\s*polygon/i);
   assert.doesNotMatch(
     css,
     /(^|})\s*(?::root|html|body|header|footer|main)\s*(?:,|\{)/m,
