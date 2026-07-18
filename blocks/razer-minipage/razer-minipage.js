@@ -19,6 +19,12 @@ function escapeHTML(value = '') {
   return String(value).replace(/[&<>"']/g, (character) => replacements[character]);
 }
 
+function formatMessage(pattern = '', values = {}) {
+  return String(pattern).replace(/\{(\w+)\}/g, (match, key) => (
+    Object.hasOwn(values, key) ? values[key] : match
+  ));
+}
+
 export function normalizeKey(value = '') {
   return value
     .trim()
@@ -63,6 +69,7 @@ export function readConfig(block) {
     navigation: readBoolean('navigation', true),
     footer: readBoolean('footer', true),
     motion: readBoolean('motion', true),
+    scrollProgress: readBoolean('scroll-progress', true),
     productUrl: sanitizeProductUrl(authored.get('product-url') || DEFAULT_PRODUCT_URL),
     automaticStickyOffset: !authoredStickyOffset,
     stickyOffset: SAFE_LENGTH.test(stickyOffset)
@@ -119,7 +126,7 @@ function renderImage(image, options = {}) {
     decoding="async"${priority}>`;
 }
 
-function renderGallery(product, ids) {
+function renderGallery(product, ids, ui) {
   const slides = product.gallery.map((image, index) => {
     const hidden = index === 0 ? '' : ' hidden';
     return `<figure
@@ -140,7 +147,7 @@ function renderGallery(product, ids) {
       role="tab"
       aria-controls="${ids.slide}-${index + 1}"
       aria-selected="${index === 0}"
-      aria-label="Show ${escapeHTML(image.alt)}"
+      aria-label="${escapeHTML(formatMessage(ui.showImagePattern, { alt: image.alt }))}"
       tabindex="${index === 0 ? 0 : -1}"
       data-gallery-thumbnail="${index}">
       ${renderImage(image, {
@@ -157,24 +164,34 @@ function renderGallery(product, ids) {
         <button
           class="rm-gallery-nav rm-gallery-nav--previous"
           type="button"
-          aria-label="Previous product image"
-          data-gallery-previous>‹</button>
+          aria-label="${escapeHTML(ui.previousLabel)}"
+          data-gallery-previous>${escapeHTML(ui.previousSymbol)}</button>
         <button
           class="rm-gallery-nav rm-gallery-nav--next"
           type="button"
-          aria-label="Next product image"
-          data-gallery-next>›</button>
-        <span class="rm-gallery-counter" aria-hidden="true" data-gallery-counter>
-          1 / ${product.gallery.length}
+          aria-label="${escapeHTML(ui.nextLabel)}"
+          data-gallery-next>${escapeHTML(ui.nextSymbol)}</button>
+        <span
+          class="rm-gallery-counter"
+          aria-hidden="true"
+          data-counter-pattern="${escapeHTML(ui.counterPattern)}"
+          data-gallery-counter>
+          ${escapeHTML(formatMessage(ui.counterPattern, {
+    current: 1,
+    total: product.gallery.length,
+  }))}
         </span>
       </div>
-      <div class="rm-gallery-thumbnails" role="tablist" aria-label="Product images">
+      <div
+        class="rm-gallery-thumbnails"
+        role="tablist"
+        aria-label="${escapeHTML(ui.imagesLabel)}">
         ${thumbnails}
       </div>
     </div>`;
 }
 
-function renderOptionGroup(group, groupIndex, instanceId) {
+function renderOptionGroup(group, groupIndex, instanceId, selectionPattern) {
   const selectedIndex = Math.max(0, group.options.findIndex((option) => option.selected));
   const options = group.options.map((option, optionIndex) => {
     const selected = optionIndex === selectedIndex;
@@ -192,7 +209,10 @@ function renderOptionGroup(group, groupIndex, instanceId) {
     </li>`;
   }).join('');
 
-  return `<fieldset class="rm-option-group" data-option-group="${groupIndex}">
+  return `<fieldset
+    class="rm-option-group"
+    data-option-group="${groupIndex}"
+    data-selection-pattern="${escapeHTML(selectionPattern)}">
     <legend>${escapeHTML(group.label)}</legend>
     <ul
       class="rm-options"
@@ -205,9 +225,11 @@ function renderOptionGroup(group, groupIndex, instanceId) {
   </fieldset>`;
 }
 
-function renderBuyBox(product, instanceId) {
+function renderBuyBox(product, instanceId, ui) {
   const options = product.optionGroups
-    .map((group, index) => renderOptionGroup(group, index, instanceId))
+    .map((group, index) => (
+      renderOptionGroup(group, index, instanceId, ui.optionSelectionPattern)
+    ))
     .join('');
   const delivery = product.delivery.map((item) => `
     <p><span>${escapeHTML(item.label)}</span><strong>${escapeHTML(item.value)}</strong></p>
@@ -227,32 +249,32 @@ function renderBuyBox(product, instanceId) {
     </p>
     ${options}
     <div class="rm-delivery">
-      <h2>Order now, delivered by</h2>
+      <h2>${escapeHTML(ui.deliveryHeading)}</h2>
       ${delivery}
-      <h2>Pickup at RazerStore</h2>
+      <h2>${escapeHTML(ui.pickupHeading)}</h2>
       <p>${escapeHTML(product.pickup)}</p>
     </div>
     <ul class="rm-trust-badges">${trust}</ul>
     <a class="rm-product-cta" href="${escapeHTML(product.url)}" data-product-link>
-      Add to cart
+      ${escapeHTML(ui.addToCartLabel)}
     </a>
   </div>`;
 }
 
-function renderHero(product, ids) {
+function renderHero(product, ids, ui) {
   return `<section
     class="rm-section rm-hero-section"
     id="${ids.overview}"
     data-rm-section="overview"
     aria-labelledby="${ids.overview}-title">
     <div class="rm-hero">
-      ${renderGallery(product, ids)}
-      ${renderBuyBox(product, ids.instance)}
+      ${renderGallery(product, ids, ui.gallery)}
+      ${renderBuyBox(product, ids.instance, ui.hero)}
     </div>
   </section>`;
 }
 
-function renderHighlights(highlights) {
+function renderHighlights(highlights, ui) {
   const items = highlights.map((highlight, index) => `
     <li style="--rm-item-index: ${index}">
       <span aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
@@ -260,7 +282,9 @@ function renderHighlights(highlights) {
     </li>
   `).join('');
 
-  return `<section class="rm-section rm-highlights-section" aria-label="Product highlights">
+  return `<section
+    class="rm-section rm-highlights-section"
+    aria-label="${escapeHTML(ui.highlightsLabel)}">
     <ol class="rm-highlights">${items}</ol>
   </section>`;
 }
@@ -269,12 +293,12 @@ function renderFeatureMedia(media) {
   return media.map((image) => renderImage(image)).join('');
 }
 
-function renderFeatureBullets(bullets = []) {
+function renderFeatureBullets(bullets = [], separator = ' — ') {
   if (!bullets.length) return '';
   const items = bullets.map((bullet) => {
     const lead = bullet.lead ? `<strong>${escapeHTML(bullet.lead)}</strong>` : '';
-    const separator = bullet.lead && bullet.text ? ' — ' : '';
-    return `<li>${lead}${separator}${escapeHTML(bullet.text)}</li>`;
+    const visibleSeparator = bullet.lead && bullet.text ? escapeHTML(separator) : '';
+    return `<li>${lead}${visibleSeparator}${escapeHTML(bullet.text)}</li>`;
   }).join('');
   return `<ul>${items}</ul>`;
 }
@@ -291,7 +315,7 @@ function renderFeatureDetails(detailGroups = []) {
   `).join('');
 }
 
-function renderFeature(feature, index, ids) {
+function renderFeature(feature, index, ids, ui) {
   const titleId = `${ids.instance}-feature-title-${index + 1}`;
   const paragraphs = (feature.paragraphs || [])
     .map((paragraph) => `<p>${escapeHTML(paragraph)}</p>`)
@@ -323,7 +347,7 @@ function renderFeature(feature, index, ids) {
         <h2 id="${titleId}">${escapeHTML(feature.title)}</h2>
         ${subtitle}
         ${paragraphs}
-        ${renderFeatureBullets(feature.bullets)}
+        ${renderFeatureBullets(feature.bullets, ui.bulletSeparator)}
         ${renderFeatureDetails(feature.detailGroups)}
         ${note}
         ${link}
@@ -337,7 +361,7 @@ function renderSpecificationValue(value) {
   return `<ul>${value.map((item) => `<li>${escapeHTML(item)}</li>`).join('')}</ul>`;
 }
 
-function renderSpecifications(specifications, ids) {
+function renderSpecifications(specifications, ids, ui) {
   const rows = specifications.map((specification, index) => `
     <tr style="--rm-item-index: ${index % 8}">
       <th scope="row">${escapeHTML(specification.label)}</th>
@@ -351,13 +375,13 @@ function renderSpecifications(specifications, ids) {
     data-rm-section="specifications"
     aria-labelledby="${ids.specifications}-title">
     <div class="rm-section-heading">
-      <span>Technical data</span>
-      <h2 id="${ids.specifications}-title">Full Technical Specifications</h2>
+      <span>${escapeHTML(ui.eyebrow)}</span>
+      <h2 id="${ids.specifications}-title">${escapeHTML(ui.title)}</h2>
     </div>
     <div class="rm-spec-table-shell">
       <table class="rm-spec-table">
         <caption class="rm-visually-hidden">
-          Razer Basilisk V3 Pro 35K full technical specifications
+          ${escapeHTML(ui.caption)}
         </caption>
         <tbody>${rows}</tbody>
       </table>
@@ -365,11 +389,14 @@ function renderSpecifications(specifications, ids) {
   </section>`;
 }
 
-function renderRelatedCard(product, index, count) {
+function renderRelatedCard(product, index, count, ui) {
   return `<article
     class="rm-product-card"
     role="group"
-    aria-label="Product ${index + 1} of ${count}"
+    aria-label="${escapeHTML(formatMessage(ui.cardPositionPattern, {
+    current: index + 1,
+    total: count,
+  }))}"
     style="--rm-item-index: ${index}">
     <div class="rm-product-card-media">${renderImage(product.image)}</div>
     <div class="rm-product-card-copy">
@@ -379,14 +406,16 @@ function renderRelatedCard(product, index, count) {
         ${product.originalPrice ? `<del>${escapeHTML(product.originalPrice)}</del>` : ''}
         ${product.discount ? `<mark>${escapeHTML(product.discount)}</mark>` : ''}
       </p>
-      <a href="${escapeHTML(product.url)}">View details</a>
+      <a href="${escapeHTML(product.url)}">
+        ${escapeHTML(product.linkLabel || ui.viewDetailsLabel)}
+      </a>
     </div>
   </article>`;
 }
 
-function renderRelatedProducts(products, ids) {
+function renderRelatedProducts(products, ids, ui) {
   const cards = products
-    .map((product, index) => renderRelatedCard(product, index, products.length))
+    .map((product, index) => renderRelatedCard(product, index, products.length, ui))
     .join('');
 
   return `<section
@@ -395,29 +424,29 @@ function renderRelatedProducts(products, ids) {
     data-rm-section="related"
     aria-labelledby="${ids.related}-title">
     <div class="rm-section-heading">
-      <span>Complete your setup</span>
-      <h2 id="${ids.related}-title">More Gamer Gear You’ll Dig</h2>
+      <span>${escapeHTML(ui.eyebrow)}</span>
+      <h2 id="${ids.related}-title">${escapeHTML(ui.title)}</h2>
     </div>
     <div class="rm-carousel">
       <div class="rm-carousel-controls">
         <button
           class="rm-carousel-button"
           type="button"
-          aria-label="Previous related products"
+          aria-label="${escapeHTML(ui.previousLabel)}"
           aria-controls="${ids.track}"
-          data-carousel-previous>‹</button>
+          data-carousel-previous>${escapeHTML(ui.previousSymbol)}</button>
         <button
           class="rm-carousel-button"
           type="button"
-          aria-label="Next related products"
+          aria-label="${escapeHTML(ui.nextLabel)}"
           aria-controls="${ids.track}"
-          data-carousel-next>›</button>
+          data-carousel-next>${escapeHTML(ui.nextSymbol)}</button>
       </div>
       <div
         class="rm-carousel-track"
         id="${ids.track}"
         role="region"
-        aria-label="Related products"
+        aria-label="${escapeHTML(ui.regionLabel)}"
         tabindex="0"
         data-carousel-track>
         ${cards}
@@ -426,61 +455,97 @@ function renderRelatedProducts(products, ids) {
   </section>`;
 }
 
-function renderNavigation(ids) {
+function renderNavigation(ids, ui, productUrl, content, config) {
+  const sectionLinks = [
+    config.showFeatures && content.features.length
+      ? `<a href="#${ids.features}" data-nav-key="feature">
+          ${escapeHTML(ui.featuresLabel)}
+        </a>`
+      : '',
+    config.showSpecifications
+      ? `<a href="#${ids.specifications}" data-nav-key="specifications">
+          ${escapeHTML(ui.specificationsLabel)}
+        </a>`
+      : '',
+    config.showRelatedProducts
+      ? `<a href="#${ids.related}" data-nav-key="related">
+          ${escapeHTML(ui.relatedLabel)}
+        </a>`
+      : '',
+  ].join('');
+  const progress = '<span class="rm-scroll-progress" aria-hidden="true" data-scroll-progress></span>';
+
   return `<header class="rm-product-nav" data-rm-navigation>
     <div class="rm-product-nav-inner">
-      <a class="rm-brand" href="#${ids.overview}" aria-label="Razer product overview">
-        <img
-          src="https://assets2.razerzone.com/images/phoenix/razer-ths-logo.svg"
-          alt="Razer"
-          width="32"
-          height="32"
-          loading="eager"
-          decoding="async">
+      <a
+        class="rm-brand"
+        href="#${ids.overview}"
+        aria-label="${escapeHTML(ui.brandAriaLabel)}">
+        ${renderImage(ui.logo, { eager: true })}
       </a>
-      <nav aria-label="Razer product navigation">
-        <a href="#${ids.overview}" data-nav-key="overview">Overview</a>
-        <a href="#${ids.features}" data-nav-key="feature">Features</a>
-        <a href="#${ids.specifications}" data-nav-key="specifications">Tech specs</a>
-        <a href="#${ids.related}" data-nav-key="related">More gear</a>
+      <nav aria-label="${escapeHTML(ui.ariaLabel)}">
+        <a href="#${ids.overview}" data-nav-key="overview">
+          ${escapeHTML(ui.overviewLabel)}
+        </a>
+        ${sectionLinks}
       </nav>
-      <a class="rm-buy-now" href="${escapeHTML(DEFAULT_PRODUCT_URL)}" data-product-link>
-        Buy now
+      <a class="rm-buy-now" href="${escapeHTML(productUrl)}" data-product-link>
+        ${escapeHTML(ui.buyNowLabel)}
       </a>
     </div>
-    <span class="rm-scroll-progress" aria-hidden="true" data-scroll-progress></span>
+    ${config.scrollProgress ? progress : ''}
   </header>`;
 }
 
-function renderFooter() {
+function renderFooter(ui) {
   return `<footer class="rm-footer">
     <div>
-      <strong>FOR GAMERS. BY GAMERS.™</strong>
-      <span>Razer Basilisk V3 Pro 35K product prototype</span>
+      <strong>${escapeHTML(ui.tagline)}</strong>
+      <span>${escapeHTML(ui.descriptor)}</span>
     </div>
   </footer>`;
 }
 
-function renderExperience(config, ids) {
-  const navigation = config.navigation ? renderNavigation(ids) : '';
-  const footer = config.footer ? renderFooter() : '';
+function renderExperience(config, ids, content) {
+  const { ui } = content;
+  const navigation = config.navigation
+    ? renderNavigation(ids, ui.navigation, content.product.url, content, config)
+    : '';
+  const footer = config.footer ? renderFooter(ui.footer) : '';
+  const highlights = config.showHighlights
+    ? renderHighlights(content.highlights, ui)
+    : '';
+  const features = config.showFeatures
+    ? content.features.map((feature, index) => (
+      renderFeature(feature, index, ids, ui.feature)
+    )).join('')
+    : '';
+  const specifications = config.showSpecifications
+    ? renderSpecifications(content.specifications, ids, ui.specifications)
+    : '';
+  const relatedProducts = config.showRelatedProducts
+    ? renderRelatedProducts(content.relatedProducts, ids, ui.related)
+    : '';
 
   return `
-    <a class="rm-skip-link" href="#${ids.overview}">Skip product navigation</a>
+    <a class="rm-skip-link" href="#${ids.overview}">
+      ${escapeHTML(ui.skipNavigationLabel)}
+    </a>
     ${navigation}
     <div class="rm-content">
-      ${renderHero(CONTENT.product, ids)}
-      ${renderHighlights(CONTENT.highlights)}
-      ${CONTENT.features.map((feature, index) => renderFeature(feature, index, ids)).join('')}
-      ${renderSpecifications(CONTENT.specifications, ids)}
-      ${renderRelatedProducts(CONTENT.relatedProducts, ids)}
+      ${renderHero(content.product, ids, ui)}
+      ${highlights}
+      ${features}
+      ${specifications}
+      ${relatedProducts}
     </div>
     ${footer}`;
 }
 
-function createIds() {
+function createIds(prefix = 'razer-minipage') {
   instanceCount += 1;
-  const instance = `razer-minipage-${instanceCount}`;
+  const safePrefix = normalizeKey(prefix).replace(/[^a-z0-9-]/g, '') || 'razer-minipage';
+  const instance = `${safePrefix}-${instanceCount}`;
   return {
     instance,
     overview: `${instance}-overview`,
@@ -513,7 +578,12 @@ function setupGallery(block, reducedMotion) {
       thumbnail.setAttribute('aria-selected', String(selected));
       thumbnail.tabIndex = selected ? 0 : -1;
     });
-    if (counter) counter.textContent = `${activeIndex + 1} / ${slides.length}`;
+    if (counter) {
+      counter.textContent = formatMessage(counter.dataset.counterPattern, {
+        current: activeIndex + 1,
+        total: slides.length,
+      });
+    }
     if (focusThumbnail) thumbnails[activeIndex].focus();
 
     const activeSlide = slides[activeIndex];
@@ -594,7 +664,11 @@ function setupOptions(block) {
         button.closest('.rm-option-item')?.classList.toggle('is-selected', selected);
       });
       const selectedLabel = buttons[index].querySelector('span')?.textContent.trim();
-      if (status && selectedLabel) status.textContent = `${selectedLabel} selected`;
+      if (status && selectedLabel) {
+        status.textContent = formatMessage(group.dataset.selectionPattern, {
+          label: selectedLabel,
+        });
+      }
       if (focusButton) buttons[index].focus();
     };
 
@@ -759,28 +833,45 @@ function showPresetError(block, preset) {
 }
 
 /**
- * Decorates a DA.live `razer-minipage` key-value block.
- * @param {Element} block The already-created EDS block element.
+ * Renders and wires the shared Razer minipage experience.
+ * @param {Element} block The EDS block element.
+ * @param {object} options Runtime content and behavior.
+ * @returns {object|null} The generated instance IDs, or null when already ready.
  */
-export default function decorate(block) {
-  if (block.dataset.razerMinipageReady === 'true') return;
-  const config = readConfig(block);
-  if (config.preset !== CONTENT.id) {
-    showPresetError(block, config.preset);
-    return;
-  }
+export function decorateRazerExperience(block, {
+  content = CONTENT,
+  config = {},
+  instancePrefix = 'razer-minipage',
+} = {}) {
+  if (block.dataset.razerMinipageReady === 'true') return null;
+
+  const runtimeConfig = {
+    navigation: true,
+    footer: true,
+    motion: true,
+    scrollProgress: true,
+    showHighlights: true,
+    showFeatures: true,
+    showSpecifications: true,
+    showRelatedProducts: true,
+    productUrl: content.product.url,
+    automaticStickyOffset: true,
+    stickyOffset: 'var(--nav-height, 64px)',
+    ...config,
+  };
 
   block.dataset.razerMinipageReady = 'true';
-  block.dataset.preset = config.preset;
-  block.setAttribute('aria-label', CONTENT.metadata.title);
+  block.dataset.preset = content.id || 'authored';
+  block.setAttribute('aria-label', content.ui.regionLabel || content.metadata.title);
   block.setAttribute('role', 'region');
-  block.classList.toggle('rm-auto-sticky-offset', config.automaticStickyOffset);
-  block.style.setProperty('--rm-sticky-offset', config.stickyOffset);
+  block.classList.add('razer-minipage');
+  block.classList.toggle('rm-auto-sticky-offset', runtimeConfig.automaticStickyOffset);
+  block.style.setProperty('--rm-sticky-offset', runtimeConfig.stickyOffset);
   loadFonts();
 
-  const ids = createIds();
-  block.innerHTML = renderExperience(config, ids);
-  updateProductLinks(block, config.productUrl);
+  const ids = createIds(instancePrefix);
+  block.innerHTML = renderExperience(runtimeConfig, ids, content);
+  updateProductLinks(block, runtimeConfig.productUrl);
 
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
   setupGallery(block, reducedMotion);
@@ -788,5 +879,20 @@ export default function decorate(block) {
   setupCarousel(block, reducedMotion);
   setupNavigation(block);
   setupScrollProgress(block);
-  setupMotion(block, config.motion, reducedMotion);
+  setupMotion(block, runtimeConfig.motion, reducedMotion);
+  return ids;
+}
+
+/**
+ * Decorates a DA.live `razer-minipage` key-value block.
+ * @param {Element} block The already-created EDS block element.
+ */
+export default function decorate(block) {
+  const config = readConfig(block);
+  if (config.preset !== CONTENT.id) {
+    showPresetError(block, config.preset);
+    return;
+  }
+
+  decorateRazerExperience(block, { content: CONTENT, config });
 }

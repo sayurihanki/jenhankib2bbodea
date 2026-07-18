@@ -1,0 +1,25 @@
+@import url("../razer-minipage/razer-minipage.css");
+
+/* Full-bleed EDS integration for the block2 identity. */
+main > .section.razer-minipage-block2-container {
+  margin: 0;
+  padding: 0;
+  opacity: 1;
+  transform: none;
+}
+
+main > .section.razer-minipage-block2-container > .razer-minipage-block2-wrapper {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+main
+  > .section.appear
+  > .razer-minipage-block2-wrapper
+  > .razer-minipage-block2.razer-minipage {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}

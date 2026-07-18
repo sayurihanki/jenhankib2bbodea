@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Editable Razer minipage block2 integration preview">
+    <title>Razer Minipage Block 2 Preview</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/blocks/razer-minipage-block2/razer-minipage-block2.css">
+    <link rel="stylesheet" href="/blocks/header/header.css">
+    <link rel="stylesheet" href="/blocks/footer/footer.css">
+    <style>
+      .razer-minipage-block2-demo-sentinel {
+        padding: 24px;
+        background: #f4efe5;
+        color: #27312b;
+        font: 16px/1.5 sans-serif;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body class="appear">
+    <header aria-label="Host site header">
+      <div class="razer-minipage-block2-demo-sentinel">Host header sentinel</div>
+    </header>
+    <main>
+      <div
+        class="section razer-minipage-block2-container appear"
+        data-section-status="loaded"
+        style="display: block">
+        <div class="razer-minipage-block2-wrapper">
+          <div
+            class="razer-minipage-block2 block"
+            data-block-name="razer-minipage-block2"
+            data-block-status="loaded">
+            <div><div>setting</div><div>content-mode</div><div>merge</div></div>
+            <div><div>setting</div><div>ui-navigation-buy-now-label</div><div>Configure now</div></div>
+            <div><div>setting</div><div>ui-region-label</div><div>Editable Razer product experience</div></div>
+            <div>
+              <div>product</div>
+              <div></div>
+              <div></div>
+              <div>Razer Basilisk V3 Pro 35K · Authoring Mode</div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div>
+              <div>highlight</div>
+              <div>highlight-02</div>
+              <div>true</div>
+              <div>Every visible field is now DA.live editable</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer aria-label="Host site footer">
+      <div class="razer-minipage-block2-demo-sentinel">Host footer sentinel</div>
+    </footer>
+    <script type="module">
+      import decorate from './blocks/razer-minipage-block2/razer-minipage-block2.js';
+
+      const block = document.querySelector('.razer-minipage-block2');
+      const fullHandoff = new URLSearchParams(window.location.search).has('full');
+      if (fullHandoff) {
+        const response = await fetch(
+          './blocks/razer-minipage-block2/razer-minipage-block2-da-live.html',
+        );
+        const source = new DOMParser().parseFromString(await response.text(), 'text/html');
+        const authoredRows = [...source.querySelectorAll('table:first-of-type tr')].slice(1);
+        const blockRows = authoredRows.map((authoredRow) => {
+          const row = document.createElement('div');
+          [...authoredRow.children].forEach((authoredCell) => {
+            const cell = document.createElement('div');
+            cell.append(...authoredCell.cloneNode(true).childNodes);
+            row.append(cell);
+          });
+          return row;
+        });
+        block.replaceChildren(...blockRows);
+      }
+      decorate(block);
+    </script>
+  </body>
+</html>

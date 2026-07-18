@@ -1,0 +1,6 @@
+razer-minipage-block2
+setting	content-mode	merge
+setting	navigation	true
+setting	footer	true
+setting	motion	true
+product	RZ01-05240100-R3U1	Black	Razer Basilisk V3 Pro 35K	Fully Customizable Wireless Ergonomic RGB Gaming Mouse	US$129.99	US$159.99	18% off	https://www.razer.com/gaming-mice/razer-basilisk-v3-pro-35k/RZ01-05240100-R3U1	Available stock(s) in 10 RazerStore(s)

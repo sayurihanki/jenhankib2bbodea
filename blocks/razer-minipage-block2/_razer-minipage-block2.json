@@ -1,0 +1,1136 @@
+{
+  "definitions": [
+    {
+      "title": "Razer Minipage Block 2",
+      "id": "razer-minipage-block2",
+      "model": "razer-minipage-block2",
+      "filter": "razer-minipage-block2",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2",
+          "rows": 1,
+          "columns": 3
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Setting",
+      "id": "razer-minipage-block2-setting",
+      "model": "razer-minipage-block2-setting",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-setting",
+          "rows": 1,
+          "columns": 3,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "key", "selector": "div:nth-child(2)" },
+            { "name": "value", "selector": "div:nth-child(3)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Brand",
+      "id": "razer-minipage-block2-brand",
+      "model": "razer-minipage-block2-brand",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-brand",
+          "rows": 1,
+          "columns": 4,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "image", "selector": "div:nth-child(2)>picture>img[src]" },
+            { "name": "alt", "selector": "div:nth-child(2)>picture>img[alt]" },
+            { "name": "width", "selector": "div:nth-child(3)" },
+            { "name": "height", "selector": "div:nth-child(4)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Product",
+      "id": "razer-minipage-block2-product",
+      "model": "razer-minipage-block2-product",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-product",
+          "rows": 1,
+          "columns": 10,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "sku", "selector": "div:nth-child(2)" },
+            { "name": "color", "selector": "div:nth-child(3)" },
+            { "name": "title", "selector": "div:nth-child(4)" },
+            { "name": "subtitle", "selector": "div:nth-child(5)" },
+            { "name": "price", "selector": "div:nth-child(6)" },
+            { "name": "original-price", "selector": "div:nth-child(7)" },
+            { "name": "discount", "selector": "div:nth-child(8)" },
+            { "name": "url", "selector": "div:nth-child(9)" },
+            { "name": "pickup", "selector": "div:nth-child(10)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Gallery Image",
+      "id": "razer-minipage-block2-gallery-image",
+      "model": "razer-minipage-block2-gallery-image",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-gallery-image",
+          "rows": 1,
+          "columns": 6,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "key", "selector": "div:nth-child(2)" },
+            { "name": "enabled", "selector": "div:nth-child(3)" },
+            { "name": "image", "selector": "div:nth-child(4)>picture>img[src]" },
+            { "name": "alt", "selector": "div:nth-child(4)>picture>img[alt]" },
+            { "name": "width", "selector": "div:nth-child(5)" },
+            { "name": "height", "selector": "div:nth-child(6)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Option Group",
+      "id": "razer-minipage-block2-option-group",
+      "model": "razer-minipage-block2-option-group",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-option-group",
+          "rows": 1,
+          "columns": 4,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "key", "selector": "div:nth-child(2)" },
+            { "name": "enabled", "selector": "div:nth-child(3)" },
+            { "name": "label", "selector": "div:nth-child(4)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Option",
+      "id": "razer-minipage-block2-option",
+      "model": "razer-minipage-block2-option",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-option",
+          "rows": 1,
+          "columns": 7,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "group-key", "selector": "div:nth-child(2)" },
+            { "name": "key", "selector": "div:nth-child(3)" },
+            { "name": "enabled", "selector": "div:nth-child(4)" },
+            { "name": "label", "selector": "div:nth-child(5)" },
+            { "name": "price", "selector": "div:nth-child(6)" },
+            { "name": "selected", "selector": "div:nth-child(7)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Delivery",
+      "id": "razer-minipage-block2-delivery",
+      "model": "razer-minipage-block2-delivery",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-delivery",
+          "rows": 1,
+          "columns": 5,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "key", "selector": "div:nth-child(2)" },
+            { "name": "enabled", "selector": "div:nth-child(3)" },
+            { "name": "label", "selector": "div:nth-child(4)" },
+            { "name": "value", "selector": "div:nth-child(5)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Trust Item",
+      "id": "razer-minipage-block2-trust",
+      "model": "razer-minipage-block2-trust",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-trust",
+          "rows": 1,
+          "columns": 4,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "key", "selector": "div:nth-child(2)" },
+            { "name": "enabled", "selector": "div:nth-child(3)" },
+            { "name": "text", "selector": "div:nth-child(4)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Highlight",
+      "id": "razer-minipage-block2-highlight",
+      "model": "razer-minipage-block2-highlight",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-highlight",
+          "rows": 1,
+          "columns": 4,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "key", "selector": "div:nth-child(2)" },
+            { "name": "enabled", "selector": "div:nth-child(3)" },
+            { "name": "text", "selector": "div:nth-child(4)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Feature",
+      "id": "razer-minipage-block2-feature",
+      "model": "razer-minipage-block2-feature",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-feature",
+          "rows": 1,
+          "columns": 12,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "key", "selector": "div:nth-child(2)" },
+            { "name": "enabled", "selector": "div:nth-child(3)" },
+            { "name": "side", "selector": "div:nth-child(4)" },
+            { "name": "eyebrow", "selector": "div:nth-child(5)" },
+            { "name": "title", "selector": "div:nth-child(6)" },
+            { "name": "subtitle", "selector": "div:nth-child(7)" },
+            { "name": "body", "selector": "div:nth-child(8)" },
+            { "name": "bullets", "selector": "div:nth-child(9)" },
+            { "name": "details", "selector": "div:nth-child(10)" },
+            { "name": "note", "selector": "div:nth-child(11)" },
+            { "name": "link", "selector": "div:nth-child(12)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Feature Media",
+      "id": "razer-minipage-block2-feature-media",
+      "model": "razer-minipage-block2-feature-media",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-feature-media",
+          "rows": 1,
+          "columns": 7,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "feature-key", "selector": "div:nth-child(2)" },
+            { "name": "key", "selector": "div:nth-child(3)" },
+            { "name": "enabled", "selector": "div:nth-child(4)" },
+            { "name": "image", "selector": "div:nth-child(5)>picture>img[src]" },
+            { "name": "alt", "selector": "div:nth-child(5)>picture>img[alt]" },
+            { "name": "width", "selector": "div:nth-child(6)" },
+            { "name": "height", "selector": "div:nth-child(7)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Specification",
+      "id": "razer-minipage-block2-specification",
+      "model": "razer-minipage-block2-specification",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-specification",
+          "rows": 1,
+          "columns": 5,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "key", "selector": "div:nth-child(2)" },
+            { "name": "enabled", "selector": "div:nth-child(3)" },
+            { "name": "label", "selector": "div:nth-child(4)" },
+            { "name": "value", "selector": "div:nth-child(5)" }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Razer Minipage Related Product",
+      "id": "razer-minipage-block2-related-product",
+      "model": "razer-minipage-block2-related-product",
+      "plugins": {
+        "da": {
+          "name": "razer-minipage-block2-related-product",
+          "rows": 1,
+          "columns": 10,
+          "fields": [
+            { "name": "type", "selector": "div:nth-child(1)" },
+            { "name": "key", "selector": "div:nth-child(2)" },
+            { "name": "enabled", "selector": "div:nth-child(3)" },
+            { "name": "image", "selector": "div:nth-child(4)>picture>img[src]" },
+            { "name": "alt", "selector": "div:nth-child(4)>picture>img[alt]" },
+            { "name": "title", "selector": "div:nth-child(5)" },
+            { "name": "price", "selector": "div:nth-child(6)" },
+            { "name": "original-price", "selector": "div:nth-child(7)" },
+            { "name": "discount", "selector": "div:nth-child(8)" },
+            { "name": "url", "selector": "div:nth-child(9)" },
+            { "name": "cta-label", "selector": "div:nth-child(10)" }
+          ]
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "razer-minipage-block2-setting",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "setting",
+          "options": [
+            { "name": "Setting", "value": "setting" }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "key",
+          "label": "Setting Key",
+          "value": "navigation",
+          "options": [
+            { "name": "Behavior · Content Mode", "value": "content-mode" },
+            { "name": "Behavior · Show Navigation", "value": "navigation" },
+            { "name": "Behavior · Show Footer", "value": "footer" },
+            { "name": "Behavior · Enable Motion", "value": "motion" },
+            { "name": "Behavior · Show Scroll Progress", "value": "scroll-progress" },
+            { "name": "Behavior · Show Background Grid", "value": "background-grid" },
+            { "name": "Behavior · Show Highlights", "value": "show-highlights" },
+            { "name": "Behavior · Show Features", "value": "show-features" },
+            { "name": "Behavior · Show Specifications", "value": "show-specifications" },
+            { "name": "Behavior · Show Related Products", "value": "show-related-products" },
+            { "name": "Behavior · Sticky Offset", "value": "sticky-offset" },
+            { "name": "UI · Region Label", "value": "ui-region-label" },
+            { "name": "UI · Skip Navigation Label", "value": "ui-skip-navigation-label" },
+            { "name": "UI · Gallery Show Image Pattern", "value": "ui-gallery-show-image-pattern" },
+            { "name": "UI · Gallery Previous Label", "value": "ui-gallery-previous-label" },
+            { "name": "UI · Gallery Next Label", "value": "ui-gallery-next-label" },
+            { "name": "UI · Gallery Previous Symbol", "value": "ui-gallery-previous-symbol" },
+            { "name": "UI · Gallery Next Symbol", "value": "ui-gallery-next-symbol" },
+            { "name": "UI · Gallery Counter Pattern", "value": "ui-gallery-counter-pattern" },
+            { "name": "UI · Gallery Images Label", "value": "ui-gallery-images-label" },
+            { "name": "UI · Delivery Heading", "value": "ui-delivery-heading" },
+            { "name": "UI · Pickup Heading", "value": "ui-pickup-heading" },
+            { "name": "UI · Add to Cart Label", "value": "ui-add-to-cart-label" },
+            { "name": "UI · Option Selection Pattern", "value": "ui-option-selection-pattern" },
+            { "name": "UI · Highlights Label", "value": "ui-highlights-label" },
+            { "name": "UI · Feature Bullet Separator", "value": "ui-feature-bullet-separator" },
+            { "name": "UI · Specifications Eyebrow", "value": "ui-specifications-eyebrow" },
+            { "name": "UI · Specifications Title", "value": "ui-specifications-title" },
+            { "name": "UI · Specifications Caption", "value": "ui-specifications-caption" },
+            { "name": "UI · Related Eyebrow", "value": "ui-related-eyebrow" },
+            { "name": "UI · Related Title", "value": "ui-related-title" },
+            { "name": "UI · Related Card Position Pattern", "value": "ui-related-card-position-pattern" },
+            { "name": "UI · Related View Details Label", "value": "ui-related-view-details-label" },
+            { "name": "UI · Related Previous Label", "value": "ui-related-previous-label" },
+            { "name": "UI · Related Next Label", "value": "ui-related-next-label" },
+            { "name": "UI · Related Previous Symbol", "value": "ui-related-previous-symbol" },
+            { "name": "UI · Related Next Symbol", "value": "ui-related-next-symbol" },
+            { "name": "UI · Related Region Label", "value": "ui-related-region-label" },
+            { "name": "UI · Navigation Brand ARIA Label", "value": "ui-navigation-brand-aria-label" },
+            { "name": "UI · Navigation ARIA Label", "value": "ui-navigation-aria-label" },
+            { "name": "UI · Navigation Overview Label", "value": "ui-navigation-overview-label" },
+            { "name": "UI · Navigation Features Label", "value": "ui-navigation-features-label" },
+            { "name": "UI · Navigation Specifications Label", "value": "ui-navigation-specifications-label" },
+            { "name": "UI · Navigation Related Label", "value": "ui-navigation-related-label" },
+            { "name": "UI · Navigation Buy Now Label", "value": "ui-navigation-buy-now-label" },
+            { "name": "UI · Footer Tagline", "value": "ui-footer-tagline" },
+            { "name": "UI · Footer Descriptor", "value": "ui-footer-descriptor" },
+            { "name": "Token · Black", "value": "token-black" },
+            { "name": "Token · Ink", "value": "token-ink" },
+            { "name": "Token · Surface", "value": "token-surface" },
+            { "name": "Token · Raised Surface", "value": "token-surface-raised" },
+            { "name": "Token · Border", "value": "token-border" },
+            { "name": "Token · Strong Border", "value": "token-border-strong" },
+            { "name": "Token · Green", "value": "token-green" },
+            { "name": "Token · Green RGB Channels", "value": "token-green-rgb" },
+            { "name": "Token · Green Hover", "value": "token-green-hover" },
+            { "name": "Token · Green Deep", "value": "token-green-deep" },
+            { "name": "Token · White", "value": "token-white" },
+            { "name": "Token · Muted Text", "value": "token-muted" },
+            { "name": "Token · Dim Text", "value": "token-dim" },
+            { "name": "Token · Display Font", "value": "token-display" },
+            { "name": "Token · Body Font", "value": "token-body" },
+            { "name": "Token · Monospace Font", "value": "token-mono" },
+            { "name": "Token · Content Maximum", "value": "token-content-max" },
+            { "name": "Token · Copy Maximum", "value": "token-copy-max" },
+            { "name": "Token · Gutter", "value": "token-gutter" },
+            { "name": "Token · Section Spacing", "value": "token-section-space" },
+            { "name": "Token · Navigation Height", "value": "token-nav-height" },
+            { "name": "Token · Background Grid Size", "value": "token-grid-size" },
+            { "name": "Token · Fast Transition", "value": "token-fast" },
+            { "name": "Token · Ease Out", "value": "token-ease-out" },
+            { "name": "Token · Green Shadow", "value": "token-green-shadow" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "value",
+          "label": "Setting Value",
+          "description": "Use true or false for behavior toggles. Token values are validated before being applied.",
+          "value": "true"
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-brand",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "brand",
+          "options": [
+            { "name": "Brand", "value": "brand" }
+          ]
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Brand Logo",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "alt",
+          "label": "Brand Logo Alt Text",
+          "value": "Razer"
+        },
+        {
+          "component": "number",
+          "valueType": "number",
+          "name": "width",
+          "label": "Logo Width",
+          "value": 32,
+          "validation": {
+            "numberMin": 1,
+            "numberMax": 2000
+          }
+        },
+        {
+          "component": "number",
+          "valueType": "number",
+          "name": "height",
+          "label": "Logo Height",
+          "value": 32,
+          "validation": {
+            "numberMin": 1,
+            "numberMax": 2000
+          }
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-product",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "product",
+          "options": [
+            { "name": "Product", "value": "product" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "sku",
+          "label": "SKU",
+          "value": "RZ01-05240100-R3U1"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "color",
+          "label": "Color",
+          "value": "Black"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "title",
+          "label": "Product Title",
+          "value": "Razer Basilisk V3 Pro 35K"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "subtitle",
+          "label": "Product Subtitle",
+          "value": "Fully Customizable Wireless Ergonomic RGB Gaming Mouse"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "price",
+          "label": "Current Price",
+          "value": "US$129.99"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "original-price",
+          "label": "Original Price",
+          "value": "US$159.99"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "discount",
+          "label": "Discount",
+          "value": "18% off"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "url",
+          "label": "Product URL",
+          "value": "https://www.razer.com/gaming-mice/razer-basilisk-v3-pro-35k/RZ01-05240100-R3U1"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "pickup",
+          "label": "Pickup Copy",
+          "value": "Available stock(s) in 10 RazerStore(s)"
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-gallery-image",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "gallery-image",
+          "options": [
+            { "name": "Gallery Image", "value": "gallery-image" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "key",
+          "label": "Gallery Image Key",
+          "description": "Use a unique zero-padded key such as gallery-01 through gallery-06.",
+          "value": "gallery-01",
+          "required": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "enabled",
+          "label": "Show Gallery Image",
+          "value": true
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Gallery Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "alt",
+          "label": "Gallery Image Alt Text",
+          "value": "Razer Basilisk V3 Pro 35K mouse in black, three-quarter top view"
+        },
+        {
+          "component": "number",
+          "valueType": "number",
+          "name": "width",
+          "label": "Intrinsic Width",
+          "value": 1500,
+          "validation": {
+            "numberMin": 1,
+            "numberMax": 10000
+          }
+        },
+        {
+          "component": "number",
+          "valueType": "number",
+          "name": "height",
+          "label": "Intrinsic Height",
+          "value": 1000,
+          "validation": {
+            "numberMin": 1,
+            "numberMax": 10000
+          }
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-option-group",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "option-group",
+          "options": [
+            { "name": "Option Group", "value": "option-group" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "key",
+          "label": "Option Group Key",
+          "description": "Use a stable key shared by this group's option rows.",
+          "value": "group-01",
+          "required": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "enabled",
+          "label": "Show Option Group",
+          "value": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "label",
+          "label": "Option Group Label",
+          "value": "Color / Design"
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-option",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "option",
+          "options": [
+            { "name": "Option", "value": "option" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "group-key",
+          "label": "Option Group Key",
+          "description": "Must match an enabled option-group row.",
+          "value": "group-01",
+          "required": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "key",
+          "label": "Option Key",
+          "description": "Use a unique zero-padded key such as option-01 within the group.",
+          "value": "option-01",
+          "required": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "enabled",
+          "label": "Show Option",
+          "value": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "label",
+          "label": "Option Label",
+          "value": "Black"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "price",
+          "label": "Option Price Adjustment",
+          "value": ""
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "selected",
+          "label": "Selected by Default",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-delivery",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "delivery",
+          "options": [
+            { "name": "Delivery", "value": "delivery" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "key",
+          "label": "Delivery Key",
+          "description": "Use a unique zero-padded key such as delivery-01.",
+          "value": "delivery-01",
+          "required": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "enabled",
+          "label": "Show Delivery Choice",
+          "value": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "label",
+          "label": "Delivery Window",
+          "value": "Jul 21–Jul 22"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "value",
+          "label": "Delivery Price",
+          "value": "US$15.00"
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-trust",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "trust",
+          "options": [
+            { "name": "Trust Item", "value": "trust" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "key",
+          "label": "Trust Item Key",
+          "description": "Use a unique zero-padded key such as trust-01.",
+          "value": "trust-01",
+          "required": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "enabled",
+          "label": "Show Trust Item",
+          "value": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "text",
+          "label": "Trust Item Text",
+          "value": "Next Business Day Shipping"
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-highlight",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "highlight",
+          "options": [
+            { "name": "Highlight", "value": "highlight" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "key",
+          "label": "Highlight Key",
+          "description": "Use a unique zero-padded key such as highlight-01.",
+          "value": "highlight-01",
+          "required": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "enabled",
+          "label": "Show Highlight",
+          "value": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "text",
+          "label": "Highlight Text",
+          "value": "Configurable Razer™ HyperScroll Tilt Wheel"
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-feature",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "feature",
+          "options": [
+            { "name": "Feature", "value": "feature" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "key",
+          "label": "Feature Key",
+          "description": "Use a unique zero-padded key such as feature-01 through feature-12.",
+          "value": "feature-01",
+          "required": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "enabled",
+          "label": "Show Feature",
+          "value": true
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "side",
+          "label": "Media Side",
+          "value": "right",
+          "options": [
+            { "name": "Right", "value": "right" },
+            { "name": "Left", "value": "left" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "eyebrow",
+          "label": "Feature Eyebrow",
+          "value": "Razer Basilisk V3 Pro 35K"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "title",
+          "label": "Feature Title",
+          "value": "The Apex of Immersion and Customization"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "subtitle",
+          "label": "Feature Subtitle",
+          "value": ""
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "body",
+          "label": "Feature Body",
+          "value": "<p>Push immersion and control further with an ergonomic wireless RGB mouse built around Razer’s most precise sensor and a deeply configurable scroll wheel.</p>"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "bullets",
+          "label": "Feature Bullets",
+          "description": "Use a list. Bold text becomes the bullet lead.",
+          "value": ""
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "details",
+          "label": "Feature Detail Groups",
+          "description": "Use headings followed by paragraphs for grouped feature details.",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "note",
+          "label": "Feature Note",
+          "value": ""
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "link",
+          "label": "Feature Link",
+          "description": "Author a single linked label.",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-feature-media",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "feature-media",
+          "options": [
+            { "name": "Feature Media", "value": "feature-media" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "feature-key",
+          "label": "Feature Key",
+          "description": "Must match an enabled feature row.",
+          "value": "feature-01",
+          "required": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "key",
+          "label": "Media Key",
+          "description": "Use a unique zero-padded key such as media-01 within the feature.",
+          "value": "media-01",
+          "required": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "enabled",
+          "label": "Show Feature Media",
+          "value": true
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Feature Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "alt",
+          "label": "Feature Image Alt Text",
+          "value": "Razer Basilisk V3 Pro 35K illuminated in green against a dark backdrop"
+        },
+        {
+          "component": "number",
+          "valueType": "number",
+          "name": "width",
+          "label": "Intrinsic Width",
+          "value": 1774,
+          "validation": {
+            "numberMin": 1,
+            "numberMax": 10000
+          }
+        },
+        {
+          "component": "number",
+          "valueType": "number",
+          "name": "height",
+          "label": "Intrinsic Height",
+          "value": 646,
+          "validation": {
+            "numberMin": 1,
+            "numberMax": 10000
+          }
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-specification",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "specification",
+          "options": [
+            { "name": "Specification", "value": "specification" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "key",
+          "label": "Specification Key",
+          "description": "Use a unique zero-padded key such as spec-01 through spec-21.",
+          "value": "spec-01",
+          "required": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "enabled",
+          "label": "Show Specification",
+          "value": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "label",
+          "label": "Specification Label",
+          "value": "Color / Design"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "value",
+          "label": "Specification Value",
+          "description": "Use a list when the specification contains multiple values.",
+          "value": "<p>Black</p>"
+        }
+      ]
+    },
+    {
+      "id": "razer-minipage-block2-related-product",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "type",
+          "label": "Row Type",
+          "value": "related-product",
+          "options": [
+            { "name": "Related Product", "value": "related-product" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "key",
+          "label": "Related Product Key",
+          "description": "Use a unique zero-padded key such as related-01 through related-05.",
+          "value": "related-01",
+          "required": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "enabled",
+          "label": "Show Related Product",
+          "value": true
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Product Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "alt",
+          "label": "Product Image Alt Text",
+          "value": "Razer Huntsman V3 Tenkeyless 8KHz keyboard"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "title",
+          "label": "Product Title",
+          "value": "Razer Huntsman V3 Tenkeyless 8KHz"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "price",
+          "label": "Current Price",
+          "value": "US$169.99"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "original-price",
+          "label": "Original Price",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "discount",
+          "label": "Discount",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "url",
+          "label": "Product URL",
+          "value": "https://www.razer.com/gaming-keyboards/razer-huntsman-v3-tenkeyless-8khz/RZ03-05750200-R3U1"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "cta-label",
+          "label": "CTA Label",
+          "value": "View details"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "razer-minipage-block2",
+      "components": [
+        "razer-minipage-block2-setting",
+        "razer-minipage-block2-brand",
+        "razer-minipage-block2-product",
+        "razer-minipage-block2-gallery-image",
+        "razer-minipage-block2-option-group",
+        "razer-minipage-block2-option",
+        "razer-minipage-block2-delivery",
+        "razer-minipage-block2-trust",
+        "razer-minipage-block2-highlight",
+        "razer-minipage-block2-feature",
+        "razer-minipage-block2-feature-media",
+        "razer-minipage-block2-specification",
+        "razer-minipage-block2-related-product"
+      ]
+    }
+  ]
+}

@@ -33,6 +33,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   --rm-border: #2a2a2a;
   --rm-border-strong: #454545;
   --rm-green: #44d62c;
+  --rm-green-rgb: 68 214 44;
   --rm-green-hover: #5af042;
   --rm-green-deep: #2ea91d;
   --rm-white: #fff;
@@ -47,11 +48,12 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   --rm-section-space: clamp(56px, 8vw, 128px);
   --rm-sticky-offset: var(--nav-height, 64px);
   --rm-nav-height: 57.6px;
+  --rm-grid-size: 64px;
   --rm-fast: 160ms ease;
   --rm-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --rm-green-shadow:
-    0 0 0 1px rgb(68 214 44 / 36%),
-    0 0 24px rgb(68 214 44 / 24%);
+    0 0 0 1px rgb(var(--rm-green-rgb) / 36%),
+    0 0 24px rgb(var(--rm-green-rgb) / 24%);
 
   position: relative;
   isolation: isolate;
@@ -59,7 +61,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   min-width: 0;
   overflow: clip;
   background:
-    radial-gradient(circle at 18% 8%, rgb(68 214 44 / 5%), transparent 400px),
+    radial-gradient(circle at 18% 8%, rgb(var(--rm-green-rgb) / 5%), transparent 400px),
     radial-gradient(circle at 82% 22%, rgb(67 91 255 / 4%), transparent 512px),
     var(--rm-black);
   color: var(--rm-white);
@@ -78,10 +80,14 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   background-image:
     linear-gradient(rgb(255 255 255 / 1.4%) 1px, transparent 1px),
     linear-gradient(90deg, rgb(255 255 255 / 1.4%) 1px, transparent 1px);
-  background-size: 64px 64px;
+  background-size: var(--rm-grid-size) var(--rm-grid-size);
   content: "";
   mask-image: linear-gradient(to bottom, rgb(0 0 0 / 42%), transparent 75%);
   pointer-events: none;
+}
+
+.razer-minipage.rm-no-background-grid::before {
+  display: none;
 }
 
 .razer-minipage,
@@ -144,7 +150,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   letter-spacing: 0.04em;
   touch-action: manipulation;
   text-transform: uppercase;
-  -webkit-tap-highlight-color: rgb(68 214 44 / 18%);
+  -webkit-tap-highlight-color: rgb(var(--rm-green-rgb) / 18%);
 }
 
 .razer-minipage :where(a, button):focus-visible {
@@ -241,7 +247,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
 .razer-minipage .rm-brand img {
   width: 32px;
   height: 32px;
-  filter: drop-shadow(0 0 10px rgb(68 214 44 / 28%));
+  filter: drop-shadow(0 0 10px rgb(var(--rm-green-rgb) / 28%));
   object-fit: contain;
 }
 
@@ -301,7 +307,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   border: 1px solid var(--rm-green);
   border-radius: 2px;
   background: var(--rm-green);
-  box-shadow: 0 0 18px rgb(68 214 44 / 14%);
+  box-shadow: 0 0 18px rgb(var(--rm-green-rgb) / 14%);
   color: #050505;
   font-family: var(--rm-display);
   font-size: 11.5px;
@@ -317,7 +323,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
 
 .razer-minipage .rm-buy-now:hover {
   background: var(--rm-green-hover);
-  box-shadow: 0 0 24px rgb(68 214 44 / 28%);
+  box-shadow: 0 0 24px rgb(var(--rm-green-rgb) / 28%);
   color: #050505;
   transform: translateY(-1px);
 }
@@ -335,7 +341,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
       var(--rm-green),
       #a0ff8f
     );
-  box-shadow: 0 0 12px rgb(68 214 44 / 50%);
+  box-shadow: 0 0 12px rgb(var(--rm-green-rgb) / 50%);
   transform: scaleX(0);
   transform-origin: left;
   will-change: transform;
@@ -380,7 +386,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   aspect-ratio: 3 / 2;
   border: 1px solid var(--rm-border);
   background:
-    radial-gradient(circle at 50% 55%, rgb(68 214 44 / 8%), transparent 42%),
+    radial-gradient(circle at 50% 55%, rgb(var(--rm-green-rgb) / 8%), transparent 42%),
     var(--rm-surface);
   isolation: isolate;
 }
@@ -519,7 +525,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   border-color: var(--rm-green);
   box-shadow:
     inset 0 0 0 1px var(--rm-green),
-    0 0 14px rgb(68 214 44 / 12%);
+    0 0 14px rgb(var(--rm-green-rgb) / 12%);
   opacity: 1;
   transform: translateY(-2px);
 }
@@ -573,7 +579,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   font-weight: 700;
   letter-spacing: 0.015em;
   line-height: 1;
-  text-shadow: 0 0 20px rgb(68 214 44 / 16%);
+  text-shadow: 0 0 20px rgb(var(--rm-green-rgb) / 16%);
 }
 
 .razer-minipage .rm-product-price del {
@@ -785,8 +791,8 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   border-color: var(--rm-green-hover);
   background: var(--rm-green-hover);
   box-shadow:
-    0 0 0 1px rgb(68 214 44 / 45%),
-    0 0 34px rgb(68 214 44 / 35%);
+    0 0 0 1px rgb(var(--rm-green-rgb) / 45%),
+    0 0 34px rgb(var(--rm-green-rgb) / 35%);
   color: #050505;
   transform: translateY(-2px);
 }
@@ -826,7 +832,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   background:
     radial-gradient(
       circle at 50% 40%,
-      rgb(68 214 44 / 8%),
+      rgb(var(--rm-green-rgb) / 8%),
       transparent 66%
     );
   transform: translateY(-2px);
@@ -838,7 +844,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   font-size: 11.5px;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.12em;
-  text-shadow: 0 0 14px rgb(68 214 44 / 40%);
+  text-shadow: 0 0 14px rgb(var(--rm-green-rgb) / 40%);
 }
 
 .razer-minipage .rm-highlights strong {
@@ -867,7 +873,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   width: min(32vw, 320px);
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--rm-green));
-  box-shadow: 0 0 10px rgb(68 214 44 / 32%);
+  box-shadow: 0 0 10px rgb(var(--rm-green-rgb) / 32%);
   content: "";
   opacity: 0.7;
 }
@@ -890,7 +896,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 144px), 1fr));
   border: 1px solid var(--rm-border);
   background:
-    radial-gradient(circle at 50% 50%, rgb(68 214 44 / 8%), transparent 54%),
+    radial-gradient(circle at 50% 50%, rgb(var(--rm-green-rgb) / 8%), transparent 54%),
     var(--rm-surface);
 }
 
@@ -933,7 +939,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   width: 56px;
   height: 2px;
   background: var(--rm-green);
-  box-shadow: 0 0 14px rgb(68 214 44 / 52%);
+  box-shadow: 0 0 14px rgb(var(--rm-green-rgb) / 52%);
   content: "";
   transform-origin: left;
   transition: width 600ms var(--rm-ease-out);
@@ -987,7 +993,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   width: 6px;
   height: 6px;
   background: var(--rm-green);
-  box-shadow: 0 0 8px rgb(68 214 44 / 60%);
+  box-shadow: 0 0 8px rgb(var(--rm-green-rgb) / 60%);
   content: "";
   transform: rotate(45deg);
 }
@@ -1086,7 +1092,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
 }
 
 .razer-minipage .rm-spec-table tr:hover {
-  background: rgb(68 214 44 / 5%);
+  background: rgb(var(--rm-green-rgb) / 5%);
 }
 
 .razer-minipage .rm-spec-table :where(th, td) {
@@ -1207,7 +1213,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   border-color: var(--rm-green);
   box-shadow:
     0 14px 34px rgb(0 0 0 / 34%),
-    0 0 20px rgb(68 214 44 / 7%);
+    0 0 20px rgb(var(--rm-green-rgb) / 7%);
   transform: translateY(-5px);
 }
 
@@ -1218,7 +1224,7 @@ main > .section.appear > .razer-minipage-wrapper > .razer-minipage {
   place-items: center;
   border-bottom: 1px solid var(--rm-border);
   background:
-    radial-gradient(circle at 50% 48%, rgb(68 214 44 / 8%), transparent 42%),
+    radial-gradient(circle at 50% 48%, rgb(var(--rm-green-rgb) / 8%), transparent 42%),
     #0d0d0d;
 }
 

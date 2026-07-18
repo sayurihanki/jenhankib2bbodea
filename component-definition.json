@@ -564,6 +564,541 @@
           }
         },
         {
+          "title": "Razer Minipage Block 2",
+          "id": "razer-minipage-block2",
+          "model": "razer-minipage-block2",
+          "filter": "razer-minipage-block2",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2",
+              "rows": 1,
+              "columns": 3
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Setting",
+          "id": "razer-minipage-block2-setting",
+          "model": "razer-minipage-block2-setting",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-setting",
+              "rows": 1,
+              "columns": 3,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "key",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "value",
+                  "selector": "div:nth-child(3)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Brand",
+          "id": "razer-minipage-block2-brand",
+          "model": "razer-minipage-block2-brand",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-brand",
+              "rows": 1,
+              "columns": 4,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(2)>picture>img[src]"
+                },
+                {
+                  "name": "alt",
+                  "selector": "div:nth-child(2)>picture>img[alt]"
+                },
+                {
+                  "name": "width",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "height",
+                  "selector": "div:nth-child(4)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Product",
+          "id": "razer-minipage-block2-product",
+          "model": "razer-minipage-block2-product",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-product",
+              "rows": 1,
+              "columns": 10,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "sku",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "color",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "title",
+                  "selector": "div:nth-child(4)"
+                },
+                {
+                  "name": "subtitle",
+                  "selector": "div:nth-child(5)"
+                },
+                {
+                  "name": "price",
+                  "selector": "div:nth-child(6)"
+                },
+                {
+                  "name": "original-price",
+                  "selector": "div:nth-child(7)"
+                },
+                {
+                  "name": "discount",
+                  "selector": "div:nth-child(8)"
+                },
+                {
+                  "name": "url",
+                  "selector": "div:nth-child(9)"
+                },
+                {
+                  "name": "pickup",
+                  "selector": "div:nth-child(10)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Gallery Image",
+          "id": "razer-minipage-block2-gallery-image",
+          "model": "razer-minipage-block2-gallery-image",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-gallery-image",
+              "rows": 1,
+              "columns": 6,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "key",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "enabled",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(4)>picture>img[src]"
+                },
+                {
+                  "name": "alt",
+                  "selector": "div:nth-child(4)>picture>img[alt]"
+                },
+                {
+                  "name": "width",
+                  "selector": "div:nth-child(5)"
+                },
+                {
+                  "name": "height",
+                  "selector": "div:nth-child(6)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Option Group",
+          "id": "razer-minipage-block2-option-group",
+          "model": "razer-minipage-block2-option-group",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-option-group",
+              "rows": 1,
+              "columns": 4,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "key",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "enabled",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "label",
+                  "selector": "div:nth-child(4)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Option",
+          "id": "razer-minipage-block2-option",
+          "model": "razer-minipage-block2-option",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-option",
+              "rows": 1,
+              "columns": 7,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "group-key",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "key",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "enabled",
+                  "selector": "div:nth-child(4)"
+                },
+                {
+                  "name": "label",
+                  "selector": "div:nth-child(5)"
+                },
+                {
+                  "name": "price",
+                  "selector": "div:nth-child(6)"
+                },
+                {
+                  "name": "selected",
+                  "selector": "div:nth-child(7)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Delivery",
+          "id": "razer-minipage-block2-delivery",
+          "model": "razer-minipage-block2-delivery",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-delivery",
+              "rows": 1,
+              "columns": 5,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "key",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "enabled",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "label",
+                  "selector": "div:nth-child(4)"
+                },
+                {
+                  "name": "value",
+                  "selector": "div:nth-child(5)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Trust Item",
+          "id": "razer-minipage-block2-trust",
+          "model": "razer-minipage-block2-trust",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-trust",
+              "rows": 1,
+              "columns": 4,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "key",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "enabled",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "text",
+                  "selector": "div:nth-child(4)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Highlight",
+          "id": "razer-minipage-block2-highlight",
+          "model": "razer-minipage-block2-highlight",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-highlight",
+              "rows": 1,
+              "columns": 4,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "key",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "enabled",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "text",
+                  "selector": "div:nth-child(4)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Feature",
+          "id": "razer-minipage-block2-feature",
+          "model": "razer-minipage-block2-feature",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-feature",
+              "rows": 1,
+              "columns": 12,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "key",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "enabled",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "side",
+                  "selector": "div:nth-child(4)"
+                },
+                {
+                  "name": "eyebrow",
+                  "selector": "div:nth-child(5)"
+                },
+                {
+                  "name": "title",
+                  "selector": "div:nth-child(6)"
+                },
+                {
+                  "name": "subtitle",
+                  "selector": "div:nth-child(7)"
+                },
+                {
+                  "name": "body",
+                  "selector": "div:nth-child(8)"
+                },
+                {
+                  "name": "bullets",
+                  "selector": "div:nth-child(9)"
+                },
+                {
+                  "name": "details",
+                  "selector": "div:nth-child(10)"
+                },
+                {
+                  "name": "note",
+                  "selector": "div:nth-child(11)"
+                },
+                {
+                  "name": "link",
+                  "selector": "div:nth-child(12)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Feature Media",
+          "id": "razer-minipage-block2-feature-media",
+          "model": "razer-minipage-block2-feature-media",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-feature-media",
+              "rows": 1,
+              "columns": 7,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "feature-key",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "key",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "enabled",
+                  "selector": "div:nth-child(4)"
+                },
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(5)>picture>img[src]"
+                },
+                {
+                  "name": "alt",
+                  "selector": "div:nth-child(5)>picture>img[alt]"
+                },
+                {
+                  "name": "width",
+                  "selector": "div:nth-child(6)"
+                },
+                {
+                  "name": "height",
+                  "selector": "div:nth-child(7)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Specification",
+          "id": "razer-minipage-block2-specification",
+          "model": "razer-minipage-block2-specification",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-specification",
+              "rows": 1,
+              "columns": 5,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "key",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "enabled",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "label",
+                  "selector": "div:nth-child(4)"
+                },
+                {
+                  "name": "value",
+                  "selector": "div:nth-child(5)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Razer Minipage Related Product",
+          "id": "razer-minipage-block2-related-product",
+          "model": "razer-minipage-block2-related-product",
+          "plugins": {
+            "da": {
+              "name": "razer-minipage-block2-related-product",
+              "rows": 1,
+              "columns": 10,
+              "fields": [
+                {
+                  "name": "type",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "key",
+                  "selector": "div:nth-child(2)"
+                },
+                {
+                  "name": "enabled",
+                  "selector": "div:nth-child(3)"
+                },
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(4)>picture>img[src]"
+                },
+                {
+                  "name": "alt",
+                  "selector": "div:nth-child(4)>picture>img[alt]"
+                },
+                {
+                  "name": "title",
+                  "selector": "div:nth-child(5)"
+                },
+                {
+                  "name": "price",
+                  "selector": "div:nth-child(6)"
+                },
+                {
+                  "name": "original-price",
+                  "selector": "div:nth-child(7)"
+                },
+                {
+                  "name": "discount",
+                  "selector": "div:nth-child(8)"
+                },
+                {
+                  "name": "url",
+                  "selector": "div:nth-child(9)"
+                },
+                {
+                  "name": "cta-label",
+                  "selector": "div:nth-child(10)"
+                }
+              ]
+            }
+          }
+        },
+        {
           "title": "Triptych",
           "id": "triptych",
           "model": "triptych",
